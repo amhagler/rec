@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <meta name="description" content="A private, local teacher notebook for student observations, feedback, and longitudinal records." />
+  <title>Teacher Record Console</title>
+  <style>
+:root{--sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#070b1a;color:#eaf0ff}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{--bg0:#070b1a;--bg1:#0b1230;--panel:#0c1638;--ink:#eaf0ff;--muted:#b7c2e6;--accent:#7be7ff;--metal:#2d7dff;--glow:rgba(45,125,255,.34);--warm:#ffe066;position:relative;min-height:100vh;color:var(--ink);font-family:var(--sans);background:radial-gradient(1000px 620px at 15% 0%,color-mix(in srgb,var(--metal) 20%,transparent),transparent 60%),radial-gradient(760px 500px at 85% 14%,color-mix(in srgb,var(--accent) 11%,transparent),transparent 64%),linear-gradient(180deg,var(--bg0),var(--bg1));overflow-x:hidden}.atmosphere{position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,#000,transparent 80%)}
+.theme-frontierSteel{--bg0:#101319;--bg1:#202734;--panel:#242b34;--accent:#e5b66b;--metal:#8c9baa;--glow:rgba(229,182,107,.28)}.theme-samuraiKintsugi{--bg0:#0c090a;--bg1:#1d1113;--panel:#24171a;--accent:#d5ad55;--metal:#7d1827;--glow:rgba(213,173,85,.27)}.theme-victorianAether{--bg0:#13080d;--bg1:#2b101b;--panel:#321a25;--accent:#e0b26e;--metal:#854559}.theme-artDeco{--bg0:#061516;--bg1:#0b3031;--panel:#103739;--accent:#e0bd70;--metal:#1f8581}.theme-noirTerminal{--bg0:#030604;--bg1:#09100c;--panel:#0c1510;--accent:#8df47b;--metal:#3e6e4c}.theme-solarTemple{--bg0:#151009;--bg1:#352513;--panel:#3a2a18;--accent:#47d8c7;--metal:#b27635}.theme-deepSea{--bg0:#020a10;--bg1:#071c29;--panel:#0a2733;--accent:#67dbe6;--metal:#806c3e}.theme-starshipConsole{--bg0:#0a0d12;--bg1:#19222b;--panel:#202b35;--accent:#ffc46b;--metal:#5d7788}.theme-astrometrics{--bg0:#060b17;--bg1:#111f3d;--panel:#14294a;--accent:#a8d9ff;--metal:#577fbb}.theme-imperialDatapad{--bg0:#050506;--bg1:#161719;--panel:#1c1e20;--accent:#ff4d4d;--metal:#6a6c70}.theme-jediArchive{--bg0:#0b1017;--bg1:#192b3c;--panel:#20384c;--accent:#72c6ff;--metal:#a78650}.theme-cyberpunkArcade{--bg0:#050712;--bg1:#171032;--panel:#19153e;--accent:#39f5ff;--metal:#a342ff}.theme-auroraGlass{--bg0:#071013;--bg1:#15263a;--panel:#183447;--accent:#78ffd2;--metal:#9a72dc}.theme-obsidianLab{--bg0:#020303;--bg1:#0b100b;--panel:#101711;--accent:#b7ff4f;--metal:#536d45}.theme-brassObservatory{--bg0:#08101c;--bg1:#172640;--panel:#1b2f4b;--accent:#d5a84e;--metal:#7b9aae}.theme-volcanicCore{--bg0:#0d0807;--bg1:#27100b;--panel:#311811;--accent:#ff7d39;--metal:#7d3930}.theme-arcticCommand{--bg0:#071018;--bg1:#182b3a;--panel:#213848;--accent:#bcecff;--metal:#729bb4}
+.topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px clamp(16px,3vw,38px);border-bottom:1px solid #ffffff1a;background:linear-gradient(to bottom,color-mix(in srgb,var(--bg0) 90%,transparent),color-mix(in srgb,var(--bg0) 68%,transparent));backdrop-filter:blur(12px)}.brand{display:grid;gap:2px}.brand h1,.panel-head h2,.student-hero h2,.empty-student h2{margin:0;font-family:var(--serif)}.brand h1{font-size:21px}.eyebrow{font:900 9px var(--mono);letter-spacing:.17em;color:var(--accent)}.local-status{font:10px var(--mono);color:#eaf0ff99}.local-status i,.toast i{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}.top-actions{display:flex;gap:8px}.btn{border:0;border-radius:13px;padding:9px 12px;font:900 11px var(--mono);white-space:nowrap}.btn:hover{filter:brightness(1.12)}.btn:disabled{opacity:.38;cursor:not-allowed}.primary{color:var(--bg0);background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 92%,white),color-mix(in srgb,var(--metal) 82%,var(--accent)));box-shadow:0 0 0 1px #ffffff33 inset,0 10px 24px #0005,0 0 18px var(--glow)}.ghost{color:#eaf0ffe6;border:1px solid #ffffff24;background:#ffffff0e}.ghost.on{border-color:var(--accent);box-shadow:0 0 16px var(--glow)}.icon-btn{min-width:40px;padding-inline:10px;font-size:15px}.compact{padding:8px 10px}
+.glass{position:relative;border:1px solid #ffffff20;background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 78%,transparent),color-mix(in srgb,var(--bg1) 70%,transparent));box-shadow:0 18px 60px #0006,0 0 0 1px color-mix(in srgb,var(--accent) 5%,transparent) inset;backdrop-filter:blur(10px)}.context-bar{z-index:2;max-width:1500px;margin:16px auto 0;padding:12px 14px;border-radius:20px;display:flex;gap:14px;align-items:end}.context-select{min-width:150px}.context-select label,label{display:grid;gap:6px;font:900 9px var(--mono);letter-spacing:.1em;text-transform:uppercase;color:#eaf0ffa6}input,select,textarea{width:100%;border-radius:12px;border:1px solid #ffffff24;background:#070b1a8c;color:var(--ink);padding:10px 11px;outline:none;font:12px var(--mono);color-scheme:dark}input:focus,select:focus,textarea:focus{border-color:color-mix(in srgb,var(--accent) 42%,transparent);box-shadow:0 0 0 4px color-mix(in srgb,var(--metal) 18%,transparent)}textarea{resize:vertical;line-height:1.55}input::placeholder,textarea::placeholder{color:#eaf0ff59}.section-tabs{display:flex;flex:1;gap:7px;overflow:auto}.section-tabs button{display:flex;align-items:center;gap:7px;padding:9px 12px;border-radius:999px;border:1px solid #ffffff1a;background:#ffffff09;color:var(--muted);font:900 10px var(--mono);white-space:nowrap}.section-tabs button.active{border-color:color-mix(in srgb,var(--accent) 34%,transparent);background:color-mix(in srgb,var(--metal) 16%,transparent);color:var(--accent);box-shadow:0 0 16px var(--glow)}.section-tabs small{display:grid;place-items:center;min-width:19px;height:19px;border-radius:50%;background:#ffffff14;font-size:9px}.manage-btn{margin-left:auto}
+.workspace{position:relative;z-index:2;max-width:1500px;margin:14px auto 26px;display:grid;grid-template-columns:minmax(280px,340px) minmax(0,1fr);gap:14px}.roster-panel,.record-panel{border-radius:24px;overflow:hidden;min-height:calc(100vh - 190px)}.panel-head{padding:16px;border-bottom:1px solid #ffffff17;display:flex;justify-content:space-between;align-items:center;gap:12px;background:linear-gradient(to bottom,#ffffff0b,transparent)}.panel-head h2{font-size:18px;margin-top:2px}.searchbox,.record-search{display:flex;align-items:center;gap:7px;border:1px solid #ffffff1c;background:#0000001f}.searchbox{margin:12px;border-radius:999px;padding:0 11px}.searchbox input,.record-search input{border:0;background:transparent;box-shadow:none;padding-inline:2px}.searchbox span,.record-search span{color:var(--accent)}.bulk-strip{padding:0 13px 10px;display:flex;justify-content:space-between;align-items:center;gap:6px}.bulk-strip .check-label{display:flex;align-items:center;gap:6px;margin:0;letter-spacing:0;text-transform:none}.bulk-strip input,.student-row>input,.toggle-row input,fieldset input,.choice-cards input{width:15px;height:15px;accent-color:var(--accent)}.bulk-strip>div{display:flex;gap:5px}.bulk-strip button,.roster-foot button,.empty-roster button{border:0;background:transparent;color:var(--accent);font:900 9px var(--mono)}.roster-list{border-top:1px solid #ffffff12;max-height:calc(100vh - 375px);overflow:auto}.student-row{display:grid;grid-template-columns:18px 38px minmax(0,1fr) auto;align-items:center;gap:9px;padding:11px 13px;border-bottom:1px solid #ffffff11;cursor:pointer}.student-row:hover{background:#ffffff0a}.student-row.active{background:radial-gradient(260px 90px at 0% 50%,color-mix(in srgb,var(--accent) 15%,transparent),transparent 75%),color-mix(in srgb,var(--metal) 8%,transparent);box-shadow:4px 0 0 var(--accent) inset}.avatar,.large-avatar{display:grid;place-items:center;border:1px solid color-mix(in srgb,var(--accent) 22%,#ffffff1a);background:radial-gradient(circle at 35% 25%,color-mix(in srgb,var(--accent) 21%,transparent),transparent 60%),#ffffff0b;color:var(--accent);font:900 10px var(--mono)}.avatar{width:36px;height:36px;border-radius:13px}.student-summary{min-width:0;display:grid;gap:3px}.student-summary b{font-size:12px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.student-summary span{font:9px var(--mono);color:#eaf0ff80;overflow:hidden;text-overflow:ellipsis}.record-count{display:grid;place-items:center;width:25px;height:25px;border-radius:50%;background:#ffffff0d;color:var(--muted);font:9px var(--mono)}.roster-foot{position:absolute;left:0;bottom:0;width:100%;padding:11px 14px;display:flex;justify-content:space-between;border-top:1px solid #ffffff14;background:color-mix(in srgb,var(--bg1) 92%,transparent);font:9px var(--mono);color:var(--muted)}.roster-foot button:disabled{opacity:.3}.empty-roster{padding:42px 24px;text-align:center;color:var(--muted)}.empty-roster span{font:900 10px var(--mono);letter-spacing:.14em;color:var(--accent)}.empty-roster p{font-size:12px;line-height:1.5}.empty-roster button{font-size:11px}
+.student-hero{padding:20px 22px;display:flex;justify-content:space-between;align-items:center;gap:18px;border-bottom:1px solid #ffffff1a;background:radial-gradient(440px 180px at 5% 0%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 70%)}.hero-identity{display:flex;align-items:center;gap:14px;min-width:0}.large-avatar{width:58px;height:58px;border-radius:19px;font-size:15px;box-shadow:0 0 22px var(--glow)}.student-hero h2{font-size:25px}.email-link{padding:4px 0;border:0;background:transparent;color:var(--accent);font:10px var(--mono)}.hero-actions{display:flex;gap:8px}.insight-strip{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #ffffff14}.insight-strip div{padding:13px 18px;border-right:1px solid #ffffff12;display:grid;gap:2px}.insight-strip b{font:900 18px var(--mono);color:var(--accent)}.insight-strip span{font:9px var(--mono);color:var(--muted);text-transform:uppercase;letter-spacing:.07em}.record-tools{display:flex;gap:10px;align-items:center;padding:13px 18px 8px}.scope-toggle{display:flex;padding:3px;border:1px solid #ffffff1a;border-radius:999px;background:#0002}.scope-toggle button,.filter-chips button{border:0;background:transparent;color:var(--muted);font:900 9px var(--mono);white-space:nowrap}.scope-toggle button{padding:7px 10px;border-radius:999px}.scope-toggle button.active,.filter-chips button.active{background:color-mix(in srgb,var(--accent) 17%,transparent);color:var(--accent);box-shadow:0 0 12px var(--glow)}.record-search{flex:1;border-radius:999px;padding:0 10px}.filter-chips{display:flex;gap:5px;padding:4px 18px 13px;overflow:auto;border-bottom:1px solid #ffffff14}.filter-chips button{padding:7px 9px;border:1px solid #ffffff14;border-radius:999px}
+.timeline{position:relative;padding:18px 20px 60px 38px;max-height:calc(100vh - 450px);overflow:auto}.timeline:before{content:"";position:absolute;left:27px;top:26px;bottom:60px;width:1px;background:linear-gradient(var(--accent),transparent)}.record-card{position:relative;margin:0 0 12px;padding:14px 16px;border-radius:17px;border:1px solid #ffffff1a;background:linear-gradient(180deg,#ffffff0b,#ffffff05);box-shadow:0 8px 24px #0003}.record-card.pinned{border-color:color-mix(in srgb,var(--warm) 32%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--warm) 10%,transparent)}.timeline-node{position:absolute;left:-17px;top:20px;width:10px;height:10px;border-radius:50%;background:var(--accent);box-shadow:0 0 13px var(--accent);border:2px solid var(--bg1)}.record-card-head{display:flex;justify-content:space-between;gap:10px;align-items:center}.record-card-head>div{display:flex;align-items:center;gap:8px}.record-card-head button{border:0;background:transparent;color:var(--muted);font-size:14px}.kind-badge,.private-badge{padding:4px 7px;border-radius:999px;font:900 8px var(--mono);letter-spacing:.06em;text-transform:uppercase}.kind-badge{color:var(--accent);border:1px solid color-mix(in srgb,var(--accent) 24%,transparent);background:color-mix(in srgb,var(--accent) 8%,transparent)}.private-badge{color:var(--warm);border:1px solid color-mix(in srgb,var(--warm) 20%,transparent)}.record-card time{font:9px var(--mono);color:var(--muted)}.record-card h3{margin:10px 0 2px;font-size:13px}.record-card p{margin:9px 0 2px;white-space:pre-wrap;font-size:13px;line-height:1.55;color:#eaf0ffe0}.empty-records,.empty-student{display:grid;justify-items:center;text-align:center;color:var(--muted)}.empty-records{padding:50px 20px}.empty-student{min-height:70vh;place-content:center;padding:30px}.empty-records h3,.empty-student h2{margin:10px 0 3px;color:var(--ink)}.empty-records p,.empty-student p{max-width:410px;margin:6px 0 18px;font-size:13px;line-height:1.55}.holo-symbol{display:grid;place-items:center;width:55px;height:55px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 25%,transparent);color:var(--accent);font-size:22px;background:radial-gradient(circle,color-mix(in srgb,var(--accent) 13%,transparent),transparent);box-shadow:0 0 28px var(--glow)}
+.modal-overlay{position:fixed;inset:0;z-index:100;display:grid;place-items:center;padding:20px;background:radial-gradient(720px 420px at 50% 42%,color-mix(in srgb,var(--metal) 9%,transparent),transparent 72%),#0009;animation:fadeIn .22s ease}.holo-modal{width:min(700px,95vw);max-height:92vh;overflow:auto;border-radius:23px;border:1px solid color-mix(in srgb,var(--accent) 28%,#ffffff1a);background:linear-gradient(180deg,color-mix(in srgb,var(--panel) 92%,transparent),color-mix(in srgb,var(--bg1) 88%,transparent));box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 8%,transparent) inset,0 0 30px var(--glow),0 28px 90px #000b;backdrop-filter:blur(15px);animation:holoIn .28s cubic-bezier(.2,.9,.18,1)}.holo-modal.wide{width:min(1180px,96vw)}.holo-modal>header{position:sticky;top:0;z-index:2;padding:16px 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid #ffffff1a;background:color-mix(in srgb,var(--panel) 94%,transparent);backdrop-filter:blur(12px)}.holo-modal header h2{margin:3px 0 0;font:700 20px var(--serif)}.holo-modal form,.modal-body{display:grid;gap:14px;padding:18px}.form-grid{display:grid;gap:12px}.form-grid.two{grid-template-columns:1fr 1fr}.form-grid.date-kind{grid-template-columns:.65fr 1.35fr}.optional{font-weight:400;text-transform:none;letter-spacing:0;color:var(--muted)}.form-hint,.shortcut-hint{margin:0;font:10px/1.45 var(--mono);color:var(--muted)}.toggle-row{display:flex;gap:16px;flex-wrap:wrap;padding:9px 11px;border:1px solid #ffffff14;border-radius:13px;background:#ffffff06}.toggle-row label{display:flex;align-items:center;gap:7px;text-transform:none;letter-spacing:0}.modal-actions{display:flex;justify-content:flex-end;align-items:center;gap:8px;padding-top:4px}.modal-actions .shortcut-hint,.modal-actions .form-hint{margin-right:auto}.modal-actions.padded{padding:14px 18px 18px}.selected-names{display:flex;gap:6px;flex-wrap:wrap}.selected-names span{padding:6px 8px;border-radius:999px;background:color-mix(in srgb,var(--accent) 9%,transparent);border:1px solid color-mix(in srgb,var(--accent) 16%,transparent);font:9px var(--mono)}.choice-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}.choice-cards label{grid-template-columns:auto 1fr;align-items:start;padding:13px;border:1px solid #ffffff1a;border-radius:15px;background:#ffffff06;text-transform:none;letter-spacing:0}.choice-cards label.active{border-color:color-mix(in srgb,var(--accent) 34%,transparent);background:color-mix(in srgb,var(--accent) 8%,transparent)}.choice-cards b{color:var(--ink);font-size:11px}.choice-cards span{grid-column:2;font:10px/1.4 var(--mono);color:var(--muted)}
+.structure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:18px}.structure-grid>section{display:grid;align-content:start;gap:9px;min-height:310px;padding:13px;border-radius:17px;border:1px solid #ffffff1a;background:#ffffff06}.structure-list{display:grid;gap:6px}.structure-list button,.structure-list>div{width:100%;padding:10px;border-radius:12px;border:1px solid #ffffff14;background:#ffffff06;color:var(--ink);display:flex;justify-content:space-between;align-items:center;text-align:left}.structure-list button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent)}.structure-list b{font-size:11px}.structure-list small{font:8px var(--mono);color:var(--muted)}.inline-add{display:grid;grid-template-columns:1fr 38px;gap:6px;margin-top:auto}.inline-add button{border:0;border-radius:11px;background:var(--accent);color:var(--bg0);font-weight:900}.export-layout{display:grid;grid-template-columns:300px 1fr;min-height:650px}.export-layout>aside{padding:15px;display:grid;align-content:start;gap:9px;border-right:1px solid #ffffff17}fieldset{margin:0;padding:11px;border-radius:14px;border:1px solid #ffffff17;background:#ffffff05}legend{padding:0 5px;font:900 9px var(--mono);letter-spacing:.1em;color:var(--accent);text-transform:uppercase}fieldset label{display:flex;align-items:center;gap:7px;margin:7px 0;text-transform:none;letter-spacing:0;font-size:10px}.export-preview{min-width:0;display:grid;grid-template-rows:auto 1fr;padding:15px}.preview-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px}.preview-head>div{display:grid;gap:4px}.preview-head b{font:10px var(--mono);color:var(--muted)}.export-preview pre{margin:0;padding:17px;border-radius:16px;border:1px solid #ffffff17;background:#0004;color:#eaf0ffd4;font:11px/1.58 var(--mono);white-space:pre-wrap;overflow:auto;max-height:660px}.data-status{display:flex;gap:13px;align-items:center;margin:18px;padding:14px;border:1px solid color-mix(in srgb,var(--accent) 16%,transparent);border-radius:16px;background:color-mix(in srgb,var(--accent) 5%,transparent)}.data-status .holo-symbol{width:44px;height:44px;flex:0 0 auto}.data-status b{font-size:13px}.data-status p{margin:5px 0 0;font:9px var(--mono);color:var(--muted)}.data-actions{display:grid;gap:8px;padding:0 18px}.data-action{display:grid;gap:4px;padding:13px;text-align:left;color:var(--ink);border:1px solid #ffffff1a;border-radius:14px;background:#ffffff08}.data-action.primary-data{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}.data-action b{font-size:11px}.data-action span{font:9px var(--mono);color:var(--muted)}.backup-warning{margin:14px 18px 8px;padding:11px;border-left:3px solid var(--warm);background:color-mix(in srgb,var(--warm) 7%,transparent);font:10px/1.5 var(--mono);color:var(--muted)}.data-status~.modal-actions{padding:8px 18px 18px}.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:18px}.theme-card{position:relative;min-height:86px;padding:14px 12px 12px 42px;overflow:hidden;text-align:left;border:1px solid #ffffff20;border-radius:16px;color:var(--ink);background:radial-gradient(140px 90px at 15% 0%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 72%),linear-gradient(180deg,var(--panel),var(--bg0))}.theme-card.selected{border-color:var(--accent);box-shadow:0 0 20px var(--glow)}.theme-card i{position:absolute;left:14px;top:16px;width:15px;height:15px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}.theme-card b,.theme-card span{display:block}.theme-card b{font:900 10px var(--mono);text-transform:uppercase;letter-spacing:.08em}.theme-card span{margin-top:6px;font:9px/1.35 var(--mono);color:var(--muted)}
+.privacy-on .sensitive,.privacy-on .record-card p,.privacy-on .record-card h3,.privacy-on .export-preview pre{filter:blur(7px);user-select:none}.toast{position:fixed;z-index:200;left:50%;bottom:24px;transform:translateX(-50%);padding:11px 16px;border-radius:999px;border:1px solid var(--accent);background:var(--panel);box-shadow:0 0 24px var(--glow),0 14px 40px #0008;font:900 10px var(--mono);animation:toastIn .22s ease}.loading{min-height:100vh;display:grid;place-items:center;background:#070b1a;color:#7be7ff}.loaderCore{font:900 10px var(--mono);letter-spacing:.18em;padding:40px;border:1px solid #7be7ff33;border-radius:50%}footer{position:relative;z-index:2;max-width:1500px;margin:-12px auto 18px;padding:0 4px;display:flex;justify-content:space-between;font:8px var(--mono);letter-spacing:.1em;color:#eaf0ff66}@keyframes fadeIn{from{opacity:0}}@keyframes holoIn{from{transform:translateY(10px) scale(.98);filter:brightness(1.12)}}@keyframes toastIn{from{opacity:0;transform:translate(-50%,8px)}}
+@media(max-width:1000px){.workspace{grid-template-columns:290px 1fr}.context-bar,.workspace{margin-inline:12px}.theme-grid{grid-template-columns:repeat(2,1fr)}.insight-strip div{padding-inline:10px}.record-tools{flex-wrap:wrap}.record-search{order:3;flex-basis:100%}}@media(max-width:760px){.topbar{align-items:flex-start}.brand h1{font-size:17px}.context-bar{align-items:stretch;flex-wrap:wrap}.context-select{width:calc(50% - 7px)}.section-tabs{order:3;flex-basis:100%}.manage-btn{margin-left:0}.workspace{grid-template-columns:1fr}.roster-panel{min-height:430px}.roster-list{max-height:260px}.record-panel{min-height:620px}.student-hero{align-items:flex-start}.hero-actions{display:grid}.insight-strip{grid-template-columns:repeat(2,1fr)}.timeline{max-height:none}.form-grid.two,.form-grid.date-kind,.choice-cards,.structure-grid,.export-layout{grid-template-columns:1fr}.structure-grid>section{min-height:220px}.export-layout>aside{border-right:0;border-bottom:1px solid #ffffff17}.theme-grid{grid-template-columns:1fr}.export-preview pre{max-height:480px}footer{margin-inline:14px}}@media(max-width:520px){.topbar{padding:11px 12px}.brand .eyebrow,.local-status{display:none}.top-actions{gap:5px}.context-select{width:100%}.student-hero{display:grid}.hero-actions{grid-template-columns:1fr 1fr}.record-tools,.filter-chips{padding-inline:12px}.timeline{padding-right:12px}.modal-overlay{padding:8px}.holo-modal{max-height:96vh}.toggle-row{display:grid}.theme-grid,.structure-grid{padding:12px}}
+.student-row.archived{opacity:.58}.student-row.archived .student-summary b:after{content:" Â· archived";color:var(--warm);font:8px var(--mono)}
+
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <noscript>This application requires JavaScript.</noscript>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
+  <script type="text/babel" data-presets="typescript,react" data-filename="teacher-record-console.tsx">
+const { useEffect, useMemo, useRef, useState } = React;
+type SchoolYear = { id: string; label: string; archived?: boolean };
+type Course = { id: string; yearId: string; name: string; archived?: boolean };
+type Section = { id: string; courseId: string; name: string; archived?: boolean };
+type Student = { id: string; firstName: string; lastName: string; email: string; archived?: boolean; createdAt: string };
+type Enrollment = { id: string; studentId: string; sectionId: string; startDate: string; endDate?: string; active: boolean };
+type RecordKind = "teacher-note" | "official-note" | "writing" | "discussion" | "family" | "conference" | "strength" | "other";
+type StudentRecord = { id: string; studentId: string; enrollmentId?: string; date: string; kind: RecordKind; title?: string; text: string; studentFacing: boolean; pinned: boolean; createdAt: string; updatedAt: string };
+type Theme = "holographic" | "frontierSteel" | "samuraiKintsugi" | "victorianAether" | "artDeco" | "noirTerminal" | "solarTemple" | "deepSea" | "starshipConsole" | "astrometrics" | "imperialDatapad" | "jediArchive" | "cyberpunkArcade" | "auroraGlass" | "obsidianLab" | "brassObservatory" | "volcanicCore" | "arcticCommand";
+type AppData = { format: string; schemaVersion: number; updatedAt: string; years: SchoolYear[]; courses: Course[]; sections: Section[]; students: Student[]; enrollments: Enrollment[]; records: StudentRecord[]; settings: { theme: Theme } };
+type Modal = null | "student" | "record" | "move" | "structure" | "export" | "data" | "themes" | "confirm";
+
+const kinds: { id: RecordKind; label: string; short: string }[] = [
+  { id: "teacher-note", label: "Teacher note", short: "Note" },
+  { id: "official-note", label: "Official note", short: "Official" },
+  { id: "writing", label: "Writing feedback", short: "Writing" },
+  { id: "discussion", label: "Discussion feedback", short: "Discussion" },
+  { id: "family", label: "Family communication", short: "Family" },
+  { id: "conference", label: "Conference note", short: "Conference" },
+  { id: "strength", label: "Celebration / strength", short: "Strength" },
+  { id: "other", label: "Other", short: "Other" },
+];
+
+const themes: { id: Theme; label: string; sub: string }[] = [
+  { id: "holographic", label: "Holographic", sub: "Blue glass and cockpit light" },
+  { id: "frontierSteel", label: "Frontier Steel", sub: "Silver metal with amber edge" },
+  { id: "samuraiKintsugi", label: "Samurai Kintsugi", sub: "Ink, lacquer, and gold repair" },
+  { id: "victorianAether", label: "Victorian Aether", sub: "Burgundy and polished metal" },
+  { id: "artDeco", label: "Art Deco Observatory", sub: "Teal glass and brass geometry" },
+  { id: "noirTerminal", label: "Noir Terminal", sub: "Green phosphor and dark chrome" },
+  { id: "solarTemple", label: "Solar Temple", sub: "Bronze, turquoise, and stone" },
+  { id: "deepSea", label: "Deep Sea Console", sub: "Abyssal glass and aged brass" },
+  { id: "starshipConsole", label: "Starship Console", sub: "Amber and slate command glass" },
+  { id: "astrometrics", label: "Astrometrics", sub: "Star-map blue and silver light" },
+  { id: "imperialDatapad", label: "Imperial Datapad", sub: "Black steel and red status light" },
+  { id: "jediArchive", label: "Jedi Archive", sub: "Archive brass and library blue" },
+  { id: "cyberpunkArcade", label: "Cyberpunk Arcade", sub: "Cyan neon and violet edge" },
+  { id: "auroraGlass", label: "Aurora Glass", sub: "Green-violet frosted glass" },
+  { id: "obsidianLab", label: "Obsidian Lab", sub: "Black glass and acid green" },
+  { id: "brassObservatory", label: "Brass Observatory", sub: "Navy star maps and brass" },
+  { id: "volcanicCore", label: "Volcanic Core", sub: "Charcoal and ember light" },
+  { id: "arcticCommand", label: "Arctic Command", sub: "Frosted slate and silver-blue" },
+];
+
+const isoDate = () => new Date().toISOString().slice(0, 10);
+const stamp = () => new Date().toISOString();
+const uid = (prefix: string) => `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+const defaultData = (): AppData => {
+  const yearId = uid("yr"), courseId = uid("crs"), sectionA = uid("sec"), sectionB = uid("sec");
+  return {
+    format: "teacher-records-backup", schemaVersion: 1, updatedAt: stamp(),
+    years: [{ id: yearId, label: "2026â€“2027" }],
+    courses: [{ id: courseId, yearId, name: "English 10" }],
+    sections: [{ id: sectionA, courseId, name: "Block A" }, { id: sectionB, courseId, name: "Block B" }],
+    students: [], enrollments: [], records: [], settings: { theme: "holographic" },
+  };
+};
+
+const dbName = "teacher-records-console";
+function loadDb(): Promise<AppData | null> {
+  return new Promise((resolve) => {
+    const req = indexedDB.open(dbName, 1);
+    req.onupgradeneeded = () => req.result.createObjectStore("state");
+    req.onerror = () => resolve(null);
+    req.onsuccess = () => {
+      const get = req.result.transaction("state", "readonly").objectStore("state").get("app");
+      get.onsuccess = () => resolve((get.result as AppData) || null);
+      get.onerror = () => resolve(null);
+    };
+  });
+}
+function saveDb(data: AppData) {
+  const req = indexedDB.open(dbName, 1);
+  req.onupgradeneeded = () => req.result.createObjectStore("state");
+  req.onsuccess = () => req.result.transaction("state", "readwrite").objectStore("state").put(data, "app");
+}
+
+function fullName(s?: Student) { return s ? `${s.firstName} ${s.lastName}`.trim() : "Student"; }
+function prettyDate(date: string) { return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+function kindLabel(kind: RecordKind) { return kinds.find(k => k.id === kind)?.label || "Record"; }
+
+function Home() {
+  const [data, setData] = useState<AppData | null>(null);
+  const [yearId, setYearId] = useState("");
+  const [courseId, setCourseId] = useState("");
+  const [sectionId, setSectionId] = useState("");
+  const [studentId, setStudentId] = useState("");
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+  const [modal, setModal] = useState<Modal>(null);
+  const [search, setSearch] = useState("");
+  const [recordSearch, setRecordSearch] = useState("");
+  const [historyScope, setHistoryScope] = useState<"year" | "all">("year");
+  const [kindFilter, setKindFilter] = useState<RecordKind | "all">("all");
+  const [privacy, setPrivacy] = useState(false);
+  const [showArchived, setShowArchived] = useState(false);
+  const [toast, setToast] = useState("");
+  const [loaded, setLoaded] = useState(false);
+  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  useEffect(() => { loadDb().then(x => { setData(x || defaultData()); setLoaded(true); }); }, []);
+  useEffect(() => {
+    if (!data || !loaded) return;
+    const next = { ...data, updatedAt: stamp() };
+    saveDb(next);
+  }, [data, loaded]);
+  useEffect(() => {
+    if (!data) return;
+    const y = data.years.find(x => x.id === yearId) || data.years.find(x => !x.archived) || data.years[0];
+    if (y && y.id !== yearId) setYearId(y.id);
+    const c = data.courses.find(x => x.id === courseId && x.yearId === y?.id) || data.courses.find(x => x.yearId === y?.id && !x.archived);
+    if (c && c.id !== courseId) setCourseId(c.id);
+    const s = data.sections.find(x => x.id === sectionId && x.courseId === c?.id) || data.sections.find(x => x.courseId === c?.id && !x.archived);
+    if (s && s.id !== sectionId) setSectionId(s.id);
+  }, [data, yearId, courseId, sectionId]);
+
+  const notify = (message: string) => {
+    setToast(message); if (toastTimer.current) clearTimeout(toastTimer.current);
+    toastTimer.current = setTimeout(() => setToast(""), 2600);
+  };
+  const update = (fn: (d: AppData) => AppData) => setData(d => d ? fn(d) : d);
+  const currentYear = data?.years.find(y => y.id === yearId);
+  const currentCourse = data?.courses.find(c => c.id === courseId);
+  const currentSection = data?.sections.find(s => s.id === sectionId);
+  const selectedStudent = data?.students.find(s => s.id === studentId);
+  const sectionEnrollments = useMemo(() => data?.enrollments.filter(e => e.sectionId === sectionId && e.active) || [], [data, sectionId]);
+  const roster = useMemo(() => {
+    if (!data) return [];
+    const ids = new Set(sectionEnrollments.map(e => e.studentId));
+    const q = search.trim().toLowerCase();
+    return data.students.filter(s => ids.has(s.id) && (showArchived || !s.archived) && (!q || fullName(s).toLowerCase().includes(q) || s.email.toLowerCase().includes(q)))
+      .sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
+  }, [data, sectionEnrollments, search, showArchived]);
+  useEffect(() => { if (roster.length && !roster.some(s => s.id === studentId)) setStudentId(roster[0].id); if (!roster.length) setStudentId(""); }, [roster, studentId]);
+
+  const studentRecords = useMemo(() => {
+    if (!data || !studentId) return [];
+    const yearStudentEnrollmentIds = new Set(data.enrollments.filter(e => e.studentId === studentId && data.sections.some(s => s.id === e.sectionId && data.courses.some(c => c.id === s.courseId && c.yearId === yearId))).map(e => e.id));
+    const q = recordSearch.toLowerCase().trim();
+    return data.records.filter(r => r.studentId === studentId)
+      .filter(r => historyScope === "all" || (r.enrollmentId && yearStudentEnrollmentIds.has(r.enrollmentId)))
+      .filter(r => kindFilter === "all" || r.kind === kindFilter)
+      .filter(r => !q || r.text.toLowerCase().includes(q) || r.title?.toLowerCase().includes(q))
+      .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
+  }, [data, studentId, yearId, historyScope, kindFilter, recordSearch]);
+
+  if (!data) return <main className="loading"><div className="loaderCore">INITIALIZING ARCHIVE</div></main>;
+
+  const activeTheme = data.settings.theme;
+  const toggleSelected = (id: string) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
+  const copy = async (text: string, message: string) => { await navigator.clipboard.writeText(text); notify(message); };
+  const emailIds = selectedIds.length ? selectedIds : roster.map(s => s.id);
+  const copyEmails = () => {
+    const emails = Array.from(new Set(data.students.filter(s => emailIds.includes(s.id)).map(s => s.email.trim()).filter(e => /^\S+@\S+\.\S+$/.test(e))));
+    if (!emails.length) return notify("No valid email addresses selected");
+    copy(emails.join("; "), `${emails.length} email address${emails.length === 1 ? "" : "es"} copied`);
+  };
+
+  return (
+    <main className={`app theme-${activeTheme} ${privacy ? "privacy-on" : ""}`}>
+      <div className="atmosphere" aria-hidden="true" />
+      <header className="topbar">
+        <div className="brand">
+          <span className="eyebrow">LONGITUDINAL STUDENT ARCHIVE</span>
+          <h1>Teacher Record Console</h1>
+          <span className="local-status"><i /> Stored on this device</span>
+        </div>
+        <nav className="top-actions" aria-label="Application controls">
+          <button className="btn ghost" onClick={() => setModal("export")}>â‡§ Export</button>
+          <button className="btn ghost" onClick={() => setModal("data")}>â–£ Data</button>
+          <button className="btn ghost icon-btn" onClick={() => setModal("themes")} title="Choose skin" aria-label="Choose skin">âœ¦</button>
+          <button className={`btn ghost icon-btn ${privacy ? "on" : ""}`} onClick={() => setPrivacy(x => !x)} title="Privacy screen" aria-label="Toggle privacy screen">{privacy ? "â—‰" : "â—Ž"}</button>
+        </nav>
+      </header>
+
+      <section className="context-bar glass">
+        <div className="context-select"><label>School year</label><select value={yearId} onChange={e => { setYearId(e.target.value); setSelectedIds([]); }}>{data.years.filter(y => !y.archived).map(y => <option key={y.id} value={y.id}>{y.label}</option>)}</select></div>
+        <div className="context-select"><label>Class</label><select value={courseId} onChange={e => { setCourseId(e.target.value); setSelectedIds([]); }}>{data.courses.filter(c => c.yearId === yearId && !c.archived).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></div>
+        <div className="section-tabs" role="tablist" aria-label="Sections">
+          {data.sections.filter(s => s.courseId === courseId && !s.archived).map(s => <button key={s.id} className={s.id === sectionId ? "active" : ""} onClick={() => { setSectionId(s.id); setSelectedIds([]); }}>{s.name}<small>{data.enrollments.filter(e => e.sectionId === s.id && e.active).length}</small></button>)}
+        </div>
+        <button className="btn ghost manage-btn" onClick={() => setModal("structure")}>Manage classes</button>
+      </section>
+
+      <section className="workspace">
+        <aside className="roster-panel glass">
+          <div className="panel-head">
+            <div><span className="eyebrow">ACTIVE ROSTER</span><h2>{currentSection?.name || "Section"}</h2></div>
+            <button className="btn primary compact" onClick={() => setModal("student")}>+ Student</button>
+          </div>
+          <div className="searchbox"><span>âŒ•</span><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Find a studentâ€¦" /></div>
+          <div className="bulk-strip">
+            <label className="check-label"><input type="checkbox" checked={!!roster.length && roster.every(s => selectedIds.includes(s.id))} onChange={e => setSelectedIds(e.target.checked ? roster.map(s => s.id) : [])} /> {selectedIds.length ? `${selectedIds.length} selected` : "Select all"}</label>
+            <div><button onClick={copyEmails} title="Copy semicolon-separated email list">@ Emails</button>{selectedIds.length > 0 && <button onClick={() => setModal("move")}>â‡„ Move</button>}</div>
+          </div>
+          <div className="roster-list">
+            {!roster.length && <EmptyRoster onAdd={() => setModal("student")} />}
+            {roster.map(s => {
+              const count = data.records.filter(r => r.studentId === s.id).length;
+              return <article key={s.id} className={`student-row ${s.id === studentId ? "active" : ""} ${s.archived ? "archived" : ""}`} onClick={() => setStudentId(s.id)}>
+                <input type="checkbox" checked={selectedIds.includes(s.id)} onClick={e => e.stopPropagation()} onChange={() => toggleSelected(s.id)} aria-label={`Select ${fullName(s)}`} />
+                <div className="avatar">{s.firstName[0]}{s.lastName[0]}</div>
+                <div className="student-summary"><b className="sensitive">{fullName(s)}</b><span className="sensitive">{s.email || "No email"}</span></div>
+                <span className="record-count">{count}</span>
+              </article>;
+            })}
+          </div>
+          <div className="roster-foot"><button onClick={() => setShowArchived(x => !x)}>{showArchived ? "Hide archived" : "Show archived"}</button><button onClick={() => { if (selectedStudent) copy(selectedStudent.email, "Email address copied"); }} disabled={!selectedStudent?.email}>Copy current email</button></div>
+        </aside>
+
+        <section className="record-panel glass">
+          {selectedStudent ? <>
+            <div className="student-hero">
+              <div className="hero-identity"><div className="large-avatar">{selectedStudent.firstName[0]}{selectedStudent.lastName[0]}</div><div><span className="eyebrow">STUDENT PROFILE</span><h2 className="sensitive">{fullName(selectedStudent)}</h2><button className="email-link sensitive" onClick={() => copy(selectedStudent.email, "Email address copied")}>{selectedStudent.email || "Add email address"} <span>â–¡</span></button></div></div>
+              <div className="hero-actions"><button className="btn ghost" onClick={() => { update(d => ({ ...d, students: d.students.map(s => s.id === studentId ? { ...s, archived: !s.archived } : s) })); notify(selectedStudent.archived ? "Student restored to active roster" : "Student archived"); }}>{selectedStudent.archived ? "Restore" : "Archive"}</button><button className="btn ghost" onClick={() => setModal("move")}>Switch section</button><button className="btn primary" onClick={() => setModal("record")}>+ Add record</button></div>
+            </div>
+
+            <div className="insight-strip">
+              <div><b>{data.records.filter(r => r.studentId === studentId).length}</b><span>Total records</span></div>
+              <div><b>{data.records.filter(r => r.studentId === studentId && r.kind === "writing").length}</b><span>Writing notes</span></div>
+              <div><b>{data.records.filter(r => r.studentId === studentId && r.kind === "discussion").length}</b><span>Discussion notes</span></div>
+              <div><b>{data.records.filter(r => r.studentId === studentId && r.pinned).length}</b><span>Follow-ups</span></div>
+            </div>
+
+            <div className="record-tools">
+              <div className="scope-toggle"><button className={historyScope === "year" ? "active" : ""} onClick={() => setHistoryScope("year")}>{currentYear?.label || "Current year"}</button><button className={historyScope === "all" ? "active" : ""} onClick={() => setHistoryScope("all")}>All years</button></div>
+              <div className="record-search"><span>âŒ•</span><input value={recordSearch} onChange={e => setRecordSearch(e.target.value)} placeholder="Search this recordâ€¦" /></div>
+              <button className="btn ghost compact" onClick={() => setModal("export")}>Copy record</button>
+            </div>
+            <div className="filter-chips"><button className={kindFilter === "all" ? "active" : ""} onClick={() => setKindFilter("all")}>All</button>{kinds.map(k => <button key={k.id} className={kindFilter === k.id ? "active" : ""} onClick={() => setKindFilter(k.id)}>{k.short}</button>)}</div>
+
+            <div className="timeline">
+              {!studentRecords.length && <div className="empty-records"><div className="holo-symbol">ï¼‹</div><h3>No records in this view</h3><p>Capture a quick observation, feedback, or a note for later.</p><button className="btn primary" onClick={() => setModal("record")}>Add the first record</button></div>}
+              {studentRecords.map(r => <RecordCard key={r.id} record={r} onTogglePin={() => update(d => ({ ...d, records: d.records.map(x => x.id === r.id ? { ...x, pinned: !x.pinned, updatedAt: stamp() } : x) }))} onDelete={() => { if (confirm("Delete this record permanently?")) update(d => ({ ...d, records: d.records.filter(x => x.id !== r.id) })); }} />)}
+            </div>
+          </> : <div className="empty-student"><div className="holo-symbol">â—‡</div><span className="eyebrow">READY FOR A ROSTER</span><h2>Add your first student</h2><p>Records, feedback, and observations will appear here as a searchable timeline.</p><button className="btn primary" onClick={() => setModal("student")}>+ Add student</button></div>}
+        </section>
+      </section>
+
+      <footer><span>LOW POWER MODE Â· LOCAL DATABASE</span><span>{data.records.length} records across {data.students.length} students</span></footer>
+
+      {modal === "student" && <StudentModal data={data} sectionId={sectionId} onClose={() => setModal(null)} onSave={(student, enrollment) => { update(d => ({ ...d, students: [...d.students, student], enrollments: [...d.enrollments, enrollment] })); setStudentId(student.id); setModal(null); notify(`${fullName(student)} added`); }} />}
+      {modal === "record" && selectedStudent && <RecordModal student={selectedStudent} enrollment={sectionEnrollments.find(e => e.studentId === studentId)} onClose={() => setModal(null)} onSave={record => { update(d => ({ ...d, records: [record, ...d.records] })); setModal(null); notify("Record saved"); }} />}
+      {modal === "move" && <MoveModal data={data} studentIds={selectedIds.length ? selectedIds : studentId ? [studentId] : []} currentSectionId={sectionId} onClose={() => setModal(null)} onMove={(target, correction) => { update(d => moveStudents(d, selectedIds.length ? selectedIds : [studentId], sectionId, target, correction)); setSectionId(target); setSelectedIds([]); setModal(null); notify("Section placement updated"); }} />}
+      {modal === "structure" && <StructureModal data={data} activeYearId={yearId} onClose={() => setModal(null)} onUpdate={update} onSelect={(y, c, s) => { setYearId(y); setCourseId(c); setSectionId(s); setModal(null); }} />}
+      {modal === "export" && <ExportModal data={data} yearId={yearId} courseId={courseId} sectionId={sectionId} studentId={studentId} selectedIds={selectedIds} onClose={() => setModal(null)} notify={notify} />}
+      {modal === "data" && <DataModal data={data} onClose={() => setModal(null)} onImport={incoming => { setData(incoming); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }} notify={notify} />}
+      {modal === "themes" && <ThemeModal selected={activeTheme} onClose={() => setModal(null)} onSelect={theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); }} />}
+      {toast && <div className="toast" role="status"><i />{toast}</div>}
+    </main>
+  );
+}
+
+function EmptyRoster({ onAdd }: { onAdd: () => void }) { return <div className="empty-roster"><span>ROSTER EMPTY</span><p>Add students one at a time. Bulk roster import can come next.</p><button onClick={onAdd}>+ Add a student</button></div>; }
+
+function RecordCard({ record, onTogglePin, onDelete }: { record: StudentRecord; onTogglePin: () => void; onDelete: () => void }) {
+  return <article className={`record-card kind-${record.kind} ${record.pinned ? "pinned" : ""}`}>
+    <div className="timeline-node" />
+    <div className="record-card-head"><div><span className="kind-badge">{kindLabel(record.kind)}</span><time>{prettyDate(record.date)}</time>{!record.studentFacing && <span className="private-badge">PRIVATE</span>}</div><div><button onClick={onTogglePin} title={record.pinned ? "Remove follow-up" : "Pin for follow-up"}>{record.pinned ? "â—†" : "â—‡"}</button><button onClick={onDelete} title="Delete record">Ã—</button></div></div>
+    {record.title && <h3>{record.title}</h3>}<p>{record.text}</p>
+  </article>;
+}
+
+function ModalShell({ title, subtitle, onClose, children, wide = false }: { title: string; subtitle?: string; onClose: () => void; children: React.ReactNode; wide?: boolean }) {
+  return <div className="modal-overlay" onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}><section className={`holo-modal ${wide ? "wide" : ""}`} role="dialog" aria-modal="true" aria-label={title}><header><div><span className="eyebrow">{subtitle || "TEACHER RECORD CONSOLE"}</span><h2>{title}</h2></div><button className="btn ghost icon-btn" onClick={onClose} aria-label="Close">Ã—</button></header>{children}</section></div>;
+}
+
+function StudentModal({ data, sectionId, onClose, onSave }: { data: AppData; sectionId: string; onClose: () => void; onSave: (s: Student, e: Enrollment) => void }) {
+  const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [target, setTarget] = useState(sectionId);
+  const valid = firstName.trim() && lastName.trim();
+  return <ModalShell title="Add student" subtitle="NEW CONTINUOUS PROFILE" onClose={onClose}><form onSubmit={e => { e.preventDefault(); if (!valid) return; const id = uid("stu"), eid = uid("enr"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), createdAt: stamp() }, { id: eid, studentId: id, sectionId: target, startDate: isoDate(), active: true }); }}>
+    <div className="form-grid two"><label>First name<input autoFocus value={firstName} onChange={e => setFirst(e.target.value)} placeholder="Maya" /></label><label>Last name<input value={lastName} onChange={e => setLast(e.target.value)} placeholder="Rodriguez" /></label></div>
+    <label>Email address<input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="maya.rodriguez@school.org" /></label>
+    <label>Section<select value={target} onChange={e => setTarget(e.target.value)}>{data.sections.filter(s => !s.archived).map(s => { const c = data.courses.find(c => c.id === s.courseId), y = data.years.find(y => y.id === c?.yearId); return <option key={s.id} value={s.id}>{y?.label} Â· {c?.name} Â· {s.name}</option>; })}</select></label>
+    <p className="form-hint">This creates one continuous profile. Future class placements will attach to the same student.</p>
+    <div className="modal-actions"><button type="button" className="btn ghost" onClick={onClose}>Cancel</button><button className="btn primary" disabled={!valid}>Add student</button></div>
+  </form></ModalShell>;
+}
+
+function RecordModal({ student, enrollment, onClose, onSave }: { student: Student; enrollment?: Enrollment; onClose: () => void; onSave: (r: StudentRecord) => void }) {
+  const [date, setDate] = useState(isoDate()), [kind, setKind] = useState<RecordKind>("teacher-note"), [title, setTitle] = useState(""), [text, setText] = useState(""), [studentFacing, setStudentFacing] = useState(false), [pinned, setPinned] = useState(false);
+  const textRef = useRef<HTMLTextAreaElement>(null);
+  useEffect(() => textRef.current?.focus(), []);
+  return <ModalShell title={`Add record for ${fullName(student)}`} subtitle="QUICK CAPTURE" onClose={onClose}><form onSubmit={e => { e.preventDefault(); if (!text.trim()) return; const now = stamp(); onSave({ id: uid("rec"), studentId: student.id, enrollmentId: enrollment?.id, date, kind, title: title.trim(), text: text.trim(), studentFacing, pinned, createdAt: now, updatedAt: now }); }}>
+    <div className="form-grid date-kind"><label>Date<input type="date" value={date} onChange={e => setDate(e.target.value)} /></label><label>Record type<select value={kind} onChange={e => setKind(e.target.value as RecordKind)}>{kinds.map(k => <option key={k.id} value={k.id}>{k.label}</option>)}</select></label></div>
+    <label>Title <span className="optional">optional</span><input value={title} onChange={e => setTitle(e.target.value)} placeholder="A short heading for easier scanning" /></label>
+    <label>Comment<textarea ref={textRef} value={text} onChange={e => setText(e.target.value)} rows={8} placeholder="Paste official language, capture an observation, or write feedbackâ€¦" /></label>
+    <div className="toggle-row"><label><input type="checkbox" checked={studentFacing} onChange={e => setStudentFacing(e.target.checked)} /> Include in student-facing exports</label><label><input type="checkbox" checked={pinned} onChange={e => setPinned(e.target.checked)} /> Pin for follow-up</label></div>
+    <div className="modal-actions"><span className="shortcut-hint">Ctrl/âŒ˜ + Enter to save</span><button type="button" className="btn ghost" onClick={onClose}>Cancel</button><button className="btn primary" disabled={!text.trim()}>Save record</button></div>
+  </form></ModalShell>;
+}
+
+function moveStudents(data: AppData, ids: string[], from: string, to: string, correction: boolean): AppData {
+  const now = isoDate();
+  let enrollments = data.enrollments.map(e => ids.includes(e.studentId) && e.sectionId === from && e.active ? (correction ? null : { ...e, active: false, endDate: now }) : e).filter(Boolean) as Enrollment[];
+  ids.forEach(studentId => {
+    const old = data.enrollments.find(e => e.studentId === studentId && e.sectionId === from && e.active);
+    enrollments.push({ id: correction && old ? old.id : uid("enr"), studentId, sectionId: to, startDate: correction && old ? old.startDate : now, active: true });
+  });
+  return { ...data, enrollments };
+}
+
+function MoveModal({ data, studentIds, currentSectionId, onClose, onMove }: { data: AppData; studentIds: string[]; currentSectionId: string; onClose: () => void; onMove: (target: string, correction: boolean) => void }) {
+  const [target, setTarget] = useState(data.sections.find(s => s.id !== currentSectionId && !s.archived)?.id || ""), [correction, setCorrection] = useState(false);
+  return <ModalShell title={`Switch ${studentIds.length} student${studentIds.length === 1 ? "" : "s"}`} subtitle="SECTION PLACEMENT" onClose={onClose}><div className="modal-body"><div className="selected-names">{data.students.filter(s => studentIds.includes(s.id)).map(s => <span key={s.id}>{fullName(s)}</span>)}</div><label>Destination section<select value={target} onChange={e => setTarget(e.target.value)}>{data.sections.filter(s => s.id !== currentSectionId && !s.archived).map(s => { const c = data.courses.find(c => c.id === s.courseId), y = data.years.find(y => y.id === c?.yearId); return <option key={s.id} value={s.id}>{y?.label} Â· {c?.name} Â· {s.name}</option>; })}</select></label>
+    <div className="choice-cards"><label className={!correction ? "active" : ""}><input type="radio" checked={!correction} onChange={() => setCorrection(false)} /> <b>Effective today</b><span>Keep the previous enrollment in the studentâ€™s history.</span></label><label className={correction ? "active" : ""}><input type="radio" checked={correction} onChange={() => setCorrection(true)} /> <b>Correct entire enrollment</b><span>Treat the previous section as a placement error.</span></label></div>
+    <div className="modal-actions"><button className="btn ghost" onClick={onClose}>Cancel</button><button className="btn primary" disabled={!target} onClick={() => onMove(target, correction)}>Update placement</button></div></div></ModalShell>;
+}
+
+function StructureModal({ data, activeYearId, onClose, onUpdate, onSelect }: { data: AppData; activeYearId: string; onClose: () => void; onUpdate: (f: (d: AppData) => AppData) => void; onSelect: (y: string, c: string, s: string) => void }) {
+  const [year, setYear] = useState(""), [course, setCourse] = useState(""), [section, setSection] = useState("");
+  const addYear = () => { if (!year.trim()) return; onUpdate(d => ({ ...d, years: [...d.years, { id: uid("yr"), label: year.trim() }] })); setYear(""); };
+  const addCourse = () => { if (!course.trim()) return; onUpdate(d => ({ ...d, courses: [...d.courses, { id: uid("crs"), yearId: activeYearId, name: course.trim() }] })); setCourse(""); };
+  const activeCourses = data.courses.filter(c => c.yearId === activeYearId && !c.archived);
+  const sectionCourse = activeCourses[0]?.id || "";
+  const addSection = () => { if (!section.trim() || !sectionCourse) return; onUpdate(d => ({ ...d, sections: [...d.sections, { id: uid("sec"), courseId: sectionCourse, name: section.trim() }] })); setSection(""); };
+  return <ModalShell title="Manage school structure" subtitle="YEARS Â· CLASSES Â· SECTIONS" onClose={onClose} wide><div className="structure-grid">
+    <section><span className="eyebrow">SCHOOL YEARS</span><div className="structure-list">{data.years.map(y => <button key={y.id} className={y.id === activeYearId ? "active" : ""} onClick={() => { const c = data.courses.find(c => c.yearId === y.id), s = data.sections.find(s => s.courseId === c?.id); if (c && s) onSelect(y.id, c.id, s.id); }}>{y.label}<small>{data.courses.filter(c => c.yearId === y.id).length} classes</small></button>)}</div><div className="inline-add"><input value={year} onChange={e => setYear(e.target.value)} placeholder="2027â€“2028" /><button onClick={addYear}>+</button></div></section>
+    <section><span className="eyebrow">CLASSES IN {data.years.find(y => y.id === activeYearId)?.label}</span><div className="structure-list">{activeCourses.map(c => <div key={c.id}><b>{c.name}</b><small>{data.sections.filter(s => s.courseId === c.id).length} sections</small></div>)}</div><div className="inline-add"><input value={course} onChange={e => setCourse(e.target.value)} placeholder="AP Literature" /><button onClick={addCourse}>+</button></div></section>
+    <section><span className="eyebrow">SECTIONS</span><div className="structure-list">{activeCourses.flatMap(c => data.sections.filter(s => s.courseId === c.id).map(s => <div key={s.id}><b>{s.name}</b><small>{c.name}</small></div>))}</div><div className="inline-add"><input value={section} onChange={e => setSection(e.target.value)} placeholder="Block C" /><button onClick={addSection}>+</button></div></section>
+  </div><div className="modal-actions padded"><span className="form-hint">Archiving and renaming controls can be added after the core workflow is in use.</span><button className="btn primary" onClick={onClose}>Done</button></div></ModalShell>;
+}
+
+function exportText(data: AppData, ids: string[], yearId: string, types: RecordKind[], allYears: boolean, anonymize: boolean, studentFacingOnly: boolean) {
+  const year = data.years.find(y => y.id === yearId);
+  return ids.map((id, i) => {
+    const s = data.students.find(x => x.id === id); if (!s) return "";
+    const enrollIds = new Set(data.enrollments.filter(e => e.studentId === id && data.sections.some(sec => sec.id === e.sectionId && data.courses.some(c => c.id === sec.courseId && c.yearId === yearId))).map(e => e.id));
+    const records = data.records.filter(r => r.studentId === id && types.includes(r.kind) && (allYears || !!r.enrollmentId && enrollIds.has(r.enrollmentId)) && (!studentFacingOnly || r.studentFacing)).sort((a, b) => a.date.localeCompare(b.date));
+    const name = anonymize ? `Student ${i + 1}` : fullName(s);
+    const grouped = kinds.map(k => ({ ...k, records: records.filter(r => r.kind === k.id) })).filter(g => g.records.length);
+    return [`STUDENT: ${name}`, `SCOPE: ${allYears ? "All available years" : year?.label || "Current year"}`, ...grouped.flatMap(g => ["", g.label.toUpperCase(), ...g.records.map(r => `${r.date}${r.title ? ` â€” ${r.title}` : ""}\n${r.text}`)])].join("\n");
+  }).filter(Boolean).join("\n\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\n");
+}
+
+function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds, onClose, notify }: { data: AppData; yearId: string; courseId: string; sectionId: string; studentId: string; selectedIds: string[]; onClose: () => void; notify: (s: string) => void }) {
+  const [scope, setScope] = useState<"student" | "selected" | "section" | "class">(selectedIds.length > 1 ? "selected" : "student"), [types, setTypes] = useState<RecordKind[]>(kinds.map(k => k.id)), [allYears, setAllYears] = useState(false), [anonymize, setAnonymize] = useState(false), [studentFacing, setStudentFacing] = useState(false), [format, setFormat] = useState<"text" | "json">("text");
+  const ids = useMemo(() => {
+    if (scope === "student") return studentId ? [studentId] : [];
+    if (scope === "selected") return selectedIds;
+    const sections = scope === "class" ? data.sections.filter(s => s.courseId === courseId).map(s => s.id) : [sectionId];
+    return Array.from(new Set(data.enrollments.filter(e => sections.includes(e.sectionId) && e.active).map(e => e.studentId)));
+  }, [scope, studentId, selectedIds, data, courseId, sectionId]);
+  const plain = exportText(data, ids, yearId, types, allYears, anonymize, studentFacing);
+  const json = JSON.stringify({ format: "teacher-records-selection", schemaVersion: 1, exportedAt: stamp(), students: data.students.filter(s => ids.includes(s.id)), records: data.records.filter(r => ids.includes(r.studentId) && types.includes(r.kind)) }, null, 2);
+  const output = format === "text" ? plain : json;
+  const doCopy = async () => { await navigator.clipboard.writeText(output); notify(`${ids.length} student record${ids.length === 1 ? "" : "s"} copied`); };
+  return <ModalShell title="Prepare export" subtitle="CHATGPT-READY RECORDS" onClose={onClose} wide><div className="export-layout"><aside>
+    <fieldset><legend>Who to include</legend><label><input type="radio" checked={scope === "student"} onChange={() => setScope("student")} /> Current student</label><label><input type="radio" checked={scope === "selected"} disabled={!selectedIds.length} onChange={() => setScope("selected")} /> Selected students ({selectedIds.length})</label><label><input type="radio" checked={scope === "section"} onChange={() => setScope("section")} /> Current section</label><label><input type="radio" checked={scope === "class"} onChange={() => setScope("class")} /> All class sections</label></fieldset>
+    <fieldset><legend>Record scope</legend><label><input type="radio" checked={!allYears} onChange={() => setAllYears(false)} /> Current school year</label><label><input type="radio" checked={allYears} onChange={() => setAllYears(true)} /> All years</label></fieldset>
+    <fieldset><legend>Include record types</legend>{kinds.map(k => <label key={k.id}><input type="checkbox" checked={types.includes(k.id)} onChange={e => setTypes(x => e.target.checked ? [...x, k.id] : x.filter(v => v !== k.id))} /> {k.label}</label>)}</fieldset>
+    <fieldset><legend>Privacy and format</legend><label><input type="checkbox" checked={anonymize} onChange={e => setAnonymize(e.target.checked)} /> Replace names with Student 1, 2â€¦</label><label><input type="checkbox" checked={studentFacing} onChange={e => setStudentFacing(e.target.checked)} /> Student-facing entries only</label><select value={format} onChange={e => setFormat(e.target.value as "text" | "json")}><option value="text">ChatGPT-ready text</option><option value="json">Selected records as JSON</option></select></fieldset>
+  </aside><section className="export-preview"><div className="preview-head"><div><span className="eyebrow">LIVE PREVIEW</span><b>{ids.length} student{ids.length === 1 ? "" : "s"} Â· {output.length.toLocaleString()} characters</b></div><button className="btn primary" disabled={!output} onClick={doCopy}>Copy to clipboard</button></div><pre>{output || "No records match this selection."}</pre></section></div></ModalShell>;
+}
+
+function DataModal({ data, onClose, onImport, notify }: { data: AppData; onClose: () => void; onImport: (d: AppData) => void; notify: (s: string) => void }) {
+  const fileRef = useRef<HTMLInputElement>(null);
+  const backup = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2);
+  const download = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([backup], { type: "application/json" })); a.download = `teacher-records-backup-${isoDate()}.json`; a.click(); URL.revokeObjectURL(a.href); notify("Complete backup downloaded"); };
+  const importFile = (file?: File) => { if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const parsed = JSON.parse(String(reader.result)); if (parsed.format !== "teacher-records-backup" || !Array.isArray(parsed.students) || !Array.isArray(parsed.records)) throw new Error(); if (confirm(`Restore ${parsed.students.length} students and ${parsed.records.length} records? This replaces the database currently on this device.`)) onImport(parsed); } catch { notify("That file is not a valid backup"); } }; reader.readAsText(file); };
+  return <ModalShell title="Data and backups" subtitle="LOCAL STORAGE CONTROL" onClose={onClose}><div className="data-status"><div className="holo-symbol">â–£</div><div><b>Your records live only in this browser</b><p>{data.students.length} students Â· {data.records.length} records Â· updated {new Date(data.updatedAt).toLocaleString()}</p></div></div><div className="data-actions"><button className="data-action primary-data" onClick={download}><b>Download complete backup</b><span>Recommended Â· saves a dated JSON file</span></button><button className="data-action" onClick={() => { navigator.clipboard.writeText(backup); notify("Complete JSON backup copied"); }}><b>Copy backup as JSON text</b><span>Useful when file downloads are restricted</span></button><button className="data-action" onClick={() => fileRef.current?.click()}><b>Restore from JSON file</b><span>Preview and confirm before replacing data</span></button><input ref={fileRef} type="file" accept="application/json,.json" hidden onChange={e => importFile(e.target.files?.[0])} /></div><div className="backup-warning"><b>Keep a backup.</b> Browser data may be cleared by workplace IT policies or browser resets. JSON backups contain confidential student information and are not encrypted.</div><div className="modal-actions"><button className="btn primary" onClick={onClose}>Done</button></div></ModalShell>;
+}
+
+function ThemeModal({ selected, onClose, onSelect }: { selected: Theme; onClose: () => void; onSelect: (t: Theme) => void }) {
+  return <ModalShell title="Choose interface skin" subtitle="STATIC Â· LOW POWER" onClose={onClose} wide><div className="theme-grid">{themes.map(t => <button key={t.id} className={`theme-card theme-${t.id} ${selected === t.id ? "selected" : ""}`} onClick={() => onSelect(t.id)}><i /><b>{t.label}</b><span>{t.sub}</span></button>)}</div></ModalShell>;
+}
+
+
+ReactDOM.createRoot(document.getElementById("root")).render(<Home />);
+  </script>
+</body>
+</html>
