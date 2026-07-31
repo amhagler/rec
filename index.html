@@ -5,8 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
   <meta name="description" content="A private, local teacher notebook for student observations, feedback, and longitudinal records." />
   <title>Teacher Record Console</title>
-  <style>
-:root{--sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif}
+  <style>:root{--sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;--serif:Georgia,"Times New Roman",serif}
 *{box-sizing:border-box}html,body{margin:0;min-height:100%;background:#070b1a;color:#eaf0ff}button,input,select,textarea{font:inherit}button{cursor:pointer}.app{--bg0:#070b1a;--bg1:#0b1230;--panel:#0c1638;--ink:#eaf0ff;--muted:#b7c2e6;--accent:#7be7ff;--metal:#2d7dff;--glow:rgba(45,125,255,.34);--warm:#ffe066;position:relative;min-height:100vh;color:var(--ink);font-family:var(--sans);background:radial-gradient(1000px 620px at 15% 0%,color-mix(in srgb,var(--metal) 20%,transparent),transparent 60%),radial-gradient(760px 500px at 85% 14%,color-mix(in srgb,var(--accent) 11%,transparent),transparent 64%),linear-gradient(180deg,var(--bg0),var(--bg1));overflow-x:hidden}.atmosphere{position:fixed;inset:0;pointer-events:none;background:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.012) 1px,transparent 1px);background-size:32px 32px;mask-image:linear-gradient(to bottom,#000,transparent 80%)}
 .theme-frontierSteel{--bg0:#101319;--bg1:#202734;--panel:#242b34;--accent:#e5b66b;--metal:#8c9baa;--glow:rgba(229,182,107,.28)}.theme-samuraiKintsugi{--bg0:#0c090a;--bg1:#1d1113;--panel:#24171a;--accent:#d5ad55;--metal:#7d1827;--glow:rgba(213,173,85,.27)}.theme-victorianAether{--bg0:#13080d;--bg1:#2b101b;--panel:#321a25;--accent:#e0b26e;--metal:#854559}.theme-artDeco{--bg0:#061516;--bg1:#0b3031;--panel:#103739;--accent:#e0bd70;--metal:#1f8581}.theme-noirTerminal{--bg0:#030604;--bg1:#09100c;--panel:#0c1510;--accent:#8df47b;--metal:#3e6e4c}.theme-solarTemple{--bg0:#151009;--bg1:#352513;--panel:#3a2a18;--accent:#47d8c7;--metal:#b27635}.theme-deepSea{--bg0:#020a10;--bg1:#071c29;--panel:#0a2733;--accent:#67dbe6;--metal:#806c3e}.theme-starshipConsole{--bg0:#0a0d12;--bg1:#19222b;--panel:#202b35;--accent:#ffc46b;--metal:#5d7788}.theme-astrometrics{--bg0:#060b17;--bg1:#111f3d;--panel:#14294a;--accent:#a8d9ff;--metal:#577fbb}.theme-imperialDatapad{--bg0:#050506;--bg1:#161719;--panel:#1c1e20;--accent:#ff4d4d;--metal:#6a6c70}.theme-jediArchive{--bg0:#0b1017;--bg1:#192b3c;--panel:#20384c;--accent:#72c6ff;--metal:#a78650}.theme-cyberpunkArcade{--bg0:#050712;--bg1:#171032;--panel:#19153e;--accent:#39f5ff;--metal:#a342ff}.theme-auroraGlass{--bg0:#071013;--bg1:#15263a;--panel:#183447;--accent:#78ffd2;--metal:#9a72dc}.theme-obsidianLab{--bg0:#020303;--bg1:#0b100b;--panel:#101711;--accent:#b7ff4f;--metal:#536d45}.theme-brassObservatory{--bg0:#08101c;--bg1:#172640;--panel:#1b2f4b;--accent:#d5a84e;--metal:#7b9aae}.theme-volcanicCore{--bg0:#0d0807;--bg1:#27100b;--panel:#311811;--accent:#ff7d39;--metal:#7d3930}.theme-arcticCommand{--bg0:#071018;--bg1:#182b3a;--panel:#213848;--accent:#bcecff;--metal:#729bb4}
 .topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px clamp(16px,3vw,38px);border-bottom:1px solid #ffffff1a;background:linear-gradient(to bottom,color-mix(in srgb,var(--bg0) 90%,transparent),color-mix(in srgb,var(--bg0) 68%,transparent));backdrop-filter:blur(12px)}.brand{display:grid;gap:2px}.brand h1,.panel-head h2,.student-hero h2,.empty-student h2{margin:0;font-family:var(--serif)}.brand h1{font-size:21px}.eyebrow{font:900 9px var(--mono);letter-spacing:.17em;color:var(--accent)}.local-status{font:10px var(--mono);color:#eaf0ff99}.local-status i,.toast i{display:inline-block;width:7px;height:7px;margin-right:6px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}.top-actions{display:flex;gap:8px}.btn{border:0;border-radius:13px;padding:9px 12px;font:900 11px var(--mono);white-space:nowrap}.btn:hover{filter:brightness(1.12)}.btn:disabled{opacity:.38;cursor:not-allowed}.primary{color:var(--bg0);background:linear-gradient(180deg,color-mix(in srgb,var(--accent) 92%,white),color-mix(in srgb,var(--metal) 82%,var(--accent)));box-shadow:0 0 0 1px #ffffff33 inset,0 10px 24px #0005,0 0 18px var(--glow)}.ghost{color:#eaf0ffe6;border:1px solid #ffffff24;background:#ffffff0e}.ghost.on{border-color:var(--accent);box-shadow:0 0 16px var(--glow)}.icon-btn{min-width:40px;padding-inline:10px;font-size:15px}.compact{padding:8px 10px}
@@ -18,385 +17,979 @@
 .structure-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:18px}.structure-grid>section{display:grid;align-content:start;gap:9px;min-height:310px;padding:13px;border-radius:17px;border:1px solid #ffffff1a;background:#ffffff06}.structure-list{display:grid;gap:6px}.structure-list button,.structure-list>div{width:100%;padding:10px;border-radius:12px;border:1px solid #ffffff14;background:#ffffff06;color:var(--ink);display:flex;justify-content:space-between;align-items:center;text-align:left}.structure-list button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent)}.structure-list b{font-size:11px}.structure-list small{font:8px var(--mono);color:var(--muted)}.inline-add{display:grid;grid-template-columns:1fr 38px;gap:6px;margin-top:auto}.inline-add button{border:0;border-radius:11px;background:var(--accent);color:var(--bg0);font-weight:900}.export-layout{display:grid;grid-template-columns:300px 1fr;min-height:650px}.export-layout>aside{padding:15px;display:grid;align-content:start;gap:9px;border-right:1px solid #ffffff17}fieldset{margin:0;padding:11px;border-radius:14px;border:1px solid #ffffff17;background:#ffffff05}legend{padding:0 5px;font:900 9px var(--mono);letter-spacing:.1em;color:var(--accent);text-transform:uppercase}fieldset label{display:flex;align-items:center;gap:7px;margin:7px 0;text-transform:none;letter-spacing:0;font-size:10px}.export-preview{min-width:0;display:grid;grid-template-rows:auto 1fr;padding:15px}.preview-head{display:flex;justify-content:space-between;align-items:center;gap:10px;padding-bottom:12px}.preview-head>div{display:grid;gap:4px}.preview-head b{font:10px var(--mono);color:var(--muted)}.export-preview pre{margin:0;padding:17px;border-radius:16px;border:1px solid #ffffff17;background:#0004;color:#eaf0ffd4;font:11px/1.58 var(--mono);white-space:pre-wrap;overflow:auto;max-height:660px}.data-status{display:flex;gap:13px;align-items:center;margin:18px;padding:14px;border:1px solid color-mix(in srgb,var(--accent) 16%,transparent);border-radius:16px;background:color-mix(in srgb,var(--accent) 5%,transparent)}.data-status .holo-symbol{width:44px;height:44px;flex:0 0 auto}.data-status b{font-size:13px}.data-status p{margin:5px 0 0;font:9px var(--mono);color:var(--muted)}.data-actions{display:grid;gap:8px;padding:0 18px}.data-action{display:grid;gap:4px;padding:13px;text-align:left;color:var(--ink);border:1px solid #ffffff1a;border-radius:14px;background:#ffffff08}.data-action.primary-data{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 8%,transparent)}.data-action b{font-size:11px}.data-action span{font:9px var(--mono);color:var(--muted)}.backup-warning{margin:14px 18px 8px;padding:11px;border-left:3px solid var(--warm);background:color-mix(in srgb,var(--warm) 7%,transparent);font:10px/1.5 var(--mono);color:var(--muted)}.data-status~.modal-actions{padding:8px 18px 18px}.theme-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;padding:18px}.theme-card{position:relative;min-height:86px;padding:14px 12px 12px 42px;overflow:hidden;text-align:left;border:1px solid #ffffff20;border-radius:16px;color:var(--ink);background:radial-gradient(140px 90px at 15% 0%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 72%),linear-gradient(180deg,var(--panel),var(--bg0))}.theme-card.selected{border-color:var(--accent);box-shadow:0 0 20px var(--glow)}.theme-card i{position:absolute;left:14px;top:16px;width:15px;height:15px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent)}.theme-card b,.theme-card span{display:block}.theme-card b{font:900 10px var(--mono);text-transform:uppercase;letter-spacing:.08em}.theme-card span{margin-top:6px;font:9px/1.35 var(--mono);color:var(--muted)}
 .privacy-on .sensitive,.privacy-on .record-card p,.privacy-on .record-card h3,.privacy-on .export-preview pre{filter:blur(7px);user-select:none}.toast{position:fixed;z-index:200;left:50%;bottom:24px;transform:translateX(-50%);padding:11px 16px;border-radius:999px;border:1px solid var(--accent);background:var(--panel);box-shadow:0 0 24px var(--glow),0 14px 40px #0008;font:900 10px var(--mono);animation:toastIn .22s ease}.loading{min-height:100vh;display:grid;place-items:center;background:#070b1a;color:#7be7ff}.loaderCore{font:900 10px var(--mono);letter-spacing:.18em;padding:40px;border:1px solid #7be7ff33;border-radius:50%}footer{position:relative;z-index:2;max-width:1500px;margin:-12px auto 18px;padding:0 4px;display:flex;justify-content:space-between;font:8px var(--mono);letter-spacing:.1em;color:#eaf0ff66}@keyframes fadeIn{from{opacity:0}}@keyframes holoIn{from{transform:translateY(10px) scale(.98);filter:brightness(1.12)}}@keyframes toastIn{from{opacity:0;transform:translate(-50%,8px)}}
 @media(max-width:1000px){.workspace{grid-template-columns:290px 1fr}.context-bar,.workspace{margin-inline:12px}.theme-grid{grid-template-columns:repeat(2,1fr)}.insight-strip div{padding-inline:10px}.record-tools{flex-wrap:wrap}.record-search{order:3;flex-basis:100%}}@media(max-width:760px){.topbar{align-items:flex-start}.brand h1{font-size:17px}.context-bar{align-items:stretch;flex-wrap:wrap}.context-select{width:calc(50% - 7px)}.section-tabs{order:3;flex-basis:100%}.manage-btn{margin-left:0}.workspace{grid-template-columns:1fr}.roster-panel{min-height:430px}.roster-list{max-height:260px}.record-panel{min-height:620px}.student-hero{align-items:flex-start}.hero-actions{display:grid}.insight-strip{grid-template-columns:repeat(2,1fr)}.timeline{max-height:none}.form-grid.two,.form-grid.date-kind,.choice-cards,.structure-grid,.export-layout{grid-template-columns:1fr}.structure-grid>section{min-height:220px}.export-layout>aside{border-right:0;border-bottom:1px solid #ffffff17}.theme-grid{grid-template-columns:1fr}.export-preview pre{max-height:480px}footer{margin-inline:14px}}@media(max-width:520px){.topbar{padding:11px 12px}.brand .eyebrow,.local-status{display:none}.top-actions{gap:5px}.context-select{width:100%}.student-hero{display:grid}.hero-actions{grid-template-columns:1fr 1fr}.record-tools,.filter-chips{padding-inline:12px}.timeline{padding-right:12px}.modal-overlay{padding:8px}.holo-modal{max-height:96vh}.toggle-row{display:grid}.theme-grid,.structure-grid{padding:12px}}
-.student-row.archived{opacity:.58}.student-row.archived .student-summary b:after{content:" Â· archived";color:var(--warm);font:8px var(--mono)}
-
-  </style>
+.student-row.archived{opacity:.58}.student-row.archived .student-summary b:after{content:" · archived";color:var(--warm);font:8px var(--mono)}
+.access-challenge{min-height:100vh;display:grid;place-items:center;overflow:hidden}.access-stars{position:fixed;inset:0;pointer-events:none;background:radial-gradient(circle at 18% 24%,var(--accent) 0 1px,transparent 1.6px),radial-gradient(circle at 73% 18%,#fff 0 1px,transparent 1.5px),radial-gradient(circle at 88% 72%,var(--accent) 0 1px,transparent 1.6px),radial-gradient(circle at 23% 81%,#fff 0 1px,transparent 1.5px);background-size:210px 190px,260px 230px,330px 270px,390px 340px;opacity:.2;animation:accessStars 12s linear infinite}.access-console{position:relative;z-index:2;width:min(430px,92vw);padding:48px 44px 34px;text-align:center;border-radius:34px;border:1px solid color-mix(in srgb,var(--accent) 28%,#ffffff18);background:radial-gradient(280px 170px at 50% 0%,color-mix(in srgb,var(--accent) 13%,transparent),transparent 72%),linear-gradient(180deg,color-mix(in srgb,var(--panel) 84%,transparent),color-mix(in srgb,var(--bg0) 78%,transparent));box-shadow:0 0 0 1px color-mix(in srgb,var(--accent) 7%,transparent) inset,0 0 70px var(--glow),0 32px 90px #000b;backdrop-filter:blur(14px);animation:consoleArrive .9s cubic-bezier(.18,.88,.2,1)}.access-console h1{margin:5px 0 3px;font:700 25px var(--serif);letter-spacing:.03em}.access-prompt{margin:22px 0 11px;font:900 10px var(--mono);letter-spacing:.18em;text-transform:uppercase;color:var(--muted)}.access-display{height:50px;display:flex;align-items:center;justify-content:center;gap:13px;margin:0 auto 18px;border-radius:15px;border:1px solid #ffffff18;background:#0003;box-shadow:0 0 18px #0004 inset}.access-display i{width:11px;height:11px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 35%,#ffffff22);background:transparent;transition:.16s ease}.access-display i.filled{background:var(--accent);box-shadow:0 0 8px var(--accent),0 0 18px var(--glow);transform:scale(1.12)}.access-keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:11px}.access-keypad button{position:relative;min-height:55px;border-radius:16px;border:1px solid color-mix(in srgb,var(--accent) 22%,#ffffff18);background:radial-gradient(90px 50px at 50% 0%,color-mix(in srgb,var(--accent) 8%,transparent),transparent 72%),#ffffff0b;color:var(--ink);font:900 17px var(--mono);box-shadow:0 8px 17px #0003,0 0 0 1px #ffffff08 inset;transition:transform .12s,filter .12s,box-shadow .12s}.access-keypad button:hover{filter:brightness(1.18);border-color:color-mix(in srgb,var(--accent) 48%,#fff1);box-shadow:0 0 20px var(--glow)}.access-keypad button:active{transform:translateY(2px) scale(.97);filter:brightness(1.5);box-shadow:0 0 28px var(--glow)}.access-keypad button[data-key="clear"],.access-keypad button[data-key="enter"]{font-size:11px;letter-spacing:.12em}.access-keypad button[data-key="enter"]{color:var(--bg0);background:linear-gradient(180deg,var(--accent),color-mix(in srgb,var(--metal) 75%,var(--accent)))}.access-message{height:20px;margin-top:18px;font:900 9px var(--mono);letter-spacing:.13em;color:#eaf0ff70}.access-orbit{position:absolute;pointer-events:none;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 17%,transparent)}.orbit-one{width:510px;height:510px;left:50%;top:50%;transform:translate(-50%,-50%);border-style:dashed;animation:orbitSpin 30s linear infinite}.orbit-two{width:590px;height:280px;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-16deg);animation:orbitCounter 22s linear infinite}.access-sigil{position:relative;width:62px;height:62px;margin:-20px auto 15px;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 28%,transparent);display:grid;place-items:center;box-shadow:0 0 25px var(--glow)}.access-sigil:before,.access-sigil:after{content:"";position:absolute;border-radius:50%;border:1px solid color-mix(in srgb,var(--accent) 25%,transparent)}.access-sigil:before{inset:8px}.access-sigil:after{inset:18px;background:var(--accent);box-shadow:0 0 18px var(--accent)}.access-sigil i{position:absolute;width:4px;height:4px;border-radius:50%;background:var(--accent);box-shadow:0 0 8px var(--accent)}.access-sigil i:nth-child(1){top:5px}.access-sigil i:nth-child(2){bottom:8px;left:8px}.access-sigil i:nth-child(3){bottom:8px;right:8px}.access-denied .access-console{animation:accessShake .52s ease}.access-denied .access-display{border-color:#ff4d4d;box-shadow:0 0 24px #ff3b3b44}.access-denied .access-message{color:#ff7676}.access-granted .access-console{animation:consoleUnlock 1.05s cubic-bezier(.2,.8,.18,1) forwards}.access-granted .access-display{border-color:var(--accent);box-shadow:0 0 36px var(--glow)}.access-granted .access-message{color:var(--accent);text-shadow:0 0 12px var(--accent)}.access-beam{position:fixed;z-index:4;left:50%;top:0;width:2px;height:100vh;pointer-events:none;background:linear-gradient(transparent,var(--accent),transparent);box-shadow:0 0 20px var(--accent);opacity:0}.access-granted .access-beam{animation:unlockBeam .9s ease-out forwards}@keyframes consoleArrive{from{opacity:0;transform:translateY(24px) scale(.94);filter:brightness(1.5)}}@keyframes orbitSpin{to{transform:translate(-50%,-50%) rotate(360deg)}}@keyframes orbitCounter{to{transform:translate(-50%,-50%) rotate(-376deg)}}@keyframes accessStars{to{background-position:210px 190px,-260px 230px,330px -270px,-390px -340px}}@keyframes accessShake{0%,100%{transform:none}20%{transform:translateX(-11px)}40%{transform:translateX(9px)}60%{transform:translateX(-6px)}80%{transform:translateX(3px)}}@keyframes unlockBeam{0%{opacity:0;transform:scaleY(.05)}28%{opacity:1}100%{opacity:0;transform:scaleX(400) scaleY(1.3)}}@keyframes consoleUnlock{0%{transform:none}35%{filter:brightness(1.6);box-shadow:0 0 100px var(--glow)}100%{opacity:0;transform:scale(1.16);filter:brightness(2)}}
+.settings-layout{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:13px;padding:18px}.settings-card{min-width:0;padding:15px;border-radius:18px;border:1px solid #ffffff18;background:#ffffff06}.settings-card h3,.column-creator h3,.quick-entry-head h3{margin:4px 0 5px;font:700 17px var(--serif)}.settings-card>p,.column-creator p,.quick-entry-head p{margin:0 0 14px;color:var(--muted);font:10px/1.5 var(--mono)}.settings-themes{grid-template-columns:repeat(2,1fr);padding:0}.access-settings{align-content:start;display:grid;gap:12px}.access-settings .backup-warning{margin:3px 0 0}
+.global-search-tools{display:grid;grid-template-columns:minmax(0,1fr) 170px 190px;gap:9px;padding:16px 16px 10px}.global-searchbox{margin:0;padding:0 12px;border-radius:999px}.search-summary{padding:0 18px 12px;font:9px var(--mono);color:var(--muted);border-bottom:1px solid #ffffff14}.global-results{min-height:440px;max-height:67vh;overflow:auto;padding:13px}.global-result{width:100%;display:grid;grid-template-columns:42px minmax(0,1fr) auto;align-items:start;gap:11px;padding:13px;margin-bottom:8px;text-align:left;border-radius:15px;border:1px solid #ffffff16;background:linear-gradient(180deg,#ffffff08,#ffffff04);color:var(--ink)}.global-result:hover{border-color:color-mix(in srgb,var(--accent) 34%,transparent);background:color-mix(in srgb,var(--accent) 7%,transparent);box-shadow:0 0 18px var(--glow)}.global-result>div:nth-child(2){display:grid;gap:3px}.global-result b{font-size:12px}.global-result span{font:9px var(--mono);color:var(--muted)}.global-result p{display:grid;gap:3px;margin:7px 0 0;padding:8px 10px;border-left:2px solid var(--accent);background:#0002;color:#eaf0ffbf;font-size:11px;line-height:1.45}.global-result p strong{font:8px var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}.global-result em{align-self:center;font:normal 9px var(--mono);color:var(--accent);white-space:nowrap}.search-empty{min-height:390px;display:grid;place-content:center;justify-items:center;text-align:center;color:var(--muted)}.search-empty h3{margin:13px 0 2px;color:var(--ink);font-family:var(--serif)}.search-empty p{max-width:440px;font-size:12px;line-height:1.55}
+.column-tabs{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid #ffffff14;overflow:auto}.column-tabs button{min-width:170px;display:grid;gap:3px;padding:9px 11px;text-align:left;border-radius:13px;border:1px solid #ffffff16;background:#ffffff06;color:var(--ink)}.column-tabs button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent);box-shadow:0 0 16px var(--glow)}.column-tabs button b{font:900 10px var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.column-tabs button span{font:8px var(--mono);color:var(--muted)}.column-tabs .new-column{min-width:112px;place-content:center;color:var(--accent);text-align:center;font:900 10px var(--mono)}.column-creator{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px}.column-creator>section{padding:14px;border-radius:17px;border:1px solid #ffffff16;background:#ffffff05}.column-creator>.modal-actions{grid-column:1/-1}.section-picker{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;max-height:360px;overflow:auto}.section-picker label{grid-template-columns:20px minmax(0,1fr);align-items:center;gap:2px 7px;padding:9px;border-radius:12px;border:1px solid #ffffff14;background:#ffffff05;text-transform:none;letter-spacing:0}.section-picker label.active{border-color:color-mix(in srgb,var(--accent) 34%,transparent);background:color-mix(in srgb,var(--accent) 8%,transparent)}.section-picker input{grid-row:1/3;width:15px;height:15px;accent-color:var(--accent)}.section-picker b{font-size:10px;color:var(--ink)}.section-picker span{font:8px var(--mono);color:var(--muted)}.quick-entry-workspace{padding:16px}.quick-entry-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:11px}.bulk-comment{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px;margin-bottom:13px;padding:12px;border-radius:16px;border:1px solid color-mix(in srgb,var(--accent) 20%,#ffffff10);background:color-mix(in srgb,var(--accent) 5%,transparent)}.feedback-grid{border:1px solid #ffffff16;border-radius:17px;overflow:hidden}.feedback-grid-header,.feedback-row{display:grid;grid-template-columns:230px minmax(300px,1fr) 70px;gap:10px;align-items:center}.feedback-grid-header{padding:9px 12px;border-bottom:1px solid #ffffff16;background:#ffffff08;font:900 8px var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--accent)}.feedback-row{padding:9px 12px;border-bottom:1px solid #ffffff10}.feedback-row:last-child{border-bottom:0}.feedback-row>div{display:flex;align-items:center;gap:9px}.feedback-row>div b{font-size:11px}.feedback-row textarea{min-height:65px;resize:vertical}.feedback-row>span{font:900 8px var(--mono);color:#eaf0ff4d}.feedback-row>span.has-feedback{color:var(--accent);text-shadow:0 0 9px var(--glow)}
+@media(max-width:800px){.access-console{padding-inline:28px}.access-orbit{display:none}.settings-layout,.global-search-tools,.column-creator{grid-template-columns:1fr}.settings-themes{grid-template-columns:1fr}.global-result{grid-template-columns:40px minmax(0,1fr)}.global-result em{grid-column:2}.feedback-grid{overflow:auto}.feedback-grid-header,.feedback-row{grid-template-columns:170px minmax(280px,1fr) 60px}.bulk-comment{grid-template-columns:1fr}.section-picker{grid-template-columns:1fr}}
+.record-audit{display:flex;justify-content:space-between;gap:10px;padding:9px 11px;border-radius:12px;border:1px solid #ffffff12;background:#0002;color:var(--muted);font:8px var(--mono)}
+</style>
 </head>
 <body>
-  <div id="root"></div>
+  <div id="root"><main class="loading"><div class="loaderCore">INITIALIZING ARCHIVE</div></main></div>
   <noscript>This application requires JavaScript.</noscript>
   <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
   <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone@7/babel.min.js"></script>
-  <script type="text/babel" data-presets="typescript,react" data-filename="teacher-record-console.tsx">
-const { useEffect, useMemo, useRef, useState } = React;
-type SchoolYear = { id: string; label: string; archived?: boolean };
-type Course = { id: string; yearId: string; name: string; archived?: boolean };
-type Section = { id: string; courseId: string; name: string; archived?: boolean };
-type Student = { id: string; firstName: string; lastName: string; email: string; archived?: boolean; createdAt: string };
-type Enrollment = { id: string; studentId: string; sectionId: string; startDate: string; endDate?: string; active: boolean };
-type RecordKind = "teacher-note" | "official-note" | "writing" | "discussion" | "family" | "conference" | "strength" | "other";
-type StudentRecord = { id: string; studentId: string; enrollmentId?: string; date: string; kind: RecordKind; title?: string; text: string; studentFacing: boolean; pinned: boolean; createdAt: string; updatedAt: string };
-type Theme = "holographic" | "frontierSteel" | "samuraiKintsugi" | "victorianAether" | "artDeco" | "noirTerminal" | "solarTemple" | "deepSea" | "starshipConsole" | "astrometrics" | "imperialDatapad" | "jediArchive" | "cyberpunkArcade" | "auroraGlass" | "obsidianLab" | "brassObservatory" | "volcanicCore" | "arcticCommand";
-type AppData = { format: string; schemaVersion: number; updatedAt: string; years: SchoolYear[]; courses: Course[]; sections: Section[]; students: Student[]; enrollments: Enrollment[]; records: StudentRecord[]; settings: { theme: Theme } };
-type Modal = null | "student" | "record" | "move" | "structure" | "export" | "data" | "themes" | "confirm";
-
-const kinds: { id: RecordKind; label: string; short: string }[] = [
-  { id: "teacher-note", label: "Teacher note", short: "Note" },
-  { id: "official-note", label: "Official note", short: "Official" },
-  { id: "writing", label: "Writing feedback", short: "Writing" },
-  { id: "discussion", label: "Discussion feedback", short: "Discussion" },
-  { id: "family", label: "Family communication", short: "Family" },
-  { id: "conference", label: "Conference note", short: "Conference" },
-  { id: "strength", label: "Celebration / strength", short: "Strength" },
-  { id: "other", label: "Other", short: "Other" },
+  <script>const { useEffect, useMemo, useRef, useState } = React;
+const kinds = [
+    { id: "teacher-note", label: "Teacher note", short: "Note" },
+    { id: "official-note", label: "Official note", short: "Official" },
+    { id: "writing", label: "Writing feedback", short: "Writing" },
+    { id: "discussion", label: "Discussion feedback", short: "Discussion" },
+    { id: "family", label: "Family communication", short: "Family" },
+    { id: "conference", label: "Conference note", short: "Conference" },
+    { id: "strength", label: "Celebration / strength", short: "Strength" },
+    { id: "other", label: "Other", short: "Other" },
 ];
-
-const themes: { id: Theme; label: string; sub: string }[] = [
-  { id: "holographic", label: "Holographic", sub: "Blue glass and cockpit light" },
-  { id: "frontierSteel", label: "Frontier Steel", sub: "Silver metal with amber edge" },
-  { id: "samuraiKintsugi", label: "Samurai Kintsugi", sub: "Ink, lacquer, and gold repair" },
-  { id: "victorianAether", label: "Victorian Aether", sub: "Burgundy and polished metal" },
-  { id: "artDeco", label: "Art Deco Observatory", sub: "Teal glass and brass geometry" },
-  { id: "noirTerminal", label: "Noir Terminal", sub: "Green phosphor and dark chrome" },
-  { id: "solarTemple", label: "Solar Temple", sub: "Bronze, turquoise, and stone" },
-  { id: "deepSea", label: "Deep Sea Console", sub: "Abyssal glass and aged brass" },
-  { id: "starshipConsole", label: "Starship Console", sub: "Amber and slate command glass" },
-  { id: "astrometrics", label: "Astrometrics", sub: "Star-map blue and silver light" },
-  { id: "imperialDatapad", label: "Imperial Datapad", sub: "Black steel and red status light" },
-  { id: "jediArchive", label: "Jedi Archive", sub: "Archive brass and library blue" },
-  { id: "cyberpunkArcade", label: "Cyberpunk Arcade", sub: "Cyan neon and violet edge" },
-  { id: "auroraGlass", label: "Aurora Glass", sub: "Green-violet frosted glass" },
-  { id: "obsidianLab", label: "Obsidian Lab", sub: "Black glass and acid green" },
-  { id: "brassObservatory", label: "Brass Observatory", sub: "Navy star maps and brass" },
-  { id: "volcanicCore", label: "Volcanic Core", sub: "Charcoal and ember light" },
-  { id: "arcticCommand", label: "Arctic Command", sub: "Frosted slate and silver-blue" },
+const themes = [
+    { id: "holographic", label: "Holographic", sub: "Blue glass and cockpit light" },
+    { id: "frontierSteel", label: "Frontier Steel", sub: "Silver metal with amber edge" },
+    { id: "samuraiKintsugi", label: "Samurai Kintsugi", sub: "Ink, lacquer, and gold repair" },
+    { id: "victorianAether", label: "Victorian Aether", sub: "Burgundy and polished metal" },
+    { id: "artDeco", label: "Art Deco Observatory", sub: "Teal glass and brass geometry" },
+    { id: "noirTerminal", label: "Noir Terminal", sub: "Green phosphor and dark chrome" },
+    { id: "solarTemple", label: "Solar Temple", sub: "Bronze, turquoise, and stone" },
+    { id: "deepSea", label: "Deep Sea Console", sub: "Abyssal glass and aged brass" },
+    { id: "starshipConsole", label: "Starship Console", sub: "Amber and slate command glass" },
+    { id: "astrometrics", label: "Astrometrics", sub: "Star-map blue and silver light" },
+    { id: "imperialDatapad", label: "Imperial Datapad", sub: "Black steel and red status light" },
+    { id: "jediArchive", label: "Jedi Archive", sub: "Archive brass and library blue" },
+    { id: "cyberpunkArcade", label: "Cyberpunk Arcade", sub: "Cyan neon and violet edge" },
+    { id: "auroraGlass", label: "Aurora Glass", sub: "Green-violet frosted glass" },
+    { id: "obsidianLab", label: "Obsidian Lab", sub: "Black glass and acid green" },
+    { id: "brassObservatory", label: "Brass Observatory", sub: "Navy star maps and brass" },
+    { id: "volcanicCore", label: "Volcanic Core", sub: "Charcoal and ember light" },
+    { id: "arcticCommand", label: "Arctic Command", sub: "Frosted slate and silver-blue" },
 ];
-
 const isoDate = () => new Date().toISOString().slice(0, 10);
 const stamp = () => new Date().toISOString();
-const uid = (prefix: string) => `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
-const defaultData = (): AppData => {
-  const yearId = uid("yr"), courseId = uid("crs"), sectionA = uid("sec"), sectionB = uid("sec");
-  return {
-    format: "teacher-records-backup", schemaVersion: 1, updatedAt: stamp(),
-    years: [{ id: yearId, label: "2026â€“2027" }],
-    courses: [{ id: courseId, yearId, name: "English 10" }],
-    sections: [{ id: sectionA, courseId, name: "Block A" }, { id: sectionB, courseId, name: "Block B" }],
-    students: [], enrollments: [], records: [], settings: { theme: "holographic" },
-  };
+const uid = (prefix) => `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+const defaultData = () => {
+    const yearId = uid("yr"), courseId = uid("crs"), sectionA = uid("sec"), sectionB = uid("sec");
+    return {
+        format: "teacher-records-backup", schemaVersion: 1, updatedAt: stamp(),
+        years: [{ id: yearId, label: "2026–2027" }],
+        courses: [{ id: courseId, yearId, name: "English 10" }],
+        sections: [{ id: sectionA, courseId, name: "Block A" }, { id: sectionB, courseId, name: "Block B" }],
+        students: [], enrollments: [], records: [], columns: [], settings: { theme: "holographic", accessCode: "111111" },
+    };
 };
-
 const dbName = "teacher-records-console";
-function loadDb(): Promise<AppData | null> {
-  return new Promise((resolve) => {
+function loadDb() {
+    return new Promise((resolve) => {
+        const req = indexedDB.open(dbName, 1);
+        req.onupgradeneeded = () => req.result.createObjectStore("state");
+        req.onerror = () => resolve(null);
+        req.onsuccess = () => {
+            const get = req.result.transaction("state", "readonly").objectStore("state").get("app");
+            get.onsuccess = () => resolve(get.result || null);
+            get.onerror = () => resolve(null);
+        };
+    });
+}
+function saveDb(data) {
     const req = indexedDB.open(dbName, 1);
     req.onupgradeneeded = () => req.result.createObjectStore("state");
-    req.onerror = () => resolve(null);
-    req.onsuccess = () => {
-      const get = req.result.transaction("state", "readonly").objectStore("state").get("app");
-      get.onsuccess = () => resolve((get.result as AppData) || null);
-      get.onerror = () => resolve(null);
-    };
-  });
+    req.onsuccess = () => req.result.transaction("state", "readwrite").objectStore("state").put(data, "app");
 }
-function saveDb(data: AppData) {
-  const req = indexedDB.open(dbName, 1);
-  req.onupgradeneeded = () => req.result.createObjectStore("state");
-  req.onsuccess = () => req.result.transaction("state", "readwrite").objectStore("state").put(data, "app");
-}
-
-function fullName(s?: Student) { return s ? `${s.firstName} ${s.lastName}`.trim() : "Student"; }
-function prettyDate(date: string) { return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
-function kindLabel(kind: RecordKind) { return kinds.find(k => k.id === kind)?.label || "Record"; }
-
+function fullName(s) { return s ? `${s.firstName} ${s.lastName}`.trim() : "Student"; }
+function prettyDate(date) { return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
+function kindLabel(kind) { return kinds.find(k => k.id === kind)?.label || "Record"; }
 function Home() {
-  const [data, setData] = useState<AppData | null>(null);
-  const [yearId, setYearId] = useState("");
-  const [courseId, setCourseId] = useState("");
-  const [sectionId, setSectionId] = useState("");
-  const [studentId, setStudentId] = useState("");
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
-  const [modal, setModal] = useState<Modal>(null);
-  const [search, setSearch] = useState("");
-  const [recordSearch, setRecordSearch] = useState("");
-  const [historyScope, setHistoryScope] = useState<"year" | "all">("year");
-  const [kindFilter, setKindFilter] = useState<RecordKind | "all">("all");
-  const [privacy, setPrivacy] = useState(false);
-  const [showArchived, setShowArchived] = useState(false);
-  const [toast, setToast] = useState("");
-  const [loaded, setLoaded] = useState(false);
-  const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-
-  useEffect(() => { loadDb().then(x => { setData(x || defaultData()); setLoaded(true); }); }, []);
-  useEffect(() => {
-    if (!data || !loaded) return;
-    const next = { ...data, updatedAt: stamp() };
-    saveDb(next);
-  }, [data, loaded]);
-  useEffect(() => {
-    if (!data) return;
-    const y = data.years.find(x => x.id === yearId) || data.years.find(x => !x.archived) || data.years[0];
-    if (y && y.id !== yearId) setYearId(y.id);
-    const c = data.courses.find(x => x.id === courseId && x.yearId === y?.id) || data.courses.find(x => x.yearId === y?.id && !x.archived);
-    if (c && c.id !== courseId) setCourseId(c.id);
-    const s = data.sections.find(x => x.id === sectionId && x.courseId === c?.id) || data.sections.find(x => x.courseId === c?.id && !x.archived);
-    if (s && s.id !== sectionId) setSectionId(s.id);
-  }, [data, yearId, courseId, sectionId]);
-
-  const notify = (message: string) => {
-    setToast(message); if (toastTimer.current) clearTimeout(toastTimer.current);
-    toastTimer.current = setTimeout(() => setToast(""), 2600);
-  };
-  const update = (fn: (d: AppData) => AppData) => setData(d => d ? fn(d) : d);
-  const currentYear = data?.years.find(y => y.id === yearId);
-  const currentCourse = data?.courses.find(c => c.id === courseId);
-  const currentSection = data?.sections.find(s => s.id === sectionId);
-  const selectedStudent = data?.students.find(s => s.id === studentId);
-  const sectionEnrollments = useMemo(() => data?.enrollments.filter(e => e.sectionId === sectionId && e.active) || [], [data, sectionId]);
-  const roster = useMemo(() => {
-    if (!data) return [];
-    const ids = new Set(sectionEnrollments.map(e => e.studentId));
-    const q = search.trim().toLowerCase();
-    return data.students.filter(s => ids.has(s.id) && (showArchived || !s.archived) && (!q || fullName(s).toLowerCase().includes(q) || s.email.toLowerCase().includes(q)))
-      .sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
-  }, [data, sectionEnrollments, search, showArchived]);
-  useEffect(() => { if (roster.length && !roster.some(s => s.id === studentId)) setStudentId(roster[0].id); if (!roster.length) setStudentId(""); }, [roster, studentId]);
-
-  const studentRecords = useMemo(() => {
-    if (!data || !studentId) return [];
-    const yearStudentEnrollmentIds = new Set(data.enrollments.filter(e => e.studentId === studentId && data.sections.some(s => s.id === e.sectionId && data.courses.some(c => c.id === s.courseId && c.yearId === yearId))).map(e => e.id));
-    const q = recordSearch.toLowerCase().trim();
-    return data.records.filter(r => r.studentId === studentId)
-      .filter(r => historyScope === "all" || (r.enrollmentId && yearStudentEnrollmentIds.has(r.enrollmentId)))
-      .filter(r => kindFilter === "all" || r.kind === kindFilter)
-      .filter(r => !q || r.text.toLowerCase().includes(q) || r.title?.toLowerCase().includes(q))
-      .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
-  }, [data, studentId, yearId, historyScope, kindFilter, recordSearch]);
-
-  if (!data) return <main className="loading"><div className="loaderCore">INITIALIZING ARCHIVE</div></main>;
-
-  const activeTheme = data.settings.theme;
-  const toggleSelected = (id: string) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
-  const copy = async (text: string, message: string) => { await navigator.clipboard.writeText(text); notify(message); };
-  const emailIds = selectedIds.length ? selectedIds : roster.map(s => s.id);
-  const copyEmails = () => {
-    const emails = Array.from(new Set(data.students.filter(s => emailIds.includes(s.id)).map(s => s.email.trim()).filter(e => /^\S+@\S+\.\S+$/.test(e))));
-    if (!emails.length) return notify("No valid email addresses selected");
-    copy(emails.join("; "), `${emails.length} email address${emails.length === 1 ? "" : "es"} copied`);
-  };
-
-  return (
-    <main className={`app theme-${activeTheme} ${privacy ? "privacy-on" : ""}`}>
-      <div className="atmosphere" aria-hidden="true" />
-      <header className="topbar">
-        <div className="brand">
-          <span className="eyebrow">LONGITUDINAL STUDENT ARCHIVE</span>
-          <h1>Teacher Record Console</h1>
-          <span className="local-status"><i /> Stored on this device</span>
-        </div>
-        <nav className="top-actions" aria-label="Application controls">
-          <button className="btn ghost" onClick={() => setModal("export")}>â‡§ Export</button>
-          <button className="btn ghost" onClick={() => setModal("data")}>â–£ Data</button>
-          <button className="btn ghost icon-btn" onClick={() => setModal("themes")} title="Choose skin" aria-label="Choose skin">âœ¦</button>
-          <button className={`btn ghost icon-btn ${privacy ? "on" : ""}`} onClick={() => setPrivacy(x => !x)} title="Privacy screen" aria-label="Toggle privacy screen">{privacy ? "â—‰" : "â—Ž"}</button>
-        </nav>
-      </header>
-
-      <section className="context-bar glass">
-        <div className="context-select"><label>School year</label><select value={yearId} onChange={e => { setYearId(e.target.value); setSelectedIds([]); }}>{data.years.filter(y => !y.archived).map(y => <option key={y.id} value={y.id}>{y.label}</option>)}</select></div>
-        <div className="context-select"><label>Class</label><select value={courseId} onChange={e => { setCourseId(e.target.value); setSelectedIds([]); }}>{data.courses.filter(c => c.yearId === yearId && !c.archived).map(c => <option key={c.id} value={c.id}>{c.name}</option>)}</select></div>
-        <div className="section-tabs" role="tablist" aria-label="Sections">
-          {data.sections.filter(s => s.courseId === courseId && !s.archived).map(s => <button key={s.id} className={s.id === sectionId ? "active" : ""} onClick={() => { setSectionId(s.id); setSelectedIds([]); }}>{s.name}<small>{data.enrollments.filter(e => e.sectionId === s.id && e.active).length}</small></button>)}
-        </div>
-        <button className="btn ghost manage-btn" onClick={() => setModal("structure")}>Manage classes</button>
-      </section>
-
-      <section className="workspace">
-        <aside className="roster-panel glass">
-          <div className="panel-head">
-            <div><span className="eyebrow">ACTIVE ROSTER</span><h2>{currentSection?.name || "Section"}</h2></div>
-            <button className="btn primary compact" onClick={() => setModal("student")}>+ Student</button>
-          </div>
-          <div className="searchbox"><span>âŒ•</span><input value={search} onChange={e => setSearch(e.target.value)} placeholder="Find a studentâ€¦" /></div>
-          <div className="bulk-strip">
-            <label className="check-label"><input type="checkbox" checked={!!roster.length && roster.every(s => selectedIds.includes(s.id))} onChange={e => setSelectedIds(e.target.checked ? roster.map(s => s.id) : [])} /> {selectedIds.length ? `${selectedIds.length} selected` : "Select all"}</label>
-            <div><button onClick={copyEmails} title="Copy semicolon-separated email list">@ Emails</button>{selectedIds.length > 0 && <button onClick={() => setModal("move")}>â‡„ Move</button>}</div>
-          </div>
-          <div className="roster-list">
-            {!roster.length && <EmptyRoster onAdd={() => setModal("student")} />}
-            {roster.map(s => {
-              const count = data.records.filter(r => r.studentId === s.id).length;
-              return <article key={s.id} className={`student-row ${s.id === studentId ? "active" : ""} ${s.archived ? "archived" : ""}`} onClick={() => setStudentId(s.id)}>
-                <input type="checkbox" checked={selectedIds.includes(s.id)} onClick={e => e.stopPropagation()} onChange={() => toggleSelected(s.id)} aria-label={`Select ${fullName(s)}`} />
-                <div className="avatar">{s.firstName[0]}{s.lastName[0]}</div>
-                <div className="student-summary"><b className="sensitive">{fullName(s)}</b><span className="sensitive">{s.email || "No email"}</span></div>
-                <span className="record-count">{count}</span>
-              </article>;
-            })}
-          </div>
-          <div className="roster-foot"><button onClick={() => setShowArchived(x => !x)}>{showArchived ? "Hide archived" : "Show archived"}</button><button onClick={() => { if (selectedStudent) copy(selectedStudent.email, "Email address copied"); }} disabled={!selectedStudent?.email}>Copy current email</button></div>
-        </aside>
-
-        <section className="record-panel glass">
-          {selectedStudent ? <>
-            <div className="student-hero">
-              <div className="hero-identity"><div className="large-avatar">{selectedStudent.firstName[0]}{selectedStudent.lastName[0]}</div><div><span className="eyebrow">STUDENT PROFILE</span><h2 className="sensitive">{fullName(selectedStudent)}</h2><button className="email-link sensitive" onClick={() => copy(selectedStudent.email, "Email address copied")}>{selectedStudent.email || "Add email address"} <span>â–¡</span></button></div></div>
-              <div className="hero-actions"><button className="btn ghost" onClick={() => { update(d => ({ ...d, students: d.students.map(s => s.id === studentId ? { ...s, archived: !s.archived } : s) })); notify(selectedStudent.archived ? "Student restored to active roster" : "Student archived"); }}>{selectedStudent.archived ? "Restore" : "Archive"}</button><button className="btn ghost" onClick={() => setModal("move")}>Switch section</button><button className="btn primary" onClick={() => setModal("record")}>+ Add record</button></div>
-            </div>
-
-            <div className="insight-strip">
-              <div><b>{data.records.filter(r => r.studentId === studentId).length}</b><span>Total records</span></div>
-              <div><b>{data.records.filter(r => r.studentId === studentId && r.kind === "writing").length}</b><span>Writing notes</span></div>
-              <div><b>{data.records.filter(r => r.studentId === studentId && r.kind === "discussion").length}</b><span>Discussion notes</span></div>
-              <div><b>{data.records.filter(r => r.studentId === studentId && r.pinned).length}</b><span>Follow-ups</span></div>
-            </div>
-
-            <div className="record-tools">
-              <div className="scope-toggle"><button className={historyScope === "year" ? "active" : ""} onClick={() => setHistoryScope("year")}>{currentYear?.label || "Current year"}</button><button className={historyScope === "all" ? "active" : ""} onClick={() => setHistoryScope("all")}>All years</button></div>
-              <div className="record-search"><span>âŒ•</span><input value={recordSearch} onChange={e => setRecordSearch(e.target.value)} placeholder="Search this recordâ€¦" /></div>
-              <button className="btn ghost compact" onClick={() => setModal("export")}>Copy record</button>
-            </div>
-            <div className="filter-chips"><button className={kindFilter === "all" ? "active" : ""} onClick={() => setKindFilter("all")}>All</button>{kinds.map(k => <button key={k.id} className={kindFilter === k.id ? "active" : ""} onClick={() => setKindFilter(k.id)}>{k.short}</button>)}</div>
-
-            <div className="timeline">
-              {!studentRecords.length && <div className="empty-records"><div className="holo-symbol">ï¼‹</div><h3>No records in this view</h3><p>Capture a quick observation, feedback, or a note for later.</p><button className="btn primary" onClick={() => setModal("record")}>Add the first record</button></div>}
-              {studentRecords.map(r => <RecordCard key={r.id} record={r} onTogglePin={() => update(d => ({ ...d, records: d.records.map(x => x.id === r.id ? { ...x, pinned: !x.pinned, updatedAt: stamp() } : x) }))} onDelete={() => { if (confirm("Delete this record permanently?")) update(d => ({ ...d, records: d.records.filter(x => x.id !== r.id) })); }} />)}
-            </div>
-          </> : <div className="empty-student"><div className="holo-symbol">â—‡</div><span className="eyebrow">READY FOR A ROSTER</span><h2>Add your first student</h2><p>Records, feedback, and observations will appear here as a searchable timeline.</p><button className="btn primary" onClick={() => setModal("student")}>+ Add student</button></div>}
-        </section>
-      </section>
-
-      <footer><span>LOW POWER MODE Â· LOCAL DATABASE</span><span>{data.records.length} records across {data.students.length} students</span></footer>
-
-      {modal === "student" && <StudentModal data={data} sectionId={sectionId} onClose={() => setModal(null)} onSave={(student, enrollment) => { update(d => ({ ...d, students: [...d.students, student], enrollments: [...d.enrollments, enrollment] })); setStudentId(student.id); setModal(null); notify(`${fullName(student)} added`); }} />}
-      {modal === "record" && selectedStudent && <RecordModal student={selectedStudent} enrollment={sectionEnrollments.find(e => e.studentId === studentId)} onClose={() => setModal(null)} onSave={record => { update(d => ({ ...d, records: [record, ...d.records] })); setModal(null); notify("Record saved"); }} />}
-      {modal === "move" && <MoveModal data={data} studentIds={selectedIds.length ? selectedIds : studentId ? [studentId] : []} currentSectionId={sectionId} onClose={() => setModal(null)} onMove={(target, correction) => { update(d => moveStudents(d, selectedIds.length ? selectedIds : [studentId], sectionId, target, correction)); setSectionId(target); setSelectedIds([]); setModal(null); notify("Section placement updated"); }} />}
-      {modal === "structure" && <StructureModal data={data} activeYearId={yearId} onClose={() => setModal(null)} onUpdate={update} onSelect={(y, c, s) => { setYearId(y); setCourseId(c); setSectionId(s); setModal(null); }} />}
-      {modal === "export" && <ExportModal data={data} yearId={yearId} courseId={courseId} sectionId={sectionId} studentId={studentId} selectedIds={selectedIds} onClose={() => setModal(null)} notify={notify} />}
-      {modal === "data" && <DataModal data={data} onClose={() => setModal(null)} onImport={incoming => { setData(incoming); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }} notify={notify} />}
-      {modal === "themes" && <ThemeModal selected={activeTheme} onClose={() => setModal(null)} onSelect={theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); }} />}
-      {toast && <div className="toast" role="status"><i />{toast}</div>}
-    </main>
-  );
+    const [data, setData] = useState(null);
+    const [yearId, setYearId] = useState("");
+    const [courseId, setCourseId] = useState("");
+    const [sectionId, setSectionId] = useState("");
+    const [studentId, setStudentId] = useState("");
+    const [selectedIds, setSelectedIds] = useState([]);
+    const [modal, setModal] = useState(null);
+    const [search, setSearch] = useState("");
+    const [recordSearch, setRecordSearch] = useState("");
+    const [historyScope, setHistoryScope] = useState("year");
+    const [kindFilter, setKindFilter] = useState("all");
+    const [privacy, setPrivacy] = useState(false);
+    const [showArchived, setShowArchived] = useState(false);
+    const [editingRecordId, setEditingRecordId] = useState("");
+    const [toast, setToast] = useState("");
+    const [loaded, setLoaded] = useState(false);
+    const [unlocked, setUnlocked] = useState(false);
+    const toastTimer = useRef(null);
+    useEffect(() => { loadDb().then(x => { setData(x || defaultData()); setLoaded(true); }); }, []);
+    useEffect(() => {
+        if (!data || !loaded)
+            return;
+        const next = { ...data, updatedAt: stamp() };
+        saveDb(next);
+    }, [data, loaded]);
+    useEffect(() => {
+        if (!data)
+            return;
+        const y = data.years.find(x => x.id === yearId) || data.years.find(x => !x.archived) || data.years[0];
+        if (y && y.id !== yearId)
+            setYearId(y.id);
+        const c = data.courses.find(x => x.id === courseId && x.yearId === y?.id) || data.courses.find(x => x.yearId === y?.id && !x.archived);
+        if (c && c.id !== courseId)
+            setCourseId(c.id);
+        const s = data.sections.find(x => x.id === sectionId && x.courseId === c?.id) || data.sections.find(x => x.courseId === c?.id && !x.archived);
+        if (s && s.id !== sectionId)
+            setSectionId(s.id);
+    }, [data, yearId, courseId, sectionId]);
+    const notify = (message) => {
+        setToast(message);
+        if (toastTimer.current)
+            clearTimeout(toastTimer.current);
+        toastTimer.current = setTimeout(() => setToast(""), 2600);
+    };
+    const update = (fn) => setData(d => d ? fn(d) : d);
+    const currentYear = data?.years.find(y => y.id === yearId);
+    const currentCourse = data?.courses.find(c => c.id === courseId);
+    const currentSection = data?.sections.find(s => s.id === sectionId);
+    const selectedStudent = data?.students.find(s => s.id === studentId);
+    const sectionEnrollments = useMemo(() => data?.enrollments.filter(e => e.sectionId === sectionId && e.active) || [], [data, sectionId]);
+    const roster = useMemo(() => {
+        if (!data)
+            return [];
+        const ids = new Set(sectionEnrollments.map(e => e.studentId));
+        const q = search.trim().toLowerCase();
+        return data.students.filter(s => ids.has(s.id) && (showArchived || !s.archived) && (!q || fullName(s).toLowerCase().includes(q) || s.email.toLowerCase().includes(q)))
+            .sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
+    }, [data, sectionEnrollments, search, showArchived]);
+    useEffect(() => { if (roster.length && !roster.some(s => s.id === studentId))
+        setStudentId(roster[0].id); if (!roster.length)
+        setStudentId(""); }, [roster, studentId]);
+    const studentRecords = useMemo(() => {
+        if (!data || !studentId)
+            return [];
+        const yearStudentEnrollmentIds = new Set(data.enrollments.filter(e => e.studentId === studentId && data.sections.some(s => s.id === e.sectionId && data.courses.some(c => c.id === s.courseId && c.yearId === yearId))).map(e => e.id));
+        const q = recordSearch.toLowerCase().trim();
+        return data.records.filter(r => r.studentId === studentId)
+            .filter(r => historyScope === "all" || (r.enrollmentId && yearStudentEnrollmentIds.has(r.enrollmentId)))
+            .filter(r => kindFilter === "all" || r.kind === kindFilter)
+            .filter(r => !q || r.text.toLowerCase().includes(q) || r.title?.toLowerCase().includes(q))
+            .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
+    }, [data, studentId, yearId, historyScope, kindFilter, recordSearch]);
+    if (!data)
+        return React.createElement("main", { className: "loading" },
+            React.createElement("div", { className: "loaderCore" }, "INITIALIZING ARCHIVE"));
+    if (!unlocked)
+        return React.createElement(AccessChallenge, { theme: data.settings.theme, accessCode: data.settings.accessCode || "111111", onUnlock: () => setUnlocked(true) });
+    const activeTheme = data.settings.theme;
+    const toggleSelected = (id) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
+    const copy = async (text, message) => { await navigator.clipboard.writeText(text); notify(message); };
+    const emailIds = selectedIds.length ? selectedIds : roster.map(s => s.id);
+    const copyEmails = () => {
+        const emails = Array.from(new Set(data.students.filter(s => emailIds.includes(s.id)).map(s => s.email.trim()).filter(e => /^\S+@\S+\.\S+$/.test(e))));
+        if (!emails.length)
+            return notify("No valid email addresses selected");
+        copy(emails.join("; "), `${emails.length} email address${emails.length === 1 ? "" : "es"} copied`);
+    };
+    return (React.createElement("main", { className: `app theme-${activeTheme} ${privacy ? "privacy-on" : ""}` },
+        React.createElement("div", { className: "atmosphere", "aria-hidden": "true" }),
+        React.createElement("header", { className: "topbar" },
+            React.createElement("div", { className: "brand" },
+                React.createElement("span", { className: "eyebrow" }, "LONGITUDINAL STUDENT ARCHIVE"),
+                React.createElement("h1", null, "Teacher Record Console"),
+                React.createElement("span", { className: "local-status" },
+                    React.createElement("i", null),
+                    " Stored on this device")),
+            React.createElement("nav", { className: "top-actions", "aria-label": "Application controls" },
+                React.createElement("button", { className: "btn ghost", onClick: () => setModal("search") }, "\u2315 Search"),
+                React.createElement("button", { className: "btn primary", onClick: () => setModal("quick") }, "\u25A6 Quick entry"),
+                React.createElement("button", { className: "btn ghost", onClick: () => setModal("export") }, "\u21E7 Export"),
+                React.createElement("button", { className: "btn ghost", onClick: () => setModal("data") }, "\u25A3 Data"),
+                React.createElement("button", { className: "btn ghost icon-btn", onClick: () => setModal("settings"), title: "Settings", "aria-label": "Open settings" }, "\u2699"),
+                React.createElement("button", { className: `btn ghost icon-btn ${privacy ? "on" : ""}`, onClick: () => setPrivacy(x => !x), title: "Privacy screen", "aria-label": "Toggle privacy screen" }, privacy ? "◉" : "◎"))),
+        React.createElement("section", { className: "context-bar glass" },
+            React.createElement("div", { className: "context-select" },
+                React.createElement("label", null, "School year"),
+                React.createElement("select", { value: yearId, onChange: e => { setYearId(e.target.value); setSelectedIds([]); } }, data.years.filter(y => !y.archived).map(y => React.createElement("option", { key: y.id, value: y.id }, y.label)))),
+            React.createElement("div", { className: "context-select" },
+                React.createElement("label", null, "Class"),
+                React.createElement("select", { value: courseId, onChange: e => { setCourseId(e.target.value); setSelectedIds([]); } }, data.courses.filter(c => c.yearId === yearId && !c.archived).map(c => React.createElement("option", { key: c.id, value: c.id }, c.name)))),
+            React.createElement("div", { className: "section-tabs", role: "tablist", "aria-label": "Sections" }, data.sections.filter(s => s.courseId === courseId && !s.archived).map(s => React.createElement("button", { key: s.id, className: s.id === sectionId ? "active" : "", onClick: () => { setSectionId(s.id); setSelectedIds([]); } },
+                s.name,
+                React.createElement("small", null, data.enrollments.filter(e => e.sectionId === s.id && e.active).length)))),
+            React.createElement("button", { className: "btn ghost manage-btn", onClick: () => setModal("structure") }, "Manage classes")),
+        React.createElement("section", { className: "workspace" },
+            React.createElement("aside", { className: "roster-panel glass" },
+                React.createElement("div", { className: "panel-head" },
+                    React.createElement("div", null,
+                        React.createElement("span", { className: "eyebrow" }, "ACTIVE ROSTER"),
+                        React.createElement("h2", null, currentSection?.name || "Section")),
+                    React.createElement("button", { className: "btn primary compact", onClick: () => setModal("student") }, "+ Student")),
+                React.createElement("div", { className: "searchbox" },
+                    React.createElement("span", null, "\u2315"),
+                    React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: "Find a student\u2026" })),
+                React.createElement("div", { className: "bulk-strip" },
+                    React.createElement("label", { className: "check-label" },
+                        React.createElement("input", { type: "checkbox", checked: !!roster.length && roster.every(s => selectedIds.includes(s.id)), onChange: e => setSelectedIds(e.target.checked ? roster.map(s => s.id) : []) }),
+                        " ",
+                        selectedIds.length ? `${selectedIds.length} selected` : "Select all"),
+                    React.createElement("div", null,
+                        React.createElement("button", { onClick: copyEmails, title: "Copy semicolon-separated email list" }, "@ Emails"),
+                        selectedIds.length > 0 && React.createElement("button", { onClick: () => setModal("move") }, "\u21C4 Move"))),
+                React.createElement("div", { className: "roster-list" },
+                    !roster.length && React.createElement(EmptyRoster, { onAdd: () => setModal("student") }),
+                    roster.map(s => {
+                        const count = data.records.filter(r => r.studentId === s.id).length;
+                        return React.createElement("article", { key: s.id, className: `student-row ${s.id === studentId ? "active" : ""} ${s.archived ? "archived" : ""}`, onClick: () => setStudentId(s.id) },
+                            React.createElement("input", { type: "checkbox", checked: selectedIds.includes(s.id), onClick: e => e.stopPropagation(), onChange: () => toggleSelected(s.id), "aria-label": `Select ${fullName(s)}` }),
+                            React.createElement("div", { className: "avatar" },
+                                s.firstName[0],
+                                s.lastName[0]),
+                            React.createElement("div", { className: "student-summary" },
+                                React.createElement("b", { className: "sensitive" }, fullName(s)),
+                                React.createElement("span", { className: "sensitive" }, s.email || "No email")),
+                            React.createElement("span", { className: "record-count" }, count));
+                    })),
+                React.createElement("div", { className: "roster-foot" },
+                    React.createElement("button", { onClick: () => setShowArchived(x => !x) }, showArchived ? "Hide archived" : "Show archived"),
+                    React.createElement("button", { onClick: () => { if (selectedStudent)
+                            copy(selectedStudent.email, "Email address copied"); }, disabled: !selectedStudent?.email }, "Copy current email"))),
+            React.createElement("section", { className: "record-panel glass" }, selectedStudent ? React.createElement(React.Fragment, null,
+                React.createElement("div", { className: "student-hero" },
+                    React.createElement("div", { className: "hero-identity" },
+                        React.createElement("div", { className: "large-avatar" },
+                            selectedStudent.firstName[0],
+                            selectedStudent.lastName[0]),
+                        React.createElement("div", null,
+                            React.createElement("span", { className: "eyebrow" }, "STUDENT PROFILE"),
+                            React.createElement("h2", { className: "sensitive" }, fullName(selectedStudent)),
+                            React.createElement("button", { className: "email-link sensitive", onClick: () => copy(selectedStudent.email, "Email address copied") },
+                                selectedStudent.email || "Add email address",
+                                " ",
+                                React.createElement("span", null, "\u25A1")))),
+                    React.createElement("div", { className: "hero-actions" },
+                        React.createElement("button", { className: "btn ghost", onClick: () => { update(d => ({ ...d, students: d.students.map(s => s.id === studentId ? { ...s, archived: !s.archived } : s) })); notify(selectedStudent.archived ? "Student restored to active roster" : "Student archived"); } }, selectedStudent.archived ? "Restore" : "Archive"),
+                        React.createElement("button", { className: "btn ghost", onClick: () => setModal("move") }, "Switch section"),
+                        React.createElement("button", { className: "btn primary", onClick: () => setModal("record") }, "+ Add record"))),
+                React.createElement("div", { className: "insight-strip" },
+                    React.createElement("div", null,
+                        React.createElement("b", null, data.records.filter(r => r.studentId === studentId).length),
+                        React.createElement("span", null, "Total records")),
+                    React.createElement("div", null,
+                        React.createElement("b", null, data.records.filter(r => r.studentId === studentId && r.kind === "writing").length),
+                        React.createElement("span", null, "Writing notes")),
+                    React.createElement("div", null,
+                        React.createElement("b", null, data.records.filter(r => r.studentId === studentId && r.kind === "discussion").length),
+                        React.createElement("span", null, "Discussion notes")),
+                    React.createElement("div", null,
+                        React.createElement("b", null, data.records.filter(r => r.studentId === studentId && r.pinned).length),
+                        React.createElement("span", null, "Follow-ups"))),
+                React.createElement("div", { className: "record-tools" },
+                    React.createElement("div", { className: "scope-toggle" },
+                        React.createElement("button", { className: historyScope === "year" ? "active" : "", onClick: () => setHistoryScope("year") }, currentYear?.label || "Current year"),
+                        React.createElement("button", { className: historyScope === "all" ? "active" : "", onClick: () => setHistoryScope("all") }, "All years")),
+                    React.createElement("div", { className: "record-search" },
+                        React.createElement("span", null, "\u2315"),
+                        React.createElement("input", { value: recordSearch, onChange: e => setRecordSearch(e.target.value), placeholder: "Search this record\u2026" })),
+                    React.createElement("button", { className: "btn ghost compact", onClick: () => setModal("export") }, "Copy record")),
+                React.createElement("div", { className: "filter-chips" },
+                    React.createElement("button", { className: kindFilter === "all" ? "active" : "", onClick: () => setKindFilter("all") }, "All"),
+                    kinds.map(k => React.createElement("button", { key: k.id, className: kindFilter === k.id ? "active" : "", onClick: () => setKindFilter(k.id) }, k.short))),
+                React.createElement("div", { className: "timeline" },
+                    !studentRecords.length && React.createElement("div", { className: "empty-records" },
+                        React.createElement("div", { className: "holo-symbol" }, "\uFF0B"),
+                        React.createElement("h3", null, "No records in this view"),
+                        React.createElement("p", null, "Capture a quick observation, feedback, or a note for later."),
+                        React.createElement("button", { className: "btn primary", onClick: () => setModal("record") }, "Add the first record")),
+                    studentRecords.map(r => React.createElement(RecordCard, { key: r.id, record: r, onEdit: () => { setEditingRecordId(r.id); setModal("editRecord"); }, onTogglePin: () => update(d => ({ ...d, records: d.records.map(x => x.id === r.id ? { ...x, pinned: !x.pinned, updatedAt: stamp() } : x) })), onDelete: () => { if (confirm("Delete this record permanently?"))
+                            update(d => ({ ...d, records: d.records.filter(x => x.id !== r.id) })); } })))) : React.createElement("div", { className: "empty-student" },
+                React.createElement("div", { className: "holo-symbol" }, "\u25C7"),
+                React.createElement("span", { className: "eyebrow" }, "READY FOR A ROSTER"),
+                React.createElement("h2", null, "Add your first student"),
+                React.createElement("p", null, "Records, feedback, and observations will appear here as a searchable timeline."),
+                React.createElement("button", { className: "btn primary", onClick: () => setModal("student") }, "+ Add student")))),
+        React.createElement("footer", null,
+            React.createElement("span", null, "LOW POWER MODE \u00B7 LOCAL DATABASE"),
+            React.createElement("span", null,
+                data.records.length,
+                " records across ",
+                data.students.length,
+                " students")),
+        modal === "student" && React.createElement(StudentModal, { data: data, sectionId: sectionId, onClose: () => setModal(null), onSave: (student, enrollment) => { update(d => ({ ...d, students: [...d.students, student], enrollments: [...d.enrollments, enrollment] })); setStudentId(student.id); setModal(null); notify(`${fullName(student)} added`); } }),
+        modal === "record" && selectedStudent && React.createElement(RecordModal, { student: selectedStudent, enrollment: sectionEnrollments.find(e => e.studentId === studentId), onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: [record, ...d.records] })); setModal(null); notify("Record saved"); } }),
+        modal === "editRecord" && data.records.find(r => r.id === editingRecordId) && React.createElement(EditRecordModal, { record: data.records.find(r => r.id === editingRecordId), student: data.students.find(s => s.id === data.records.find(r => r.id === editingRecordId).studentId), onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: d.records.map(r => r.id === record.id ? record : r) })); setModal(null); notify("Record updated"); } }),
+        modal === "move" && React.createElement(MoveModal, { data: data, studentIds: selectedIds.length ? selectedIds : studentId ? [studentId] : [], currentSectionId: sectionId, onClose: () => setModal(null), onMove: (target, correction) => { update(d => moveStudents(d, selectedIds.length ? selectedIds : [studentId], sectionId, target, correction)); setSectionId(target); setSelectedIds([]); setModal(null); notify("Section placement updated"); } }),
+        modal === "structure" && React.createElement(StructureModal, { data: data, activeYearId: yearId, onClose: () => setModal(null), onUpdate: update, onSelect: (y, c, s) => { setYearId(y); setCourseId(c); setSectionId(s); setModal(null); } }),
+        modal === "export" && React.createElement(ExportModal, { data: data, yearId: yearId, courseId: courseId, sectionId: sectionId, studentId: studentId, selectedIds: selectedIds, onClose: () => setModal(null), notify: notify }),
+        modal === "data" && React.createElement(DataModal, { data: data, onClose: () => setModal(null), onImport: incoming => { setData(incoming); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }, notify: notify }),
+        modal === "themes" && React.createElement(ThemeModal, { selected: activeTheme, onClose: () => setModal(null), onSelect: theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); } }),
+        modal === "settings" && React.createElement(SettingsModal, { data: data, onClose: () => setModal(null), onUpdate: update, notify: notify }),
+        modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
+        modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, onClose: () => setModal(null), onUpdate: update, notify: notify }),
+        toast && React.createElement("div", { className: "toast", role: "status" },
+            React.createElement("i", null),
+            toast)));
+}
+function EmptyRoster({ onAdd }) { return React.createElement("div", { className: "empty-roster" },
+    React.createElement("span", null, "ROSTER EMPTY"),
+    React.createElement("p", null, "Add students one at a time. Bulk roster import can come next."),
+    React.createElement("button", { onClick: onAdd }, "+ Add a student")); }
+function AccessChallenge({ theme, accessCode, onUnlock }) {
+    const [buffer, setBuffer] = useState("");
+    const [status, setStatus] = useState("idle");
+    const submit = () => {
+        if (status !== "idle")
+            return;
+        if (buffer === accessCode) {
+            setStatus("granted");
+            setTimeout(onUnlock, 1050);
+        }
+        else {
+            setStatus("denied");
+            setTimeout(() => { setBuffer(""); setStatus("idle"); }, 650);
+        }
+    };
+    const enter = (key) => {
+        if (status !== "idle")
+            return;
+        if (key === "clear")
+            setBuffer("");
+        else if (key === "enter")
+            submit();
+        else if (/^\d$/.test(key) && buffer.length < 6)
+            setBuffer(x => x + key);
+    };
+    useEffect(() => {
+        const keydown = (event) => {
+            if (/^\d$/.test(event.key)) {
+                enter(event.key);
+                event.preventDefault();
+            }
+            else if (event.key === "Backspace") {
+                setBuffer(x => x.slice(0, -1));
+                event.preventDefault();
+            }
+            else if (event.key === "Escape") {
+                setBuffer("");
+                event.preventDefault();
+            }
+            else if (event.key === "Enter") {
+                submit();
+                event.preventDefault();
+            }
+        };
+        window.addEventListener("keydown", keydown);
+        return () => window.removeEventListener("keydown", keydown);
+    });
+    const keys = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "clear", "0", "enter"];
+    return React.createElement("main", { className: `app access-challenge theme-${theme} access-${status}` },
+        React.createElement("div", { className: "atmosphere", "aria-hidden": "true" }),
+        React.createElement("div", { className: "access-stars", "aria-hidden": "true" }),
+        React.createElement("section", { className: "access-console", "aria-label": "Teacher Record Console access challenge" },
+            React.createElement("div", { className: "access-orbit orbit-one", "aria-hidden": "true" }),
+            React.createElement("div", { className: "access-orbit orbit-two", "aria-hidden": "true" }),
+            React.createElement("div", { className: "access-sigil", "aria-hidden": "true" },
+                React.createElement("i", null),
+                React.createElement("i", null),
+                React.createElement("i", null)),
+            React.createElement("span", { className: "eyebrow" }, "LONGITUDINAL STUDENT ARCHIVE"),
+            React.createElement("h1", null, "Teacher Record Console"),
+            React.createElement("p", { className: "access-prompt" }, "Enter access code"),
+            React.createElement("div", { className: `access-display ${status}`, "aria-label": `${buffer.length} of 6 digits entered` }, Array.from({ length: 6 }, (_, index) => React.createElement("i", { key: index, className: index < buffer.length ? "filled" : "" }))),
+            React.createElement("div", { className: "access-keypad" }, keys.map(key => React.createElement("button", { key: key, type: "button", "data-key": key, onClick: () => enter(key), "aria-label": key === "clear" ? "Clear" : key === "enter" ? "Go" : `Digit ${key}` }, key === "clear" ? "CLR" : key === "enter" ? "GO" : key))),
+            React.createElement("div", { className: "access-message", role: "status" }, status === "denied" ? "ACCESS DENIED" : status === "granted" ? "IDENTITY CONFIRMED" : "LOCAL RECORDS · DEVICE-ONLY STORAGE")),
+        React.createElement("div", { className: "access-beam", "aria-hidden": "true" }));
+}
+function SettingsModal({ data, onClose, onUpdate, notify }) {
+    const [current, setCurrent] = useState("");
+    const [next, setNext] = useState("");
+    const [confirmCode, setConfirmCode] = useState("");
+    const saveCode = () => {
+        const stored = data.settings.accessCode || "111111";
+        if (current !== stored)
+            return notify("Current access code is incorrect");
+        if (!/^\d{6}$/.test(next))
+            return notify("New code must be exactly six digits");
+        if (next !== confirmCode)
+            return notify("New codes do not match");
+        onUpdate(d => ({ ...d, settings: { ...d.settings, accessCode: next } }));
+        setCurrent("");
+        setNext("");
+        setConfirmCode("");
+        notify("Access code updated");
+    };
+    return React.createElement(ModalShell, { title: "Settings", subtitle: "APPEARANCE \u00B7 ACCESS", onClose: onClose, wide: true },
+        React.createElement("div", { className: "settings-layout" },
+            React.createElement("section", { className: "settings-card" },
+                React.createElement("span", { className: "eyebrow" }, "INTERFACE SKIN"),
+                React.createElement("h3", null, "Visual atmosphere"),
+                React.createElement("p", null, "All skins use the same low-power interface and local data."),
+                React.createElement("div", { className: "theme-grid settings-themes" }, themes.map(t => React.createElement("button", { key: t.id, className: `theme-card theme-${t.id} ${data.settings.theme === t.id ? "selected" : ""}`, onClick: () => { onUpdate(d => ({ ...d, settings: { ...d.settings, theme: t.id } })); notify(`${t.label} skin applied`); } },
+                    React.createElement("i", null),
+                    React.createElement("b", null, t.label),
+                    React.createElement("span", null, t.sub))))),
+            React.createElement("section", { className: "settings-card access-settings" },
+                React.createElement("span", { className: "eyebrow" }, "ACCESS CHALLENGE"),
+                React.createElement("h3", null, "Change keypad code"),
+                React.createElement("p", null, "The console locks again whenever the page is reloaded or reopened."),
+                React.createElement("label", null,
+                    "Current six-digit code",
+                    React.createElement("input", { type: "password", inputMode: "numeric", maxLength: 6, value: current, onChange: e => setCurrent(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
+                React.createElement("label", null,
+                    "New six-digit code",
+                    React.createElement("input", { type: "password", inputMode: "numeric", maxLength: 6, value: next, onChange: e => setNext(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
+                React.createElement("label", null,
+                    "Confirm new code",
+                    React.createElement("input", { type: "password", inputMode: "numeric", maxLength: 6, value: confirmCode, onChange: e => setConfirmCode(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
+                React.createElement("button", { className: "btn primary", onClick: saveCode }, "Update access code"),
+                React.createElement("div", { className: "backup-warning" }, "The code is stored on this device with the rest of the application settings. It is a privacy screen, not encryption."))),
+        React.createElement("div", { className: "modal-actions padded" },
+            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")));
+}
+function GlobalSearchModal({ data, onClose, onOpenStudent }) {
+    const [query, setQuery] = useState("");
+    const [yearFilter, setYearFilter] = useState("all");
+    const [typeFilter, setTypeFilter] = useState("all");
+    const terms = query.toLowerCase().trim().split(/\s+/).filter(Boolean);
+    const results = useMemo(() => {
+        if (!terms.length)
+            return [];
+        return data.students.map(student => {
+            const enrollments = data.enrollments.filter(e => e.studentId === student.id);
+            const allowedEnrollmentIds = new Set(enrollments.filter(e => yearFilter === "all" || data.sections.some(s => s.id === e.sectionId && data.courses.some(c => c.id === s.courseId && c.yearId === yearFilter))).map(e => e.id));
+            const records = data.records.filter(r => r.studentId === student.id && (yearFilter === "all" || !!r.enrollmentId && allowedEnrollmentIds.has(r.enrollmentId)) && (typeFilter === "all" || r.kind === typeFilter));
+            const recordText = records.map(r => `${r.title || ""} ${r.text} ${(data.columns || []).find(c => c.id === r.columnId)?.title || ""} ${kindLabel(r.kind)}`).join(" ").toLowerCase();
+            const enrollmentText = enrollments.map(e => { const sec = data.sections.find(s => s.id === e.sectionId), course = data.courses.find(c => c.id === sec?.courseId), year = data.years.find(y => y.id === course?.yearId); return `${sec?.name || ""} ${course?.name || ""} ${year?.label || ""}`; }).join(" ").toLowerCase();
+            const haystack = `${fullName(student)} ${student.email} ${recordText} ${enrollmentText}`.toLowerCase();
+            if (!terms.every(term => haystack.includes(term)))
+                return null;
+            const matches = records.filter(r => terms.some(term => `${r.title || ""} ${r.text} ${(data.columns || []).find(c => c.id === r.columnId)?.title || ""}`.toLowerCase().includes(term))).sort((a, b) => b.date.localeCompare(a.date));
+            const enrollment = enrollments.find(e => e.active) || enrollments[enrollments.length - 1];
+            const section = data.sections.find(s => s.id === enrollment?.sectionId), course = data.courses.find(c => c.id === section?.courseId);
+            return { student, matches, section, course, year: data.years.find(y => y.id === course?.yearId) };
+        }).filter(Boolean).sort((a, b) => (a.student.lastName.localeCompare(b.student.lastName)));
+    }, [data, terms.join("|"), yearFilter, typeFilter]);
+    return React.createElement(ModalShell, { title: "Search the complete archive", subtitle: "ALL STUDENTS \u00B7 ALL YEARS \u00B7 ALL RECORDS", onClose: onClose, wide: true },
+        React.createElement("div", { className: "global-search-tools" },
+            React.createElement("div", { className: "searchbox global-searchbox" },
+                React.createElement("span", null, "\u2315"),
+                React.createElement("input", { autoFocus: true, value: query, onChange: e => setQuery(e.target.value), placeholder: "Search names, email, feedback, notes, assignments, class, or year\u2026" })),
+            React.createElement("select", { value: yearFilter, onChange: e => setYearFilter(e.target.value) },
+                React.createElement("option", { value: "all" }, "All school years"),
+                data.years.map(y => React.createElement("option", { key: y.id, value: y.id }, y.label))),
+            React.createElement("select", { value: typeFilter, onChange: e => setTypeFilter(e.target.value) },
+                React.createElement("option", { value: "all" }, "All record types"),
+                kinds.map(k => React.createElement("option", { key: k.id, value: k.id }, k.label)))),
+        React.createElement("div", { className: "search-summary" }, terms.length ? `${results.length} student${results.length === 1 ? "" : "s"} matched every search term` : "Enter one or more terms. Multiple terms narrow the results."),
+        React.createElement("div", { className: "global-results" },
+            !terms.length && React.createElement("div", { className: "search-empty" },
+                React.createElement("div", { className: "holo-symbol" }, "\u2315"),
+                React.createElement("h3", null, "Search your complete teaching memory"),
+                React.createElement("p", null, "Try a student name, a phrase from feedback, an activity title, a section, or a school year.")),
+            terms.length > 0 && !results.length && React.createElement("div", { className: "search-empty" },
+                React.createElement("h3", null, "No matching records"),
+                React.createElement("p", null, "Try fewer terms or widen the year and record-type filters.")),
+            results.map(result => React.createElement("button", { key: result.student.id, className: "global-result", onClick: () => result.year && result.course && result.section && onOpenStudent(result.student.id, result.year.id, result.course.id, result.section.id) },
+                React.createElement("div", { className: "avatar" },
+                    result.student.firstName[0],
+                    result.student.lastName[0]),
+                React.createElement("div", null,
+                    React.createElement("b", null, fullName(result.student)),
+                    React.createElement("span", null,
+                        result.year?.label,
+                        " \u00B7 ",
+                        result.course?.name,
+                        " \u00B7 ",
+                        result.section?.name),
+                    result.matches[0] && React.createElement("p", null,
+                        React.createElement("strong", null,
+                            prettyDate(result.matches[0].date),
+                            " \u00B7 ",
+                            kindLabel(result.matches[0].kind)),
+                        result.matches[0].text.slice(0, 180),
+                        result.matches[0].text.length > 180 ? "…" : "")),
+                React.createElement("em", null,
+                    result.matches.length,
+                    " record match",
+                    result.matches.length === 1 ? "" : "es",
+                    " \u203A")))));
+}
+function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) {
+    const allColumns = data.columns || [];
+    const relevantColumns = allColumns.filter(column => column.sectionIds.includes(initialSectionId)).sort((a, b) => b.date.localeCompare(a.date));
+    const [activeId, setActiveId] = useState(relevantColumns[0]?.id || "");
+    const [creating, setCreating] = useState(!relevantColumns.length);
+    const [title, setTitle] = useState("");
+    const [date, setDate] = useState(isoDate());
+    const [kind, setKind] = useState("discussion");
+    const [sectionIds, setSectionIds] = useState([initialSectionId]);
+    const [drafts, setDrafts] = useState({});
+    const [bulk, setBulk] = useState("");
+    const activeColumn = allColumns.find(column => column.id === activeId);
+    const scopedSections = activeColumn?.sectionIds || sectionIds;
+    const studentIds = Array.from(new Set(data.enrollments.filter(e => e.active && scopedSections.includes(e.sectionId)).map(e => e.studentId)));
+    const students = data.students.filter(s => studentIds.includes(s.id) && !s.archived).sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
+    useEffect(() => {
+        if (!activeColumn) {
+            setDrafts({});
+            return;
+        }
+        const next = {};
+        data.records.filter(r => r.columnId === activeColumn.id).forEach(r => { next[r.studentId] = r.text; });
+        setDrafts(next);
+    }, [activeId]);
+    const createColumn = () => {
+        if (!title.trim())
+            return notify("Give this activity a title");
+        if (!sectionIds.length)
+            return notify("Select at least one section");
+        const column = { id: uid("col"), title: title.trim(), date, kind, sectionIds, createdAt: stamp() };
+        onUpdate(d => ({ ...d, columns: [...(d.columns || []), column] }));
+        setActiveId(column.id);
+        setCreating(false);
+        setDrafts({});
+        notify("Feedback column created");
+    };
+    const saveRows = (rowDrafts = drafts) => {
+        if (!activeColumn)
+            return;
+        const now = stamp();
+        onUpdate(d => {
+            const records = [...d.records];
+            students.forEach(student => {
+                const text = (rowDrafts[student.id] || "").trim();
+                const index = records.findIndex(r => r.columnId === activeColumn.id && r.studentId === student.id);
+                if (!text) {
+                    if (index >= 0)
+                        records.splice(index, 1);
+                    return;
+                }
+                const enrollment = d.enrollments.find(e => e.studentId === student.id && e.active && activeColumn.sectionIds.includes(e.sectionId));
+                if (index >= 0)
+                    records[index] = { ...records[index], text, date: activeColumn.date, kind: activeColumn.kind, title: activeColumn.title, updatedAt: now };
+                else
+                    records.push({ id: uid("rec"), studentId: student.id, enrollmentId: enrollment?.id, columnId: activeColumn.id, date: activeColumn.date, kind: activeColumn.kind, title: activeColumn.title, text, studentFacing: true, pinned: false, createdAt: now, updatedAt: now });
+            });
+            return { ...d, records };
+        });
+        notify(`Saved feedback for ${Object.values(rowDrafts).filter(value => value.trim()).length} students`);
+    };
+    const applyBulk = () => {
+        if (!bulk.trim())
+            return notify("Enter a bulk comment first");
+        const next = { ...drafts };
+        students.forEach(student => { next[student.id] = next[student.id]?.trim() ? `${next[student.id].trim()}\n\n${bulk.trim()}` : bulk.trim(); });
+        setDrafts(next);
+        saveRows(next);
+        setBulk("");
+    };
+    return React.createElement(ModalShell, { title: "Class feedback grid", subtitle: "ACTIVITY COLUMNS \u00B7 RAPID ENTRY", onClose: onClose, wide: true },
+        React.createElement("div", { className: "column-tabs" },
+            React.createElement("button", { className: creating ? "active new-column" : "new-column", onClick: () => setCreating(true) }, "+ New column"),
+            relevantColumns.map(column => React.createElement("button", { key: column.id, className: !creating && activeId === column.id ? "active" : "", onClick: () => { setCreating(false); setActiveId(column.id); } },
+                React.createElement("b", null, column.title),
+                React.createElement("span", null,
+                    prettyDate(column.date),
+                    " \u00B7 ",
+                    column.sectionIds.length,
+                    " section",
+                    column.sectionIds.length === 1 ? "" : "s")))),
+        creating ? React.createElement("div", { className: "column-creator" },
+            React.createElement("section", null,
+                React.createElement("span", { className: "eyebrow" }, "NEW ACTIVITY COLUMN"),
+                React.createElement("h3", null, "Create a shared feedback activity"),
+                React.createElement("div", { className: "form-grid two" },
+                    React.createElement("label", null,
+                        "Activity or assignment title",
+                        React.createElement("input", { autoFocus: true, value: title, onChange: e => setTitle(e.target.value), placeholder: "Socratic discussion: Chapter 4" })),
+                    React.createElement("label", null,
+                        "Feedback type",
+                        React.createElement("select", { value: kind, onChange: e => setKind(e.target.value) }, kinds.map(k => React.createElement("option", { key: k.id, value: k.id }, k.label))))),
+                React.createElement("label", null,
+                    "Date",
+                    React.createElement("input", { type: "date", value: date, onChange: e => setDate(e.target.value) }))),
+            React.createElement("section", null,
+                React.createElement("span", { className: "eyebrow" }, "APPLIES TO"),
+                React.createElement("h3", null, "Select one or several sections"),
+                React.createElement("div", { className: "section-picker" }, data.sections.filter(s => !s.archived).map(section => { const course = data.courses.find(c => c.id === section.courseId), year = data.years.find(y => y.id === course?.yearId); return React.createElement("label", { key: section.id, className: sectionIds.includes(section.id) ? "active" : "" },
+                    React.createElement("input", { type: "checkbox", checked: sectionIds.includes(section.id), onChange: e => setSectionIds(ids => e.target.checked ? [...ids, section.id] : ids.filter(id => id !== section.id)) }),
+                    React.createElement("b", null, section.name),
+                    React.createElement("span", null,
+                        course?.name,
+                        " \u00B7 ",
+                        year?.label)); }))),
+            React.createElement("div", { className: "modal-actions" },
+                React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"),
+                React.createElement("button", { className: "btn primary", onClick: createColumn }, "Create feedback column"))) : activeColumn ? React.createElement("div", { className: "quick-entry-workspace" },
+            React.createElement("div", { className: "quick-entry-head" },
+                React.createElement("div", null,
+                    React.createElement("span", { className: "eyebrow" }, kindLabel(activeColumn.kind).toUpperCase()),
+                    React.createElement("h3", null, activeColumn.title),
+                    React.createElement("p", null,
+                        activeColumn.sectionIds.map(id => data.sections.find(s => s.id === id)?.name).filter(Boolean).join(" · "),
+                        " \u00B7 ",
+                        students.length,
+                        " students")),
+                React.createElement("button", { className: "btn primary", onClick: () => saveRows() }, "Save all feedback")),
+            React.createElement("div", { className: "bulk-comment" },
+                React.createElement("label", null,
+                    "Bulk comment for everyone in this activity",
+                    React.createElement("textarea", { value: bulk, onChange: e => setBulk(e.target.value), rows: 3, placeholder: "Add a shared observation, reminder, or assignment-level comment to every student\u2026" })),
+                React.createElement("button", { className: "btn ghost", onClick: applyBulk },
+                    "Apply and save to all ",
+                    students.length)),
+            React.createElement("div", { className: "feedback-grid" },
+                React.createElement("div", { className: "feedback-grid-header" },
+                    React.createElement("span", null, "Student"),
+                    React.createElement("span", null, "Individual feedback"),
+                    React.createElement("span", null, "Status")),
+                students.map(student => React.createElement("div", { className: "feedback-row", key: student.id },
+                    React.createElement("div", null,
+                        React.createElement("div", { className: "avatar" },
+                            student.firstName[0],
+                            student.lastName[0]),
+                        React.createElement("b", null, fullName(student))),
+                    React.createElement("textarea", { rows: 3, value: drafts[student.id] || "", onChange: e => setDrafts(values => ({ ...values, [student.id]: e.target.value })), placeholder: "Enter feedback\u2026" }),
+                    React.createElement("span", { className: drafts[student.id]?.trim() ? "has-feedback" : "" }, drafts[student.id]?.trim() ? "READY" : "EMPTY"))))) : null);
+}
+function RecordCard({ record, onEdit, onTogglePin, onDelete }) {
+    return React.createElement("article", { className: `record-card kind-${record.kind} ${record.pinned ? "pinned" : ""}` },
+        React.createElement("div", { className: "timeline-node" }),
+        React.createElement("div", { className: "record-card-head" },
+            React.createElement("div", null,
+                React.createElement("span", { className: "kind-badge" }, kindLabel(record.kind)),
+                React.createElement("time", null, prettyDate(record.date)),
+                !record.studentFacing && React.createElement("span", { className: "private-badge" }, "PRIVATE")),
+            React.createElement("div", null,
+                React.createElement("button", { onClick: onEdit, title: "Edit record" }, "EDIT"),
+                React.createElement("button", { onClick: onTogglePin, title: record.pinned ? "Remove follow-up" : "Pin for follow-up" }, record.pinned ? "◆" : "◇"),
+                React.createElement("button", { onClick: onDelete, title: "Delete record" }, "\u00D7"))),
+        record.title && React.createElement("h3", null, record.title),
+        React.createElement("p", null, record.text));
+}
+function ModalShell({ title, subtitle, onClose, children, wide = false }) {
+    return React.createElement("div", { className: "modal-overlay", onMouseDown: e => { if (e.target === e.currentTarget)
+            onClose(); } },
+        React.createElement("section", { className: `holo-modal ${wide ? "wide" : ""}`, role: "dialog", "aria-modal": "true", "aria-label": title },
+            React.createElement("header", null,
+                React.createElement("div", null,
+                    React.createElement("span", { className: "eyebrow" }, subtitle || "TEACHER RECORD CONSOLE"),
+                    React.createElement("h2", null, title)),
+                React.createElement("button", { className: "btn ghost icon-btn", onClick: onClose, "aria-label": "Close" }, "\u00D7")),
+            children));
+}
+function StudentModal({ data, sectionId, onClose, onSave }) {
+    const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [target, setTarget] = useState(sectionId);
+    const valid = firstName.trim() && lastName.trim();
+    return React.createElement(ModalShell, { title: "Add student", subtitle: "NEW CONTINUOUS PROFILE", onClose: onClose },
+        React.createElement("form", { onSubmit: e => { e.preventDefault(); if (!valid)
+                return; const id = uid("stu"), eid = uid("enr"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), createdAt: stamp() }, { id: eid, studentId: id, sectionId: target, startDate: isoDate(), active: true }); } },
+            React.createElement("div", { className: "form-grid two" },
+                React.createElement("label", null,
+                    "First name",
+                    React.createElement("input", { autoFocus: true, value: firstName, onChange: e => setFirst(e.target.value), placeholder: "Maya" })),
+                React.createElement("label", null,
+                    "Last name",
+                    React.createElement("input", { value: lastName, onChange: e => setLast(e.target.value), placeholder: "Rodriguez" }))),
+            React.createElement("label", null,
+                "Email address",
+                React.createElement("input", { type: "email", value: email, onChange: e => setEmail(e.target.value), placeholder: "maya.rodriguez@school.org" })),
+            React.createElement("label", null,
+                "Section",
+                React.createElement("select", { value: target, onChange: e => setTarget(e.target.value) }, data.sections.filter(s => !s.archived).map(s => { const c = data.courses.find(c => c.id === s.courseId), y = data.years.find(y => y.id === c?.yearId); return React.createElement("option", { key: s.id, value: s.id },
+                    y?.label,
+                    " \u00B7 ",
+                    c?.name,
+                    " \u00B7 ",
+                    s.name); }))),
+            React.createElement("p", { className: "form-hint" }, "This creates one continuous profile. Future class placements will attach to the same student."),
+            React.createElement("div", { className: "modal-actions" },
+                React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"),
+                React.createElement("button", { className: "btn primary", disabled: !valid }, "Add student"))));
+}
+function RecordModal({ student, enrollment, onClose, onSave }) {
+    const [date, setDate] = useState(isoDate()), [kind, setKind] = useState("teacher-note"), [title, setTitle] = useState(""), [text, setText] = useState(""), [studentFacing, setStudentFacing] = useState(false), [pinned, setPinned] = useState(false);
+    const textRef = useRef(null);
+    useEffect(() => textRef.current?.focus(), []);
+    return React.createElement(ModalShell, { title: `Add record for ${fullName(student)}`, subtitle: "QUICK CAPTURE", onClose: onClose },
+        React.createElement("form", { onSubmit: e => { e.preventDefault(); if (!text.trim())
+                return; const now = stamp(); onSave({ id: uid("rec"), studentId: student.id, enrollmentId: enrollment?.id, date, kind, title: title.trim(), text: text.trim(), studentFacing, pinned, createdAt: now, updatedAt: now }); } },
+            React.createElement("div", { className: "form-grid date-kind" },
+                React.createElement("label", null,
+                    "Date",
+                    React.createElement("input", { type: "date", value: date, onChange: e => setDate(e.target.value) })),
+                React.createElement("label", null,
+                    "Record type",
+                    React.createElement("select", { value: kind, onChange: e => setKind(e.target.value) }, kinds.map(k => React.createElement("option", { key: k.id, value: k.id }, k.label))))),
+            React.createElement("label", null,
+                "Title ",
+                React.createElement("span", { className: "optional" }, "optional"),
+                React.createElement("input", { value: title, onChange: e => setTitle(e.target.value), placeholder: "A short heading for easier scanning" })),
+            React.createElement("label", null,
+                "Comment",
+                React.createElement("textarea", { ref: textRef, value: text, onChange: e => setText(e.target.value), rows: 8, placeholder: "Paste official language, capture an observation, or write feedback\u2026" })),
+            React.createElement("div", { className: "toggle-row" },
+                React.createElement("label", null,
+                    React.createElement("input", { type: "checkbox", checked: studentFacing, onChange: e => setStudentFacing(e.target.checked) }),
+                    " Include in student-facing exports"),
+                React.createElement("label", null,
+                    React.createElement("input", { type: "checkbox", checked: pinned, onChange: e => setPinned(e.target.checked) }),
+                    " Pin for follow-up")),
+            React.createElement("div", { className: "modal-actions" },
+                React.createElement("span", { className: "shortcut-hint" }, "Ctrl/\u2318 + Enter to save"),
+                React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"),
+                React.createElement("button", { className: "btn primary", disabled: !text.trim() }, "Save record"))));
+}
+function EditRecordModal({ record, student, onClose, onSave }) {
+    const [date, setDate] = useState(record.date), [kind, setKind] = useState(record.kind), [title, setTitle] = useState(record.title || ""), [text, setText] = useState(record.text), [studentFacing, setStudentFacing] = useState(record.studentFacing), [pinned, setPinned] = useState(record.pinned);
+    return React.createElement(ModalShell, { title: `Edit record for ${fullName(student)}`, subtitle: "PRESERVES ORIGINAL CREATION TIME", onClose: onClose },
+        React.createElement("form", { onSubmit: event => { event.preventDefault(); if (!text.trim())
+                return; onSave({ ...record, date, kind, title: title.trim(), text: text.trim(), studentFacing, pinned, updatedAt: stamp() }); } },
+            React.createElement("div", { className: "record-audit" },
+                React.createElement("span", null,
+                    "Created ",
+                    new Date(record.createdAt).toLocaleString()),
+                React.createElement("span", null,
+                    "Last edited ",
+                    new Date(record.updatedAt).toLocaleString())),
+            React.createElement("div", { className: "form-grid date-kind" },
+                React.createElement("label", null,
+                    "Record date",
+                    React.createElement("input", { type: "date", value: date, onChange: event => setDate(event.target.value) })),
+                React.createElement("label", null,
+                    "Record type",
+                    React.createElement("select", { value: kind, onChange: event => setKind(event.target.value) }, kinds.map(item => React.createElement("option", { key: item.id, value: item.id }, item.label))))),
+            React.createElement("label", null,
+                "Title ",
+                React.createElement("span", { className: "optional" }, "optional"),
+                React.createElement("input", { value: title, onChange: event => setTitle(event.target.value) })),
+            React.createElement("label", null,
+                "Comment",
+                React.createElement("textarea", { autoFocus: true, value: text, onChange: event => setText(event.target.value), rows: 9 })),
+            React.createElement("div", { className: "toggle-row" },
+                React.createElement("label", null,
+                    React.createElement("input", { type: "checkbox", checked: studentFacing, onChange: event => setStudentFacing(event.target.checked) }),
+                    " Include in student-facing exports"),
+                React.createElement("label", null,
+                    React.createElement("input", { type: "checkbox", checked: pinned, onChange: event => setPinned(event.target.checked) }),
+                    " Pin for follow-up")),
+            React.createElement("div", { className: "modal-actions" },
+                React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"),
+                React.createElement("button", { className: "btn primary", disabled: !text.trim() }, "Save changes"))));
+}
+function moveStudents(data, ids, from, to, correction) {
+    const now = isoDate();
+    let enrollments = data.enrollments.map(e => ids.includes(e.studentId) && e.sectionId === from && e.active ? (correction ? null : { ...e, active: false, endDate: now }) : e).filter(Boolean);
+    ids.forEach(studentId => {
+        const old = data.enrollments.find(e => e.studentId === studentId && e.sectionId === from && e.active);
+        enrollments.push({ id: correction && old ? old.id : uid("enr"), studentId, sectionId: to, startDate: correction && old ? old.startDate : now, active: true });
+    });
+    return { ...data, enrollments };
+}
+function MoveModal({ data, studentIds, currentSectionId, onClose, onMove }) {
+    const [target, setTarget] = useState(data.sections.find(s => s.id !== currentSectionId && !s.archived)?.id || ""), [correction, setCorrection] = useState(false);
+    return React.createElement(ModalShell, { title: `Switch ${studentIds.length} student${studentIds.length === 1 ? "" : "s"}`, subtitle: "SECTION PLACEMENT", onClose: onClose },
+        React.createElement("div", { className: "modal-body" },
+            React.createElement("div", { className: "selected-names" }, data.students.filter(s => studentIds.includes(s.id)).map(s => React.createElement("span", { key: s.id }, fullName(s)))),
+            React.createElement("label", null,
+                "Destination section",
+                React.createElement("select", { value: target, onChange: e => setTarget(e.target.value) }, data.sections.filter(s => s.id !== currentSectionId && !s.archived).map(s => { const c = data.courses.find(c => c.id === s.courseId), y = data.years.find(y => y.id === c?.yearId); return React.createElement("option", { key: s.id, value: s.id },
+                    y?.label,
+                    " \u00B7 ",
+                    c?.name,
+                    " \u00B7 ",
+                    s.name); }))),
+            React.createElement("div", { className: "choice-cards" },
+                React.createElement("label", { className: !correction ? "active" : "" },
+                    React.createElement("input", { type: "radio", checked: !correction, onChange: () => setCorrection(false) }),
+                    " ",
+                    React.createElement("b", null, "Effective today"),
+                    React.createElement("span", null, "Keep the previous enrollment in the student\u2019s history.")),
+                React.createElement("label", { className: correction ? "active" : "" },
+                    React.createElement("input", { type: "radio", checked: correction, onChange: () => setCorrection(true) }),
+                    " ",
+                    React.createElement("b", null, "Correct entire enrollment"),
+                    React.createElement("span", null, "Treat the previous section as a placement error."))),
+            React.createElement("div", { className: "modal-actions" },
+                React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"),
+                React.createElement("button", { className: "btn primary", disabled: !target, onClick: () => onMove(target, correction) }, "Update placement"))));
+}
+function StructureModal({ data, activeYearId, onClose, onUpdate, onSelect }) {
+    const [year, setYear] = useState(""), [course, setCourse] = useState(""), [section, setSection] = useState("");
+    const addYear = () => { if (!year.trim())
+        return; onUpdate(d => ({ ...d, years: [...d.years, { id: uid("yr"), label: year.trim() }] })); setYear(""); };
+    const addCourse = () => { if (!course.trim())
+        return; onUpdate(d => ({ ...d, courses: [...d.courses, { id: uid("crs"), yearId: activeYearId, name: course.trim() }] })); setCourse(""); };
+    const activeCourses = data.courses.filter(c => c.yearId === activeYearId && !c.archived);
+    const sectionCourse = activeCourses[0]?.id || "";
+    const addSection = () => { if (!section.trim() || !sectionCourse)
+        return; onUpdate(d => ({ ...d, sections: [...d.sections, { id: uid("sec"), courseId: sectionCourse, name: section.trim() }] })); setSection(""); };
+    return React.createElement(ModalShell, { title: "Manage school structure", subtitle: "YEARS \u00B7 CLASSES \u00B7 SECTIONS", onClose: onClose, wide: true },
+        React.createElement("div", { className: "structure-grid" },
+            React.createElement("section", null,
+                React.createElement("span", { className: "eyebrow" }, "SCHOOL YEARS"),
+                React.createElement("div", { className: "structure-list" }, data.years.map(y => React.createElement("button", { key: y.id, className: y.id === activeYearId ? "active" : "", onClick: () => { const c = data.courses.find(c => c.yearId === y.id), s = data.sections.find(s => s.courseId === c?.id); if (c && s)
+                        onSelect(y.id, c.id, s.id); } },
+                    y.label,
+                    React.createElement("small", null,
+                        data.courses.filter(c => c.yearId === y.id).length,
+                        " classes")))),
+                React.createElement("div", { className: "inline-add" },
+                    React.createElement("input", { value: year, onChange: e => setYear(e.target.value), placeholder: "2027\u20132028" }),
+                    React.createElement("button", { onClick: addYear }, "+"))),
+            React.createElement("section", null,
+                React.createElement("span", { className: "eyebrow" },
+                    "CLASSES IN ",
+                    data.years.find(y => y.id === activeYearId)?.label),
+                React.createElement("div", { className: "structure-list" }, activeCourses.map(c => React.createElement("div", { key: c.id },
+                    React.createElement("b", null, c.name),
+                    React.createElement("small", null,
+                        data.sections.filter(s => s.courseId === c.id).length,
+                        " sections")))),
+                React.createElement("div", { className: "inline-add" },
+                    React.createElement("input", { value: course, onChange: e => setCourse(e.target.value), placeholder: "AP Literature" }),
+                    React.createElement("button", { onClick: addCourse }, "+"))),
+            React.createElement("section", null,
+                React.createElement("span", { className: "eyebrow" }, "SECTIONS"),
+                React.createElement("div", { className: "structure-list" }, activeCourses.flatMap(c => data.sections.filter(s => s.courseId === c.id).map(s => React.createElement("div", { key: s.id },
+                    React.createElement("b", null, s.name),
+                    React.createElement("small", null, c.name))))),
+                React.createElement("div", { className: "inline-add" },
+                    React.createElement("input", { value: section, onChange: e => setSection(e.target.value), placeholder: "Block C" }),
+                    React.createElement("button", { onClick: addSection }, "+")))),
+        React.createElement("div", { className: "modal-actions padded" },
+            React.createElement("span", { className: "form-hint" }, "Archiving and renaming controls can be added after the core workflow is in use."),
+            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")));
+}
+function exportText(data, ids, yearId, types, allYears, anonymize, studentFacingOnly) {
+    const year = data.years.find(y => y.id === yearId);
+    return ids.map((id, i) => {
+        const s = data.students.find(x => x.id === id);
+        if (!s)
+            return "";
+        const enrollIds = new Set(data.enrollments.filter(e => e.studentId === id && data.sections.some(sec => sec.id === e.sectionId && data.courses.some(c => c.id === sec.courseId && c.yearId === yearId))).map(e => e.id));
+        const records = data.records.filter(r => r.studentId === id && types.includes(r.kind) && (allYears || !!r.enrollmentId && enrollIds.has(r.enrollmentId)) && (!studentFacingOnly || r.studentFacing)).sort((a, b) => a.date.localeCompare(b.date));
+        const name = anonymize ? `Student ${i + 1}` : fullName(s);
+        const grouped = kinds.map(k => ({ ...k, records: records.filter(r => r.kind === k.id) })).filter(g => g.records.length);
+        return [`STUDENT: ${name}`, `SCOPE: ${allYears ? "All available years" : year?.label || "Current year"}`, ...grouped.flatMap(g => ["", g.label.toUpperCase(), ...g.records.map(r => `${r.date}${r.title ? ` — ${r.title}` : ""}\n${r.text}`)])].join("\n");
+    }).filter(Boolean).join("\n\n────────────────────────────────────────\n\n");
+}
+function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds, onClose, notify }) {
+    const [scope, setScope] = useState(selectedIds.length > 1 ? "selected" : "student"), [types, setTypes] = useState(kinds.map(k => k.id)), [allYears, setAllYears] = useState(false), [anonymize, setAnonymize] = useState(false), [studentFacing, setStudentFacing] = useState(false), [format, setFormat] = useState("text");
+    const ids = useMemo(() => {
+        if (scope === "student")
+            return studentId ? [studentId] : [];
+        if (scope === "selected")
+            return selectedIds;
+        const sections = scope === "class" ? data.sections.filter(s => s.courseId === courseId).map(s => s.id) : [sectionId];
+        return Array.from(new Set(data.enrollments.filter(e => sections.includes(e.sectionId) && e.active).map(e => e.studentId)));
+    }, [scope, studentId, selectedIds, data, courseId, sectionId]);
+    const plain = exportText(data, ids, yearId, types, allYears, anonymize, studentFacing);
+    const json = JSON.stringify({ format: "teacher-records-selection", schemaVersion: 1, exportedAt: stamp(), students: data.students.filter(s => ids.includes(s.id)), records: data.records.filter(r => ids.includes(r.studentId) && types.includes(r.kind)) }, null, 2);
+    const output = format === "text" ? plain : json;
+    const doCopy = async () => { await navigator.clipboard.writeText(output); notify(`${ids.length} student record${ids.length === 1 ? "" : "s"} copied`); };
+    return React.createElement(ModalShell, { title: "Prepare export", subtitle: "CHATGPT-READY RECORDS", onClose: onClose, wide: true },
+        React.createElement("div", { className: "export-layout" },
+            React.createElement("aside", null,
+                React.createElement("fieldset", null,
+                    React.createElement("legend", null, "Who to include"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "radio", checked: scope === "student", onChange: () => setScope("student") }),
+                        " Current student"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "radio", checked: scope === "selected", disabled: !selectedIds.length, onChange: () => setScope("selected") }),
+                        " Selected students (",
+                        selectedIds.length,
+                        ")"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "radio", checked: scope === "section", onChange: () => setScope("section") }),
+                        " Current section"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "radio", checked: scope === "class", onChange: () => setScope("class") }),
+                        " All class sections")),
+                React.createElement("fieldset", null,
+                    React.createElement("legend", null, "Record scope"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "radio", checked: !allYears, onChange: () => setAllYears(false) }),
+                        " Current school year"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "radio", checked: allYears, onChange: () => setAllYears(true) }),
+                        " All years")),
+                React.createElement("fieldset", null,
+                    React.createElement("legend", null, "Include record types"),
+                    kinds.map(k => React.createElement("label", { key: k.id },
+                        React.createElement("input", { type: "checkbox", checked: types.includes(k.id), onChange: e => setTypes(x => e.target.checked ? [...x, k.id] : x.filter(v => v !== k.id)) }),
+                        " ",
+                        k.label))),
+                React.createElement("fieldset", null,
+                    React.createElement("legend", null, "Privacy and format"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "checkbox", checked: anonymize, onChange: e => setAnonymize(e.target.checked) }),
+                        " Replace names with Student 1, 2\u2026"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "checkbox", checked: studentFacing, onChange: e => setStudentFacing(e.target.checked) }),
+                        " Student-facing entries only"),
+                    React.createElement("select", { value: format, onChange: e => setFormat(e.target.value) },
+                        React.createElement("option", { value: "text" }, "ChatGPT-ready text"),
+                        React.createElement("option", { value: "json" }, "Selected records as JSON")))),
+            React.createElement("section", { className: "export-preview" },
+                React.createElement("div", { className: "preview-head" },
+                    React.createElement("div", null,
+                        React.createElement("span", { className: "eyebrow" }, "LIVE PREVIEW"),
+                        React.createElement("b", null,
+                            ids.length,
+                            " student",
+                            ids.length === 1 ? "" : "s",
+                            " \u00B7 ",
+                            output.length.toLocaleString(),
+                            " characters")),
+                    React.createElement("button", { className: "btn primary", disabled: !output, onClick: doCopy }, "Copy to clipboard")),
+                React.createElement("pre", null, output || "No records match this selection."))));
+}
+function DataModal({ data, onClose, onImport, notify }) {
+    const fileRef = useRef(null);
+    const backup = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2);
+    const download = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([backup], { type: "application/json" })); a.download = `teacher-records-backup-${isoDate()}.json`; a.click(); URL.revokeObjectURL(a.href); notify("Complete backup downloaded"); };
+    const importFile = (file) => { if (!file)
+        return; const reader = new FileReader(); reader.onload = () => { try {
+        const parsed = JSON.parse(String(reader.result));
+        if (parsed.format !== "teacher-records-backup" || !Array.isArray(parsed.students) || !Array.isArray(parsed.records))
+            throw new Error();
+        if (confirm(`Restore ${parsed.students.length} students and ${parsed.records.length} records? This replaces the database currently on this device.`))
+            onImport(parsed);
+    }
+    catch {
+        notify("That file is not a valid backup");
+    } }; reader.readAsText(file); };
+    return React.createElement(ModalShell, { title: "Data and backups", subtitle: "LOCAL STORAGE CONTROL", onClose: onClose },
+        React.createElement("div", { className: "data-status" },
+            React.createElement("div", { className: "holo-symbol" }, "\u25A3"),
+            React.createElement("div", null,
+                React.createElement("b", null, "Your records live only in this browser"),
+                React.createElement("p", null,
+                    data.students.length,
+                    " students \u00B7 ",
+                    data.records.length,
+                    " records \u00B7 updated ",
+                    new Date(data.updatedAt).toLocaleString()))),
+        React.createElement("div", { className: "data-actions" },
+            React.createElement("button", { className: "data-action primary-data", onClick: download },
+                React.createElement("b", null, "Download complete backup"),
+                React.createElement("span", null, "Recommended \u00B7 saves a dated JSON file")),
+            React.createElement("button", { className: "data-action", onClick: () => { navigator.clipboard.writeText(backup); notify("Complete JSON backup copied"); } },
+                React.createElement("b", null, "Copy backup as JSON text"),
+                React.createElement("span", null, "Useful when file downloads are restricted")),
+            React.createElement("button", { className: "data-action", onClick: () => fileRef.current?.click() },
+                React.createElement("b", null, "Restore from JSON file"),
+                React.createElement("span", null, "Preview and confirm before replacing data")),
+            React.createElement("input", { ref: fileRef, type: "file", accept: "application/json,.json", hidden: true, onChange: e => importFile(e.target.files?.[0]) })),
+        React.createElement("div", { className: "backup-warning" },
+            React.createElement("b", null, "Keep a backup."),
+            " Browser data may be cleared by workplace IT policies or browser resets. JSON backups contain confidential student information and are not encrypted."),
+        React.createElement("div", { className: "modal-actions" },
+            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")));
+}
+function ThemeModal({ selected, onClose, onSelect }) {
+    return React.createElement(ModalShell, { title: "Choose interface skin", subtitle: "STATIC \u00B7 LOW POWER", onClose: onClose, wide: true },
+        React.createElement("div", { className: "theme-grid" }, themes.map(t => React.createElement("button", { key: t.id, className: `theme-card theme-${t.id} ${selected === t.id ? "selected" : ""}`, onClick: () => onSelect(t.id) },
+            React.createElement("i", null),
+            React.createElement("b", null, t.label),
+            React.createElement("span", null, t.sub)))));
 }
 
-function EmptyRoster({ onAdd }: { onAdd: () => void }) { return <div className="empty-roster"><span>ROSTER EMPTY</span><p>Add students one at a time. Bulk roster import can come next.</p><button onClick={onAdd}>+ Add a student</button></div>; }
-
-function RecordCard({ record, onTogglePin, onDelete }: { record: StudentRecord; onTogglePin: () => void; onDelete: () => void }) {
-  return <article className={`record-card kind-${record.kind} ${record.pinned ? "pinned" : ""}`}>
-    <div className="timeline-node" />
-    <div className="record-card-head"><div><span className="kind-badge">{kindLabel(record.kind)}</span><time>{prettyDate(record.date)}</time>{!record.studentFacing && <span className="private-badge">PRIVATE</span>}</div><div><button onClick={onTogglePin} title={record.pinned ? "Remove follow-up" : "Pin for follow-up"}>{record.pinned ? "â—†" : "â—‡"}</button><button onClick={onDelete} title="Delete record">Ã—</button></div></div>
-    {record.title && <h3>{record.title}</h3>}<p>{record.text}</p>
-  </article>;
-}
-
-function ModalShell({ title, subtitle, onClose, children, wide = false }: { title: string; subtitle?: string; onClose: () => void; children: React.ReactNode; wide?: boolean }) {
-  return <div className="modal-overlay" onMouseDown={e => { if (e.target === e.currentTarget) onClose(); }}><section className={`holo-modal ${wide ? "wide" : ""}`} role="dialog" aria-modal="true" aria-label={title}><header><div><span className="eyebrow">{subtitle || "TEACHER RECORD CONSOLE"}</span><h2>{title}</h2></div><button className="btn ghost icon-btn" onClick={onClose} aria-label="Close">Ã—</button></header>{children}</section></div>;
-}
-
-function StudentModal({ data, sectionId, onClose, onSave }: { data: AppData; sectionId: string; onClose: () => void; onSave: (s: Student, e: Enrollment) => void }) {
-  const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [target, setTarget] = useState(sectionId);
-  const valid = firstName.trim() && lastName.trim();
-  return <ModalShell title="Add student" subtitle="NEW CONTINUOUS PROFILE" onClose={onClose}><form onSubmit={e => { e.preventDefault(); if (!valid) return; const id = uid("stu"), eid = uid("enr"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), createdAt: stamp() }, { id: eid, studentId: id, sectionId: target, startDate: isoDate(), active: true }); }}>
-    <div className="form-grid two"><label>First name<input autoFocus value={firstName} onChange={e => setFirst(e.target.value)} placeholder="Maya" /></label><label>Last name<input value={lastName} onChange={e => setLast(e.target.value)} placeholder="Rodriguez" /></label></div>
-    <label>Email address<input type="email" value={email} onChange={e => setEmail(e.target.value)} placeholder="maya.rodriguez@school.org" /></label>
-    <label>Section<select value={target} onChange={e => setTarget(e.target.value)}>{data.sections.filter(s => !s.archived).map(s => { const c = data.courses.find(c => c.id === s.courseId), y = data.years.find(y => y.id === c?.yearId); return <option key={s.id} value={s.id}>{y?.label} Â· {c?.name} Â· {s.name}</option>; })}</select></label>
-    <p className="form-hint">This creates one continuous profile. Future class placements will attach to the same student.</p>
-    <div className="modal-actions"><button type="button" className="btn ghost" onClick={onClose}>Cancel</button><button className="btn primary" disabled={!valid}>Add student</button></div>
-  </form></ModalShell>;
-}
-
-function RecordModal({ student, enrollment, onClose, onSave }: { student: Student; enrollment?: Enrollment; onClose: () => void; onSave: (r: StudentRecord) => void }) {
-  const [date, setDate] = useState(isoDate()), [kind, setKind] = useState<RecordKind>("teacher-note"), [title, setTitle] = useState(""), [text, setText] = useState(""), [studentFacing, setStudentFacing] = useState(false), [pinned, setPinned] = useState(false);
-  const textRef = useRef<HTMLTextAreaElement>(null);
-  useEffect(() => textRef.current?.focus(), []);
-  return <ModalShell title={`Add record for ${fullName(student)}`} subtitle="QUICK CAPTURE" onClose={onClose}><form onSubmit={e => { e.preventDefault(); if (!text.trim()) return; const now = stamp(); onSave({ id: uid("rec"), studentId: student.id, enrollmentId: enrollment?.id, date, kind, title: title.trim(), text: text.trim(), studentFacing, pinned, createdAt: now, updatedAt: now }); }}>
-    <div className="form-grid date-kind"><label>Date<input type="date" value={date} onChange={e => setDate(e.target.value)} /></label><label>Record type<select value={kind} onChange={e => setKind(e.target.value as RecordKind)}>{kinds.map(k => <option key={k.id} value={k.id}>{k.label}</option>)}</select></label></div>
-    <label>Title <span className="optional">optional</span><input value={title} onChange={e => setTitle(e.target.value)} placeholder="A short heading for easier scanning" /></label>
-    <label>Comment<textarea ref={textRef} value={text} onChange={e => setText(e.target.value)} rows={8} placeholder="Paste official language, capture an observation, or write feedbackâ€¦" /></label>
-    <div className="toggle-row"><label><input type="checkbox" checked={studentFacing} onChange={e => setStudentFacing(e.target.checked)} /> Include in student-facing exports</label><label><input type="checkbox" checked={pinned} onChange={e => setPinned(e.target.checked)} /> Pin for follow-up</label></div>
-    <div className="modal-actions"><span className="shortcut-hint">Ctrl/âŒ˜ + Enter to save</span><button type="button" className="btn ghost" onClick={onClose}>Cancel</button><button className="btn primary" disabled={!text.trim()}>Save record</button></div>
-  </form></ModalShell>;
-}
-
-function moveStudents(data: AppData, ids: string[], from: string, to: string, correction: boolean): AppData {
-  const now = isoDate();
-  let enrollments = data.enrollments.map(e => ids.includes(e.studentId) && e.sectionId === from && e.active ? (correction ? null : { ...e, active: false, endDate: now }) : e).filter(Boolean) as Enrollment[];
-  ids.forEach(studentId => {
-    const old = data.enrollments.find(e => e.studentId === studentId && e.sectionId === from && e.active);
-    enrollments.push({ id: correction && old ? old.id : uid("enr"), studentId, sectionId: to, startDate: correction && old ? old.startDate : now, active: true });
-  });
-  return { ...data, enrollments };
-}
-
-function MoveModal({ data, studentIds, currentSectionId, onClose, onMove }: { data: AppData; studentIds: string[]; currentSectionId: string; onClose: () => void; onMove: (target: string, correction: boolean) => void }) {
-  const [target, setTarget] = useState(data.sections.find(s => s.id !== currentSectionId && !s.archived)?.id || ""), [correction, setCorrection] = useState(false);
-  return <ModalShell title={`Switch ${studentIds.length} student${studentIds.length === 1 ? "" : "s"}`} subtitle="SECTION PLACEMENT" onClose={onClose}><div className="modal-body"><div className="selected-names">{data.students.filter(s => studentIds.includes(s.id)).map(s => <span key={s.id}>{fullName(s)}</span>)}</div><label>Destination section<select value={target} onChange={e => setTarget(e.target.value)}>{data.sections.filter(s => s.id !== currentSectionId && !s.archived).map(s => { const c = data.courses.find(c => c.id === s.courseId), y = data.years.find(y => y.id === c?.yearId); return <option key={s.id} value={s.id}>{y?.label} Â· {c?.name} Â· {s.name}</option>; })}</select></label>
-    <div className="choice-cards"><label className={!correction ? "active" : ""}><input type="radio" checked={!correction} onChange={() => setCorrection(false)} /> <b>Effective today</b><span>Keep the previous enrollment in the studentâ€™s history.</span></label><label className={correction ? "active" : ""}><input type="radio" checked={correction} onChange={() => setCorrection(true)} /> <b>Correct entire enrollment</b><span>Treat the previous section as a placement error.</span></label></div>
-    <div className="modal-actions"><button className="btn ghost" onClick={onClose}>Cancel</button><button className="btn primary" disabled={!target} onClick={() => onMove(target, correction)}>Update placement</button></div></div></ModalShell>;
-}
-
-function StructureModal({ data, activeYearId, onClose, onUpdate, onSelect }: { data: AppData; activeYearId: string; onClose: () => void; onUpdate: (f: (d: AppData) => AppData) => void; onSelect: (y: string, c: string, s: string) => void }) {
-  const [year, setYear] = useState(""), [course, setCourse] = useState(""), [section, setSection] = useState("");
-  const addYear = () => { if (!year.trim()) return; onUpdate(d => ({ ...d, years: [...d.years, { id: uid("yr"), label: year.trim() }] })); setYear(""); };
-  const addCourse = () => { if (!course.trim()) return; onUpdate(d => ({ ...d, courses: [...d.courses, { id: uid("crs"), yearId: activeYearId, name: course.trim() }] })); setCourse(""); };
-  const activeCourses = data.courses.filter(c => c.yearId === activeYearId && !c.archived);
-  const sectionCourse = activeCourses[0]?.id || "";
-  const addSection = () => { if (!section.trim() || !sectionCourse) return; onUpdate(d => ({ ...d, sections: [...d.sections, { id: uid("sec"), courseId: sectionCourse, name: section.trim() }] })); setSection(""); };
-  return <ModalShell title="Manage school structure" subtitle="YEARS Â· CLASSES Â· SECTIONS" onClose={onClose} wide><div className="structure-grid">
-    <section><span className="eyebrow">SCHOOL YEARS</span><div className="structure-list">{data.years.map(y => <button key={y.id} className={y.id === activeYearId ? "active" : ""} onClick={() => { const c = data.courses.find(c => c.yearId === y.id), s = data.sections.find(s => s.courseId === c?.id); if (c && s) onSelect(y.id, c.id, s.id); }}>{y.label}<small>{data.courses.filter(c => c.yearId === y.id).length} classes</small></button>)}</div><div className="inline-add"><input value={year} onChange={e => setYear(e.target.value)} placeholder="2027â€“2028" /><button onClick={addYear}>+</button></div></section>
-    <section><span className="eyebrow">CLASSES IN {data.years.find(y => y.id === activeYearId)?.label}</span><div className="structure-list">{activeCourses.map(c => <div key={c.id}><b>{c.name}</b><small>{data.sections.filter(s => s.courseId === c.id).length} sections</small></div>)}</div><div className="inline-add"><input value={course} onChange={e => setCourse(e.target.value)} placeholder="AP Literature" /><button onClick={addCourse}>+</button></div></section>
-    <section><span className="eyebrow">SECTIONS</span><div className="structure-list">{activeCourses.flatMap(c => data.sections.filter(s => s.courseId === c.id).map(s => <div key={s.id}><b>{s.name}</b><small>{c.name}</small></div>))}</div><div className="inline-add"><input value={section} onChange={e => setSection(e.target.value)} placeholder="Block C" /><button onClick={addSection}>+</button></div></section>
-  </div><div className="modal-actions padded"><span className="form-hint">Archiving and renaming controls can be added after the core workflow is in use.</span><button className="btn primary" onClick={onClose}>Done</button></div></ModalShell>;
-}
-
-function exportText(data: AppData, ids: string[], yearId: string, types: RecordKind[], allYears: boolean, anonymize: boolean, studentFacingOnly: boolean) {
-  const year = data.years.find(y => y.id === yearId);
-  return ids.map((id, i) => {
-    const s = data.students.find(x => x.id === id); if (!s) return "";
-    const enrollIds = new Set(data.enrollments.filter(e => e.studentId === id && data.sections.some(sec => sec.id === e.sectionId && data.courses.some(c => c.id === sec.courseId && c.yearId === yearId))).map(e => e.id));
-    const records = data.records.filter(r => r.studentId === id && types.includes(r.kind) && (allYears || !!r.enrollmentId && enrollIds.has(r.enrollmentId)) && (!studentFacingOnly || r.studentFacing)).sort((a, b) => a.date.localeCompare(b.date));
-    const name = anonymize ? `Student ${i + 1}` : fullName(s);
-    const grouped = kinds.map(k => ({ ...k, records: records.filter(r => r.kind === k.id) })).filter(g => g.records.length);
-    return [`STUDENT: ${name}`, `SCOPE: ${allYears ? "All available years" : year?.label || "Current year"}`, ...grouped.flatMap(g => ["", g.label.toUpperCase(), ...g.records.map(r => `${r.date}${r.title ? ` â€” ${r.title}` : ""}\n${r.text}`)])].join("\n");
-  }).filter(Boolean).join("\n\nâ”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€\n\n");
-}
-
-function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds, onClose, notify }: { data: AppData; yearId: string; courseId: string; sectionId: string; studentId: string; selectedIds: string[]; onClose: () => void; notify: (s: string) => void }) {
-  const [scope, setScope] = useState<"student" | "selected" | "section" | "class">(selectedIds.length > 1 ? "selected" : "student"), [types, setTypes] = useState<RecordKind[]>(kinds.map(k => k.id)), [allYears, setAllYears] = useState(false), [anonymize, setAnonymize] = useState(false), [studentFacing, setStudentFacing] = useState(false), [format, setFormat] = useState<"text" | "json">("text");
-  const ids = useMemo(() => {
-    if (scope === "student") return studentId ? [studentId] : [];
-    if (scope === "selected") return selectedIds;
-    const sections = scope === "class" ? data.sections.filter(s => s.courseId === courseId).map(s => s.id) : [sectionId];
-    return Array.from(new Set(data.enrollments.filter(e => sections.includes(e.sectionId) && e.active).map(e => e.studentId)));
-  }, [scope, studentId, selectedIds, data, courseId, sectionId]);
-  const plain = exportText(data, ids, yearId, types, allYears, anonymize, studentFacing);
-  const json = JSON.stringify({ format: "teacher-records-selection", schemaVersion: 1, exportedAt: stamp(), students: data.students.filter(s => ids.includes(s.id)), records: data.records.filter(r => ids.includes(r.studentId) && types.includes(r.kind)) }, null, 2);
-  const output = format === "text" ? plain : json;
-  const doCopy = async () => { await navigator.clipboard.writeText(output); notify(`${ids.length} student record${ids.length === 1 ? "" : "s"} copied`); };
-  return <ModalShell title="Prepare export" subtitle="CHATGPT-READY RECORDS" onClose={onClose} wide><div className="export-layout"><aside>
-    <fieldset><legend>Who to include</legend><label><input type="radio" checked={scope === "student"} onChange={() => setScope("student")} /> Current student</label><label><input type="radio" checked={scope === "selected"} disabled={!selectedIds.length} onChange={() => setScope("selected")} /> Selected students ({selectedIds.length})</label><label><input type="radio" checked={scope === "section"} onChange={() => setScope("section")} /> Current section</label><label><input type="radio" checked={scope === "class"} onChange={() => setScope("class")} /> All class sections</label></fieldset>
-    <fieldset><legend>Record scope</legend><label><input type="radio" checked={!allYears} onChange={() => setAllYears(false)} /> Current school year</label><label><input type="radio" checked={allYears} onChange={() => setAllYears(true)} /> All years</label></fieldset>
-    <fieldset><legend>Include record types</legend>{kinds.map(k => <label key={k.id}><input type="checkbox" checked={types.includes(k.id)} onChange={e => setTypes(x => e.target.checked ? [...x, k.id] : x.filter(v => v !== k.id))} /> {k.label}</label>)}</fieldset>
-    <fieldset><legend>Privacy and format</legend><label><input type="checkbox" checked={anonymize} onChange={e => setAnonymize(e.target.checked)} /> Replace names with Student 1, 2â€¦</label><label><input type="checkbox" checked={studentFacing} onChange={e => setStudentFacing(e.target.checked)} /> Student-facing entries only</label><select value={format} onChange={e => setFormat(e.target.value as "text" | "json")}><option value="text">ChatGPT-ready text</option><option value="json">Selected records as JSON</option></select></fieldset>
-  </aside><section className="export-preview"><div className="preview-head"><div><span className="eyebrow">LIVE PREVIEW</span><b>{ids.length} student{ids.length === 1 ? "" : "s"} Â· {output.length.toLocaleString()} characters</b></div><button className="btn primary" disabled={!output} onClick={doCopy}>Copy to clipboard</button></div><pre>{output || "No records match this selection."}</pre></section></div></ModalShell>;
-}
-
-function DataModal({ data, onClose, onImport, notify }: { data: AppData; onClose: () => void; onImport: (d: AppData) => void; notify: (s: string) => void }) {
-  const fileRef = useRef<HTMLInputElement>(null);
-  const backup = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2);
-  const download = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([backup], { type: "application/json" })); a.download = `teacher-records-backup-${isoDate()}.json`; a.click(); URL.revokeObjectURL(a.href); notify("Complete backup downloaded"); };
-  const importFile = (file?: File) => { if (!file) return; const reader = new FileReader(); reader.onload = () => { try { const parsed = JSON.parse(String(reader.result)); if (parsed.format !== "teacher-records-backup" || !Array.isArray(parsed.students) || !Array.isArray(parsed.records)) throw new Error(); if (confirm(`Restore ${parsed.students.length} students and ${parsed.records.length} records? This replaces the database currently on this device.`)) onImport(parsed); } catch { notify("That file is not a valid backup"); } }; reader.readAsText(file); };
-  return <ModalShell title="Data and backups" subtitle="LOCAL STORAGE CONTROL" onClose={onClose}><div className="data-status"><div className="holo-symbol">â–£</div><div><b>Your records live only in this browser</b><p>{data.students.length} students Â· {data.records.length} records Â· updated {new Date(data.updatedAt).toLocaleString()}</p></div></div><div className="data-actions"><button className="data-action primary-data" onClick={download}><b>Download complete backup</b><span>Recommended Â· saves a dated JSON file</span></button><button className="data-action" onClick={() => { navigator.clipboard.writeText(backup); notify("Complete JSON backup copied"); }}><b>Copy backup as JSON text</b><span>Useful when file downloads are restricted</span></button><button className="data-action" onClick={() => fileRef.current?.click()}><b>Restore from JSON file</b><span>Preview and confirm before replacing data</span></button><input ref={fileRef} type="file" accept="application/json,.json" hidden onChange={e => importFile(e.target.files?.[0])} /></div><div className="backup-warning"><b>Keep a backup.</b> Browser data may be cleared by workplace IT policies or browser resets. JSON backups contain confidential student information and are not encrypted.</div><div className="modal-actions"><button className="btn primary" onClick={onClose}>Done</button></div></ModalShell>;
-}
-
-function ThemeModal({ selected, onClose, onSelect }: { selected: Theme; onClose: () => void; onSelect: (t: Theme) => void }) {
-  return <ModalShell title="Choose interface skin" subtitle="STATIC Â· LOW POWER" onClose={onClose} wide><div className="theme-grid">{themes.map(t => <button key={t.id} className={`theme-card theme-${t.id} ${selected === t.id ? "selected" : ""}`} onClick={() => onSelect(t.id)}><i /><b>{t.label}</b><span>{t.sub}</span></button>)}</div></ModalShell>;
-}
-
-
-ReactDOM.createRoot(document.getElementById("root")).render(<Home />);
-  </script>
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Home));</script>
 </body>
 </html>
