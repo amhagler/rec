@@ -37,6 +37,7 @@
 @media(max-width:800px){.appearance-settings .atmosphere-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}.holo-modal:has(.settings-layout){height:96vh}.appearance-settings .privacy-options{grid-template-columns:1fr}}
 .roster-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding:0 12px}.roster-search-row .searchbox{margin:0}.sort-toggle{display:flex;padding:3px;border:1px solid #ffffff1a;border-radius:10px;background:#0003}.sort-toggle button{padding:6px 7px;border:0;border-radius:7px;background:transparent;color:var(--muted);font:900 7px var(--mono);text-transform:uppercase}.sort-toggle button.active{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}.merge-popup{position:absolute;z-index:40;inset:0;display:grid;place-items:center;padding:14px;background:#000c;backdrop-filter:blur(12px)}.merge-popup>section{width:min(560px,96%);display:grid;gap:10px;padding:20px;border:1px solid color-mix(in srgb,var(--accent) 38%,#fff2);border-radius:22px;background:linear-gradient(155deg,var(--panel),var(--bg1));box-shadow:0 0 42px var(--glow),0 25px 80px #000b}.merge-popup h3{margin:0;font-family:var(--serif);font-size:23px}.merge-popup p{margin:0;font:10px/1.55 var(--mono);color:var(--muted)}.merge-identity{display:grid;gap:5px;padding:11px;border:1px solid #ffffff16;border-radius:13px;background:#0003}.merge-identity b{font:10px var(--mono);color:var(--accent)}.merge-identity span{font:9px var(--mono);color:var(--muted)}
 .bulk-strip{flex-wrap:wrap}.bulk-strip .select-scope{flex:1 1 115px;min-width:0;padding:6px 7px;border-radius:9px;font:8px var(--mono)}.bulk-strip>div{margin-left:auto}
+.local-status.save-saving i{animation:pulse 1s ease-in-out infinite}.local-status.save-failed{color:#ff8795}.local-status.save-failed i{background:#ff5368;box-shadow:0 0 12px #ff5368}
 </style>
 </head>
 <body>
@@ -82,13 +83,13 @@ const academicYearLabel = (when = new Date()) => { const start = when.getMonth()
 const defaultData = () => {
     const yearId = uid("yr");
     return {
-        format: "teacher-records-backup", schemaVersion: 1, updatedAt: stamp(),
+        format: "teacher-records-backup", schemaVersion: 2, updatedAt: stamp(),
         years: [{ id: yearId, label: academicYearLabel() }], courses: [], sections: [],
         students: [], enrollments: [], records: [], columns: [], settings: { theme: "holographic", accessCode: "111111", currentYearId: yearId, idlePrivacyMinutes: 10, privacyOnHidden: false },
     };
 };
 function normalizeData(raw) {
-    const next = { ...raw, columns: raw.columns || [], settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, ...raw.settings } };
+    const next = { ...raw, schemaVersion: 2, columns: raw.columns || [], settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, ...raw.settings } };
     const isUnusedStarter = !next.students.length && !next.records.length && next.courses.length === 1 && next.courses[0]?.name === "English 10" && next.sections.every(section => ["Block A", "Block B"].includes(section.name));
     if (isUnusedStarter) {
         next.courses = [];
@@ -106,28 +107,84 @@ function normalizeData(raw) {
         next.settings.currentYearId = next.years.find(year => year.label === academicYearLabel())?.id || next.years[0].id;
     return next;
 }
-const dbName = "teacher-records-console";
-function loadDb() {
-    return new Promise((resolve) => {
-        const req = indexedDB.open(dbName, 1);
-        req.onupgradeneeded = () => req.result.createObjectStore("state");
-        req.onerror = () => resolve(null);
-        req.onsuccess = () => {
-            const get = req.result.transaction("state", "readonly").objectStore("state").get("app");
-            get.onsuccess = () => resolve(get.result || null);
-            get.onerror = () => resolve(null);
+const dbName = "teacher-records-console", dbVersion = 2;
+const entityStores = ["years", "courses", "sections", "students", "enrollments", "records", "columns"];
+const allStores = [...entityStores, "settings", "metadata"];
+let lastSavedData = null;
+let saveQueue = Promise.resolve();
+function openDb() {
+    return new Promise((resolve, reject) => {
+        const request = indexedDB.open(dbName, dbVersion);
+        request.onerror = () => reject(request.error || new Error("Unable to open the local archive"));
+        request.onblocked = () => reject(new Error("The local archive is open in another tab. Close the other tab and try again."));
+        request.onupgradeneeded = event => {
+            const db = request.result, transaction = request.transaction;
+            const create = (name, indexes) => { const store = db.objectStoreNames.contains(name) ? transaction.objectStore(name) : db.createObjectStore(name, { keyPath: "id" }); indexes.forEach(([index, key]) => { if (!store.indexNames.contains(index))
+                store.createIndex(index, key, { unique: false }); }); return store; };
+            create("years", [["label", "label"]]);
+            create("courses", [["yearId", "yearId"], ["name", "name"]]);
+            create("sections", [["courseId", "courseId"], ["name", "name"]]);
+            create("students", [["email", "email"], ["name", ["lastName", "firstName"]]]);
+            create("enrollments", [["studentId", "studentId"], ["sectionId", "sectionId"], ["studentSection", ["studentId", "sectionId"]]]);
+            create("records", [["studentId", "studentId"], ["date", "date"], ["kind", "kind"], ["columnId", "columnId"], ["studentDate", ["studentId", "date"]]]);
+            create("columns", [["date", "date"]]);
+            create("settings", []);
+            create("metadata", []);
+            if ((event.oldVersion || 0) < 2 && db.objectStoreNames.contains("state")) {
+                const legacy = transaction.objectStore("state").get("app");
+                legacy.onsuccess = () => { const data = legacy.result; if (!data)
+                    return; entityStores.forEach(name => (data[name] || []).forEach(item => transaction.objectStore(name).put(item))); transaction.objectStore("settings").put({ id: "app", ...data.settings }); transaction.objectStore("metadata").put({ id: "app", format: data.format, schemaVersion: 2, updatedAt: data.updatedAt, migratedAt: stamp() }); };
+            }
         };
+        request.onsuccess = () => resolve(request.result);
     });
 }
-function saveDb(data) {
-    const req = indexedDB.open(dbName, 1);
-    req.onupgradeneeded = () => req.result.createObjectStore("state");
-    req.onsuccess = () => req.result.transaction("state", "readwrite").objectStore("state").put(data, "app");
+function requestResult(request) { return new Promise((resolve, reject) => { request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error); }); }
+async function loadDb() {
+    const db = await openDb();
+    try {
+        const transaction = db.transaction(allStores, "readonly");
+        const [years, courses, sections, students, enrollments, records, columns, settingsRow, metadata] = await Promise.all([
+            ...entityStores.map(name => requestResult(transaction.objectStore(name).getAll())),
+            requestResult(transaction.objectStore("settings").get("app")), requestResult(transaction.objectStore("metadata").get("app")),
+        ]);
+        if (!years.length && !students.length && !records.length && !settingsRow)
+            return null;
+        const { id: _settingsId, ...settings } = settingsRow || { id: "app" };
+        const data = { format: metadata?.format || "teacher-records-backup", schemaVersion: 2, updatedAt: metadata?.updatedAt || stamp(), years, courses, sections, students, enrollments, records, columns, settings };
+        lastSavedData = structuredClone(data);
+        return data;
+    }
+    finally {
+        db.close();
+    }
 }
+function syncEntities(store, previous, next) { const old = new Map(previous.map(item => [item.id, item])), current = new Map(next.map(item => [item.id, item])); old.forEach((_, id) => { if (!current.has(id))
+    store.delete(id); }); current.forEach((item, id) => { if (JSON.stringify(old.get(id)) !== JSON.stringify(item))
+    store.put(item); }); }
+async function persistDb(data) {
+    const db = await openDb();
+    try {
+        await new Promise((resolve, reject) => {
+            const transaction = db.transaction(allStores, "readwrite"), previous = lastSavedData || defaultData();
+            entityStores.forEach(name => syncEntities(transaction.objectStore(name), previous[name] || [], data[name] || []));
+            transaction.objectStore("settings").put({ id: "app", ...data.settings });
+            transaction.objectStore("metadata").put({ id: "app", format: data.format, schemaVersion: 2, updatedAt: data.updatedAt, recordCount: data.records.length, studentCount: data.students.length });
+            transaction.oncomplete = () => { lastSavedData = structuredClone(data); resolve(); };
+            transaction.onerror = () => reject(transaction.error || new Error("The local archive could not be saved"));
+            transaction.onabort = () => reject(transaction.error || new Error("The local archive save was interrupted"));
+        });
+    }
+    finally {
+        db.close();
+    }
+}
+function saveDb(data) { const snapshot = structuredClone(data); saveQueue = saveQueue.catch(() => undefined).then(() => persistDb(snapshot)); return saveQueue; }
 let activeNameOrder = "last";
 function fullName(s, order = activeNameOrder) { return s ? (order === "first" ? `${s.firstName} ${s.lastName}` : `${s.lastName}, ${s.firstName}`).trim() : "Student"; }
 function prettyDate(date) { return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
 function kindLabel(kind) { return kinds.find(k => k.id === kind)?.label || "Record"; }
+function formatBytes(bytes) { return bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`; }
 function Home() {
     const [data, setData] = useState(null);
     activeNameOrder = data?.settings.rosterSortBy === "first" ? "first" : "last";
@@ -147,13 +204,16 @@ function Home() {
     const [toast, setToast] = useState("");
     const [loaded, setLoaded] = useState(false);
     const [unlocked, setUnlocked] = useState(false);
+    const [saveStatus, setSaveStatus] = useState("loading");
+    const [persistentStorage, setPersistentStorage] = useState(false);
     const toastTimer = useRef(null);
-    useEffect(() => { loadDb().then(x => { setData(normalizeData(x || defaultData())); setLoaded(true); }); }, []);
+    useEffect(() => { loadDb().then(x => { setData(normalizeData(x || defaultData())); setLoaded(true); setSaveStatus("saved"); }).catch(() => { setData(defaultData()); setLoaded(true); setSaveStatus("failed"); setToast("The local archive could not be opened. Download a backup before entering records."); }); navigator.storage?.persisted?.().then(value => value ? setPersistentStorage(true) : navigator.storage?.persist?.().then(granted => setPersistentStorage(granted))); }, []);
     useEffect(() => {
         if (!data || !loaded)
             return;
-        const next = { ...data, updatedAt: stamp() };
-        saveDb(next);
+        setSaveStatus("saving");
+        const timer = setTimeout(() => { const next = { ...data, updatedAt: stamp(), schemaVersion: 2 }; saveDb(next).then(() => setSaveStatus("saved")).catch(() => { setSaveStatus("failed"); setToast("SAVE FAILED · Downloading an emergency backup"); const anchor = document.createElement("a"), json = JSON.stringify(next, null, 2); anchor.href = URL.createObjectURL(new Blob([json], { type: "application/json" })); anchor.download = `teacher-records-emergency-${isoDate()}.json`; anchor.click(); setTimeout(() => URL.revokeObjectURL(anchor.href), 1000); }); }, 180);
+        return () => clearTimeout(timer);
     }, [data, loaded]);
     useEffect(() => {
         if (!data)
@@ -263,6 +323,7 @@ function Home() {
     if (!unlocked)
         return React.createElement(AccessChallenge, { theme: data.settings.theme, accessCode: data.settings.accessCode || "111111", onUnlock: () => setUnlocked(true) });
     const activeTheme = data.settings.theme;
+    const archiveSize = new Blob([JSON.stringify(data)]).size;
     const toggleSelected = (id) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
     const selectRosterScope = (scope) => { if (!scope)
         return; if (scope === "clear")
@@ -281,9 +342,10 @@ function Home() {
             React.createElement("div", { className: "brand" },
                 React.createElement("span", { className: "eyebrow" }, "LONGITUDINAL STUDENT ARCHIVE"),
                 React.createElement("h1", null, "Teacher Record Console"),
-                React.createElement("span", { className: "local-status" },
+                React.createElement("span", { className: `local-status save-${saveStatus}` },
                     React.createElement("i", null),
-                    " Stored on this device")),
+                    " ",
+                    saveStatus === "saving" ? "Saving locally…" : saveStatus === "failed" ? "Save failed · backup required" : `Saved and verified · ${formatBytes(archiveSize)}`)),
             React.createElement("nav", { className: "top-actions", "aria-label": "Application controls" },
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("search") }, "\u2315 Search"),
                 React.createElement("button", { className: "btn primary", onClick: () => setModal("quick") }, "\u25A6 Quick entry"),
@@ -418,9 +480,13 @@ function Home() {
                 React.createElement("p", null, "Records, feedback, and observations will appear here as a searchable timeline."),
                 React.createElement("button", { className: "btn primary", onClick: () => setModal("student") }, "+ Add student")))),
         React.createElement("footer", null,
-            React.createElement("span", null, "LOW POWER MODE \u00B7 LOCAL DATABASE"),
+            React.createElement("span", null,
+                "LOW POWER MODE \u00B7 COMPARTMENTALIZED LOCAL DATABASE \u00B7 ",
+                persistentStorage ? "PERSISTENT STORAGE" : "STANDARD BROWSER STORAGE"),
             React.createElement("span", null,
                 data.settings.lastBackupAt ? `LAST BACKUP ${prettyDate(data.settings.lastBackupAt.slice(0, 10)).toUpperCase()}` : "BACKUP RECOMMENDED",
+                " \u00B7 ",
+                formatBytes(archiveSize),
                 " \u00B7 ",
                 data.records.length,
                 " records across ",
@@ -1471,7 +1537,9 @@ function ConferenceSnapshotModal({ data, student, yearId, onClose, notify }) {
 }
 function DataModal({ data, onClose, onImport, onBackup, notify }) {
     const fileRef = useRef(null);
-    const backup = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2);
+    const backup = JSON.stringify({ ...data, schemaVersion: 2, updatedAt: stamp() }, null, 2);
+    const knownStudents = new Set(data.students.map(student => student.id)), knownSections = new Set(data.sections.map(section => section.id));
+    const integrityIssues = data.records.filter(record => !knownStudents.has(record.studentId)).length + data.enrollments.filter(enrollment => !knownStudents.has(enrollment.studentId) || !knownSections.has(enrollment.sectionId)).length;
     const download = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([backup], { type: "application/json" })); a.download = `teacher-records-backup-${isoDate()}.json`; a.click(); URL.revokeObjectURL(a.href); onBackup(); notify("Complete backup downloaded"); };
     const importFile = (file) => { if (!file)
         return; const reader = new FileReader(); reader.onload = () => { try {
@@ -1488,8 +1556,12 @@ function DataModal({ data, onClose, onImport, onBackup, notify }) {
         React.createElement("div", { className: "data-status" },
             React.createElement("div", { className: "holo-symbol" }, "\u25A3"),
             React.createElement("div", null,
-                React.createElement("b", null, "Your records live only in this browser"),
+                React.createElement("b", null,
+                    "Compartmentalized local archive \u00B7 ",
+                    integrityIssues ? `${integrityIssues} integrity issue${integrityIssues === 1 ? "" : "s"}` : "integrity check passed"),
                 React.createElement("p", null,
+                    formatBytes(new Blob([backup]).size),
+                    " \u00B7 ",
                     data.students.length,
                     " students \u00B7 ",
                     data.records.length,
