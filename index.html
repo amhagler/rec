@@ -35,6 +35,7 @@
 .profile-pronouns{display:block;margin-top:2px;font:9px var(--mono);color:var(--muted)}.profile-enrollments{display:flex;align-items:flex-start;gap:14px;padding:9px 22px;border-bottom:1px solid #ffffff12;background:#0002}.profile-enrollments>span{flex:0 0 auto;padding-top:3px}.profile-enrollments>div{display:flex;flex-wrap:wrap;gap:5px 12px}.profile-enrollments>div>span{font:9px/1.45 var(--mono);color:var(--muted)}.profile-enrollments b{color:var(--ink)}
 .holo-modal:has(.settings-layout){height:min(940px,96vh);overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr) auto}.holo-modal:has(.settings-layout)>.settings-layout{min-height:0;overflow:hidden;padding:10px;gap:8px;grid-template-rows:minmax(0,1fr) auto}.holo-modal:has(.settings-layout) .settings-card{padding:10px}.holo-modal:has(.settings-layout) .structure-settings{min-height:0;overflow:hidden}.holo-modal:has(.settings-layout) .school-settings-grid{min-height:0;height:calc(100% - 52px);margin-top:7px}.holo-modal:has(.settings-layout) .school-years,.holo-modal:has(.settings-layout) .school-classes{min-height:0;overflow:auto;padding:8px}.holo-modal:has(.settings-layout) .class-settings-card>header{padding:7px 9px}.holo-modal:has(.settings-layout) .section-setting-list>div{padding:5px 9px}.appearance-settings{grid-column:1/-1}.appearance-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.appearance-head h3,.appearance-head p{margin-bottom:3px}.appearance-settings .atmosphere-buttons{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}.appearance-settings .atmosphere-button{min-height:34px;padding:8px 9px;font-size:8px}.appearance-settings .privacy-options{grid-template-columns:260px minmax(0,1fr);align-items:end;margin-top:4px}.access-code-popup{position:absolute;z-index:35;inset:0;display:grid;place-items:center;padding:18px;background:#000b;backdrop-filter:blur(12px)}.access-code-popup>section{width:min(480px,94%);display:grid;gap:11px;padding:18px;border:1px solid color-mix(in srgb,var(--accent) 38%,#fff2);border-radius:22px;background:linear-gradient(155deg,color-mix(in srgb,var(--panel) 96%,transparent),var(--bg1));box-shadow:0 0 45px var(--glow),0 25px 80px #000b}.access-code-popup header{display:flex;align-items:center;justify-content:space-between}.access-code-popup h3{margin:3px 0;font-family:var(--serif)}.access-code-popup p{margin:0;font:9px/1.5 var(--mono);color:var(--muted)}.access-code-popup .backup-warning{margin:0}.access-code-popup .modal-actions{padding:0}
 @media(max-width:800px){.appearance-settings .atmosphere-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}.holo-modal:has(.settings-layout){height:96vh}.appearance-settings .privacy-options{grid-template-columns:1fr}}
+.roster-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding:0 12px}.roster-search-row .searchbox{margin:0}.sort-toggle{display:flex;padding:3px;border:1px solid #ffffff1a;border-radius:10px;background:#0003}.sort-toggle button{padding:6px 7px;border:0;border-radius:7px;background:transparent;color:var(--muted);font:900 7px var(--mono);text-transform:uppercase}.sort-toggle button.active{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}.merge-popup{position:absolute;z-index:40;inset:0;display:grid;place-items:center;padding:14px;background:#000c;backdrop-filter:blur(12px)}.merge-popup>section{width:min(560px,96%);display:grid;gap:10px;padding:20px;border:1px solid color-mix(in srgb,var(--accent) 38%,#fff2);border-radius:22px;background:linear-gradient(155deg,var(--panel),var(--bg1));box-shadow:0 0 42px var(--glow),0 25px 80px #000b}.merge-popup h3{margin:0;font-family:var(--serif);font-size:23px}.merge-popup p{margin:0;font:10px/1.55 var(--mono);color:var(--muted)}.merge-identity{display:grid;gap:5px;padding:11px;border:1px solid #ffffff16;border-radius:13px;background:#0003}.merge-identity b{font:10px var(--mono);color:var(--accent)}.merge-identity span{font:9px var(--mono);color:var(--muted)}
 </style>
 </head>
 <body>
@@ -212,7 +213,7 @@ function Home() {
         const ids = new Set(sectionEnrollments.map(e => e.studentId));
         const q = search.trim().toLowerCase();
         return data.students.filter(s => ids.has(s.id) && (showArchived || !s.archived) && (!q || fullName(s).toLowerCase().includes(q) || s.email.toLowerCase().includes(q)))
-            .sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
+            .sort((a, b) => data.settings.rosterSortBy === "first" ? a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName) : a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
     }, [data, sectionEnrollments, search, showArchived]);
     useEffect(() => { if (roster.length && !roster.some(s => s.id === studentId))
         setStudentId(roster.find(s => s.id === data?.settings.lastStudentId)?.id || roster[0].id); if (!roster.length)
@@ -304,9 +305,13 @@ function Home() {
                     React.createElement("div", { className: "mini-actions" },
                         React.createElement("button", { className: "btn ghost compact", onClick: () => setModal("importRoster") }, "Import"),
                         React.createElement("button", { className: "btn primary compact", onClick: () => setModal("student") }, "+ Student"))),
-                React.createElement("div", { className: "searchbox" },
-                    React.createElement("span", null, "\u2315"),
-                    React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: "Find a student\u2026" })),
+                React.createElement("div", { className: "roster-search-row" },
+                    React.createElement("div", { className: "searchbox" },
+                        React.createElement("span", null, "\u2315"),
+                        React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: "Find a student\u2026" })),
+                    React.createElement("div", { className: "sort-toggle", "aria-label": "Sort roster" },
+                        React.createElement("button", { className: data.settings.rosterSortBy !== "first" ? "active" : "", onClick: () => update(d => ({ ...d, settings: { ...d.settings, rosterSortBy: "last" } })) }, "Last"),
+                        React.createElement("button", { className: data.settings.rosterSortBy === "first" ? "active" : "", onClick: () => update(d => ({ ...d, settings: { ...d.settings, rosterSortBy: "first" } })) }, "First"))),
                 React.createElement("div", { className: "bulk-strip" },
                     React.createElement("label", { className: "check-label" },
                         React.createElement("input", { type: "checkbox", checked: !!roster.length && roster.every(s => selectedIds.includes(s.id)), onChange: e => setSelectedIds(e.target.checked ? roster.map(s => s.id) : []) }),
@@ -407,7 +412,7 @@ function Home() {
                 " records across ",
                 data.students.length,
                 " students")),
-        modal === "student" && React.createElement(StudentModal, { data: data, sectionId: sectionId, onClose: () => setModal(null), onSave: (student, enrollment) => { update(d => ({ ...d, students: [...d.students, student], enrollments: [...d.enrollments, enrollment] })); setStudentId(student.id); setModal(null); notify(`${fullName(student)} added`); } }),
+        modal === "student" && React.createElement(StudentModal, { data: data, sectionId: sectionId, onClose: () => setModal(null), onSave: (student, enrollment) => { const exists = data.students.some(item => item.id === student.id); update(d => ({ ...d, students: exists ? d.students : [...d.students, student], enrollments: d.enrollments.some(item => item.studentId === student.id && item.sectionId === enrollment.sectionId && item.active) ? d.enrollments : [...d.enrollments, enrollment] })); setStudentId(student.id); setModal(null); notify(exists ? `${fullName(student)} connected to the existing profile` : `${fullName(student)} added`); } }),
         modal === "editStudent" && selectedStudent && React.createElement(EditStudentModal, { data: data, student: selectedStudent, onClose: () => setModal(null), onSave: student => { update(d => ({ ...d, students: d.students.map(item => item.id === student.id ? student : item) })); setModal(null); notify("Student profile updated"); }, onDelete: () => { const typed = window.prompt(`Type ${fullName(selectedStudent)} to permanently delete this student and every record.`); if (typed !== fullName(selectedStudent))
                 return notify("Permanent deletion cancelled"); update(d => ({ ...d, students: d.students.filter(student => student.id !== studentId), enrollments: d.enrollments.filter(enrollment => enrollment.studentId !== studentId), records: d.records.filter(record => record.studentId !== studentId) })); setStudentId(""); setModal(null); notify("Student permanently deleted"); } }),
         modal === "importRoster" && React.createElement(ImportRosterModal, { data: data, initialSectionId: sectionId, onClose: () => setModal(null), onImport: (students, enrollments) => { update(d => ({ ...d, students: [...d.students, ...students], enrollments: [...d.enrollments, ...enrollments] })); setModal(null); notify(`${enrollments.length} roster placements imported`); } }),
@@ -970,10 +975,15 @@ function ModalShell({ title, subtitle, onClose, children, wide = false }) {
 }
 function StudentModal({ data, sectionId, onClose, onSave }) {
     const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [pronouns, setPronouns] = useState(""), [target, setTarget] = useState(sectionId);
+    const [pendingMatch, setPendingMatch] = useState(null);
     const valid = firstName.trim() && lastName.trim();
+    const saveStudent = (forceNew = false) => { if (!valid)
+        return; const cleanEmail = email.trim().toLowerCase(), cleanName = `${firstName.trim()} ${lastName.trim()}`.toLowerCase(); const match = !forceNew ? data.students.find(student => cleanEmail && student.email.toLowerCase() === cleanEmail) || data.students.find(student => fullName(student).toLowerCase() === cleanName) : undefined; if (match)
+        return setPendingMatch(match); const id = uid("stu"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, createdAt: stamp() }, { id: uid("enr"), studentId: id, sectionId: target, startDate: isoDate(), active: true }); };
+    const mergeWith = (student) => onSave(student, { id: uid("enr"), studentId: student.id, sectionId: target, startDate: isoDate(), active: true });
+    const matchHistory = pendingMatch ? data.enrollments.filter(enrollment => enrollment.studentId === pendingMatch.id).map(enrollment => { const section = data.sections.find(item => item.id === enrollment.sectionId), course = data.courses.find(item => item.id === section?.courseId), year = data.years.find(item => item.id === course?.yearId); return `${year?.label || "Unknown year"} · ${course?.name || "Unknown class"} · ${section?.name || "Unknown section"}`; }) : [];
     return React.createElement(ModalShell, { title: "Add student", subtitle: "NEW CONTINUOUS PROFILE", onClose: onClose },
-        React.createElement("form", { onSubmit: e => { e.preventDefault(); if (!valid)
-                return; const id = uid("stu"), eid = uid("enr"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, createdAt: stamp() }, { id: eid, studentId: id, sectionId: target, startDate: isoDate(), active: true }); } },
+        React.createElement("form", { onSubmit: e => { e.preventDefault(); saveStudent(); } },
             React.createElement("div", { className: "form-grid two" },
                 React.createElement("label", null,
                     "First name",
@@ -999,7 +1009,19 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
             React.createElement("p", { className: "form-hint" }, "This creates one continuous profile. Future class placements will attach to the same student."),
             React.createElement("div", { className: "modal-actions" },
                 React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"),
-                React.createElement("button", { className: "btn primary", disabled: !valid }, "Add student"))));
+                React.createElement("button", { className: "btn primary", disabled: !valid }, "Add student"))),
+        pendingMatch && React.createElement("div", { className: "merge-popup" },
+            React.createElement("section", null,
+                React.createElement("span", { className: "eyebrow" }, "POSSIBLE EXISTING STUDENT"),
+                React.createElement("h3", null, fullName(pendingMatch)),
+                React.createElement("p", null, "This student may already have a continuous profile. Attaching the new enrollment keeps all years and records together."),
+                React.createElement("div", { className: "merge-identity" },
+                    React.createElement("b", null, pendingMatch.email || "No email on file"),
+                    matchHistory.map(item => React.createElement("span", { key: item }, item))),
+                React.createElement("div", { className: "modal-actions" },
+                    React.createElement("button", { className: "btn ghost", onClick: () => setPendingMatch(null) }, "Go back"),
+                    React.createElement("button", { className: "btn ghost", onClick: () => saveStudent(true) }, "Create separate student"),
+                    React.createElement("button", { className: "btn primary", onClick: () => mergeWith(pendingMatch) }, "Use existing profile")))));
 }
 function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
     const [firstName, setFirst] = useState(student.firstName), [lastName, setLast] = useState(student.lastName), [email, setEmail] = useState(student.email), [pronouns, setPronouns] = useState(student.pronouns || ""), [archived, setArchived] = useState(!!student.archived);
