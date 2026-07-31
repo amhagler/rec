@@ -123,11 +123,13 @@ function saveDb(data) {
     req.onupgradeneeded = () => req.result.createObjectStore("state");
     req.onsuccess = () => req.result.transaction("state", "readwrite").objectStore("state").put(data, "app");
 }
-function fullName(s) { return s ? `${s.firstName} ${s.lastName}`.trim() : "Student"; }
+let activeNameOrder = "last";
+function fullName(s, order = activeNameOrder) { return s ? (order === "first" ? `${s.firstName} ${s.lastName}` : `${s.lastName}, ${s.firstName}`).trim() : "Student"; }
 function prettyDate(date) { return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
 function kindLabel(kind) { return kinds.find(k => k.id === kind)?.label || "Record"; }
 function Home() {
     const [data, setData] = useState(null);
+    activeNameOrder = data?.settings.rosterSortBy === "first" ? "first" : "last";
     const [yearId, setYearId] = useState("");
     const [courseId, setCourseId] = useState("");
     const [sectionId, setSectionId] = useState("");
@@ -330,7 +332,7 @@ function Home() {
                                 s.firstName[0],
                                 s.lastName[0]),
                             React.createElement("div", { className: "student-summary" },
-                                React.createElement("b", { className: "sensitive" }, fullName(s)),
+                                React.createElement("b", { className: "sensitive" }, fullName(s, data.settings.rosterSortBy === "first" ? "first" : "last")),
                                 React.createElement("span", { className: "sensitive" }, s.email || "No email")),
                             React.createElement("span", { className: "record-count" }, count));
                     })),
@@ -346,7 +348,7 @@ function Home() {
                             selectedStudent.lastName[0]),
                         React.createElement("div", null,
                             React.createElement("span", { className: "eyebrow" }, "STUDENT PROFILE"),
-                            React.createElement("h2", { className: "sensitive" }, fullName(selectedStudent)),
+                            React.createElement("h2", { className: "sensitive" }, fullName(selectedStudent, data.settings.rosterSortBy === "first" ? "first" : "last")),
                             selectedStudent.pronouns && React.createElement("span", { className: "profile-pronouns sensitive" }, selectedStudent.pronouns),
                             React.createElement("button", { className: "email-link sensitive", onClick: () => copy(selectedStudent.email, "Email address copied") },
                                 selectedStudent.email || "Add email address",
@@ -638,7 +640,7 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
                 React.createElement("div", { className: "backup-warning" }, "This is a visual privacy barrier, not encryption."),
                 React.createElement("div", { className: "modal-actions" },
                     React.createElement("button", { className: "btn ghost", onClick: () => setShowAccess(false) }, "Cancel"),
-                    React.createElement("button", { className: "btn primary", onClick: saveCode }, "Update access code")))));
+                    React.createElement("button", { "data-ctrl-save": true, className: "btn primary", onClick: saveCode }, "Update access code")))));
 }
 function SchoolStructureSettings({ data, onUpdate, notify }) {
     const [selectedYearId, setSelectedYearId] = useState(data.settings.currentYearId || data.years[0]?.id || "");
@@ -800,7 +802,7 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
     const activeColumn = allColumns.find(column => column.id === activeId);
     const scopedSections = activeColumn?.sectionIds || sectionIds;
     const studentIds = Array.from(new Set(data.enrollments.filter(e => e.active && scopedSections.includes(e.sectionId)).map(e => e.studentId)));
-    const students = data.students.filter(s => studentIds.includes(s.id) && !s.archived).sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
+    const students = data.students.filter(s => studentIds.includes(s.id) && !s.archived).sort((a, b) => data.settings.rosterSortBy === "first" ? a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName) : a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
     const visibleStudents = onlyMissing ? students.filter(student => !drafts[student.id]?.trim()) : students;
     useEffect(() => {
         if (!activeColumn) {
@@ -918,7 +920,7 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
                     React.createElement("button", { className: "btn ghost", onClick: duplicateColumn }, "Duplicate"),
                     React.createElement("button", { className: "btn ghost", onClick: archiveColumn }, "Archive"),
                     React.createElement("button", { className: "btn danger", onClick: deleteColumn }, "Delete"),
-                    React.createElement("button", { className: "btn primary", onClick: () => saveRows() }, "Save all feedback"))),
+                    React.createElement("button", { "data-ctrl-save": true, className: "btn primary", onClick: () => saveRows() }, "Save all feedback"))),
             React.createElement("div", { className: "bulk-comment" },
                 React.createElement("label", null,
                     "Bulk comment for everyone in this activity",
@@ -944,7 +946,18 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
                             student.firstName[0],
                             student.lastName[0]),
                         React.createElement("b", null, fullName(student))),
-                    React.createElement("textarea", { rows: 3, value: drafts[student.id] || "", onChange: e => setDrafts(values => ({ ...values, [student.id]: e.target.value })), placeholder: "Enter feedback\u2026" }),
+                    React.createElement("textarea", { rows: 3, value: drafts[student.id] || "", onChange: e => setDrafts(values => ({ ...values, [student.id]: e.target.value })), onKeyDown: event => { if (event.key !== "Enter")
+                            return; if (event.ctrlKey || event.metaKey) {
+                            event.preventDefault();
+                            saveRows();
+                            onClose();
+                        }
+                        else if (event.shiftKey) {
+                            event.preventDefault();
+                            saveRows();
+                            const rows = Array.from(event.currentTarget.closest(".feedback-grid")?.querySelectorAll("textarea") || []), index = rows.indexOf(event.currentTarget);
+                            rows[index + 1]?.focus();
+                        } }, placeholder: "Enter feedback\u2026" }),
                     React.createElement("span", { className: drafts[student.id]?.trim() ? "has-feedback" : "" }, drafts[student.id]?.trim() ? "READY" : "EMPTY"))))) : null);
 }
 function RecordCard({ record, onEdit, onTogglePin, onDelete }) {
@@ -965,7 +978,28 @@ function RecordCard({ record, onEdit, onTogglePin, onDelete }) {
 function ModalShell({ title, subtitle, onClose, children, wide = false }) {
     return React.createElement("div", { className: "modal-overlay", onMouseDown: e => { if (e.target === e.currentTarget)
             onClose(); } },
-        React.createElement("section", { className: `holo-modal ${wide ? "wide" : ""}`, role: "dialog", "aria-modal": "true", "aria-label": title },
+        React.createElement("section", { className: `holo-modal ${wide ? "wide" : ""}`, role: "dialog", "aria-modal": "true", "aria-label": title, onKeyDownCapture: event => { if (event.key !== "Enter")
+                return; if (event.shiftKey) {
+                const next = event.currentTarget.querySelector("[data-save-next]");
+                if (next) {
+                    event.preventDefault();
+                    next.click();
+                }
+                return;
+            } if (event.ctrlKey || event.metaKey) {
+                const form = event.target.closest("form") || event.currentTarget.querySelector("form");
+                if (form) {
+                    event.preventDefault();
+                    form.requestSubmit();
+                }
+                else {
+                    const save = event.currentTarget.querySelector("[data-ctrl-save]");
+                    if (save) {
+                        event.preventDefault();
+                        save.click();
+                    }
+                }
+            } } },
             React.createElement("header", null,
                 React.createElement("div", null,
                     React.createElement("span", { className: "eyebrow" }, subtitle || "TEACHER RECORD CONSOLE"),
@@ -978,7 +1012,7 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
     const [pendingMatch, setPendingMatch] = useState(null);
     const valid = firstName.trim() && lastName.trim();
     const saveStudent = (forceNew = false) => { if (!valid)
-        return; const cleanEmail = email.trim().toLowerCase(), cleanName = `${firstName.trim()} ${lastName.trim()}`.toLowerCase(); const match = !forceNew ? data.students.find(student => cleanEmail && student.email.toLowerCase() === cleanEmail) || data.students.find(student => fullName(student).toLowerCase() === cleanName) : undefined; if (match)
+        return; const cleanEmail = email.trim().toLowerCase(), cleanName = `${firstName.trim()} ${lastName.trim()}`.toLowerCase(); const match = !forceNew ? data.students.find(student => cleanEmail && student.email.toLowerCase() === cleanEmail) || data.students.find(student => fullName(student, "first").toLowerCase() === cleanName) : undefined; if (match)
         return setPendingMatch(match); const id = uid("stu"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, createdAt: stamp() }, { id: uid("enr"), studentId: id, sectionId: target, startDate: isoDate(), active: true }); };
     const mergeWith = (student) => onSave(student, { id: uid("enr"), studentId: student.id, sectionId: target, startDate: isoDate(), active: true });
     const matchHistory = pendingMatch ? data.enrollments.filter(enrollment => enrollment.studentId === pendingMatch.id).map(enrollment => { const section = data.sections.find(item => item.id === enrollment.sectionId), course = data.courses.find(item => item.id === section?.courseId), year = data.years.find(item => item.id === course?.yearId); return `${year?.label || "Unknown year"} · ${course?.name || "Unknown class"} · ${section?.name || "Unknown section"}`; }) : [];
@@ -1076,7 +1110,7 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
         const firstName = names[0] || "", lastName = names.slice(1).join(" ") || "";
         if (!firstName || !lastName)
             return { firstName, lastName, email, error: "Needs first and last name", existing: undefined };
-        const existing = data.students.find(student => email && student.email.toLowerCase() === email.toLowerCase()) || data.students.find(student => fullName(student).toLowerCase() === `${firstName} ${lastName}`.toLowerCase());
+        const existing = data.students.find(student => email && student.email.toLowerCase() === email.toLowerCase()) || data.students.find(student => fullName(student, "first").toLowerCase() === `${firstName} ${lastName}`.toLowerCase());
         return { firstName, lastName, email, existing, error: "" };
     }).filter(Boolean), [text, data.students]);
     const importRows = () => { const students = [], enrollments = []; parsed.filter(row => !row.error).forEach(row => { const student = row.existing || { id: uid("stu"), firstName: row.firstName, lastName: row.lastName, email: row.email, createdAt: stamp() }; if (!row.existing)
@@ -1102,10 +1136,7 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
                 React.createElement("div", { className: "import-preview" },
                     !parsed.length && React.createElement("div", { className: "school-empty" }, "Paste roster rows to preview them."),
                     parsed.map((row, index) => React.createElement("div", { className: row.error ? "error" : row.existing ? "duplicate" : "", key: `${row.email}-${index}` },
-                        React.createElement("b", null,
-                            row.firstName,
-                            " ",
-                            row.lastName),
+                        React.createElement("b", null, data.settings.rosterSortBy === "first" ? `${row.firstName} ${row.lastName}` : `${row.lastName}, ${row.firstName}`),
                         React.createElement("span", null, row.email || "No email"),
                         React.createElement("em", null, row.error || (row.existing ? "EXISTING PROFILE · ADD ENROLLMENT" : "NEW STUDENT"))))))),
         React.createElement("div", { className: "modal-actions padded" },
@@ -1115,7 +1146,7 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
                 parsed.filter(row => row.existing).length,
                 " existing profiles"),
             React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"),
-            React.createElement("button", { className: "btn primary", disabled: !sectionId || !parsed.some(row => !row.error), onClick: importRows }, "Import roster")));
+            React.createElement("button", { "data-ctrl-save": true, className: "btn primary", disabled: !sectionId || !parsed.some(row => !row.error), onClick: importRows }, "Import roster")));
 }
 function RecordModal({ student, enrollment, onClose, onSave, onSaveAndNext }) {
     const draftKey = `teacher-record-draft-${student.id}`;
@@ -1146,8 +1177,7 @@ function RecordModal({ student, enrollment, onClose, onSave, onSaveAndNext }) {
                 React.createElement("input", { value: title, onChange: e => setTitle(e.target.value), placeholder: "A short heading for easier scanning" })),
             React.createElement("label", null,
                 "Comment",
-                React.createElement("textarea", { ref: textRef, value: text, onChange: e => setText(e.target.value), onKeyDown: event => { if ((event.ctrlKey || event.metaKey) && event.key === "Enter")
-                        event.currentTarget.form?.requestSubmit(); }, rows: 8, placeholder: "Paste official language, capture an observation, or write feedback\u2026" })),
+                React.createElement("textarea", { ref: textRef, value: text, onChange: e => setText(e.target.value), rows: 8, placeholder: "Paste official language, capture an observation, or write feedback\u2026" })),
             React.createElement("div", { className: "toggle-row" },
                 React.createElement("label", null,
                     React.createElement("input", { type: "checkbox", checked: studentFacing, onChange: e => setStudentFacing(e.target.checked) }),
@@ -1158,7 +1188,7 @@ function RecordModal({ student, enrollment, onClose, onSave, onSaveAndNext }) {
             React.createElement("div", { className: "modal-actions" },
                 React.createElement("span", { className: "shortcut-hint" }, "Draft saved locally \u00B7 Ctrl/\u2318 + Enter"),
                 React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Close"),
-                onSaveAndNext && React.createElement("button", { type: "button", className: "btn ghost", disabled: !text.trim(), onClick: () => { localStorage.removeItem(draftKey); onSaveAndNext(buildRecord()); } }, "Save + next"),
+                onSaveAndNext && React.createElement("button", { type: "button", "data-save-next": true, className: "btn ghost", disabled: !text.trim(), onClick: () => { localStorage.removeItem(draftKey); onSaveAndNext(buildRecord()); } }, "Save + next"),
                 React.createElement("button", { className: "btn primary", disabled: !text.trim() }, "Save record"))));
 }
 function EditRecordModal({ record, student, onClose, onSave }) {
