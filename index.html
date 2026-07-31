@@ -33,6 +33,8 @@
 .atmosphere-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.atmosphere-button{position:relative;display:flex;align-items:center;gap:6px;min-width:0;padding:7px 8px;border:1px solid #ffffff18;border-radius:9px;background:linear-gradient(180deg,var(--panel),var(--bg0));color:var(--ink);font:800 7px var(--mono);letter-spacing:.035em;text-align:left}.atmosphere-button i{width:7px;height:7px;flex:0 0 auto;border-radius:50%;background:var(--accent);box-shadow:0 0 7px var(--accent)}.atmosphere-button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atmosphere-button.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel));box-shadow:0 0 10px var(--glow)}
 @media(max-width:760px){.atmosphere-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}}
 .profile-pronouns{display:block;margin-top:2px;font:9px var(--mono);color:var(--muted)}.profile-enrollments{display:flex;align-items:flex-start;gap:14px;padding:9px 22px;border-bottom:1px solid #ffffff12;background:#0002}.profile-enrollments>span{flex:0 0 auto;padding-top:3px}.profile-enrollments>div{display:flex;flex-wrap:wrap;gap:5px 12px}.profile-enrollments>div>span{font:9px/1.45 var(--mono);color:var(--muted)}.profile-enrollments b{color:var(--ink)}
+.holo-modal:has(.settings-layout){height:min(940px,96vh);overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr) auto}.holo-modal:has(.settings-layout)>.settings-layout{min-height:0;overflow:hidden;padding:10px;gap:8px;grid-template-rows:minmax(0,1fr) auto}.holo-modal:has(.settings-layout) .settings-card{padding:10px}.holo-modal:has(.settings-layout) .structure-settings{min-height:0;overflow:hidden}.holo-modal:has(.settings-layout) .school-settings-grid{min-height:0;height:calc(100% - 52px);margin-top:7px}.holo-modal:has(.settings-layout) .school-years,.holo-modal:has(.settings-layout) .school-classes{min-height:0;overflow:auto;padding:8px}.holo-modal:has(.settings-layout) .class-settings-card>header{padding:7px 9px}.holo-modal:has(.settings-layout) .section-setting-list>div{padding:5px 9px}.appearance-settings{grid-column:1/-1}.appearance-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.appearance-head h3,.appearance-head p{margin-bottom:3px}.appearance-settings .atmosphere-buttons{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}.appearance-settings .atmosphere-button{min-height:34px;padding:8px 9px;font-size:8px}.appearance-settings .privacy-options{grid-template-columns:260px minmax(0,1fr);align-items:end;margin-top:4px}.access-code-popup{position:absolute;z-index:35;inset:0;display:grid;place-items:center;padding:18px;background:#000b;backdrop-filter:blur(12px)}.access-code-popup>section{width:min(480px,94%);display:grid;gap:11px;padding:18px;border:1px solid color-mix(in srgb,var(--accent) 38%,#fff2);border-radius:22px;background:linear-gradient(155deg,color-mix(in srgb,var(--panel) 96%,transparent),var(--bg1));box-shadow:0 0 45px var(--glow),0 25px 80px #000b}.access-code-popup header{display:flex;align-items:center;justify-content:space-between}.access-code-popup h3{margin:3px 0;font-family:var(--serif)}.access-code-popup p{margin:0;font:9px/1.5 var(--mono);color:var(--muted)}.access-code-popup .backup-warning{margin:0}.access-code-popup .modal-actions{padding:0}
+@media(max-width:800px){.appearance-settings .atmosphere-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}.holo-modal:has(.settings-layout){height:96vh}.appearance-settings .privacy-options{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -566,6 +568,7 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
     const [current, setCurrent] = useState("");
     const [next, setNext] = useState("");
     const [confirmCode, setConfirmCode] = useState("");
+    const [showAccess, setShowAccess] = useState(false);
     const saveCode = () => {
         const stored = data.settings.accessCode || "111111";
         if (current !== stored)
@@ -578,15 +581,19 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
         setCurrent("");
         setNext("");
         setConfirmCode("");
+        setShowAccess(false);
         notify("Access code updated");
     };
     return React.createElement(ModalShell, { title: "Settings", subtitle: "CLASSES \u00B7 YEARS \u00B7 APPEARANCE \u00B7 ACCESS", onClose: onClose, wide: true },
         React.createElement("div", { className: "settings-layout" },
             React.createElement(SchoolStructureSettings, { data: data, onUpdate: onUpdate, notify: notify }),
             React.createElement("section", { className: "settings-card appearance-settings" },
-                React.createElement("span", { className: "eyebrow" }, "APPEARANCE"),
-                React.createElement("h3", null, "Visual atmosphere"),
-                React.createElement("p", null, "Choose directly. All skins retain low-power controls."),
+                React.createElement("div", { className: "appearance-head" },
+                    React.createElement("div", null,
+                        React.createElement("span", { className: "eyebrow" }, "APPEARANCE"),
+                        React.createElement("h3", null, "Visual atmosphere"),
+                        React.createElement("p", null, "Choose directly. All skins retain low-power controls.")),
+                    React.createElement("button", { className: "btn ghost", onClick: () => setShowAccess(true) }, "\u25C7 Security & access code")),
                 React.createElement("div", { className: "atmosphere-buttons" }, themes.map(theme => React.createElement("button", { key: theme.id, title: theme.sub, className: `atmosphere-button theme-${theme.id} ${data.settings.theme === theme.id ? "selected" : ""}`, onClick: () => { onUpdate(d => ({ ...d, settings: { ...d.settings, theme: theme.id } })); notify(`${theme.label} skin applied`); } },
                     React.createElement("i", null),
                     React.createElement("span", null, theme.label)))),
@@ -602,24 +609,31 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
                             React.createElement("option", { value: "30" }, "After 30 minutes"))),
                     React.createElement("label", { className: "check-label" },
                         React.createElement("input", { type: "checkbox", checked: !!data.settings.privacyOnHidden, onChange: event => onUpdate(d => ({ ...d, settings: { ...d.settings, privacyOnHidden: event.target.checked } })) }),
-                        " Start privacy screen when the tab is hidden"))),
-            React.createElement("section", { className: "settings-card access-settings" },
-                React.createElement("span", { className: "eyebrow" }, "ACCESS CHALLENGE"),
-                React.createElement("h3", null, "Change keypad code"),
+                        " Start privacy screen when the tab is hidden")))),
+        React.createElement("div", { className: "modal-actions padded" },
+            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")),
+        showAccess && React.createElement("div", { className: "access-code-popup", onMouseDown: event => { if (event.target === event.currentTarget)
+                setShowAccess(false); } },
+            React.createElement("section", null,
+                React.createElement("header", null,
+                    React.createElement("div", null,
+                        React.createElement("span", { className: "eyebrow" }, "ACCESS CHALLENGE"),
+                        React.createElement("h3", null, "Change keypad code")),
+                    React.createElement("button", { className: "btn ghost icon-btn", onClick: () => setShowAccess(false) }, "\u00D7")),
                 React.createElement("p", null, "The console locks whenever the page is reopened. Three incorrect privacy-screen attempts trigger a safety backup and exit."),
                 React.createElement("label", null,
                     "Current six-digit code",
-                    React.createElement("input", { type: "password", inputMode: "numeric", maxLength: 6, value: current, onChange: e => setCurrent(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
+                    React.createElement("input", { autoFocus: true, type: "password", inputMode: "numeric", maxLength: 6, value: current, onChange: e => setCurrent(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
                 React.createElement("label", null,
                     "New six-digit code",
                     React.createElement("input", { type: "password", inputMode: "numeric", maxLength: 6, value: next, onChange: e => setNext(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
                 React.createElement("label", null,
                     "Confirm new code",
                     React.createElement("input", { type: "password", inputMode: "numeric", maxLength: 6, value: confirmCode, onChange: e => setConfirmCode(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
-                React.createElement("button", { className: "btn primary", onClick: saveCode }, "Update access code"),
-                React.createElement("div", { className: "backup-warning" }, "This is a visual privacy barrier, not encryption."))),
-        React.createElement("div", { className: "modal-actions padded" },
-            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")));
+                React.createElement("div", { className: "backup-warning" }, "This is a visual privacy barrier, not encryption."),
+                React.createElement("div", { className: "modal-actions" },
+                    React.createElement("button", { className: "btn ghost", onClick: () => setShowAccess(false) }, "Cancel"),
+                    React.createElement("button", { className: "btn primary", onClick: saveCode }, "Update access code")))));
 }
 function SchoolStructureSettings({ data, onUpdate, notify }) {
     const [selectedYearId, setSelectedYearId] = useState(data.settings.currentYearId || data.years[0]?.id || "");
