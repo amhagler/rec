@@ -32,6 +32,7 @@
 .activity-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.feedback-filter{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.feedback-filter label{display:flex;align-items:center;gap:8px}.feedback-filter input{width:auto}.btn.danger{border-color:rgba(255,90,110,.5);color:#ff8596}
 .atmosphere-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.atmosphere-button{position:relative;display:flex;align-items:center;gap:6px;min-width:0;padding:7px 8px;border:1px solid #ffffff18;border-radius:9px;background:linear-gradient(180deg,var(--panel),var(--bg0));color:var(--ink);font:800 7px var(--mono);letter-spacing:.035em;text-align:left}.atmosphere-button i{width:7px;height:7px;flex:0 0 auto;border-radius:50%;background:var(--accent);box-shadow:0 0 7px var(--accent)}.atmosphere-button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atmosphere-button.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel));box-shadow:0 0 10px var(--glow)}
 @media(max-width:760px){.atmosphere-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.profile-pronouns{display:block;margin-top:2px;font:9px var(--mono);color:var(--muted)}.profile-enrollments{display:flex;align-items:flex-start;gap:14px;padding:9px 22px;border-bottom:1px solid #ffffff12;background:#0002}.profile-enrollments>span{flex:0 0 auto;padding-top:3px}.profile-enrollments>div{display:flex;flex-wrap:wrap;gap:5px 12px}.profile-enrollments>div>span{font:9px/1.45 var(--mono);color:var(--muted)}.profile-enrollments b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -201,6 +202,7 @@ function Home() {
     const currentCourse = data?.courses.find(c => c.id === courseId);
     const currentSection = data?.sections.find(s => s.id === sectionId);
     const selectedStudent = data?.students.find(s => s.id === studentId);
+    const selectedEnrollmentHistory = useMemo(() => !data || !studentId ? [] : data.enrollments.filter(enrollment => enrollment.studentId === studentId).map(enrollment => { const section = data.sections.find(item => item.id === enrollment.sectionId), course = data.courses.find(item => item.id === section?.courseId), year = data.years.find(item => item.id === course?.yearId); return { enrollment, section, course, year }; }).sort((a, b) => (b.year?.label || "").localeCompare(a.year?.label || "")), [data, studentId]);
     const sectionEnrollments = useMemo(() => data?.enrollments.filter(e => e.sectionId === sectionId && e.active) || [], [data, sectionId]);
     const roster = useMemo(() => {
         if (!data)
@@ -338,6 +340,7 @@ function Home() {
                         React.createElement("div", null,
                             React.createElement("span", { className: "eyebrow" }, "STUDENT PROFILE"),
                             React.createElement("h2", { className: "sensitive" }, fullName(selectedStudent)),
+                            selectedStudent.pronouns && React.createElement("span", { className: "profile-pronouns sensitive" }, selectedStudent.pronouns),
                             React.createElement("button", { className: "email-link sensitive", onClick: () => copy(selectedStudent.email, "Email address copied") },
                                 selectedStudent.email || "Add email address",
                                 " ",
@@ -348,6 +351,14 @@ function Home() {
                         React.createElement("button", { className: "btn ghost", onClick: () => { update(d => ({ ...d, students: d.students.map(s => s.id === studentId ? { ...s, archived: !s.archived } : s) })); notify(selectedStudent.archived ? "Student restored to active roster" : "Student archived"); } }, selectedStudent.archived ? "Restore" : "Archive"),
                         React.createElement("button", { className: "btn ghost", onClick: () => setModal("move") }, "Switch section"),
                         React.createElement("button", { className: "btn primary", onClick: () => setModal("record") }, "+ Add record"))),
+                React.createElement("div", { className: "profile-enrollments sensitive" },
+                    React.createElement("span", { className: "eyebrow" }, "COURSE HISTORY"),
+                    React.createElement("div", null, selectedEnrollmentHistory.map(({ enrollment, year, course, section }) => React.createElement("span", { key: enrollment.id },
+                        React.createElement("b", null, year?.label || "Unknown year"),
+                        " \u00B7 ",
+                        course?.name || "Unknown class",
+                        " \u00B7 ",
+                        section?.name || "Unknown section")))),
                 React.createElement("div", { className: "insight-strip" },
                     React.createElement("div", null,
                         React.createElement("b", null, data.records.filter(r => r.studentId === studentId).length),
@@ -944,11 +955,11 @@ function ModalShell({ title, subtitle, onClose, children, wide = false }) {
             children));
 }
 function StudentModal({ data, sectionId, onClose, onSave }) {
-    const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [target, setTarget] = useState(sectionId);
+    const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [pronouns, setPronouns] = useState(""), [target, setTarget] = useState(sectionId);
     const valid = firstName.trim() && lastName.trim();
     return React.createElement(ModalShell, { title: "Add student", subtitle: "NEW CONTINUOUS PROFILE", onClose: onClose },
         React.createElement("form", { onSubmit: e => { e.preventDefault(); if (!valid)
-                return; const id = uid("stu"), eid = uid("enr"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), createdAt: stamp() }, { id: eid, studentId: id, sectionId: target, startDate: isoDate(), active: true }); } },
+                return; const id = uid("stu"), eid = uid("enr"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, createdAt: stamp() }, { id: eid, studentId: id, sectionId: target, startDate: isoDate(), active: true }); } },
             React.createElement("div", { className: "form-grid two" },
                 React.createElement("label", null,
                     "First name",
@@ -959,6 +970,10 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
             React.createElement("label", null,
                 "Email address",
                 React.createElement("input", { type: "email", value: email, onChange: e => setEmail(e.target.value), placeholder: "email@school.org" })),
+            React.createElement("label", null,
+                "Pronouns ",
+                React.createElement("span", { className: "optional" }, "private \u00B7 optional"),
+                React.createElement("input", { value: pronouns, onChange: e => setPronouns(e.target.value), placeholder: "they/them, she/her, he/him\u2026" })),
             React.createElement("label", null,
                 "Section",
                 React.createElement("select", { value: target, onChange: e => setTarget(e.target.value) }, data.sections.filter(s => !s.archived).map(s => { const c = data.courses.find(c => c.id === s.courseId), y = data.years.find(y => y.id === c?.yearId); return React.createElement("option", { key: s.id, value: s.id },
@@ -973,11 +988,11 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
                 React.createElement("button", { className: "btn primary", disabled: !valid }, "Add student"))));
 }
 function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
-    const [firstName, setFirst] = useState(student.firstName), [lastName, setLast] = useState(student.lastName), [email, setEmail] = useState(student.email), [archived, setArchived] = useState(!!student.archived);
+    const [firstName, setFirst] = useState(student.firstName), [lastName, setLast] = useState(student.lastName), [email, setEmail] = useState(student.email), [pronouns, setPronouns] = useState(student.pronouns || ""), [archived, setArchived] = useState(!!student.archived);
     const enrollments = data.enrollments.filter(enrollment => enrollment.studentId === student.id);
     return React.createElement(ModalShell, { title: "Edit student profile", subtitle: "IDENTITY \u00B7 ENROLLMENT HISTORY", onClose: onClose },
         React.createElement("form", { onSubmit: event => { event.preventDefault(); if (!firstName.trim() || !lastName.trim())
-                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), archived }); } },
+                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, archived }); } },
             React.createElement("div", { className: "form-grid two" },
                 React.createElement("label", null,
                     "First name",
@@ -988,6 +1003,10 @@ function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
             React.createElement("label", null,
                 "Email address",
                 React.createElement("input", { type: "email", value: email, onChange: event => setEmail(event.target.value) })),
+            React.createElement("label", null,
+                "Pronouns ",
+                React.createElement("span", { className: "optional" }, "private \u00B7 optional"),
+                React.createElement("input", { value: pronouns, onChange: event => setPronouns(event.target.value), placeholder: "they/them, she/her, he/him\u2026" })),
             React.createElement("label", { className: "check-label" },
                 React.createElement("input", { type: "checkbox", checked: archived, onChange: event => setArchived(event.target.checked) }),
                 " Archive this student"),
