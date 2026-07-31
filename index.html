@@ -30,6 +30,8 @@
 @media(max-width:900px){.settings-layout,.school-settings-grid,.import-layout{grid-template-columns:1fr}.structure-settings-head{display:grid}.add-class-card{grid-template-columns:1fr}.theme-popup .settings-themes{grid-template-columns:repeat(3,1fr);max-height:80vh;overflow:auto}}
 .preset-buttons{display:grid;grid-template-columns:1fr;gap:5px}.preset-buttons button{padding:7px;border-radius:9px;border:1px solid #ffffff14;background:#ffffff06;color:var(--accent);font:900 8px var(--mono);text-align:left}.conference-stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #ffffff14}.conference-stats>div{display:grid;gap:3px;padding:13px;border-right:1px solid #ffffff12}.conference-stats b{font:900 20px var(--mono);color:var(--accent)}.conference-stats span{font:8px var(--mono);text-transform:uppercase;color:var(--muted)}.conference-layout{display:grid;grid-template-columns:minmax(300px,.8fr) minmax(0,1.2fr);gap:13px;padding:14px}.conference-layout>section:first-child{display:grid;align-content:start;gap:8px;max-height:650px;overflow:auto}.snapshot-card{padding:10px;border-radius:12px;border:1px solid #ffffff12;background:#ffffff05}.snapshot-card b{font:900 8px var(--mono);color:var(--accent)}.snapshot-card p{margin:6px 0 0;font-size:10px;line-height:1.45;color:var(--muted)}@media(max-width:760px){.conference-layout{grid-template-columns:1fr}.conference-stats{grid-template-columns:repeat(2,1fr)}}
 .activity-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.feedback-filter{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.feedback-filter label{display:flex;align-items:center;gap:8px}.feedback-filter input{width:auto}.btn.danger{border-color:rgba(255,90,110,.5);color:#ff8596}
+.atmosphere-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}.atmosphere-button{position:relative;display:flex;align-items:center;gap:6px;min-width:0;padding:7px 8px;border:1px solid #ffffff18;border-radius:9px;background:linear-gradient(180deg,var(--panel),var(--bg0));color:var(--ink);font:800 7px var(--mono);letter-spacing:.035em;text-align:left}.atmosphere-button i{width:7px;height:7px;flex:0 0 auto;border-radius:50%;background:var(--accent);box-shadow:0 0 7px var(--accent)}.atmosphere-button span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.atmosphere-button.selected{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,var(--panel));box-shadow:0 0 10px var(--glow)}
+@media(max-width:760px){.atmosphere-buttons{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 </head>
 <body>
@@ -553,7 +555,6 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
     const [current, setCurrent] = useState("");
     const [next, setNext] = useState("");
     const [confirmCode, setConfirmCode] = useState("");
-    const [showThemes, setShowThemes] = useState(false);
     const saveCode = () => {
         const stored = data.settings.accessCode || "111111";
         if (current !== stored)
@@ -574,13 +575,10 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
             React.createElement("section", { className: "settings-card appearance-settings" },
                 React.createElement("span", { className: "eyebrow" }, "APPEARANCE"),
                 React.createElement("h3", null, "Visual atmosphere"),
-                React.createElement("p", null,
-                    themes.find(theme => theme.id === data.settings.theme)?.label,
-                    " is active. All skins retain low-power controls."),
-                React.createElement("button", { className: "settingsLaunch", onClick: () => setShowThemes(true) },
-                    React.createElement("span", null, "Current skin"),
-                    React.createElement("b", null, themes.find(theme => theme.id === data.settings.theme)?.label),
-                    React.createElement("small", null, "Open all 18 atmospheres in one compact panel.")),
+                React.createElement("p", null, "Choose directly. All skins retain low-power controls."),
+                React.createElement("div", { className: "atmosphere-buttons" }, themes.map(theme => React.createElement("button", { key: theme.id, title: theme.sub, className: `atmosphere-button theme-${theme.id} ${data.settings.theme === theme.id ? "selected" : ""}`, onClick: () => { onUpdate(d => ({ ...d, settings: { ...d.settings, theme: theme.id } })); notify(`${theme.label} skin applied`); } },
+                    React.createElement("i", null),
+                    React.createElement("span", null, theme.label)))),
                 React.createElement("div", { className: "privacy-options" },
                     React.createElement("label", null,
                         "Idle privacy screen",
@@ -610,18 +608,7 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
                 React.createElement("button", { className: "btn primary", onClick: saveCode }, "Update access code"),
                 React.createElement("div", { className: "backup-warning" }, "This is a visual privacy barrier, not encryption."))),
         React.createElement("div", { className: "modal-actions padded" },
-            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")),
-        showThemes && React.createElement("div", { className: "theme-popup" },
-            React.createElement("section", null,
-                React.createElement("header", null,
-                    React.createElement("div", null,
-                        React.createElement("span", { className: "eyebrow" }, "VISUAL ATMOSPHERES"),
-                        React.createElement("h3", null, "Choose a console skin")),
-                    React.createElement("button", { className: "btn ghost", onClick: () => setShowThemes(false) }, "Close")),
-                React.createElement("div", { className: "theme-grid settings-themes" }, themes.map(theme => React.createElement("button", { key: theme.id, className: `theme-card theme-${theme.id} ${data.settings.theme === theme.id ? "selected" : ""}`, onClick: () => { onUpdate(d => ({ ...d, settings: { ...d.settings, theme: theme.id } })); notify(`${theme.label} skin applied`); } },
-                    React.createElement("i", null),
-                    React.createElement("b", null, theme.label),
-                    React.createElement("span", null, theme.sub)))))));
+            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")));
 }
 function SchoolStructureSettings({ data, onUpdate, notify }) {
     const [selectedYearId, setSelectedYearId] = useState(data.settings.currentYearId || data.years[0]?.id || "");
@@ -965,13 +952,13 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
             React.createElement("div", { className: "form-grid two" },
                 React.createElement("label", null,
                     "First name",
-                    React.createElement("input", { autoFocus: true, value: firstName, onChange: e => setFirst(e.target.value), placeholder: "Maya" })),
+                    React.createElement("input", { autoFocus: true, value: firstName, onChange: e => setFirst(e.target.value), placeholder: "First" })),
                 React.createElement("label", null,
                     "Last name",
-                    React.createElement("input", { value: lastName, onChange: e => setLast(e.target.value), placeholder: "Rodriguez" }))),
+                    React.createElement("input", { value: lastName, onChange: e => setLast(e.target.value), placeholder: "Last" }))),
             React.createElement("label", null,
                 "Email address",
-                React.createElement("input", { type: "email", value: email, onChange: e => setEmail(e.target.value), placeholder: "maya.rodriguez@school.org" })),
+                React.createElement("input", { type: "email", value: email, onChange: e => setEmail(e.target.value), placeholder: "email@school.org" })),
             React.createElement("label", null,
                 "Section",
                 React.createElement("select", { value: target, onChange: e => setTarget(e.target.value) }, data.sections.filter(s => !s.archived).map(s => { const c = data.courses.find(c => c.id === s.courseId), y = data.years.find(y => y.id === c?.yearId); return React.createElement("option", { key: s.id, value: s.id },
@@ -1053,7 +1040,7 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
                         section.name); }))),
                 React.createElement("label", null,
                     "Paste roster",
-                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), placeholder: 'First name\tLast name\tEmail\nMaya\tRodriguez\tmaya@school.org' })),
+                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), placeholder: 'First name\tLast name\tEmail\nFirst\tLast\temail@school.org' })),
                 React.createElement("p", { className: "form-hint" }, "Accepts tab-separated spreadsheet rows or comma-separated text. A header row is optional.")),
             React.createElement("section", null,
                 React.createElement("span", { className: "eyebrow" }, "IMPORT PREVIEW"),
