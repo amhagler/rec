@@ -24,6 +24,12 @@
 .column-tabs{display:flex;gap:7px;padding:12px 14px;border-bottom:1px solid #ffffff14;overflow:auto}.column-tabs button{min-width:170px;display:grid;gap:3px;padding:9px 11px;text-align:left;border-radius:13px;border:1px solid #ffffff16;background:#ffffff06;color:var(--ink)}.column-tabs button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent);box-shadow:0 0 16px var(--glow)}.column-tabs button b{font:900 10px var(--mono);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.column-tabs button span{font:8px var(--mono);color:var(--muted)}.column-tabs .new-column{min-width:112px;place-content:center;color:var(--accent);text-align:center;font:900 10px var(--mono)}.column-creator{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px}.column-creator>section{padding:14px;border-radius:17px;border:1px solid #ffffff16;background:#ffffff05}.column-creator>.modal-actions{grid-column:1/-1}.section-picker{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;max-height:360px;overflow:auto}.section-picker label{grid-template-columns:20px minmax(0,1fr);align-items:center;gap:2px 7px;padding:9px;border-radius:12px;border:1px solid #ffffff14;background:#ffffff05;text-transform:none;letter-spacing:0}.section-picker label.active{border-color:color-mix(in srgb,var(--accent) 34%,transparent);background:color-mix(in srgb,var(--accent) 8%,transparent)}.section-picker input{grid-row:1/3;width:15px;height:15px;accent-color:var(--accent)}.section-picker b{font-size:10px;color:var(--ink)}.section-picker span{font:8px var(--mono);color:var(--muted)}.quick-entry-workspace{padding:16px}.quick-entry-head{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:11px}.bulk-comment{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:end;gap:10px;margin-bottom:13px;padding:12px;border-radius:16px;border:1px solid color-mix(in srgb,var(--accent) 20%,#ffffff10);background:color-mix(in srgb,var(--accent) 5%,transparent)}.feedback-grid{border:1px solid #ffffff16;border-radius:17px;overflow:hidden}.feedback-grid-header,.feedback-row{display:grid;grid-template-columns:230px minmax(300px,1fr) 70px;gap:10px;align-items:center}.feedback-grid-header{padding:9px 12px;border-bottom:1px solid #ffffff16;background:#ffffff08;font:900 8px var(--mono);letter-spacing:.11em;text-transform:uppercase;color:var(--accent)}.feedback-row{padding:9px 12px;border-bottom:1px solid #ffffff10}.feedback-row:last-child{border-bottom:0}.feedback-row>div{display:flex;align-items:center;gap:9px}.feedback-row>div b{font-size:11px}.feedback-row textarea{min-height:65px;resize:vertical}.feedback-row>span{font:900 8px var(--mono);color:#eaf0ff4d}.feedback-row>span.has-feedback{color:var(--accent);text-shadow:0 0 9px var(--glow)}
 @media(max-width:800px){.access-console{padding-inline:28px}.access-orbit{display:none}.settings-layout,.global-search-tools,.column-creator{grid-template-columns:1fr}.settings-themes{grid-template-columns:1fr}.global-result{grid-template-columns:40px minmax(0,1fr)}.global-result em{grid-column:2}.feedback-grid{overflow:auto}.feedback-grid-header,.feedback-row{grid-template-columns:170px minmax(280px,1fr) 60px}.bulk-comment{grid-template-columns:1fr}.section-picker{grid-template-columns:1fr}}
 .record-audit{display:flex;justify-content:space-between;gap:10px;padding:9px 11px;border-radius:12px;border:1px solid #ffffff12;background:#0002;color:var(--muted);font:8px var(--mono)}
+.privacy-saver{position:fixed;inset:0;z-index:300;overflow:hidden;display:grid;place-items:center;background:radial-gradient(900px 620px at 24% 18%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 65%),linear-gradient(155deg,var(--bg0),var(--bg1));color:var(--ink)}.saver-field,.saver-scan{position:absolute;inset:0;pointer-events:none}.saver-scan{z-index:2;background:repeating-linear-gradient(to bottom,#ffffff08,#ffffff08 1px,transparent 1px,transparent 4px);opacity:.18}.saver-field{filter:blur(.2px)}.saver-field:before,.saver-field:after{content:"";position:absolute;inset:-30%;background:conic-gradient(from 0deg,transparent,color-mix(in srgb,var(--accent) 12%,transparent),transparent 25%,color-mix(in srgb,var(--metal) 10%,transparent),transparent 55%);animation:saverRotate 28s linear infinite}.saver-field:after{animation-direction:reverse;animation-duration:37s;transform:scale(.72)}.saver-field i{position:absolute;width:3px;height:3px;border-radius:50%;background:var(--accent);box-shadow:0 0 14px var(--accent);animation:saverFloat 8s ease-in-out infinite}.saver-field i:nth-child(1){left:12%;top:20%}.saver-field i:nth-child(2){left:28%;top:72%;animation-delay:-2s}.saver-field i:nth-child(3){left:46%;top:34%;animation-delay:-4s}.saver-field i:nth-child(4){left:62%;top:81%;animation-delay:-1s}.saver-field i:nth-child(5){left:78%;top:18%;animation-delay:-6s}.saver-field i:nth-child(6){left:88%;top:62%;animation-delay:-3s}.saver-field i:nth-child(7){left:37%;top:12%;animation-delay:-5s}.saver-field i:nth-child(8){left:68%;top:48%;animation-delay:-7s}.saver-noirTerminal .saver-field,.saver-cyberpunkArcade .saver-field{background:repeating-linear-gradient(105deg,transparent 0 40px,color-mix(in srgb,var(--accent) 10%,transparent) 41px,transparent 42px 82px);animation:saverRain 9s linear infinite}.saver-artDeco .saver-field,.saver-brassObservatory .saver-field,.saver-jediArchive .saver-field{background:repeating-radial-gradient(ellipse at center,transparent 0 58px,color-mix(in srgb,var(--accent) 13%,transparent) 59px 60px,transparent 61px 110px);animation:saverPulse 8s ease-in-out infinite}.saver-deepSea .saver-field,.saver-auroraGlass .saver-field,.saver-arcticCommand .saver-field{filter:blur(16px);background:linear-gradient(115deg,transparent 10%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 52%,color-mix(in srgb,var(--metal) 15%,transparent),transparent);animation:saverAurora 14s ease-in-out infinite alternate}.saver-volcanicCore .saver-field i,.saver-imperialDatapad .saver-field i{animation:saverEmber 5s linear infinite;background:#ff713f}.saver-clock{position:absolute;top:42px;right:48px;z-index:4;display:grid;text-align:right;text-shadow:0 0 20px var(--glow)}.saver-clock span,.saver-clock em{font:9px var(--mono);letter-spacing:.15em;text-transform:uppercase;color:var(--muted)}.saver-clock b{font:300 42px var(--mono);letter-spacing:.05em}.saver-unlock{position:relative;z-index:4;display:grid;gap:6px;min-width:300px;padding:27px;border-radius:24px;border:1px solid color-mix(in srgb,var(--accent) 28%,#ffffff18);background:color-mix(in srgb,var(--panel) 58%,transparent);color:var(--ink);box-shadow:0 0 45px var(--glow),0 24px 70px #0008;backdrop-filter:blur(12px)}.saver-unlock span,.saver-unlock small{font:9px var(--mono);letter-spacing:.14em;color:var(--muted)}.saver-unlock b{font:700 21px var(--serif)}.privacy-keypad{position:relative;z-index:5;width:min(380px,92vw);padding:27px;border-radius:26px;border:1px solid color-mix(in srgb,var(--accent) 30%,#fff2);background:color-mix(in srgb,var(--panel) 82%,transparent);box-shadow:0 0 55px var(--glow),0 25px 80px #000a;backdrop-filter:blur(16px);text-align:center}.privacy-keypad h2{margin:5px 0 16px;font-family:var(--serif)}.privacy-attempts{margin-top:14px;min-height:18px;font:900 8px var(--mono);letter-spacing:.1em;color:var(--muted)}.privacy-saver.denied .privacy-keypad{animation:accessShake .52s ease;border-color:#ff4d4d}.privacy-saver.denied .privacy-attempts{color:#ff6d6d}@keyframes saverRotate{to{transform:rotate(360deg)}}@keyframes saverFloat{50%{transform:translate(25px,-34px) scale(1.8);opacity:.35}}@keyframes saverRain{to{background-position:180px 420px}}@keyframes saverPulse{50%{transform:scale(1.12);opacity:.55}}@keyframes saverAurora{to{transform:translateX(12%) scale(1.15);filter:blur(23px)}}@keyframes saverEmber{from{transform:translateY(60vh);opacity:0}40%{opacity:1}to{transform:translateY(-50vh);opacity:0}}
+.settings-layout{grid-template-columns:minmax(0,1.25fr) minmax(300px,.75fr)}.structure-settings{grid-column:1/-1}.structure-settings-head{display:flex;justify-content:space-between;align-items:end;gap:20px}.structure-settings-head>div>p{margin:5px 0 0}.structure-settings-head>label{min-width:220px}.school-settings-grid{display:grid;grid-template-columns:230px minmax(0,1fr);gap:12px;margin-top:14px}.school-years,.school-classes{display:grid;align-content:start;gap:7px;padding:12px;border-radius:15px;border:1px solid #ffffff14;background:#0002}.school-row{display:grid;grid-template-columns:minmax(0,1fr) auto 30px;gap:4px}.school-row button{min-width:0;padding:8px;border-radius:9px;border:1px solid #ffffff12;background:#ffffff06;color:var(--muted);font:8px var(--mono)}.school-row button:first-child{display:flex;justify-content:space-between;color:var(--ink);text-align:left}.school-row.active button:first-child{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent)}.school-row small{color:var(--accent)}.school-empty{padding:25px;text-align:center;border:1px dashed #ffffff18;border-radius:12px;color:var(--muted);font:9px var(--mono)}.class-settings-card{border:1px solid #ffffff16;border-radius:14px;background:#ffffff05;overflow:hidden}.class-settings-card.archived{opacity:.58}.class-settings-card>header{display:flex;justify-content:space-between;align-items:center;gap:10px;padding:10px 12px;border-bottom:1px solid #ffffff10}.class-settings-card>header>div:first-child{display:grid}.class-settings-card>header b{font-size:11px}.class-settings-card>header span{font:8px var(--mono);color:var(--muted)}.class-settings-card>header>div:last-child{display:flex;gap:4px}.class-settings-card button{border:0;background:transparent;color:var(--accent);font:900 8px var(--mono)}.danger-text,.danger{color:#ff7676!important}.section-setting-list{display:grid}.section-setting-list>div{display:grid;grid-template-columns:minmax(0,1fr) 80px auto 24px;gap:7px;align-items:center;padding:7px 12px;border-bottom:1px solid #ffffff0d}.section-setting-list span{font-size:10px}.section-setting-list small{font:8px var(--mono);color:var(--muted)}.add-section{padding:9px!important}.add-class-card{display:grid;grid-template-columns:minmax(150px,.7fr) minmax(220px,1fr) auto;gap:7px;padding:10px;border-radius:14px;border:1px dashed color-mix(in srgb,var(--accent) 25%,transparent)}.appearance-settings{display:grid;align-content:start;gap:10px}.privacy-options{display:grid;gap:10px;margin-top:8px}.check-label{display:flex!important;align-items:center;gap:7px;text-transform:none!important;letter-spacing:0!important}.check-label input{width:15px;height:15px;accent-color:var(--accent)}.theme-popup{position:absolute;z-index:20;inset:0;display:grid;place-items:center;padding:16px;background:#000a;backdrop-filter:blur(12px)}.theme-popup>section{width:min(1140px,96%);padding:14px;border-radius:22px;border:1px solid color-mix(in srgb,var(--accent) 30%,#fff2);background:linear-gradient(180deg,var(--panel),var(--bg1));box-shadow:0 0 40px var(--glow),0 25px 80px #000b}.theme-popup header{display:flex;justify-content:space-between;align-items:center;padding:0 4px 10px}.theme-popup h3{margin:3px 0;font-family:var(--serif)}.theme-popup .settings-themes{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px;padding:0}.theme-popup .theme-card{min-height:76px;padding:11px 8px 9px 34px}.theme-popup .theme-card i{left:10px;top:12px}.theme-popup .theme-card span{font-size:8px}.mini-actions{display:flex;gap:5px}
+.enrollment-history{display:grid;gap:6px;padding:11px;border-radius:14px;border:1px solid #ffffff14;background:#0002}.enrollment-history>div{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:8px;padding:7px;border-bottom:1px solid #ffffff10}.enrollment-history b{font-size:9px}.enrollment-history span,.enrollment-history em{font:8px var(--mono);color:var(--muted)}.enrollment-history em{color:var(--accent)}.import-layout{display:grid;grid-template-columns:1fr 1fr;gap:14px;padding:18px}.import-layout>section{display:grid;align-content:start;gap:12px}.import-preview{display:grid;gap:5px;max-height:520px;overflow:auto}.import-preview>div{display:grid;grid-template-columns:minmax(0,1fr) minmax(130px,.7fr) auto;gap:8px;padding:9px;border-radius:11px;border:1px solid #ffffff12;background:#ffffff05}.import-preview b{font-size:10px}.import-preview span,.import-preview em{font:8px var(--mono);color:var(--muted)}.import-preview em{color:var(--accent)}.import-preview .duplicate{border-color:#ffe06655}.import-preview .duplicate em{color:var(--warm)}.import-preview .error{border-color:#ff4d4d66}.import-preview .error em{color:#ff7676}
+@media(max-width:900px){.settings-layout,.school-settings-grid,.import-layout{grid-template-columns:1fr}.structure-settings-head{display:grid}.add-class-card{grid-template-columns:1fr}.theme-popup .settings-themes{grid-template-columns:repeat(3,1fr);max-height:80vh;overflow:auto}}
+.preset-buttons{display:grid;grid-template-columns:1fr;gap:5px}.preset-buttons button{padding:7px;border-radius:9px;border:1px solid #ffffff14;background:#ffffff06;color:var(--accent);font:900 8px var(--mono);text-align:left}.conference-stats{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid #ffffff14}.conference-stats>div{display:grid;gap:3px;padding:13px;border-right:1px solid #ffffff12}.conference-stats b{font:900 20px var(--mono);color:var(--accent)}.conference-stats span{font:8px var(--mono);text-transform:uppercase;color:var(--muted)}.conference-layout{display:grid;grid-template-columns:minmax(300px,.8fr) minmax(0,1.2fr);gap:13px;padding:14px}.conference-layout>section:first-child{display:grid;align-content:start;gap:8px;max-height:650px;overflow:auto}.snapshot-card{padding:10px;border-radius:12px;border:1px solid #ffffff12;background:#ffffff05}.snapshot-card b{font:900 8px var(--mono);color:var(--accent)}.snapshot-card p{margin:6px 0 0;font-size:10px;line-height:1.45;color:var(--muted)}@media(max-width:760px){.conference-layout{grid-template-columns:1fr}.conference-stats{grid-template-columns:repeat(2,1fr)}}
+.activity-actions{display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-end}.feedback-filter{display:flex;justify-content:space-between;align-items:center;gap:16px;padding:10px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface)}.feedback-filter label{display:flex;align-items:center;gap:8px}.feedback-filter input{width:auto}.btn.danger{border-color:rgba(255,90,110,.5);color:#ff8596}
 </style>
 </head>
 <body>
@@ -65,16 +71,34 @@ const themes = [
 const isoDate = () => new Date().toISOString().slice(0, 10);
 const stamp = () => new Date().toISOString();
 const uid = (prefix) => `${prefix}_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`;
+const academicYearLabel = (when = new Date()) => { const start = when.getMonth() >= 6 ? when.getFullYear() : when.getFullYear() - 1; return `${start}–${start + 1}`; };
 const defaultData = () => {
-    const yearId = uid("yr"), courseId = uid("crs"), sectionA = uid("sec"), sectionB = uid("sec");
+    const yearId = uid("yr");
     return {
         format: "teacher-records-backup", schemaVersion: 1, updatedAt: stamp(),
-        years: [{ id: yearId, label: "2026–2027" }],
-        courses: [{ id: courseId, yearId, name: "English 10" }],
-        sections: [{ id: sectionA, courseId, name: "Block A" }, { id: sectionB, courseId, name: "Block B" }],
-        students: [], enrollments: [], records: [], columns: [], settings: { theme: "holographic", accessCode: "111111" },
+        years: [{ id: yearId, label: academicYearLabel() }], courses: [], sections: [],
+        students: [], enrollments: [], records: [], columns: [], settings: { theme: "holographic", accessCode: "111111", currentYearId: yearId, idlePrivacyMinutes: 10, privacyOnHidden: false },
     };
 };
+function normalizeData(raw) {
+    const next = { ...raw, columns: raw.columns || [], settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, ...raw.settings } };
+    const isUnusedStarter = !next.students.length && !next.records.length && next.courses.length === 1 && next.courses[0]?.name === "English 10" && next.sections.every(section => ["Block A", "Block B"].includes(section.name));
+    if (isUnusedStarter) {
+        next.courses = [];
+        next.sections = [];
+        const current = next.years.find(year => year.label === academicYearLabel()) || { id: uid("yr"), label: academicYearLabel() };
+        next.years = [current];
+        next.settings.currentYearId = current.id;
+    }
+    if (!next.years.length) {
+        const year = { id: uid("yr"), label: academicYearLabel() };
+        next.years = [year];
+        next.settings.currentYearId = year.id;
+    }
+    if (!next.settings.currentYearId || !next.years.some(year => year.id === next.settings.currentYearId))
+        next.settings.currentYearId = next.years.find(year => year.label === academicYearLabel())?.id || next.years[0].id;
+    return next;
+}
 const dbName = "teacher-records-console";
 function loadDb() {
     return new Promise((resolve) => {
@@ -115,7 +139,7 @@ function Home() {
     const [loaded, setLoaded] = useState(false);
     const [unlocked, setUnlocked] = useState(false);
     const toastTimer = useRef(null);
-    useEffect(() => { loadDb().then(x => { setData(x || defaultData()); setLoaded(true); }); }, []);
+    useEffect(() => { loadDb().then(x => { setData(normalizeData(x || defaultData())); setLoaded(true); }); }, []);
     useEffect(() => {
         if (!data || !loaded)
             return;
@@ -125,16 +149,45 @@ function Home() {
     useEffect(() => {
         if (!data)
             return;
-        const y = data.years.find(x => x.id === yearId) || data.years.find(x => !x.archived) || data.years[0];
+        const preferredYearId = data.settings.lastYearId || data.settings.currentYearId;
+        const y = data.years.find(x => x.id === yearId) || data.years.find(x => x.id === preferredYearId) || data.years.find(x => !x.archived) || data.years[0];
         if (y && y.id !== yearId)
             setYearId(y.id);
-        const c = data.courses.find(x => x.id === courseId && x.yearId === y?.id) || data.courses.find(x => x.yearId === y?.id && !x.archived);
+        const c = data.courses.find(x => x.id === courseId && x.yearId === y?.id) || data.courses.find(x => x.id === data.settings.lastCourseId && x.yearId === y?.id) || data.courses.find(x => x.yearId === y?.id && !x.archived);
         if (c && c.id !== courseId)
             setCourseId(c.id);
-        const s = data.sections.find(x => x.id === sectionId && x.courseId === c?.id) || data.sections.find(x => x.courseId === c?.id && !x.archived);
+        const s = data.sections.find(x => x.id === sectionId && x.courseId === c?.id) || data.sections.find(x => x.id === data.settings.lastSectionId && x.courseId === c?.id) || data.sections.find(x => x.courseId === c?.id && !x.archived);
         if (s && s.id !== sectionId)
             setSectionId(s.id);
     }, [data, yearId, courseId, sectionId]);
+    useEffect(() => { if (data?.settings.currentYearId && data.settings.currentYearId !== yearId) {
+        setYearId(data.settings.currentYearId);
+        setCourseId("");
+        setSectionId("");
+        setStudentId("");
+    } }, [data?.settings.currentYearId]);
+    useEffect(() => {
+        if (!data || !loaded || !yearId)
+            return;
+        const same = data.settings.lastYearId === yearId && data.settings.lastCourseId === courseId && data.settings.lastSectionId === sectionId && data.settings.lastStudentId === studentId;
+        if (!same)
+            setData(d => d ? ({ ...d, settings: { ...d.settings, lastYearId: yearId, lastCourseId: courseId, lastSectionId: sectionId, lastStudentId: studentId } }) : d);
+    }, [yearId, courseId, sectionId, studentId, loaded]);
+    useEffect(() => {
+        if (!data || !unlocked)
+            return;
+        let timer;
+        const reset = () => { clearTimeout(timer); const minutes = data.settings.idlePrivacyMinutes ?? 10; if (minutes > 0)
+            timer = setTimeout(() => setPrivacy(true), minutes * 60000); };
+        const hidden = () => { if (document.hidden && data.settings.privacyOnHidden)
+            setPrivacy(true); };
+        ["pointerdown", "keydown", "wheel", "touchstart"].forEach(event => window.addEventListener(event, reset, { passive: true }));
+        document.addEventListener("visibilitychange", hidden);
+        reset();
+        return () => { clearTimeout(timer); ["pointerdown", "keydown", "wheel", "touchstart"].forEach(event => window.removeEventListener(event, reset)); document.removeEventListener("visibilitychange", hidden); };
+    }, [data?.settings.idlePrivacyMinutes, data?.settings.privacyOnHidden, unlocked]);
+    useEffect(() => { if (unlocked && data && !data.courses.length)
+        setModal("settings"); }, [unlocked, data?.courses.length]);
     const notify = (message) => {
         setToast(message);
         if (toastTimer.current)
@@ -156,8 +209,33 @@ function Home() {
             .sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
     }, [data, sectionEnrollments, search, showArchived]);
     useEffect(() => { if (roster.length && !roster.some(s => s.id === studentId))
-        setStudentId(roster[0].id); if (!roster.length)
+        setStudentId(roster.find(s => s.id === data?.settings.lastStudentId)?.id || roster[0].id); if (!roster.length)
         setStudentId(""); }, [roster, studentId]);
+    useEffect(() => {
+        const shortcut = (event) => { const target = event.target, typing = ["INPUT", "TEXTAREA", "SELECT"].includes(target?.tagName) || target?.isContentEditable; if (typing || modal || privacy || event.ctrlKey || event.metaKey || event.altKey)
+            return; if (event.key === "/") {
+            event.preventDefault();
+            setModal("search");
+        }
+        else if (event.key.toLowerCase() === "q") {
+            event.preventDefault();
+            setModal("quick");
+        }
+        else if (event.key.toLowerCase() === "n" && studentId) {
+            event.preventDefault();
+            setModal("record");
+        }
+        else if (event.key === "ArrowDown" || event.key === "ArrowUp") {
+            const index = roster.findIndex(student => student.id === studentId);
+            if (index >= 0) {
+                const next = event.key === "ArrowDown" ? Math.min(roster.length - 1, index + 1) : Math.max(0, index - 1);
+                setStudentId(roster[next].id);
+                event.preventDefault();
+            }
+        } };
+        window.addEventListener("keydown", shortcut);
+        return () => window.removeEventListener("keydown", shortcut);
+    }, [modal, privacy, roster, studentId]);
     const studentRecords = useMemo(() => {
         if (!data || !studentId)
             return [];
@@ -199,7 +277,7 @@ function Home() {
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("export") }, "\u21E7 Export"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("data") }, "\u25A3 Data"),
                 React.createElement("button", { className: "btn ghost icon-btn", onClick: () => setModal("settings"), title: "Settings", "aria-label": "Open settings" }, "\u2699"),
-                React.createElement("button", { className: `btn ghost icon-btn ${privacy ? "on" : ""}`, onClick: () => setPrivacy(x => !x), title: "Privacy screen", "aria-label": "Toggle privacy screen" }, privacy ? "◉" : "◎"))),
+                React.createElement("button", { className: `btn ghost icon-btn ${privacy ? "on" : ""}`, onClick: () => setPrivacy(true), title: "Privacy screen", "aria-label": "Open privacy screen" }, "\u25CE"))),
         React.createElement("section", { className: "context-bar glass" },
             React.createElement("div", { className: "context-select" },
                 React.createElement("label", null, "School year"),
@@ -210,14 +288,16 @@ function Home() {
             React.createElement("div", { className: "section-tabs", role: "tablist", "aria-label": "Sections" }, data.sections.filter(s => s.courseId === courseId && !s.archived).map(s => React.createElement("button", { key: s.id, className: s.id === sectionId ? "active" : "", onClick: () => { setSectionId(s.id); setSelectedIds([]); } },
                 s.name,
                 React.createElement("small", null, data.enrollments.filter(e => e.sectionId === s.id && e.active).length)))),
-            React.createElement("button", { className: "btn ghost manage-btn", onClick: () => setModal("structure") }, "Manage classes")),
+            React.createElement("button", { className: "btn ghost manage-btn", onClick: () => setModal("settings") }, "Manage classes")),
         React.createElement("section", { className: "workspace" },
             React.createElement("aside", { className: "roster-panel glass" },
                 React.createElement("div", { className: "panel-head" },
                     React.createElement("div", null,
                         React.createElement("span", { className: "eyebrow" }, "ACTIVE ROSTER"),
                         React.createElement("h2", null, currentSection?.name || "Section")),
-                    React.createElement("button", { className: "btn primary compact", onClick: () => setModal("student") }, "+ Student")),
+                    React.createElement("div", { className: "mini-actions" },
+                        React.createElement("button", { className: "btn ghost compact", onClick: () => setModal("importRoster") }, "Import"),
+                        React.createElement("button", { className: "btn primary compact", onClick: () => setModal("student") }, "+ Student"))),
                 React.createElement("div", { className: "searchbox" },
                     React.createElement("span", null, "\u2315"),
                     React.createElement("input", { value: search, onChange: e => setSearch(e.target.value), placeholder: "Find a student\u2026" })),
@@ -261,6 +341,8 @@ function Home() {
                                 " ",
                                 React.createElement("span", null, "\u25A1")))),
                     React.createElement("div", { className: "hero-actions" },
+                        React.createElement("button", { className: "btn ghost", onClick: () => setModal("editStudent") }, "Edit"),
+                        React.createElement("button", { className: "btn ghost", onClick: () => setModal("conference") }, "Snapshot"),
                         React.createElement("button", { className: "btn ghost", onClick: () => { update(d => ({ ...d, students: d.students.map(s => s.id === studentId ? { ...s, archived: !s.archived } : s) })); notify(selectedStudent.archived ? "Student restored to active roster" : "Student archived"); } }, selectedStudent.archived ? "Restore" : "Archive"),
                         React.createElement("button", { className: "btn ghost", onClick: () => setModal("move") }, "Switch section"),
                         React.createElement("button", { className: "btn primary", onClick: () => setModal("record") }, "+ Add record"))),
@@ -304,21 +386,29 @@ function Home() {
         React.createElement("footer", null,
             React.createElement("span", null, "LOW POWER MODE \u00B7 LOCAL DATABASE"),
             React.createElement("span", null,
+                data.settings.lastBackupAt ? `LAST BACKUP ${prettyDate(data.settings.lastBackupAt.slice(0, 10)).toUpperCase()}` : "BACKUP RECOMMENDED",
+                " \u00B7 ",
                 data.records.length,
                 " records across ",
                 data.students.length,
                 " students")),
         modal === "student" && React.createElement(StudentModal, { data: data, sectionId: sectionId, onClose: () => setModal(null), onSave: (student, enrollment) => { update(d => ({ ...d, students: [...d.students, student], enrollments: [...d.enrollments, enrollment] })); setStudentId(student.id); setModal(null); notify(`${fullName(student)} added`); } }),
-        modal === "record" && selectedStudent && React.createElement(RecordModal, { student: selectedStudent, enrollment: sectionEnrollments.find(e => e.studentId === studentId), onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: [record, ...d.records] })); setModal(null); notify("Record saved"); } }),
+        modal === "editStudent" && selectedStudent && React.createElement(EditStudentModal, { data: data, student: selectedStudent, onClose: () => setModal(null), onSave: student => { update(d => ({ ...d, students: d.students.map(item => item.id === student.id ? student : item) })); setModal(null); notify("Student profile updated"); }, onDelete: () => { const typed = window.prompt(`Type ${fullName(selectedStudent)} to permanently delete this student and every record.`); if (typed !== fullName(selectedStudent))
+                return notify("Permanent deletion cancelled"); update(d => ({ ...d, students: d.students.filter(student => student.id !== studentId), enrollments: d.enrollments.filter(enrollment => enrollment.studentId !== studentId), records: d.records.filter(record => record.studentId !== studentId) })); setStudentId(""); setModal(null); notify("Student permanently deleted"); } }),
+        modal === "importRoster" && React.createElement(ImportRosterModal, { data: data, initialSectionId: sectionId, onClose: () => setModal(null), onImport: (students, enrollments) => { update(d => ({ ...d, students: [...d.students, ...students], enrollments: [...d.enrollments, ...enrollments] })); setModal(null); notify(`${enrollments.length} roster placements imported`); } }),
+        modal === "record" && selectedStudent && React.createElement(RecordModal, { student: selectedStudent, enrollment: sectionEnrollments.find(e => e.studentId === studentId), onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: [record, ...d.records] })); setModal(null); notify("Record saved"); }, onSaveAndNext: record => { update(d => ({ ...d, records: [record, ...d.records] })); const index = roster.findIndex(student => student.id === studentId), next = roster[index + 1]; if (next)
+                setStudentId(next.id); setModal(null); notify(next ? `Saved · opened ${fullName(next)}` : "Record saved · end of roster"); } }),
         modal === "editRecord" && data.records.find(r => r.id === editingRecordId) && React.createElement(EditRecordModal, { record: data.records.find(r => r.id === editingRecordId), student: data.students.find(s => s.id === data.records.find(r => r.id === editingRecordId).studentId), onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: d.records.map(r => r.id === record.id ? record : r) })); setModal(null); notify("Record updated"); } }),
         modal === "move" && React.createElement(MoveModal, { data: data, studentIds: selectedIds.length ? selectedIds : studentId ? [studentId] : [], currentSectionId: sectionId, onClose: () => setModal(null), onMove: (target, correction) => { update(d => moveStudents(d, selectedIds.length ? selectedIds : [studentId], sectionId, target, correction)); setSectionId(target); setSelectedIds([]); setModal(null); notify("Section placement updated"); } }),
         modal === "structure" && React.createElement(StructureModal, { data: data, activeYearId: yearId, onClose: () => setModal(null), onUpdate: update, onSelect: (y, c, s) => { setYearId(y); setCourseId(c); setSectionId(s); setModal(null); } }),
         modal === "export" && React.createElement(ExportModal, { data: data, yearId: yearId, courseId: courseId, sectionId: sectionId, studentId: studentId, selectedIds: selectedIds, onClose: () => setModal(null), notify: notify }),
-        modal === "data" && React.createElement(DataModal, { data: data, onClose: () => setModal(null), onImport: incoming => { setData(incoming); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }, notify: notify }),
+        modal === "data" && React.createElement(DataModal, { data: data, onClose: () => setModal(null), onBackup: () => update(d => ({ ...d, settings: { ...d.settings, lastBackupAt: stamp() } })), onImport: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }, notify: notify }),
         modal === "themes" && React.createElement(ThemeModal, { selected: activeTheme, onClose: () => setModal(null), onSelect: theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); } }),
         modal === "settings" && React.createElement(SettingsModal, { data: data, onClose: () => setModal(null), onUpdate: update, notify: notify }),
         modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
         modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, onClose: () => setModal(null), onUpdate: update, notify: notify }),
+        modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify }),
+        privacy && React.createElement(PrivacyScreen, { data: data, onUnlock: () => setPrivacy(false), onFailure: () => { saveDb(data); const json = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2); const anchor = document.createElement("a"); anchor.href = URL.createObjectURL(new Blob([json], { type: "application/json" })); anchor.download = `teacher-records-safety-${isoDate()}.json`; anchor.click(); URL.revokeObjectURL(anchor.href); window.close(); setTimeout(() => { setPrivacy(false); setUnlocked(false); }, 250); } }),
         toast && React.createElement("div", { className: "toast", role: "status" },
             React.createElement("i", null),
             toast)));
@@ -393,10 +483,77 @@ function AccessChallenge({ theme, accessCode, onUnlock }) {
             React.createElement("div", { className: "access-message", role: "status" }, status === "denied" ? "ACCESS DENIED" : status === "granted" ? "IDENTITY CONFIRMED" : "LOCAL RECORDS · DEVICE-ONLY STORAGE")),
         React.createElement("div", { className: "access-beam", "aria-hidden": "true" }));
 }
+function PrivacyScreen({ data, onUnlock, onFailure }) {
+    const [showKeypad, setShowKeypad] = useState(false), [buffer, setBuffer] = useState(""), [attempts, setAttempts] = useState(0), [denied, setDenied] = useState(false), [now, setNow] = useState(new Date());
+    const theme = data.settings.theme;
+    useEffect(() => { const timer = setInterval(() => setNow(new Date()), 1000); return () => clearInterval(timer); }, []);
+    const enter = (key) => {
+        if (denied)
+            return;
+        if (key === "clear")
+            return setBuffer("");
+        if (key !== "enter") {
+            if (/^\d$/.test(key) && buffer.length < 6)
+                setBuffer(value => value + key);
+            return;
+        }
+        if (buffer === (data.settings.accessCode || "111111"))
+            return onUnlock();
+        const nextAttempts = attempts + 1;
+        setAttempts(nextAttempts);
+        setDenied(true);
+        if (nextAttempts >= 3) {
+            setTimeout(onFailure, 650);
+            return;
+        }
+        setTimeout(() => { setDenied(false); setBuffer(""); }, 600);
+    };
+    useEffect(() => { const keydown = (event) => { if (!showKeypad && event.key === "Enter") {
+        setShowKeypad(true);
+        event.preventDefault();
+        return;
+    } if (!showKeypad)
+        return; if (/^\d$/.test(event.key))
+        enter(event.key);
+    else if (event.key === "Backspace")
+        setBuffer(value => value.slice(0, -1));
+    else if (event.key === "Escape") {
+        setShowKeypad(false);
+        setBuffer("");
+    }
+    else if (event.key === "Enter")
+        enter("enter"); }; window.addEventListener("keydown", keydown); return () => window.removeEventListener("keydown", keydown); });
+    const sceneLabel = { holographic: "MATRIX DRIFT", frontierSteel: "FRONTIER HORIZON", samuraiKintsugi: "GOLDEN INK", victorianAether: "AETHER ENGINE", artDeco: "ORRERY", noirTerminal: "PHOSPHOR RAIN", solarTemple: "SOLAR DUST", deepSea: "ABYSSAL CURRENT", starshipConsole: "COMMAND FIELD", astrometrics: "STELLAR CARTOGRAPHY", imperialDatapad: "TACTICAL GRID", jediArchive: "ARCHIVE CONSTELLATION", cyberpunkArcade: "NEON RAIN", auroraGlass: "AURORA CLOUD", obsidianLab: "BLACK GLASS", brassObservatory: "BRASS ORRERY", volcanicCore: "EMBER FIELD", arcticCommand: "ARCTIC SIGNAL" };
+    return React.createElement("div", { className: `privacy-saver theme-${theme} saver-${theme} ${denied ? "denied" : ""}` },
+        React.createElement("div", { className: "saver-field" },
+            React.createElement("i", null),
+            React.createElement("i", null),
+            React.createElement("i", null),
+            React.createElement("i", null),
+            React.createElement("i", null),
+            React.createElement("i", null),
+            React.createElement("i", null),
+            React.createElement("i", null)),
+        React.createElement("div", { className: "saver-scan" }),
+        React.createElement("div", { className: "saver-clock" },
+            React.createElement("span", null, now.toLocaleDateString(undefined, { weekday: "long", month: "long", day: "numeric" })),
+            React.createElement("b", null, now.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })),
+            React.createElement("em", null, sceneLabel[theme])),
+        !showKeypad ? React.createElement("button", { className: "saver-unlock", onClick: () => setShowKeypad(true) },
+            React.createElement("span", null, "TEACHER RECORD CONSOLE"),
+            React.createElement("b", null, "Unlock archive"),
+            React.createElement("small", null, "Click or press Enter")) : React.createElement("section", { className: "privacy-keypad" },
+            React.createElement("span", { className: "eyebrow" }, "PRIVACY VEIL"),
+            React.createElement("h2", null, "Enter access code"),
+            React.createElement("div", { className: "access-display" }, Array.from({ length: 6 }, (_, index) => React.createElement("i", { key: index, className: index < buffer.length ? "filled" : "" }))),
+            React.createElement("div", { className: "access-keypad" }, ["1", "2", "3", "4", "5", "6", "7", "8", "9", "clear", "0", "enter"].map(key => React.createElement("button", { key: key, onClick: () => enter(key) }, key === "clear" ? "CLR" : key === "enter" ? "GO" : key))),
+            React.createElement("div", { className: "privacy-attempts" }, denied ? `ACCESS DENIED · ${3 - attempts} ATTEMPT${3 - attempts === 1 ? "" : "S"} REMAIN` : "Current work remains saved locally")));
+}
 function SettingsModal({ data, onClose, onUpdate, notify }) {
     const [current, setCurrent] = useState("");
     const [next, setNext] = useState("");
     const [confirmCode, setConfirmCode] = useState("");
+    const [showThemes, setShowThemes] = useState(false);
     const saveCode = () => {
         const stored = data.settings.accessCode || "111111";
         if (current !== stored)
@@ -411,20 +568,36 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
         setConfirmCode("");
         notify("Access code updated");
     };
-    return React.createElement(ModalShell, { title: "Settings", subtitle: "APPEARANCE \u00B7 ACCESS", onClose: onClose, wide: true },
+    return React.createElement(ModalShell, { title: "Settings", subtitle: "CLASSES \u00B7 YEARS \u00B7 APPEARANCE \u00B7 ACCESS", onClose: onClose, wide: true },
         React.createElement("div", { className: "settings-layout" },
-            React.createElement("section", { className: "settings-card" },
-                React.createElement("span", { className: "eyebrow" }, "INTERFACE SKIN"),
+            React.createElement(SchoolStructureSettings, { data: data, onUpdate: onUpdate, notify: notify }),
+            React.createElement("section", { className: "settings-card appearance-settings" },
+                React.createElement("span", { className: "eyebrow" }, "APPEARANCE"),
                 React.createElement("h3", null, "Visual atmosphere"),
-                React.createElement("p", null, "All skins use the same low-power interface and local data."),
-                React.createElement("div", { className: "theme-grid settings-themes" }, themes.map(t => React.createElement("button", { key: t.id, className: `theme-card theme-${t.id} ${data.settings.theme === t.id ? "selected" : ""}`, onClick: () => { onUpdate(d => ({ ...d, settings: { ...d.settings, theme: t.id } })); notify(`${t.label} skin applied`); } },
-                    React.createElement("i", null),
-                    React.createElement("b", null, t.label),
-                    React.createElement("span", null, t.sub))))),
+                React.createElement("p", null,
+                    themes.find(theme => theme.id === data.settings.theme)?.label,
+                    " is active. All skins retain low-power controls."),
+                React.createElement("button", { className: "settingsLaunch", onClick: () => setShowThemes(true) },
+                    React.createElement("span", null, "Current skin"),
+                    React.createElement("b", null, themes.find(theme => theme.id === data.settings.theme)?.label),
+                    React.createElement("small", null, "Open all 18 atmospheres in one compact panel.")),
+                React.createElement("div", { className: "privacy-options" },
+                    React.createElement("label", null,
+                        "Idle privacy screen",
+                        React.createElement("select", { value: data.settings.idlePrivacyMinutes ?? 10, onChange: event => onUpdate(d => ({ ...d, settings: { ...d.settings, idlePrivacyMinutes: Number(event.target.value) } })) },
+                            React.createElement("option", { value: "0" }, "Off"),
+                            React.createElement("option", { value: "2" }, "After 2 minutes"),
+                            React.createElement("option", { value: "5" }, "After 5 minutes"),
+                            React.createElement("option", { value: "10" }, "After 10 minutes"),
+                            React.createElement("option", { value: "15" }, "After 15 minutes"),
+                            React.createElement("option", { value: "30" }, "After 30 minutes"))),
+                    React.createElement("label", { className: "check-label" },
+                        React.createElement("input", { type: "checkbox", checked: !!data.settings.privacyOnHidden, onChange: event => onUpdate(d => ({ ...d, settings: { ...d.settings, privacyOnHidden: event.target.checked } })) }),
+                        " Start privacy screen when the tab is hidden"))),
             React.createElement("section", { className: "settings-card access-settings" },
                 React.createElement("span", { className: "eyebrow" }, "ACCESS CHALLENGE"),
                 React.createElement("h3", null, "Change keypad code"),
-                React.createElement("p", null, "The console locks again whenever the page is reloaded or reopened."),
+                React.createElement("p", null, "The console locks whenever the page is reopened. Three incorrect privacy-screen attempts trigger a safety backup and exit."),
                 React.createElement("label", null,
                     "Current six-digit code",
                     React.createElement("input", { type: "password", inputMode: "numeric", maxLength: 6, value: current, onChange: e => setCurrent(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
@@ -435,9 +608,97 @@ function SettingsModal({ data, onClose, onUpdate, notify }) {
                     "Confirm new code",
                     React.createElement("input", { type: "password", inputMode: "numeric", maxLength: 6, value: confirmCode, onChange: e => setConfirmCode(e.target.value.replace(/\D/g, "")), autoComplete: "off" })),
                 React.createElement("button", { className: "btn primary", onClick: saveCode }, "Update access code"),
-                React.createElement("div", { className: "backup-warning" }, "The code is stored on this device with the rest of the application settings. It is a privacy screen, not encryption."))),
+                React.createElement("div", { className: "backup-warning" }, "This is a visual privacy barrier, not encryption."))),
         React.createElement("div", { className: "modal-actions padded" },
-            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")));
+            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")),
+        showThemes && React.createElement("div", { className: "theme-popup" },
+            React.createElement("section", null,
+                React.createElement("header", null,
+                    React.createElement("div", null,
+                        React.createElement("span", { className: "eyebrow" }, "VISUAL ATMOSPHERES"),
+                        React.createElement("h3", null, "Choose a console skin")),
+                    React.createElement("button", { className: "btn ghost", onClick: () => setShowThemes(false) }, "Close")),
+                React.createElement("div", { className: "theme-grid settings-themes" }, themes.map(theme => React.createElement("button", { key: theme.id, className: `theme-card theme-${theme.id} ${data.settings.theme === theme.id ? "selected" : ""}`, onClick: () => { onUpdate(d => ({ ...d, settings: { ...d.settings, theme: theme.id } })); notify(`${theme.label} skin applied`); } },
+                    React.createElement("i", null),
+                    React.createElement("b", null, theme.label),
+                    React.createElement("span", null, theme.sub)))))));
+}
+function SchoolStructureSettings({ data, onUpdate, notify }) {
+    const [selectedYearId, setSelectedYearId] = useState(data.settings.currentYearId || data.years[0]?.id || "");
+    const [yearLabel, setYearLabel] = useState(academicYearLabel());
+    const [className, setClassName] = useState("");
+    const [sectionNames, setSectionNames] = useState("");
+    const addYear = () => { const label = yearLabel.trim(); if (!label)
+        return; if (data.years.some(year => year.label.toLowerCase() === label.toLowerCase()))
+        return notify("That school year already exists"); const year = { id: uid("yr"), label }; onUpdate(d => ({ ...d, years: [...d.years, year] })); setSelectedYearId(year.id); notify("School year added"); };
+    const addClass = () => { if (!className.trim() || !selectedYearId)
+        return notify("Enter a class name and choose a year"); const course = { id: uid("crs"), yearId: selectedYearId, name: className.trim() }; const names = sectionNames.split(/[,\n]/).map(name => name.trim()).filter(Boolean); const sections = (names.length ? names : ["Section 1"]).map(name => ({ id: uid("sec"), courseId: course.id, name })); onUpdate(d => ({ ...d, courses: [...d.courses, course], sections: [...d.sections, ...sections] })); setClassName(""); setSectionNames(""); notify("Class added"); };
+    const renameYear = (year) => { const name = window.prompt("Rename school year", year.label)?.trim(); if (name)
+        onUpdate(d => ({ ...d, years: d.years.map(item => item.id === year.id ? { ...item, label: name } : item) })); };
+    const deleteYear = (year) => { const courses = data.courses.filter(course => course.yearId === year.id); if (courses.length)
+        return notify("Delete or move this year’s classes first"); if (!confirm(`Delete ${year.label}?`))
+        return; onUpdate(d => ({ ...d, years: d.years.filter(item => item.id !== year.id), settings: { ...d.settings, currentYearId: d.settings.currentYearId === year.id ? d.years.find(item => item.id !== year.id)?.id : d.settings.currentYearId } })); };
+    const renameClass = (course) => { const name = window.prompt("Rename class", course.name)?.trim(); if (name)
+        onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, name } : item) })); };
+    const archiveClass = (course) => onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, archived: !item.archived } : item), sections: d.sections.map(section => section.courseId === course.id ? { ...section, archived: !course.archived } : section) }));
+    const deleteClass = (course) => { const sectionIds = data.sections.filter(section => section.courseId === course.id).map(section => section.id), enrollmentIds = data.enrollments.filter(enrollment => sectionIds.includes(enrollment.sectionId)).map(enrollment => enrollment.id), affected = data.records.filter(record => !!record.enrollmentId && enrollmentIds.includes(record.enrollmentId)).length; if (!confirm(`Permanently delete ${course.name}? This removes ${sectionIds.length} sections, ${enrollmentIds.length} enrollments, and ${affected} linked records. Student profiles remain.`))
+        return; onUpdate(d => ({ ...d, courses: d.courses.filter(item => item.id !== course.id), sections: d.sections.filter(section => !sectionIds.includes(section.id)), enrollments: d.enrollments.filter(enrollment => !sectionIds.includes(enrollment.sectionId)), records: d.records.filter(record => !record.enrollmentId || !enrollmentIds.includes(record.enrollmentId)), columns: (d.columns || []).map(column => ({ ...column, sectionIds: column.sectionIds.filter(id => !sectionIds.includes(id)) })).filter(column => column.sectionIds.length) })); notify("Class permanently deleted"); };
+    const addSection = (course) => { const name = window.prompt(`Add a section to ${course.name}`, "")?.trim(); if (name)
+        onUpdate(d => ({ ...d, sections: [...d.sections, { id: uid("sec"), courseId: course.id, name }] })); };
+    const renameSection = (section) => { const name = window.prompt("Rename section", section.name)?.trim(); if (name)
+        onUpdate(d => ({ ...d, sections: d.sections.map(item => item.id === section.id ? { ...item, name } : item) })); };
+    const deleteSection = (section) => { const enrollments = data.enrollments.filter(enrollment => enrollment.sectionId === section.id), enrollmentIds = enrollments.map(enrollment => enrollment.id), records = data.records.filter(record => !!record.enrollmentId && enrollmentIds.includes(record.enrollmentId)); if (!confirm(`Delete ${section.name}? This removes ${enrollments.length} enrollments and ${records.length} linked records.`))
+        return; onUpdate(d => ({ ...d, sections: d.sections.filter(item => item.id !== section.id), enrollments: d.enrollments.filter(enrollment => enrollment.sectionId !== section.id), records: d.records.filter(record => !record.enrollmentId || !enrollmentIds.includes(record.enrollmentId)), columns: (d.columns || []).map(column => ({ ...column, sectionIds: column.sectionIds.filter(id => id !== section.id) })).filter(column => column.sectionIds.length) })); };
+    const courses = data.courses.filter(course => course.yearId === selectedYearId);
+    return React.createElement("section", { className: "settings-card structure-settings" },
+        React.createElement("div", { className: "structure-settings-head" },
+            React.createElement("div", null,
+                React.createElement("span", { className: "eyebrow" }, "SCHOOL STRUCTURE"),
+                React.createElement("h3", null, "Years, classes, and sections"),
+                React.createElement("p", null, "The current year opens by default. Archived classes retain their records.")),
+            React.createElement("label", null,
+                "Current view year",
+                React.createElement("select", { value: data.settings.currentYearId || "", onChange: event => { const id = event.target.value; onUpdate(d => ({ ...d, settings: { ...d.settings, currentYearId: id, lastYearId: id, lastCourseId: undefined, lastSectionId: undefined } })); setSelectedYearId(id); } },
+                    React.createElement("option", { value: "" }, "Choose year"),
+                    data.years.map(year => React.createElement("option", { key: year.id, value: year.id }, year.label))))),
+        React.createElement("div", { className: "school-settings-grid" },
+            React.createElement("div", { className: "school-years" },
+                React.createElement("span", { className: "eyebrow" }, "SCHOOL YEARS"),
+                data.years.map(year => React.createElement("div", { className: year.id === selectedYearId ? "school-row active" : "school-row", key: year.id },
+                    React.createElement("button", { onClick: () => setSelectedYearId(year.id) },
+                        React.createElement("b", null, year.label),
+                        year.id === data.settings.currentYearId && React.createElement("small", null, "CURRENT")),
+                    React.createElement("button", { onClick: () => renameYear(year) }, "Rename"),
+                    React.createElement("button", { onClick: () => deleteYear(year) }, "\u00D7"))),
+                React.createElement("div", { className: "inline-add" },
+                    React.createElement("input", { value: yearLabel, onChange: event => setYearLabel(event.target.value), placeholder: "2027\u20132028" }),
+                    React.createElement("button", { onClick: addYear }, "+"))),
+            React.createElement("div", { className: "school-classes" },
+                React.createElement("span", { className: "eyebrow" },
+                    "CLASSES IN ",
+                    data.years.find(year => year.id === selectedYearId)?.label || "SELECTED YEAR"),
+                !courses.length && React.createElement("div", { className: "school-empty" }, "No classes yet. Add the first class below."),
+                courses.map(course => React.createElement("article", { className: course.archived ? "class-settings-card archived" : "class-settings-card", key: course.id },
+                    React.createElement("header", null,
+                        React.createElement("div", null,
+                            React.createElement("b", null, course.name),
+                            React.createElement("span", null, course.archived ? "Archived" : `${data.sections.filter(section => section.courseId === course.id).length} sections`)),
+                        React.createElement("div", null,
+                            React.createElement("button", { onClick: () => renameClass(course) }, "Rename"),
+                            React.createElement("button", { onClick: () => archiveClass(course) }, course.archived ? "Restore" : "Archive"),
+                            React.createElement("button", { className: "danger-text", onClick: () => deleteClass(course) }, "Delete"))),
+                    React.createElement("div", { className: "section-setting-list" }, data.sections.filter(section => section.courseId === course.id).map(section => React.createElement("div", { key: section.id },
+                        React.createElement("span", null, section.name),
+                        React.createElement("small", null,
+                            data.enrollments.filter(enrollment => enrollment.sectionId === section.id && enrollment.active).length,
+                            " students"),
+                        React.createElement("button", { onClick: () => renameSection(section) }, "Rename"),
+                        React.createElement("button", { onClick: () => deleteSection(section) }, "\u00D7")))),
+                    React.createElement("button", { className: "add-section", onClick: () => addSection(course) }, "+ Add section"))),
+                React.createElement("div", { className: "add-class-card" },
+                    React.createElement("input", { value: className, onChange: event => setClassName(event.target.value), placeholder: "Class name, e.g. AP Literature" }),
+                    React.createElement("input", { value: sectionNames, onChange: event => setSectionNames(event.target.value), placeholder: "Sections separated by commas, e.g. Block A, Block C" }),
+                    React.createElement("button", { className: "btn primary", onClick: addClass }, "Add class")))));
 }
 function GlobalSearchModal({ data, onClose, onOpenStudent }) {
     const [query, setQuery] = useState("");
@@ -509,7 +770,7 @@ function GlobalSearchModal({ data, onClose, onOpenStudent }) {
 }
 function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) {
     const allColumns = data.columns || [];
-    const relevantColumns = allColumns.filter(column => column.sectionIds.includes(initialSectionId)).sort((a, b) => b.date.localeCompare(a.date));
+    const relevantColumns = allColumns.filter(column => column.sectionIds.includes(initialSectionId) && !column.archived).sort((a, b) => b.date.localeCompare(a.date));
     const [activeId, setActiveId] = useState(relevantColumns[0]?.id || "");
     const [creating, setCreating] = useState(!relevantColumns.length);
     const [title, setTitle] = useState("");
@@ -518,10 +779,12 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
     const [sectionIds, setSectionIds] = useState([initialSectionId]);
     const [drafts, setDrafts] = useState({});
     const [bulk, setBulk] = useState("");
+    const [onlyMissing, setOnlyMissing] = useState(false);
     const activeColumn = allColumns.find(column => column.id === activeId);
     const scopedSections = activeColumn?.sectionIds || sectionIds;
     const studentIds = Array.from(new Set(data.enrollments.filter(e => e.active && scopedSections.includes(e.sectionId)).map(e => e.studentId)));
     const students = data.students.filter(s => studentIds.includes(s.id) && !s.archived).sort((a, b) => a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
+    const visibleStudents = onlyMissing ? students.filter(student => !drafts[student.id]?.trim()) : students;
     useEffect(() => {
         if (!activeColumn) {
             setDrafts({});
@@ -576,6 +839,16 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
         saveRows(next);
         setBulk("");
     };
+    const renameColumn = () => { if (!activeColumn)
+        return; const name = window.prompt("Rename activity column", activeColumn.title)?.trim(); if (name)
+        onUpdate(d => ({ ...d, columns: (d.columns || []).map(column => column.id === activeColumn.id ? { ...column, title: name } : column), records: d.records.map(record => record.columnId === activeColumn.id ? { ...record, title: name, updatedAt: stamp() } : record) })); };
+    const duplicateColumn = () => { if (!activeColumn)
+        return; const copy = { ...activeColumn, id: uid("col"), title: `${activeColumn.title} (copy)`, date: isoDate(), createdAt: stamp() }; onUpdate(d => ({ ...d, columns: [...(d.columns || []), copy] })); setActiveId(copy.id); setDrafts({}); notify("Activity duplicated with an empty feedback grid"); };
+    const archiveColumn = () => { if (!activeColumn)
+        return; onUpdate(d => ({ ...d, columns: (d.columns || []).map(column => column.id === activeColumn.id ? { ...column, archived: true } : column) })); setActiveId(""); setCreating(true); notify("Activity column archived"); };
+    const deleteColumn = () => { if (!activeColumn)
+        return; const count = data.records.filter(record => record.columnId === activeColumn.id).length; if (!confirm(`Delete ${activeColumn.title} and its ${count} student feedback records?`))
+        return; onUpdate(d => ({ ...d, columns: (d.columns || []).filter(column => column.id !== activeColumn.id), records: d.records.filter(record => record.columnId !== activeColumn.id) })); setActiveId(""); setCreating(true); notify("Activity column permanently deleted"); };
     return React.createElement(ModalShell, { title: "Class feedback grid", subtitle: "ACTIVITY COLUMNS \u00B7 RAPID ENTRY", onClose: onClose, wide: true },
         React.createElement("div", { className: "column-tabs" },
             React.createElement("button", { className: creating ? "active new-column" : "new-column", onClick: () => setCreating(true) }, "+ New column"),
@@ -623,7 +896,12 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
                         " \u00B7 ",
                         students.length,
                         " students")),
-                React.createElement("button", { className: "btn primary", onClick: () => saveRows() }, "Save all feedback")),
+                React.createElement("div", { className: "activity-actions" },
+                    React.createElement("button", { className: "btn ghost", onClick: renameColumn }, "Rename"),
+                    React.createElement("button", { className: "btn ghost", onClick: duplicateColumn }, "Duplicate"),
+                    React.createElement("button", { className: "btn ghost", onClick: archiveColumn }, "Archive"),
+                    React.createElement("button", { className: "btn danger", onClick: deleteColumn }, "Delete"),
+                    React.createElement("button", { className: "btn primary", onClick: () => saveRows() }, "Save all feedback"))),
             React.createElement("div", { className: "bulk-comment" },
                 React.createElement("label", null,
                     "Bulk comment for everyone in this activity",
@@ -631,12 +909,19 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
                 React.createElement("button", { className: "btn ghost", onClick: applyBulk },
                     "Apply and save to all ",
                     students.length)),
+            React.createElement("div", { className: "feedback-filter" },
+                React.createElement("label", null,
+                    React.createElement("input", { type: "checkbox", checked: onlyMissing, onChange: e => setOnlyMissing(e.target.checked) }),
+                    " Show only students missing feedback"),
+                React.createElement("span", null,
+                    visibleStudents.length,
+                    " shown")),
             React.createElement("div", { className: "feedback-grid" },
                 React.createElement("div", { className: "feedback-grid-header" },
                     React.createElement("span", null, "Student"),
                     React.createElement("span", null, "Individual feedback"),
                     React.createElement("span", null, "Status")),
-                students.map(student => React.createElement("div", { className: "feedback-row", key: student.id },
+                visibleStudents.map(student => React.createElement("div", { className: "feedback-row", key: student.id },
                     React.createElement("div", null,
                         React.createElement("div", { className: "avatar" },
                             student.firstName[0],
@@ -700,13 +985,112 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
                 React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"),
                 React.createElement("button", { className: "btn primary", disabled: !valid }, "Add student"))));
 }
-function RecordModal({ student, enrollment, onClose, onSave }) {
-    const [date, setDate] = useState(isoDate()), [kind, setKind] = useState("teacher-note"), [title, setTitle] = useState(""), [text, setText] = useState(""), [studentFacing, setStudentFacing] = useState(false), [pinned, setPinned] = useState(false);
+function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
+    const [firstName, setFirst] = useState(student.firstName), [lastName, setLast] = useState(student.lastName), [email, setEmail] = useState(student.email), [archived, setArchived] = useState(!!student.archived);
+    const enrollments = data.enrollments.filter(enrollment => enrollment.studentId === student.id);
+    return React.createElement(ModalShell, { title: "Edit student profile", subtitle: "IDENTITY \u00B7 ENROLLMENT HISTORY", onClose: onClose },
+        React.createElement("form", { onSubmit: event => { event.preventDefault(); if (!firstName.trim() || !lastName.trim())
+                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), archived }); } },
+            React.createElement("div", { className: "form-grid two" },
+                React.createElement("label", null,
+                    "First name",
+                    React.createElement("input", { value: firstName, onChange: event => setFirst(event.target.value) })),
+                React.createElement("label", null,
+                    "Last name",
+                    React.createElement("input", { value: lastName, onChange: event => setLast(event.target.value) }))),
+            React.createElement("label", null,
+                "Email address",
+                React.createElement("input", { type: "email", value: email, onChange: event => setEmail(event.target.value) })),
+            React.createElement("label", { className: "check-label" },
+                React.createElement("input", { type: "checkbox", checked: archived, onChange: event => setArchived(event.target.checked) }),
+                " Archive this student"),
+            React.createElement("div", { className: "enrollment-history" },
+                React.createElement("span", { className: "eyebrow" }, "ENROLLMENT HISTORY"),
+                enrollments.map(enrollment => { const section = data.sections.find(item => item.id === enrollment.sectionId), course = data.courses.find(item => item.id === section?.courseId), year = data.years.find(item => item.id === course?.yearId); return React.createElement("div", { key: enrollment.id },
+                    React.createElement("b", null,
+                        year?.label,
+                        " \u00B7 ",
+                        course?.name,
+                        " \u00B7 ",
+                        section?.name),
+                    React.createElement("span", null,
+                        enrollment.startDate,
+                        enrollment.endDate ? ` to ${enrollment.endDate}` : " to present"),
+                    React.createElement("em", null, enrollment.active ? "ACTIVE" : "HISTORICAL")); })),
+            React.createElement("div", { className: "modal-actions" },
+                React.createElement("button", { type: "button", className: "btn ghost danger", onClick: onDelete }, "Permanently delete"),
+                React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"),
+                React.createElement("button", { className: "btn primary" }, "Save profile"))));
+}
+function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
+    const [text, setText] = useState(""), [sectionId, setSectionId] = useState(initialSectionId);
+    const parsed = useMemo(() => text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).map((line, index) => {
+        const cells = line.split(/\t|,/).map(cell => cell.trim());
+        if (index === 0 && cells.join(" ").toLowerCase().includes("email"))
+            return null;
+        const emailIndex = cells.findIndex(cell => cell.includes("@"));
+        const email = emailIndex >= 0 ? cells[emailIndex] : "";
+        const names = cells.filter((_, cellIndex) => cellIndex !== emailIndex);
+        const firstName = names[0] || "", lastName = names.slice(1).join(" ") || "";
+        if (!firstName || !lastName)
+            return { firstName, lastName, email, error: "Needs first and last name", existing: undefined };
+        const existing = data.students.find(student => email && student.email.toLowerCase() === email.toLowerCase()) || data.students.find(student => fullName(student).toLowerCase() === `${firstName} ${lastName}`.toLowerCase());
+        return { firstName, lastName, email, existing, error: "" };
+    }).filter(Boolean), [text, data.students]);
+    const importRows = () => { const students = [], enrollments = []; parsed.filter(row => !row.error).forEach(row => { const student = row.existing || { id: uid("stu"), firstName: row.firstName, lastName: row.lastName, email: row.email, createdAt: stamp() }; if (!row.existing)
+        students.push(student); if (!data.enrollments.some(enrollment => enrollment.studentId === student.id && enrollment.sectionId === sectionId && enrollment.active))
+        enrollments.push({ id: uid("enr"), studentId: student.id, sectionId, startDate: isoDate(), active: true }); }); onImport(students, enrollments); };
+    return React.createElement(ModalShell, { title: "Import roster", subtitle: "PASTE FROM A SPREADSHEET OR SIS", onClose: onClose, wide: true },
+        React.createElement("div", { className: "import-layout" },
+            React.createElement("section", null,
+                React.createElement("label", null,
+                    "Destination section",
+                    React.createElement("select", { value: sectionId, onChange: event => setSectionId(event.target.value) }, data.sections.filter(section => !section.archived).map(section => { const course = data.courses.find(item => item.id === section.courseId), year = data.years.find(item => item.id === course?.yearId); return React.createElement("option", { key: section.id, value: section.id },
+                        year?.label,
+                        " \u00B7 ",
+                        course?.name,
+                        " \u00B7 ",
+                        section.name); }))),
+                React.createElement("label", null,
+                    "Paste roster",
+                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), placeholder: 'First name\tLast name\tEmail\nMaya\tRodriguez\tmaya@school.org' })),
+                React.createElement("p", { className: "form-hint" }, "Accepts tab-separated spreadsheet rows or comma-separated text. A header row is optional.")),
+            React.createElement("section", null,
+                React.createElement("span", { className: "eyebrow" }, "IMPORT PREVIEW"),
+                React.createElement("div", { className: "import-preview" },
+                    !parsed.length && React.createElement("div", { className: "school-empty" }, "Paste roster rows to preview them."),
+                    parsed.map((row, index) => React.createElement("div", { className: row.error ? "error" : row.existing ? "duplicate" : "", key: `${row.email}-${index}` },
+                        React.createElement("b", null,
+                            row.firstName,
+                            " ",
+                            row.lastName),
+                        React.createElement("span", null, row.email || "No email"),
+                        React.createElement("em", null, row.error || (row.existing ? "EXISTING PROFILE · ADD ENROLLMENT" : "NEW STUDENT"))))))),
+        React.createElement("div", { className: "modal-actions padded" },
+            React.createElement("span", { className: "form-hint" },
+                parsed.filter(row => !row.error).length,
+                " valid rows \u00B7 ",
+                parsed.filter(row => row.existing).length,
+                " existing profiles"),
+            React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"),
+            React.createElement("button", { className: "btn primary", disabled: !sectionId || !parsed.some(row => !row.error), onClick: importRows }, "Import roster")));
+}
+function RecordModal({ student, enrollment, onClose, onSave, onSaveAndNext }) {
+    const draftKey = `teacher-record-draft-${student.id}`;
+    const initialDraft = useMemo(() => { try {
+        return JSON.parse(localStorage.getItem(draftKey) || "null");
+    }
+    catch {
+        return null;
+    } }, [draftKey]);
+    const [date, setDate] = useState(initialDraft?.date || isoDate()), [kind, setKind] = useState(initialDraft?.kind || "teacher-note"), [title, setTitle] = useState(initialDraft?.title || ""), [text, setText] = useState(initialDraft?.text || ""), [studentFacing, setStudentFacing] = useState(!!initialDraft?.studentFacing), [pinned, setPinned] = useState(!!initialDraft?.pinned);
     const textRef = useRef(null);
-    useEffect(() => textRef.current?.focus(), []);
-    return React.createElement(ModalShell, { title: `Add record for ${fullName(student)}`, subtitle: "QUICK CAPTURE", onClose: onClose },
+    useEffect(() => { textRef.current?.focus(); }, []);
+    useEffect(() => { localStorage.setItem(draftKey, JSON.stringify({ date, kind, title, text, studentFacing, pinned, savedAt: stamp() })); }, [date, kind, title, text, studentFacing, pinned]);
+    const buildRecord = () => { const now = stamp(); return { id: uid("rec"), studentId: student.id, enrollmentId: enrollment?.id, date, kind, title: title.trim(), text: text.trim(), studentFacing, pinned, createdAt: now, updatedAt: now }; };
+    return React.createElement(ModalShell, { title: `Add record for ${fullName(student)}`, subtitle: "QUICK CAPTURE \u00B7 DRAFT AUTOSAVE", onClose: onClose },
         React.createElement("form", { onSubmit: e => { e.preventDefault(); if (!text.trim())
-                return; const now = stamp(); onSave({ id: uid("rec"), studentId: student.id, enrollmentId: enrollment?.id, date, kind, title: title.trim(), text: text.trim(), studentFacing, pinned, createdAt: now, updatedAt: now }); } },
+                return; localStorage.removeItem(draftKey); onSave(buildRecord()); } },
             React.createElement("div", { className: "form-grid date-kind" },
                 React.createElement("label", null,
                     "Date",
@@ -720,7 +1104,8 @@ function RecordModal({ student, enrollment, onClose, onSave }) {
                 React.createElement("input", { value: title, onChange: e => setTitle(e.target.value), placeholder: "A short heading for easier scanning" })),
             React.createElement("label", null,
                 "Comment",
-                React.createElement("textarea", { ref: textRef, value: text, onChange: e => setText(e.target.value), rows: 8, placeholder: "Paste official language, capture an observation, or write feedback\u2026" })),
+                React.createElement("textarea", { ref: textRef, value: text, onChange: e => setText(e.target.value), onKeyDown: event => { if ((event.ctrlKey || event.metaKey) && event.key === "Enter")
+                        event.currentTarget.form?.requestSubmit(); }, rows: 8, placeholder: "Paste official language, capture an observation, or write feedback\u2026" })),
             React.createElement("div", { className: "toggle-row" },
                 React.createElement("label", null,
                     React.createElement("input", { type: "checkbox", checked: studentFacing, onChange: e => setStudentFacing(e.target.checked) }),
@@ -729,8 +1114,9 @@ function RecordModal({ student, enrollment, onClose, onSave }) {
                     React.createElement("input", { type: "checkbox", checked: pinned, onChange: e => setPinned(e.target.checked) }),
                     " Pin for follow-up")),
             React.createElement("div", { className: "modal-actions" },
-                React.createElement("span", { className: "shortcut-hint" }, "Ctrl/\u2318 + Enter to save"),
-                React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"),
+                React.createElement("span", { className: "shortcut-hint" }, "Draft saved locally \u00B7 Ctrl/\u2318 + Enter"),
+                React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Close"),
+                onSaveAndNext && React.createElement("button", { type: "button", className: "btn ghost", disabled: !text.trim(), onClick: () => { localStorage.removeItem(draftKey); onSaveAndNext(buildRecord()); } }, "Save + next"),
                 React.createElement("button", { className: "btn primary", disabled: !text.trim() }, "Save record"))));
 }
 function EditRecordModal({ record, student, onClose, onSave }) {
@@ -885,6 +1271,12 @@ function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds
         React.createElement("div", { className: "export-layout" },
             React.createElement("aside", null,
                 React.createElement("fieldset", null,
+                    React.createElement("legend", null, "Quick presets"),
+                    React.createElement("div", { className: "preset-buttons" },
+                        React.createElement("button", { onClick: () => { setScope("student"); setAllYears(false); setTypes(kinds.map(kind => kind.id)); setStudentFacing(false); } }, "Conference prep"),
+                        React.createElement("button", { onClick: () => { setScope("student"); setAllYears(false); setTypes(["writing", "discussion", "strength"]); setStudentFacing(false); } }, "Narrative comments"),
+                        React.createElement("button", { onClick: () => { setScope("student"); setAllYears(false); setTypes(kinds.map(kind => kind.id)); setStudentFacing(true); } }, "Student-facing"))),
+                React.createElement("fieldset", null,
                     React.createElement("legend", null, "Who to include"),
                     React.createElement("label", null,
                         React.createElement("input", { type: "radio", checked: scope === "student", onChange: () => setScope("student") }),
@@ -939,10 +1331,53 @@ function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds
                     React.createElement("button", { className: "btn primary", disabled: !output, onClick: doCopy }, "Copy to clipboard")),
                 React.createElement("pre", null, output || "No records match this selection."))));
 }
-function DataModal({ data, onClose, onImport, notify }) {
+function ConferenceSnapshotModal({ data, student, yearId, onClose, notify }) {
+    const records = data.records.filter(record => record.studentId === student.id).sort((a, b) => b.date.localeCompare(a.date));
+    const currentEnrollmentIds = new Set(data.enrollments.filter(enrollment => enrollment.studentId === student.id && data.sections.some(section => section.id === enrollment.sectionId && data.courses.some(course => course.id === section.courseId && course.yearId === yearId))).map(enrollment => enrollment.id));
+    const currentRecords = records.filter(record => !!record.enrollmentId && currentEnrollmentIds.has(record.enrollmentId));
+    const strengths = currentRecords.filter(record => record.kind === "strength"), pinned = records.filter(record => record.pinned);
+    const text = exportText(data, [student.id], yearId, kinds.map(kind => kind.id), false, false, false);
+    return React.createElement(ModalShell, { title: `Conference snapshot · ${fullName(student)}`, subtitle: "CURRENT-YEAR EVIDENCE", onClose: onClose, wide: true },
+        React.createElement("div", { className: "conference-stats" },
+            React.createElement("div", null,
+                React.createElement("b", null, currentRecords.length),
+                React.createElement("span", null, "Current-year records")),
+            React.createElement("div", null,
+                React.createElement("b", null, strengths.length),
+                React.createElement("span", null, "Recorded strengths")),
+            React.createElement("div", null,
+                React.createElement("b", null, pinned.length),
+                React.createElement("span", null, "Open follow-ups")),
+            React.createElement("div", null,
+                React.createElement("b", null, records.length),
+                React.createElement("span", null, "All-time records"))),
+        React.createElement("div", { className: "conference-layout" },
+            React.createElement("section", null,
+                React.createElement("span", { className: "eyebrow" }, "PINNED FOLLOW-UPS"),
+                !pinned.length && React.createElement("p", { className: "form-hint" }, "No follow-ups are currently pinned."),
+                pinned.map(record => React.createElement("div", { className: "snapshot-card", key: record.id },
+                    React.createElement("b", null,
+                        prettyDate(record.date),
+                        " \u00B7 ",
+                        record.title || kindLabel(record.kind)),
+                    React.createElement("p", null, record.text))),
+                React.createElement("span", { className: "eyebrow" }, "RECENT CURRENT-YEAR EVIDENCE"),
+                currentRecords.slice(0, 8).map(record => React.createElement("div", { className: "snapshot-card", key: record.id },
+                    React.createElement("b", null,
+                        prettyDate(record.date),
+                        " \u00B7 ",
+                        record.title || kindLabel(record.kind)),
+                    React.createElement("p", null, record.text)))),
+            React.createElement("section", { className: "export-preview" },
+                React.createElement("div", { className: "preview-head" },
+                    React.createElement("span", { className: "eyebrow" }, "COPYABLE PREPARATION RECORD"),
+                    React.createElement("button", { className: "btn primary", onClick: () => { navigator.clipboard.writeText(text); notify("Conference preparation record copied"); } }, "Copy snapshot")),
+                React.createElement("pre", null, text || "No current-year records yet."))));
+}
+function DataModal({ data, onClose, onImport, onBackup, notify }) {
     const fileRef = useRef(null);
     const backup = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2);
-    const download = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([backup], { type: "application/json" })); a.download = `teacher-records-backup-${isoDate()}.json`; a.click(); URL.revokeObjectURL(a.href); notify("Complete backup downloaded"); };
+    const download = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([backup], { type: "application/json" })); a.download = `teacher-records-backup-${isoDate()}.json`; a.click(); URL.revokeObjectURL(a.href); onBackup(); notify("Complete backup downloaded"); };
     const importFile = (file) => { if (!file)
         return; const reader = new FileReader(); reader.onload = () => { try {
         const parsed = JSON.parse(String(reader.result));
