@@ -36,6 +36,7 @@
 .holo-modal:has(.settings-layout){height:min(940px,96vh);overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr) auto}.holo-modal:has(.settings-layout)>.settings-layout{min-height:0;overflow:hidden;padding:10px;gap:8px;grid-template-rows:minmax(0,1fr) auto}.holo-modal:has(.settings-layout) .settings-card{padding:10px}.holo-modal:has(.settings-layout) .structure-settings{min-height:0;overflow:hidden}.holo-modal:has(.settings-layout) .school-settings-grid{min-height:0;height:calc(100% - 52px);margin-top:7px}.holo-modal:has(.settings-layout) .school-years,.holo-modal:has(.settings-layout) .school-classes{min-height:0;overflow:auto;padding:8px}.holo-modal:has(.settings-layout) .class-settings-card>header{padding:7px 9px}.holo-modal:has(.settings-layout) .section-setting-list>div{padding:5px 9px}.appearance-settings{grid-column:1/-1}.appearance-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}.appearance-head h3,.appearance-head p{margin-bottom:3px}.appearance-settings .atmosphere-buttons{grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}.appearance-settings .atmosphere-button{min-height:34px;padding:8px 9px;font-size:8px}.appearance-settings .privacy-options{grid-template-columns:260px minmax(0,1fr);align-items:end;margin-top:4px}.access-code-popup{position:absolute;z-index:35;inset:0;display:grid;place-items:center;padding:18px;background:#000b;backdrop-filter:blur(12px)}.access-code-popup>section{width:min(480px,94%);display:grid;gap:11px;padding:18px;border:1px solid color-mix(in srgb,var(--accent) 38%,#fff2);border-radius:22px;background:linear-gradient(155deg,color-mix(in srgb,var(--panel) 96%,transparent),var(--bg1));box-shadow:0 0 45px var(--glow),0 25px 80px #000b}.access-code-popup header{display:flex;align-items:center;justify-content:space-between}.access-code-popup h3{margin:3px 0;font-family:var(--serif)}.access-code-popup p{margin:0;font:9px/1.5 var(--mono);color:var(--muted)}.access-code-popup .backup-warning{margin:0}.access-code-popup .modal-actions{padding:0}
 @media(max-width:800px){.appearance-settings .atmosphere-buttons{grid-template-columns:repeat(3,minmax(0,1fr))}.holo-modal:has(.settings-layout){height:96vh}.appearance-settings .privacy-options{grid-template-columns:1fr}}
 .roster-search-row{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:6px;padding:0 12px}.roster-search-row .searchbox{margin:0}.sort-toggle{display:flex;padding:3px;border:1px solid #ffffff1a;border-radius:10px;background:#0003}.sort-toggle button{padding:6px 7px;border:0;border-radius:7px;background:transparent;color:var(--muted);font:900 7px var(--mono);text-transform:uppercase}.sort-toggle button.active{background:color-mix(in srgb,var(--accent) 16%,transparent);color:var(--accent)}.merge-popup{position:absolute;z-index:40;inset:0;display:grid;place-items:center;padding:14px;background:#000c;backdrop-filter:blur(12px)}.merge-popup>section{width:min(560px,96%);display:grid;gap:10px;padding:20px;border:1px solid color-mix(in srgb,var(--accent) 38%,#fff2);border-radius:22px;background:linear-gradient(155deg,var(--panel),var(--bg1));box-shadow:0 0 42px var(--glow),0 25px 80px #000b}.merge-popup h3{margin:0;font-family:var(--serif);font-size:23px}.merge-popup p{margin:0;font:10px/1.55 var(--mono);color:var(--muted)}.merge-identity{display:grid;gap:5px;padding:11px;border:1px solid #ffffff16;border-radius:13px;background:#0003}.merge-identity b{font:10px var(--mono);color:var(--accent)}.merge-identity span{font:9px var(--mono);color:var(--muted)}
+.bulk-strip{flex-wrap:wrap}.bulk-strip .select-scope{flex:1 1 115px;min-width:0;padding:6px 7px;border-radius:9px;font:8px var(--mono)}.bulk-strip>div{margin-left:auto}
 </style>
 </head>
 <body>
@@ -263,6 +264,9 @@ function Home() {
         return React.createElement(AccessChallenge, { theme: data.settings.theme, accessCode: data.settings.accessCode || "111111", onUnlock: () => setUnlocked(true) });
     const activeTheme = data.settings.theme;
     const toggleSelected = (id) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
+    const selectRosterScope = (scope) => { if (!scope)
+        return; if (scope === "clear")
+        return setSelectedIds([]); const sectionScope = scope === "section" ? [sectionId] : scope === "class" ? data.sections.filter(section => section.courseId === courseId).map(section => section.id) : scope === "year" ? data.sections.filter(section => data.courses.some(course => course.id === section.courseId && course.yearId === yearId)).map(section => section.id) : data.sections.map(section => section.id); const ids = Array.from(new Set(data.enrollments.filter(enrollment => enrollment.active && sectionScope.includes(enrollment.sectionId)).map(enrollment => enrollment.studentId))).filter(id => !data.students.find(student => student.id === id)?.archived); setSelectedIds(ids); };
     const copy = async (text, message) => { await navigator.clipboard.writeText(text); notify(message); };
     const emailIds = selectedIds.length ? selectedIds : roster.map(s => s.id);
     const copyEmails = () => {
@@ -316,11 +320,19 @@ function Home() {
                         React.createElement("button", { className: data.settings.rosterSortBy === "first" ? "active" : "", onClick: () => update(d => ({ ...d, settings: { ...d.settings, rosterSortBy: "first" } })) }, "First"))),
                 React.createElement("div", { className: "bulk-strip" },
                     React.createElement("label", { className: "check-label" },
-                        React.createElement("input", { type: "checkbox", checked: !!roster.length && roster.every(s => selectedIds.includes(s.id)), onChange: e => setSelectedIds(e.target.checked ? roster.map(s => s.id) : []) }),
+                        React.createElement("input", { type: "checkbox", checked: !!roster.length && roster.every(s => selectedIds.includes(s.id)), onChange: e => setSelectedIds(e.target.checked ? Array.from(new Set([...selectedIds, ...roster.map(s => s.id)])) : selectedIds.filter(id => !roster.some(student => student.id === id))) }),
                         " ",
-                        selectedIds.length ? `${selectedIds.length} selected` : "Select all"),
+                        selectedIds.length ? `${selectedIds.length} selected` : "Select students"),
+                    React.createElement("select", { className: "select-scope", defaultValue: "", onChange: event => { selectRosterScope(event.target.value); event.target.value = ""; } },
+                        React.createElement("option", { value: "", disabled: true }, "Select group\u2026"),
+                        React.createElement("option", { value: "section" }, "Current section"),
+                        React.createElement("option", { value: "class" }, "All sections in class"),
+                        React.createElement("option", { value: "year" }, "All classes this year"),
+                        React.createElement("option", { value: "all" }, "Every active student"),
+                        React.createElement("option", { value: "clear" }, "Clear selection")),
                     React.createElement("div", null,
                         React.createElement("button", { onClick: copyEmails, title: "Copy semicolon-separated email list" }, "@ Emails"),
+                        selectedIds.length > 0 && React.createElement("button", { onClick: () => setModal("quick") }, "\u270E Feedback"),
                         selectedIds.length > 0 && React.createElement("button", { onClick: () => setModal("move") }, "\u21C4 Move"))),
                 React.createElement("div", { className: "roster-list" },
                     !roster.length && React.createElement(EmptyRoster, { onAdd: () => setModal("student") }),
@@ -429,7 +441,7 @@ function Home() {
         modal === "themes" && React.createElement(ThemeModal, { selected: activeTheme, onClose: () => setModal(null), onSelect: theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); } }),
         modal === "settings" && React.createElement(SettingsModal, { data: data, onClose: () => setModal(null), onUpdate: update, notify: notify }),
         modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
-        modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, onClose: () => setModal(null), onUpdate: update, notify: notify }),
+        modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, selectedStudentIds: selectedIds, onClose: () => setModal(null), onUpdate: update, notify: notify }),
         modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify }),
         privacy && React.createElement(PrivacyScreen, { data: data, onUnlock: () => setPrivacy(false), onFailure: () => { saveDb(data); const json = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2); const anchor = document.createElement("a"); anchor.href = URL.createObjectURL(new Blob([json], { type: "application/json" })); anchor.download = `teacher-records-safety-${isoDate()}.json`; anchor.click(); URL.revokeObjectURL(anchor.href); window.close(); setTimeout(() => { setPrivacy(false); setUnlocked(false); }, 250); } }),
         toast && React.createElement("div", { className: "toast", role: "status" },
@@ -788,7 +800,7 @@ function GlobalSearchModal({ data, onClose, onOpenStudent }) {
                     result.matches.length === 1 ? "" : "es",
                     " \u203A")))));
 }
-function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) {
+function QuickEntryModal({ data, initialSectionId, selectedStudentIds, onClose, onUpdate, notify }) {
     const allColumns = data.columns || [];
     const relevantColumns = allColumns.filter(column => column.sectionIds.includes(initialSectionId) && !column.archived).sort((a, b) => b.date.localeCompare(a.date));
     const [activeId, setActiveId] = useState(relevantColumns[0]?.id || "");
@@ -796,13 +808,15 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
     const [title, setTitle] = useState("");
     const [date, setDate] = useState(isoDate());
     const [kind, setKind] = useState("discussion");
-    const [sectionIds, setSectionIds] = useState([initialSectionId]);
+    const selectedSections = Array.from(new Set(data.enrollments.filter(enrollment => enrollment.active && selectedStudentIds.includes(enrollment.studentId)).map(enrollment => enrollment.sectionId)));
+    const [sectionIds, setSectionIds] = useState(selectedSections.length ? selectedSections : [initialSectionId]);
     const [drafts, setDrafts] = useState({});
     const [bulk, setBulk] = useState("");
     const [onlyMissing, setOnlyMissing] = useState(false);
     const activeColumn = allColumns.find(column => column.id === activeId);
     const scopedSections = activeColumn?.sectionIds || sectionIds;
-    const studentIds = Array.from(new Set(data.enrollments.filter(e => e.active && scopedSections.includes(e.sectionId)).map(e => e.studentId)));
+    const scopedSelectedIds = activeColumn ? activeColumn.studentIds : selectedStudentIds;
+    const studentIds = Array.from(new Set(data.enrollments.filter(e => e.active && scopedSections.includes(e.sectionId) && (!scopedSelectedIds?.length || scopedSelectedIds.includes(e.studentId))).map(e => e.studentId)));
     const students = data.students.filter(s => studentIds.includes(s.id) && !s.archived).sort((a, b) => data.settings.rosterSortBy === "first" ? a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName) : a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
     const visibleStudents = onlyMissing ? students.filter(student => !drafts[student.id]?.trim()) : students;
     useEffect(() => {
@@ -819,7 +833,7 @@ function QuickEntryModal({ data, initialSectionId, onClose, onUpdate, notify }) 
             return notify("Give this activity a title");
         if (!sectionIds.length)
             return notify("Select at least one section");
-        const column = { id: uid("col"), title: title.trim(), date, kind, sectionIds, createdAt: stamp() };
+        const column = { id: uid("col"), title: title.trim(), date, kind, sectionIds, studentIds: selectedStudentIds.length ? selectedStudentIds : undefined, createdAt: stamp() };
         onUpdate(d => ({ ...d, columns: [...(d.columns || []), column] }));
         setActiveId(column.id);
         setCreating(false);
