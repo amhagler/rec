@@ -414,7 +414,8 @@ function Home() {
                 " records across ",
                 data.students.length,
                 " students")),
-        modal === "student" && React.createElement(StudentModal, { data: data, sectionId: sectionId, onClose: () => setModal(null), onSave: (student, enrollment) => { const exists = data.students.some(item => item.id === student.id); update(d => ({ ...d, students: exists ? d.students : [...d.students, student], enrollments: d.enrollments.some(item => item.studentId === student.id && item.sectionId === enrollment.sectionId && item.active) ? d.enrollments : [...d.enrollments, enrollment] })); setStudentId(student.id); setModal(null); notify(exists ? `${fullName(student)} connected to the existing profile` : `${fullName(student)} added`); } }),
+        modal === "student" && React.createElement(StudentModal, { data: data, sectionId: sectionId, onClose: () => setModal(null), onSave: (student, enrollment, addAnother) => { const exists = data.students.some(item => item.id === student.id); update(d => ({ ...d, students: exists ? d.students : [...d.students, student], enrollments: d.enrollments.some(item => item.studentId === student.id && item.sectionId === enrollment.sectionId && item.active) ? d.enrollments : [...d.enrollments, enrollment] })); setStudentId(student.id); if (!addAnother)
+                setModal(null); notify(exists ? `${fullName(student)} connected to the existing profile` : `${fullName(student)} added`); } }),
         modal === "editStudent" && selectedStudent && React.createElement(EditStudentModal, { data: data, student: selectedStudent, onClose: () => setModal(null), onSave: student => { update(d => ({ ...d, students: d.students.map(item => item.id === student.id ? student : item) })); setModal(null); notify("Student profile updated"); }, onDelete: () => { const typed = window.prompt(`Type ${fullName(selectedStudent)} to permanently delete this student and every record.`); if (typed !== fullName(selectedStudent))
                 return notify("Permanent deletion cancelled"); update(d => ({ ...d, students: d.students.filter(student => student.id !== studentId), enrollments: d.enrollments.filter(enrollment => enrollment.studentId !== studentId), records: d.records.filter(record => record.studentId !== studentId) })); setStudentId(""); setModal(null); notify("Student permanently deleted"); } }),
         modal === "importRoster" && React.createElement(ImportRosterModal, { data: data, initialSectionId: sectionId, onClose: () => setModal(null), onImport: (students, enrollments) => { update(d => ({ ...d, students: [...d.students, ...students], enrollments: [...d.enrollments, ...enrollments] })); setModal(null); notify(`${enrollments.length} roster placements imported`); } }),
@@ -1010,11 +1011,17 @@ function ModalShell({ title, subtitle, onClose, children, wide = false }) {
 function StudentModal({ data, sectionId, onClose, onSave }) {
     const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [pronouns, setPronouns] = useState(""), [target, setTarget] = useState(sectionId);
     const [pendingMatch, setPendingMatch] = useState(null);
+    const [pendingAddAnother, setPendingAddAnother] = useState(false);
     const valid = firstName.trim() && lastName.trim();
-    const saveStudent = (forceNew = false) => { if (!valid)
-        return; const cleanEmail = email.trim().toLowerCase(), cleanName = `${firstName.trim()} ${lastName.trim()}`.toLowerCase(); const match = !forceNew ? data.students.find(student => cleanEmail && student.email.toLowerCase() === cleanEmail) || data.students.find(student => fullName(student, "first").toLowerCase() === cleanName) : undefined; if (match)
-        return setPendingMatch(match); const id = uid("stu"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, createdAt: stamp() }, { id: uid("enr"), studentId: id, sectionId: target, startDate: isoDate(), active: true }); };
-    const mergeWith = (student) => onSave(student, { id: uid("enr"), studentId: student.id, sectionId: target, startDate: isoDate(), active: true });
+    const clearForNext = () => { setFirst(""); setLast(""); setEmail(""); setPronouns(""); setPendingMatch(null); setPendingAddAnother(false); setTimeout(() => document.querySelector('.holo-modal input[placeholder="First"]')?.focus(), 0); };
+    const saveStudent = (forceNew = false, addAnother = false) => { if (!valid)
+        return; const cleanEmail = email.trim().toLowerCase(), cleanName = `${firstName.trim()} ${lastName.trim()}`.toLowerCase(); const match = !forceNew ? data.students.find(student => cleanEmail && student.email.toLowerCase() === cleanEmail) || data.students.find(student => fullName(student, "first").toLowerCase() === cleanName) : undefined; if (match) {
+        setPendingAddAnother(addAnother);
+        return setPendingMatch(match);
+    } const id = uid("stu"); onSave({ id, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, createdAt: stamp() }, { id: uid("enr"), studentId: id, sectionId: target, startDate: isoDate(), active: true }, addAnother); if (addAnother)
+        clearForNext(); };
+    const mergeWith = (student) => { onSave(student, { id: uid("enr"), studentId: student.id, sectionId: target, startDate: isoDate(), active: true }, pendingAddAnother); if (pendingAddAnother)
+        clearForNext(); };
     const matchHistory = pendingMatch ? data.enrollments.filter(enrollment => enrollment.studentId === pendingMatch.id).map(enrollment => { const section = data.sections.find(item => item.id === enrollment.sectionId), course = data.courses.find(item => item.id === section?.courseId), year = data.years.find(item => item.id === course?.yearId); return `${year?.label || "Unknown year"} · ${course?.name || "Unknown class"} · ${section?.name || "Unknown section"}`; }) : [];
     return React.createElement(ModalShell, { title: "Add student", subtitle: "NEW CONTINUOUS PROFILE", onClose: onClose },
         React.createElement("form", { onSubmit: e => { e.preventDefault(); saveStudent(); } },
@@ -1042,7 +1049,9 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
                     s.name); }))),
             React.createElement("p", { className: "form-hint" }, "This creates one continuous profile. Future class placements will attach to the same student."),
             React.createElement("div", { className: "modal-actions" },
+                React.createElement("span", { className: "shortcut-hint" }, "Ctrl/\u2318+Enter saves \u00B7 Shift+Enter adds another"),
                 React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"),
+                React.createElement("button", { type: "button", "data-save-next": true, className: "btn ghost", disabled: !valid, onClick: () => saveStudent(false, true) }, "Add + another"),
                 React.createElement("button", { className: "btn primary", disabled: !valid }, "Add student"))),
         pendingMatch && React.createElement("div", { className: "merge-popup" },
             React.createElement("section", null,
@@ -1054,7 +1063,7 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
                     matchHistory.map(item => React.createElement("span", { key: item }, item))),
                 React.createElement("div", { className: "modal-actions" },
                     React.createElement("button", { className: "btn ghost", onClick: () => setPendingMatch(null) }, "Go back"),
-                    React.createElement("button", { className: "btn ghost", onClick: () => saveStudent(true) }, "Create separate student"),
+                    React.createElement("button", { className: "btn ghost", onClick: () => saveStudent(true, pendingAddAnother) }, "Create separate student"),
                     React.createElement("button", { className: "btn primary", onClick: () => mergeWith(pendingMatch) }, "Use existing profile")))));
 }
 function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
