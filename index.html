@@ -151,6 +151,12 @@
 .section-card-label{position:relative;z-index:1;display:flex;align-items:center;gap:7px;font:900 8px var(--mono);letter-spacing:.14em;color:color-mix(in srgb,var(--class-color) 82%,white);text-transform:uppercase}
 .section-card-label i{width:8px;height:8px;border-radius:50%;background:var(--class-color);box-shadow:0 0 12px var(--class-color)}
 @media(max-width:760px){.section-card-row{grid-template-columns:1fr}.section-class-groups{gap:19px}}
+/* The landing page now shares the persistent application command bar. */
+.app:has(.landing-page){display:flex;flex-direction:column}
+.app:has(.landing-page)>.topbar{order:1;flex:0 0 auto}
+.app:has(.landing-page)>.landing-page{position:relative;inset:auto;order:2;z-index:2;width:100%;min-height:calc(100vh - 72px)}
+.app:has(.landing-page)>.context-bar,.app:has(.landing-page)>.workspace,.app:has(.landing-page)>footer{display:none}
+.landing-last-student{grid-column:1/-1;padding:11px}
 </style>
 </head>
 <body>
@@ -564,10 +570,11 @@ function Home() {
         copy(emails.join("; "), `${emails.length} email address${emails.length === 1 ? "" : "es"} copied`);
     };
     const openSectionWorkspace = (nextYearId, nextCourseId, nextSectionId) => { const course = data.courses.find(item => item.id === nextCourseId), color = starColors[course?.colorKey] || "#7be7ff", open = () => { setYearId(nextYearId); setCourseId(nextCourseId); setSectionId(nextSectionId); setSelectedIds([]); setScreen("records"); }; if (data.settings.powerMode === "full") { playHoloFx(color, "open"); setTimeout(open, 310); } else setTimeout(open, 120); };
+    const openLastStudent = () => { const student = data.students.find(item => item.id === data.settings.lastStudentId); if (!student) return notify("No recently viewed student yet"); const enrollments = data.enrollments.filter(item => item.studentId === student.id), enrollment = enrollments.find(item => item.sectionId === data.settings.lastSectionId) || [...enrollments].sort((a, b) => (b.startDate || "").localeCompare(a.startDate || ""))[0], section = data.sections.find(item => item.id === enrollment?.sectionId), course = data.courses.find(item => item.id === section?.courseId), year = data.years.find(item => item.id === course?.yearId); if (!section || !course || !year) return notify("The last student no longer has a valid class placement"); setYearId(year.id); setCourseId(course.id); setSectionId(section.id); setStudentId(student.id); setSelectedIds([]); setScreen("records"); };
     return (React.createElement("main", { className: `app theme-${activeTheme} power-${data.settings.powerMode === "full" ? "full" : "conserve"} ${privacy ? "privacy-on" : ""}` },
         React.createElement("div", { className: "atmosphere", "aria-hidden": "true" }),
         React.createElement("div", { className: "holo-emitter", "aria-hidden": "true" }),
-        screen === "landing" && React.createElement(LandingPage, { data: data, selectedYearId: yearId, cloudStatus: cloudStatus, onSelectYear: id => { setYearId(id); update(d => ({ ...d, settings: { ...d.settings, currentYearId: id, lastYearId: id } })); }, onOpenSection: openSectionWorkspace, onResume: () => { const y = data.years.find(item => item.id === data.settings.lastYearId) || currentYear, c = data.courses.find(item => item.id === data.settings.lastCourseId && item.yearId === y?.id) || data.courses.find(item => item.yearId === y?.id && !item.archived), s = data.sections.find(item => item.id === data.settings.lastSectionId && item.courseId === c?.id) || data.sections.find(item => item.courseId === c?.id && !item.archived); if (y && c && s) openSectionWorkspace(y.id, c.id, s.id); else notify("Choose a class or section to begin"); }, onSearch: () => setModal("search"), onQuick: () => setModal("quick"), onAdd: () => { if (!sectionId) return notify("Create or choose a class section first"); setScreen("records"); setModal("student"); }, onData: () => setModal("data"), onCloud: intent => { setCloudIntent(intent); setModal("cloud"); }, onSettings: () => setModal("settings"), onPrivacy: () => setPrivacy(true) }),
+        screen === "landing" && React.createElement(LandingPage, { data: data, selectedYearId: yearId, cloudStatus: cloudStatus, onSelectYear: id => { setYearId(id); update(d => ({ ...d, settings: { ...d.settings, currentYearId: id, lastYearId: id } })); }, onOpenSection: openSectionWorkspace, onResume: () => { const y = data.years.find(item => item.id === data.settings.lastYearId) || currentYear, c = data.courses.find(item => item.id === data.settings.lastCourseId && item.yearId === y?.id) || data.courses.find(item => item.yearId === y?.id && !item.archived), s = data.sections.find(item => item.id === data.settings.lastSectionId && item.courseId === c?.id) || data.sections.find(item => item.courseId === c?.id && !item.archived); if (y && c && s) openSectionWorkspace(y.id, c.id, s.id); else notify("Choose a class or section to begin"); }, onLastStudent: openLastStudent, onSearch: () => setModal("search"), onQuick: () => setModal("quick"), onAdd: () => { if (!sectionId) return notify("Create or choose a class section first"); setScreen("records"); setModal("student"); }, onPrivacy: () => setPrivacy(true) }),
         React.createElement("header", { className: "topbar" },
             React.createElement("div", { className: "brand" },
                 React.createElement("span", { className: "eyebrow" }, "LONGITUDINAL STUDENT ARCHIVE"),
@@ -749,7 +756,7 @@ function Home() {
             React.createElement("i", null),
             toast)));
 }
-function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSection, onResume, onSearch, onQuick, onAdd, onData, onCloud, onSettings, onPrivacy }) {
+function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSection, onResume, onLastStudent, onSearch, onQuick, onAdd, onPrivacy }) {
     const year = data.years.find(item => item.id === selectedYearId) || data.years.find(item => item.id === data.settings.currentYearId) || data.years.find(item => !item.archived) || data.years[0];
     const courses = data.courses.filter(course => course.yearId === year?.id && !course.archived);
     const studentMap = new Map(data.students.map(student => [student.id, student]));
@@ -788,7 +795,7 @@ function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSe
             React.createElement("h3", null, group.course.name),
             React.createElement("span", null, `${group.cards.length} section${group.cards.length === 1 ? "" : "s"}`)),
         React.createElement("div", { className: "section-card-row" }, group.cards.map(renderSectionCard)));
-    const lastCourse = data.courses.find(item => item.id === data.settings.lastCourseId), lastSection = data.sections.find(item => item.id === data.settings.lastSectionId);
+    const lastCourse = data.courses.find(item => item.id === data.settings.lastCourseId), lastSection = data.sections.find(item => item.id === data.settings.lastSectionId), lastStudent = data.students.find(item => item.id === data.settings.lastStudentId);
     return React.createElement("section", { className: "landing-page", "aria-label": "Teacher Record Console home" },
         React.createElement("aside", { className: "landing-left" },
             React.createElement("section", { className: "landing-brand glass" },
@@ -798,14 +805,10 @@ function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSe
                 React.createElement("label", { className: "landing-year" }, "School year", React.createElement("select", { value: year?.id || "", onChange: event => onSelectYear(event.target.value) }, data.years.filter(item => !item.archived).map(item => React.createElement("option", { key: item.id, value: item.id }, item.label))))),
             React.createElement("nav", { className: "landing-tools glass", "aria-label": "Landing page tools" },
                 React.createElement("button", { className: "btn primary landing-resume", onClick: onResume }, lastCourse && lastSection ? `Resume ${lastCourse.name} / ${lastSection.name}` : "Choose a class to begin"),
+                React.createElement("button", { className: "btn ghost landing-last-student", onClick: onLastStudent, disabled: !lastStudent }, lastStudent ? `Last student / ${fullName(lastStudent, "first")}` : "No recently viewed student"),
                 React.createElement("button", { className: "btn ghost", onClick: onSearch }, "Search"),
                 React.createElement("button", { className: "btn ghost", onClick: onQuick }, "Quick entry"),
                 React.createElement("button", { className: "btn ghost", onClick: onAdd }, "Add student"),
-                React.createElement("button", { className: "btn ghost", onClick: onData }, "Data & backups"),
-                React.createElement("button", { className: "btn ghost", onClick: () => onCloud("signin") }, "Cloud login"),
-                React.createElement("button", { className: "btn ghost", onClick: () => onCloud("save") }, "Save cloud"),
-                React.createElement("button", { className: "btn ghost", onClick: () => onCloud("load") }, "Load cloud"),
-                React.createElement("button", { className: "btn ghost", onClick: onSettings }, "Settings"),
                 React.createElement("button", { className: "btn ghost", onClick: onPrivacy }, "Privacy screen")),
             React.createElement("section", { className: "landing-info glass" },
                 React.createElement("header", null, React.createElement("h2", null, "Recent activity"), React.createElement("span", null, "LAST FIVE STUDENTS")),
@@ -1550,9 +1553,9 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
         return text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).map((line, index) => {
             if (index === 0 && /\bemail\b/i.test(line) && !/@/.test(line)) return null;
             let firstName = "", lastName = "", email = "", error = "";
-            if (line.includes("|")) {
-                const cells = line.split("|").map(cell => cell.trim());
-                if (cells.length !== 3) error = "Pipe format must be First | Last | Email";
+            if (line.includes(";")) {
+                const cells = line.split(";").map(cell => cell.trim());
+                if (cells.length !== 3) error = "Semicolon format must be First ; Last ; Email";
                 [firstName, lastName, email] = cells;
             }
             else if (line.includes("\t")) {
@@ -1586,8 +1589,8 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
                 React.createElement("div", { className: "import-destination" }, React.createElement("span", null, "IMPORTING INTO"), React.createElement("b", null, `${destinationCourse?.name || "Class"} / ${destination?.name || "No section selected"}`), React.createElement("small", null, destinationYear?.label || "")),
                 React.createElement("label", null,
                     "Names and emails",
-                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), onKeyDown: event => { if (event.key === "Enter" && event.shiftKey) { event.preventDefault(); importRows(); } }, placeholder: "Ari Hagler ahagler@geffenacademy.ucla.edu\nMary Ann | Smith | masmith@geffenacademy.ucla.edu" })),
-                React.createElement("p", { className: "form-hint" }, "Enter starts the next student. Use First Last email for ordinary names, or First | Last | email for compound names. Shift+Enter or Ctrl+Enter imports and closes.")),
+                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), onKeyDown: event => { if (event.key === "Enter" && event.shiftKey) { event.preventDefault(); importRows(); } }, placeholder: "Ari Hagler ahagler@geffenacademy.ucla.edu\nMary Ann ; Smith ; masmith@geffenacademy.ucla.edu" })),
+                React.createElement("p", { className: "form-hint" }, "Enter starts the next student. Use First Last email for ordinary names, or First ; Last ; email for compound names. Shift+Enter or Ctrl+Enter imports and closes.")),
             React.createElement("section", null,
                 React.createElement("span", { className: "eyebrow" }, "IMPORT PREVIEW"),
                 React.createElement("div", { className: "import-preview" },
