@@ -53,6 +53,21 @@
 .power-conserve .holo-emitter{opacity:.46}.power-conserve .holo-emitter:before{box-shadow:0 0 20px var(--glow),0 0 38px color-mix(in srgb,var(--accent) 16%,transparent)}
 .holo-emitter{left:50%;top:8px;bottom:auto;width:14px;height:14px;margin-left:-7px;transform:translateZ(0);z-index:2147483647!important;opacity:1!important;border-radius:50%;background:radial-gradient(circle,#dffbff 0 18%,color-mix(in srgb,var(--accent) 94%,white) 28%,var(--accent) 56%,transparent 74%);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 85%,white),0 0 30px var(--glow);animation:topEmitterPulse 1.8s ease-in-out infinite}.holo-emitter:before{left:50%;top:-5px;bottom:auto;width:28px;height:7px;transform:translateX(-50%);border-radius:0 0 999px 999px;border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);border-top:0;background:color-mix(in srgb,var(--bg0) 82%,transparent);box-shadow:0 0 12px var(--glow)}.holo-emitter:after{display:none}.power-conserve .holo-emitter{opacity:1!important;animation:none}.holo-emitter.firing{background:radial-gradient(circle,#fff 0 18%,color-mix(in srgb,var(--accent) 82%,white) 30%,var(--accent) 58%,transparent 76%);box-shadow:0 0 18px color-mix(in srgb,var(--accent) 88%,white),0 0 44px color-mix(in srgb,var(--accent) 62%,transparent);animation:topEmitterFire .52s cubic-bezier(.18,.9,.18,1) both}.console-laser-layer{z-index:2147483646!important}.console-laser-layer line{stroke-width:1.5;stroke-dasharray:1;filter:drop-shadow(0 0 6px var(--laser-color));animation:topLaserDraw .38s ease-out both}@keyframes topEmitterPulse{50%{transform:scale(1.18);filter:brightness(1.25)}}@keyframes topEmitterFire{0%{transform:scale(1);filter:brightness(1)}18%{transform:scale(1.52);filter:brightness(1.9) saturate(1.32)}44%{transform:scale(1.26);filter:brightness(1.52)}100%{transform:scale(1);filter:brightness(1)}}@keyframes topLaserDraw{0%{opacity:0;stroke-dashoffset:1}18%{opacity:1}62%{opacity:.95;stroke-dashoffset:0}100%{opacity:0;stroke-dashoffset:-1}}.import-destination{display:grid;gap:4px;padding:12px;border:1px solid color-mix(in srgb,var(--accent) 24%,#fff1);border-radius:14px;background:color-mix(in srgb,var(--accent) 7%,transparent)}.import-destination span{font:900 8px var(--mono);letter-spacing:.13em;color:var(--accent)}.import-destination b{font-size:13px}.import-destination small{font:8px var(--mono);color:var(--muted)}
 .console-laser-layer .laser-contact{fill:none;stroke:var(--laser-color,#7be7ff);stroke-width:2.2;filter:drop-shadow(0 0 7px var(--laser-color));transform-box:fill-box;transform-origin:center;animation:laserContactPop .55s ease-out both}@keyframes laserContactPop{0%{opacity:0;transform:scale(.25)}24%{opacity:1;transform:scale(2.2)}62%{opacity:.88;transform:scale(1.35)}100%{opacity:0;transform:scale(.55)}}
+/* Canonical Settings layout. This intentionally uses its own class so legacy
+   settings-layout breakpoints cannot compete for sizing or scroll ownership. */
+.holo-modal:has(.settings-console){width:min(1240px,97vw);height:min(900px,96vh);max-height:96vh;overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.holo-modal:has(.settings-console)>.settings-console{min-height:0;overflow:auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-content:start;gap:10px;padding:10px}
+.settings-console .settings-card{min-width:0;padding:12px}
+.settings-console .structure-settings{grid-column:1/-1;min-height:0;overflow:visible}
+.settings-console .school-settings-grid{display:grid;grid-template-columns:210px minmax(0,1fr);height:auto;max-height:none;margin-top:9px}
+.settings-console .school-years,.settings-console .school-classes{min-height:0;overflow:visible}
+.settings-console .school-classes{grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}
+.settings-console .add-class-card{grid-column:1/-1}
+.settings-console .appearance-settings,.settings-console .privacy-settings-card,.settings-console .cloud-card{grid-column:auto!important;min-height:185px;align-content:start}
+.settings-console .cloud-card{display:grid;grid-template-columns:1fr;align-items:start}
+.settings-console .cloud-card .mini-actions{justify-content:flex-start;align-self:end}
+@media(max-width:1000px) and (min-width:641px){.holo-modal:has(.settings-console)>.settings-console{grid-template-columns:repeat(2,minmax(0,1fr))}.settings-console .structure-settings,.settings-console .cloud-card{grid-column:1/-1!important}.settings-console .school-settings-grid{grid-template-columns:180px minmax(0,1fr)}.settings-console .school-classes{grid-template-columns:1fr}.settings-console .cloud-card{min-height:125px;grid-template-columns:minmax(0,1fr) auto}.settings-console .cloud-card .mini-actions{align-self:center}}
+@media(max-width:640px){.holo-modal:has(.settings-console){width:98vw;height:98vh;max-height:98vh}.holo-modal:has(.settings-console)>.settings-console{grid-template-columns:1fr;padding:7px}.settings-console .structure-settings,.settings-console .appearance-settings,.settings-console .privacy-settings-card,.settings-console .cloud-card{grid-column:1!important;min-height:0}.settings-console .structure-settings-head{display:grid}.settings-console .school-settings-grid,.settings-console .school-classes{grid-template-columns:1fr}.settings-console .add-class-card{grid-template-columns:1fr}.settings-console .cloud-card{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -134,7 +149,7 @@ function playHoloFx(color = "#7be7ff", type = "open") {
 function fireEmitterLasers(targets, color = "#7be7ff") {
     if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     const emitter = document.querySelector(".holo-emitter"), source = emitter?.getBoundingClientRect();
-    const valid = (Array.isArray(targets) ? targets : [targets]).filter(target => target?.getBoundingClientRect);
+    const valid = (Array.isArray(targets) ? targets : [targets]).filter(target => target?.getBoundingClientRect || (Number.isFinite(target?.x) && Number.isFinite(target?.y)));
     if (!source || !valid.length) return;
     document.querySelectorAll(".console-laser-layer").forEach(layer => layer.remove());
     const ns = "http://www.w3.org/2000/svg", svg = document.createElementNS(ns, "svg");
@@ -142,7 +157,7 @@ function fireEmitterLasers(targets, color = "#7be7ff") {
     svg.setAttribute("viewBox", `0 0 ${innerWidth} ${innerHeight}`);
     const sx = source.left + source.width / 2, sy = source.top + 18;
     valid.forEach((target, index) => {
-        const rect = target.getBoundingClientRect(), tx = rect.left + rect.width / 2, ty = rect.top + rect.height / 2;
+        const rect = target.getBoundingClientRect?.(), tx = rect ? rect.left + rect.width / 2 : target.x, ty = rect ? rect.top + rect.height / 2 : target.y;
         const line = document.createElementNS(ns, "line");
         line.setAttribute("x1", sx); line.setAttribute("y1", sy); line.setAttribute("x2", tx); line.setAttribute("y2", ty);
         line.style.setProperty("--laser-color", color); line.style.animationDelay = `${index * 45}ms`;
@@ -154,6 +169,12 @@ function fireEmitterLasers(targets, color = "#7be7ff") {
     document.body.appendChild(svg);
     emitter.classList.remove("firing"); void emitter.offsetWidth; emitter.classList.add("firing");
     setTimeout(() => { svg.remove(); emitter.classList.remove("firing"); }, 820);
+}
+function firePopupLasers(panel, color = "#7be7ff") {
+    const rect = panel?.getBoundingClientRect?.();
+    if (!rect) return;
+    const inset = Math.min(14, Math.max(6, rect.width * .025));
+    fireEmitterLasers([{ x: rect.right - inset, y: rect.top + inset }, { x: rect.left + inset, y: rect.bottom - inset }], color);
 }
 const isoDate = () => new Date().toISOString().slice(0, 10);
 const stamp = () => new Date().toISOString();
@@ -309,7 +330,7 @@ function Home() {
         const timer = setTimeout(() => { const next = { ...data, updatedAt: stamp(), schemaVersion: 2 }; saveDb(next).then(() => setSaveStatus("saved")).catch(() => { setSaveStatus("failed"); setToast("SAVE FAILED · Downloading an emergency backup"); const anchor = document.createElement("a"), json = JSON.stringify(next, null, 2); anchor.href = URL.createObjectURL(new Blob([json], { type: "application/json" })); anchor.download = `teacher-records-emergency-${isoDate()}.json`; anchor.click(); setTimeout(() => URL.revokeObjectURL(anchor.href), 1000); }); }, 180);
         return () => clearTimeout(timer);
     }, [data, loaded]);
-    useEffect(() => { if (modal) setTimeout(() => { const panel = document.querySelector(".modal-overlay .holo-modal"); fireEmitterLasers(panel); if (data?.settings.powerMode === "full") playHoloFx(undefined, "open"); }, 50); }, [modal]);
+    useEffect(() => { if (modal) setTimeout(() => { const panel = document.querySelector(".modal-overlay .holo-modal"); firePopupLasers(panel); if (data?.settings.powerMode === "full") playHoloFx(undefined, "open"); }, 50); }, [modal]);
     useEffect(() => {
         if (!data)
             return;
@@ -819,6 +840,8 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
     const [confirmCode, setConfirmCode] = useState("");
     const [showAccess, setShowAccess] = useState(false);
     const [showSkins, setShowSkins] = useState(false);
+    useEffect(() => { if (showSkins) setTimeout(() => firePopupLasers(document.querySelector(".skin-chooser-popup>section")), 40); }, [showSkins]);
+    useEffect(() => { if (showAccess) setTimeout(() => firePopupLasers(document.querySelector(".access-code-popup>section")), 40); }, [showAccess]);
     const saveCode = () => {
         const stored = data.settings.accessCode || "111111";
         if (current !== stored)
@@ -835,7 +858,7 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
         notify("Access code updated");
     };
     return React.createElement(ModalShell, { title: "Settings", subtitle: "CLASSES \u00B7 YEARS \u00B7 APPEARANCE \u00B7 ACCESS", onClose: onClose, wide: true },
-        React.createElement("div", { className: "settings-layout" },
+        React.createElement("div", { className: "settings-console" },
             React.createElement(SchoolStructureSettings, { data: data, onUpdate: onUpdate, notify: notify }),
             React.createElement("section", { className: "settings-card appearance-settings" },
                 React.createElement("div", { className: "appearance-head" },
