@@ -208,6 +208,8 @@ const kinds = [
     { id: "other", label: "Other", short: "Other" },
 ];
 const narrativePromptDefaults = {
+    none: "",
+    custom: "",
     fall: "Write a concise Fall narrative comment in a warm, professional teacher voice. Identify demonstrated strengths, cite specific evidence, name one area for continued growth, and establish a specific, meaningful goal for the student. Use the student's first name and pronouns. Do not mention these instructions or the source notes.",
     conferences: "Prepare a concise, family-facing parent conference summary in a warm, professional teacher voice. Identify demonstrated strengths with specific evidence, explain current areas of concern without overstatement, suggest useful talking points or questions, and conclude with one practical next step for the student. Use the student's first name and pronouns. Do not mention these instructions or the source notes.",
     spring: "Write a concise Spring narrative comment in a warm, professional teacher voice. Compare the student's current performance with the prior Fall narrative, explicitly evaluate progress toward the Fall goal, cite specific evidence of growth or continued need, and recommend a meaningful next step. Use the student's first name and pronouns. Do not mention these instructions or the source notes."
@@ -318,7 +320,7 @@ const defaultData = () => {
 function normalizeData(raw) {
     const next = { ...raw, schemaVersion: 2, columns: raw.columns || [], settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, emailPageHref: raw.settings?.emailPageHref || "https://mail.google.com/", cloudRevision: Number(raw.settings?.cloudRevision) || 0, powerMode: raw.settings?.powerMode === "full" ? "full" : "conserve", ...raw.settings } };
     next.settings.narrativePrompts = { ...narrativePromptDefaults, ...(raw.settings?.narrativePrompts || {}) };
-    next.settings.activeNarrativePrompt = ["fall", "conferences", "spring"].includes(raw.settings?.activeNarrativePrompt) ? raw.settings.activeNarrativePrompt : "fall";
+    next.settings.activeNarrativePrompt = ["fall", "conferences", "spring", "none", "custom"].includes(raw.settings?.activeNarrativePrompt) ? raw.settings.activeNarrativePrompt : "fall";
     next.settings.powerMode = next.settings.powerMode === "full" ? "full" : "conserve";
     next.courses = (next.courses || []).map((course, index) => ({ ...course, colorKey: starOrder.includes(course.colorKey) ? course.colorKey : automaticCourseColor(course, index) }));
     next.records = (next.records || []).map(record => record.kind !== "narrative-comment" ? record : { ...record, narrativeStatus: ({ "not-started": "not-started", drafting: "drafting", drafted: "drafting", reviewed: "in-process", complete: "ready", final: "ready", ready: "ready", "in-process": "in-process" })[record.narrativeStatus] || (record.text?.trim() ? "drafting" : "not-started") });
@@ -1947,7 +1949,8 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
     const [promptOpen, setPromptOpen] = useState(false);
     const [grade, setGrade] = useState("");
     const activePrompt = data.settings.activeNarrativePrompt || "fall";
-    const instructions = data.settings.narrativePrompts?.[activePrompt] || narrativePromptDefaults[activePrompt];
+    const instructions = data.settings.narrativePrompts?.[activePrompt] ?? narrativePromptDefaults[activePrompt] ?? "";
+    const promptLabel = ({ fall: "Fall", conferences: "Conferences", spring: "Spring", none: "No Prompt", custom: "Custom" })[activePrompt] || "Custom";
     const [dirty, setDirty] = useState(false);
     const draftCache = useRef({});
     const student = roster[index];
@@ -2027,13 +2030,13 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
                         React.createElement("input", { type: "date", disabled: !dateOn, value: afterDate, onChange: event => setAfterDate(event.target.value) }))),
                 React.createElement("div", { className: "narrative-toolbar" },
                     React.createElement("button", { className: "btn ghost", onClick: () => setPromptOpen(true) }, "Prompt"),
-                    React.createElement("span", { className: "narrative-stat" }, `Using ${activePrompt === "fall" ? "Fall" : activePrompt === "spring" ? "Spring" : "Conferences"}`),
+                    React.createElement("span", { className: "narrative-stat" }, `Using ${promptLabel}`),
                     React.createElement("label", null, "Current grade", React.createElement("input", { value: grade, onChange: event => setGrade(event.target.value), placeholder: "85.67" })),
                     React.createElement("span", { className: "temporary-note" }, "Temporary · not saved")),
                 promptOpen && React.createElement("div", { className: "prompt-popup" }, React.createElement("section", null,
                     React.createElement("span", { className: "eyebrow" }, "SAVED NARRATIVE PROMPTS"),
-                    React.createElement("div", { className: "prompt-tabs" }, ["fall", "conferences", "spring"].map(key => React.createElement("button", { key, className: `btn ghost ${activePrompt === key ? "active" : ""}`, onClick: () => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, activeNarrativePrompt: key } })) }, key === "fall" ? "Fall" : key === "spring" ? "Spring" : "Conferences"))),
-                    React.createElement("textarea", { value: instructions, onChange: event => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, narrativePrompts: { ...d.settings.narrativePrompts, [activePrompt]: event.target.value } } })) }),
+                    React.createElement("div", { className: "prompt-tabs" }, ["fall", "conferences", "spring", "none", "custom"].map(key => React.createElement("button", { key, className: `btn ghost ${activePrompt === key ? "active" : ""}`, onClick: () => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, activeNarrativePrompt: key } })) }, ({ fall: "Fall", conferences: "Conferences", spring: "Spring", none: "No Prompt", custom: "Custom" })[key]))),
+                    React.createElement("textarea", { value: instructions, disabled: activePrompt === "none", placeholder: activePrompt === "custom" ? "Enter a custom prompt…" : activePrompt === "none" ? "No instruction prompt will be included." : "", onChange: event => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, narrativePrompts: { ...d.settings.narrativePrompts, [activePrompt]: event.target.value } } })) }),
                     React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: () => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, narrativePrompts: { ...d.settings.narrativePrompts, [activePrompt]: narrativePromptDefaults[activePrompt] } } })) }, "Restore default"), React.createElement("button", { className: "btn primary", onClick: () => setPromptOpen(false) }, "Done")))),
                 React.createElement("div", { className: "narrative-stat" }, React.createElement("b", null, records.length), ` records included · ${packet.length.toLocaleString()} characters${priorNarrative ? " · prior narrative included" : ""}`),
                 React.createElement("pre", { className: "narrative-packet" }, packet || "No records match this selection."),
