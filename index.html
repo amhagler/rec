@@ -575,6 +575,7 @@ function Home() {
     if (!unlocked)
         return React.createElement(AccessChallenge, { theme: data.settings.theme, accessCode: data.settings.accessCode || "111111", onUnlock: () => { setUnlocked(true); setScreen("landing"); } });
     const activeTheme = data.settings.theme;
+    const classAccent = starColors[currentCourse?.colorKey] || starColors[automaticCourseColor(currentCourse || { id: courseId || "class" })] || "#7be7ff";
     const archiveSize = new Blob([JSON.stringify(data)]).size;
     const toggleSelected = (id) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
     const selectRosterScope = (scope) => { if (!scope)
@@ -615,7 +616,7 @@ function Home() {
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("data") }, "\u25A3 Data"),
                 React.createElement("button", { className: "btn ghost icon-btn", onClick: () => setModal("settings"), title: "Settings", "aria-label": "Open settings" }, "\u2699"),
                 React.createElement("button", { className: `btn ghost icon-btn ${privacy ? "on" : ""}`, onClick: () => setPrivacy(true), title: "Privacy screen", "aria-label": "Open privacy screen" }, "\u25CE"))),
-        React.createElement("section", { className: "context-bar glass" },
+        React.createElement("section", { className: "context-bar glass", style: { "--accent": classAccent, "--metal": classAccent } },
             React.createElement("div", { className: "context-select" },
                 React.createElement("label", null, "School year"),
                 React.createElement("select", { value: yearId, onChange: e => { setYearId(e.target.value); setSelectedIds([]); } }, data.years.filter(y => !y.archived).map(y => React.createElement("option", { key: y.id, value: y.id }, y.label)))),
@@ -625,7 +626,7 @@ function Home() {
                 React.createElement("small", null, data.enrollments.filter(e => e.sectionId === s.id && e.active).length)))),
             React.createElement("button", { className: "btn primary", onClick: () => { setQuickColumnId(""); setQuickAllClassSections(true); setModal("quick"); } }, "Quick Entry"),
             React.createElement("button", { className: "btn ghost manage-btn", onClick: () => setModal("settings") }, "Manage classes")),
-        React.createElement("section", { className: "workspace" },
+        React.createElement("section", { className: "workspace", style: { "--accent": classAccent, "--metal": classAccent } },
             React.createElement("aside", { className: "roster-panel glass" },
                 React.createElement("div", { className: "panel-head" },
                     React.createElement("div", null,
@@ -1541,10 +1542,11 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
 }
 function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
     const [firstName, setFirst] = useState(student.firstName), [lastName, setLast] = useState(student.lastName), [email, setEmail] = useState(student.email), [pronouns, setPronouns] = useState(student.pronouns || ""), [archived, setArchived] = useState(!!student.archived);
+    const [teacherProfileNote, setTeacherProfileNote] = useState(student.teacherProfileNote || "");
     const enrollments = data.enrollments.filter(enrollment => enrollment.studentId === student.id);
     return React.createElement(ModalShell, { title: "Edit student profile", subtitle: "IDENTITY \u00B7 ENROLLMENT HISTORY", onClose: onClose },
         React.createElement("form", { onSubmit: event => { event.preventDefault(); if (!firstName.trim() || !lastName.trim())
-                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, archived }); } },
+                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, teacherProfileNote: teacherProfileNote.trim() || undefined, archived }); } },
             React.createElement("div", { className: "form-grid two" },
                 React.createElement("label", null,
                     "First name",
@@ -1559,6 +1561,10 @@ function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
                 "Pronouns ",
                 React.createElement("span", { className: "optional" }, "private \u00B7 optional"),
                 React.createElement("input", { value: pronouns, onChange: event => setPronouns(event.target.value), placeholder: "they/them, she/her, he/him\u2026" })),
+            React.createElement("label", null,
+                "Teacher-facing profile note ",
+                React.createElement("span", { className: "optional" }, "private · never included in the student record"),
+                React.createElement("textarea", { rows: 4, value: teacherProfileNote, onChange: event => setTeacherProfileNote(event.target.value), placeholder: "Private context or reminders for this student…" })),
             React.createElement("label", { className: "check-label" },
                 React.createElement("input", { type: "checkbox", checked: archived, onChange: event => setArchived(event.target.checked) }),
                 " Archive this student"),
@@ -1836,7 +1842,7 @@ function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds
         return Array.from(new Set(data.enrollments.filter(e => sections.includes(e.sectionId) && e.active).map(e => e.studentId)));
     }, [scope, studentId, selectedIds, data, courseId, sectionId]);
     const plain = exportText(data, ids, yearId, types, allYears, anonymize, studentFacing);
-    const json = JSON.stringify({ format: "teacher-records-selection", schemaVersion: 1, exportedAt: stamp(), students: data.students.filter(s => ids.includes(s.id)), records: data.records.filter(r => ids.includes(r.studentId) && types.includes(r.kind)) }, null, 2);
+    const json = JSON.stringify({ format: "teacher-records-selection", schemaVersion: 1, exportedAt: stamp(), students: data.students.filter(s => ids.includes(s.id)).map(({ teacherProfileNote, ...student }) => student), records: data.records.filter(r => ids.includes(r.studentId) && types.includes(r.kind)) }, null, 2);
     const output = format === "text" ? plain : json;
     const doCopy = async () => { await navigator.clipboard.writeText(output); notify(`${ids.length} student record${ids.length === 1 ? "" : "s"} copied`); };
     return React.createElement(ModalShell, { title: "Prepare export", subtitle: "CHATGPT-READY RECORDS", onClose: onClose, wide: true },
