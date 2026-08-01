@@ -830,7 +830,7 @@ function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSe
                 React.createElement("label", { className: "landing-year" }, "School year", React.createElement("select", { value: year?.id || "", onChange: event => onSelectYear(event.target.value) }, data.years.filter(item => !item.archived).map(item => React.createElement("option", { key: item.id, value: item.id }, item.label))))),
             React.createElement("nav", { className: "landing-tools glass", "aria-label": "Landing page tools" },
                 React.createElement("button", { className: "btn primary landing-resume", onClick: onResume }, lastCourse && lastSection ? `Resume ${lastCourse.name} / ${lastSection.name}` : "Choose a class to begin"),
-                React.createElement("button", { className: "btn ghost landing-last-student", onClick: onLastStudent, disabled: !lastStudent }, lastStudent ? `Last student / ${fullName(lastStudent, "first")}` : "No recently viewed student"),
+                React.createElement("button", { className: "btn ghost landing-last-student", onClick: onLastStudent, disabled: !lastStudent }, lastStudent ? `Last student / ${initials(lastStudent)}` : "No recently viewed student"),
                 React.createElement("button", { className: "btn ghost", onClick: onSearch }, "Search"),
                 React.createElement("button", { className: "btn ghost", onClick: onQuick }, "Quick entry"),
                 React.createElement("button", { className: "btn ghost", onClick: onAdd }, "Add student"),
