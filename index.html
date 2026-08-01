@@ -118,6 +118,29 @@
 .settings-structure-popup .school-classes>.eyebrow,.settings-structure-popup .add-class-card{grid-column:1/-1}
 .settings-structure-popup .modal-actions{padding:10px 14px;border-top:1px solid #ffffff18}
 @media(max-width:760px){.holo-modal:has(.settings-console){height:98vh}.holo-modal:has(.settings-console)>.settings-console{overflow-y:auto;grid-template-columns:1fr;grid-template-rows:auto;grid-template-areas:"school" "appearance" "privacy" "cloud"}.settings-console>.settings-card{height:auto;min-height:220px}.settings-structure-popup{padding:5px}.settings-structure-popup>section{width:99%;height:98%}.settings-structure-popup .school-settings-grid,.settings-structure-popup .school-classes{grid-template-columns:1fr}.settings-structure-popup .add-class-card{grid-template-columns:1fr}}
+/* Isolated Settings v2: deliberately does not reuse legacy layout classes. */
+.holo-modal:has(.settings-dashboard-v2){position:relative;width:min(1120px,96vw);height:auto;max-height:94vh;overflow:hidden;padding-bottom:58px;display:block}
+.holo-modal:has(.settings-dashboard-v2)>header{position:relative}
+.settings-dashboard-v2{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:auto auto;gap:12px;padding:12px;overflow:hidden}
+.settings-dashboard-v2 *{min-width:0}
+.settings-v2-card{display:grid;align-content:start;gap:12px;min-height:235px;padding:16px;border:1px solid #ffffff20;border-radius:19px;background:linear-gradient(180deg,#ffffff08,#ffffff04);overflow:hidden}
+.settings-v2-head{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.settings-v2-head>div{min-width:0}
+.settings-v2-head h3{margin:4px 0 4px;font:700 19px var(--serif)}
+.settings-v2-head p{margin:0;color:var(--muted);font:9px/1.45 var(--mono)}
+.settings-v2-head>.btn{flex:0 0 auto}
+.settings-school-v2{grid-template-rows:auto 1fr auto}
+.settings-school-v2 .school-summary-current{align-self:stretch}
+.settings-appearance-v2{grid-template-rows:auto 1fr}
+.settings-appearance-v2 .power-setting{align-self:stretch;grid-template-columns:minmax(0,1fr) minmax(230px,.8fr);margin:0}
+.settings-privacy-v2{grid-template-rows:auto 1fr}
+.settings-privacy-v2 .privacy-options{align-self:start;display:grid;gap:12px;margin:0}
+.settings-cloud-v2{grid-template-rows:1fr auto}
+.settings-cloud-v2 h3{margin:4px 0 5px;font:700 19px var(--serif)}
+.settings-cloud-v2 p{margin:0 0 12px;max-width:560px;font-size:12px;line-height:1.5;color:var(--muted)}
+.settings-cloud-v2 .mini-actions{display:flex;align-self:end;justify-content:flex-start;gap:7px}
+.settings-done-v2{position:absolute;right:16px;bottom:13px;z-index:4}
+@media(max-width:820px){.holo-modal:has(.settings-dashboard-v2){height:98vh;max-height:98vh;overflow:hidden}.settings-dashboard-v2{height:calc(98vh - 118px);overflow-y:auto;overflow-x:hidden;grid-template-columns:1fr;grid-template-rows:auto}.settings-v2-card{min-height:220px}.settings-appearance-v2 .power-setting{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -939,9 +962,9 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
         notify("Access code updated");
     };
     return React.createElement(ModalShell, { title: "Settings", subtitle: "CLASSES \u00B7 YEARS \u00B7 APPEARANCE \u00B7 ACCESS", onClose: onClose, wide: true },
-        React.createElement("div", { className: "settings-console" },
-            React.createElement("section", { className: "settings-card school-summary-card" },
-                React.createElement("div", { className: "school-summary-head" },
+        React.createElement("div", { className: "settings-dashboard-v2" },
+            React.createElement("section", { className: "settings-v2-card settings-school-v2" },
+                React.createElement("div", { className: "settings-v2-head" },
                     React.createElement("div", null,
                         React.createElement("span", { className: "eyebrow" }, "SCHOOL SETUP"),
                         React.createElement("h3", null, "Years, classes, and sections"),
@@ -957,8 +980,8 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
                     React.createElement("div", null, React.createElement("b", null, data.years.length), React.createElement("span", null, "School years")),
                     React.createElement("div", null, React.createElement("b", null, data.courses.filter(course => !course.archived).length), React.createElement("span", null, "Active classes")),
                     React.createElement("div", null, React.createElement("b", null, data.sections.filter(section => !section.archived).length), React.createElement("span", null, "Active sections")))),
-            React.createElement("section", { className: "settings-card appearance-settings" },
-                React.createElement("div", { className: "appearance-head" },
+            React.createElement("section", { className: "settings-v2-card settings-appearance-v2" },
+                React.createElement("div", { className: "settings-v2-head" },
                     React.createElement("div", null,
                         React.createElement("span", { className: "eyebrow" }, "APPEARANCE"),
                         React.createElement("h3", null, "Visual atmosphere"),
@@ -967,8 +990,8 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
                 React.createElement("div", { className: "power-setting" },
                     React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "POWER MODE"), React.createElement("p", null, data.settings.powerMode === "full" ? "Full atmosphere, emitters, and panel effects." : "Static low-power atmosphere with essential feedback only.")),
                     React.createElement("button", { className: `power-dial-console ${data.settings.powerMode === "conserve" ? "on" : ""}`, onClick: () => { const next = data.settings.powerMode === "full" ? "conserve" : "full"; onUpdate(d => ({ ...d, settings: { ...d.settings, powerMode: next } })); notify(next === "full" ? "Full power atmosphere enabled" : "Conserve mode enabled"); } }, React.createElement("b", null, "CONSERVE"), React.createElement("span", { className: "power-dial-face", "aria-hidden": "true" }), React.createElement("b", null, "FULL"))),
-            React.createElement("section", { className: "settings-card privacy-settings-card" },
-                React.createElement("div", { className: "settings-card-head" }, React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "PRIVACY & ACCESS"), React.createElement("h3", null, "Privacy controls"), React.createElement("p", null, "Automatic privacy timing and keypad access.")), React.createElement("button", { className: "btn ghost", onClick: () => setShowAccess(true) }, "Change access code")),
+            React.createElement("section", { className: "settings-v2-card settings-privacy-v2" },
+                React.createElement("div", { className: "settings-v2-head" }, React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "PRIVACY & ACCESS"), React.createElement("h3", null, "Privacy controls"), React.createElement("p", null, "Automatic privacy timing and keypad access.")), React.createElement("button", { className: "btn ghost", onClick: () => setShowAccess(true) }, "Change access code")),
                 React.createElement("div", { className: "privacy-options" },
                     React.createElement("label", null,
                         "Idle privacy screen",
@@ -982,7 +1005,7 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
                     React.createElement("label", { className: "check-label" },
                         React.createElement("input", { type: "checkbox", checked: !!data.settings.privacyOnHidden, onChange: event => onUpdate(d => ({ ...d, settings: { ...d.settings, privacyOnHidden: event.target.checked } })) }),
                         " Start privacy screen when the tab is hidden"))),
-            React.createElement("section", { className: "settings-card cloud-card" },
+            React.createElement("section", { className: "settings-v2-card settings-cloud-v2" },
                 React.createElement("div", null,
                     React.createElement("span", { className: "eyebrow" }, "CLOUD LOGIN"),
                     React.createElement("h3", null, "Encrypted Supabase vault"),
@@ -991,8 +1014,7 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
                 React.createElement("div", { className: "mini-actions" },
                     React.createElement("button", { className: "btn ghost", onClick: () => window.open(data.settings.emailPageHref || "https://mail.google.com/", "_blank", "noopener") }, "Open Gmail"),
                     React.createElement("button", { className: "btn primary", onClick: onOpenCloud }, "Cloud Login & Sync")))),
-        React.createElement("div", { className: "modal-actions padded" },
-            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")),
+        React.createElement("button", { className: "btn primary settings-done-v2", onClick: onClose }, "Done"),
         showStructure && React.createElement("div", { className: "settings-structure-popup", onMouseDown: event => { if (event.target === event.currentTarget) setShowStructure(false); } },
             React.createElement("section", { className: "laser-preflight", role: "dialog", "aria-modal": "true", "aria-label": "Manage years, classes, and sections" },
                 React.createElement("header", null,
