@@ -51,6 +51,8 @@
 .power-full .atmosphere:before,.power-full .atmosphere:after{content:"";position:absolute;inset:-20%;opacity:.7;will-change:transform}.power-full .atmosphere:before{background:radial-gradient(circle at 18% 24%,color-mix(in srgb,var(--accent) 24%,transparent),transparent 18%),radial-gradient(circle at 76% 32%,color-mix(in srgb,var(--metal) 20%,transparent),transparent 21%),radial-gradient(circle at 48% 78%,color-mix(in srgb,var(--accent) 15%,transparent),transparent 17%);filter:blur(28px);animation:consoleNebula 18s ease-in-out infinite alternate}.power-full .atmosphere:after{background:repeating-linear-gradient(108deg,transparent 0 74px,color-mix(in srgb,var(--accent) 8%,transparent) 75px,transparent 77px 150px);animation:consoleSweep 14s linear infinite}.power-conserve .atmosphere:before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 78% 12%,color-mix(in srgb,var(--accent) 7%,transparent),transparent 35%)}.holo-emitter.firing{opacity:1;filter:brightness(1.6) saturate(1.25);animation:emitterFire .8s ease-out}.console-laser-layer{position:fixed;z-index:499;inset:0;width:100vw;height:100vh;pointer-events:none;overflow:visible}.console-laser-layer line{stroke:var(--laser-color,#7be7ff);stroke-width:2.6;stroke-linecap:round;filter:drop-shadow(0 0 3px var(--laser-color)) drop-shadow(0 0 9px var(--laser-color));stroke-dasharray:10 7;animation:laserFire .75s ease-out both}.console-laser-layer line:nth-child(even){stroke-width:1.5;stroke-dasharray:4 6}@keyframes consoleNebula{0%{transform:translate3d(-4%,-2%,0) scale(.95);opacity:.42}50%{transform:translate3d(5%,3%,0) scale(1.08);opacity:.78}100%{transform:translate3d(-1%,7%,0) scale(1);opacity:.55}}@keyframes consoleSweep{to{transform:translate3d(180px,110px,0)}}@keyframes emitterFire{0%,100%{transform:translateX(-50%) scale(1)}25%{transform:translateX(-50%) scale(1.12)}55%{transform:translateX(-50%) scale(.98)}}@keyframes laserFire{0%{opacity:0;stroke-dashoffset:120}18%{opacity:1}65%{opacity:.95;stroke-dashoffset:0}100%{opacity:0;stroke-dashoffset:-45}}@media(prefers-reduced-motion:reduce){.power-full .atmosphere:before,.power-full .atmosphere:after,.console-laser-layer,.holo-emitter.firing{animation:none!important}.console-laser-layer{display:none}}
 .holo-modal:has(.settings-layout){height:min(900px,96vh);overflow:hidden}.holo-modal:has(.settings-layout)>.settings-layout{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-template-rows:auto auto;align-items:stretch;gap:9px;padding:9px;overflow:auto}.holo-modal:has(.settings-layout) .structure-settings{grid-column:1/-1;overflow:visible}.holo-modal:has(.settings-layout) .school-settings-grid{height:auto;max-height:none}.holo-modal:has(.settings-layout) .school-years,.holo-modal:has(.settings-layout) .school-classes{overflow:visible}.holo-modal:has(.settings-layout) .school-classes{grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}.holo-modal:has(.settings-layout) .add-class-card{grid-column:1/-1}.holo-modal:has(.settings-layout) .appearance-settings,.holo-modal:has(.settings-layout) .privacy-settings-card,.holo-modal:has(.settings-layout) .cloud-card{grid-column:auto!important;min-height:190px;align-content:start}.holo-modal:has(.settings-layout) .cloud-card{display:grid;grid-template-columns:1fr;align-items:start}.holo-modal:has(.settings-layout) .cloud-card .mini-actions{justify-content:flex-start;align-self:end}.appearance-head,.settings-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}.settings-card-head h3{margin:4px 0 5px;font:700 17px var(--serif)}.settings-card-head p{margin:0;color:var(--muted);font:9px/1.45 var(--mono)}.privacy-settings-card{display:grid;gap:10px}.privacy-settings-card .privacy-options{display:grid;grid-template-columns:1fr;gap:9px;margin:0}.appearance-settings{display:grid;gap:10px}.appearance-settings .power-setting{grid-template-columns:1fr;padding:8px}.skin-chooser-popup{position:absolute;z-index:60;inset:0;display:grid;place-items:center;padding:14px;background:#000c;backdrop-filter:blur(14px)}.skin-chooser-popup>section{width:min(1120px,97%);padding:13px;border:1px solid color-mix(in srgb,var(--accent) 36%,#fff2);border-radius:23px;background:linear-gradient(160deg,var(--panel),var(--bg1));box-shadow:0 0 48px var(--glow),0 28px 90px #000b}.skin-chooser-popup header{display:flex;align-items:center;justify-content:space-between;padding:0 3px 10px}.skin-chooser-popup h3{margin:3px 0;font:700 20px var(--serif)}.skin-popup-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:7px}.skin-popup-grid .theme-card{min-height:70px;padding:10px 8px 8px 34px}.skin-popup-grid .theme-card i{left:10px;top:12px}.class-color-trigger{width:24px;height:24px;padding:0!important;border-radius:50%!important;border:1px solid color-mix(in srgb,var(--star-color) 55%,transparent)!important;background:color-mix(in srgb,var(--star-color) 15%,transparent)!important;color:var(--star-color)!important;text-shadow:0 0 8px var(--star-color)}@media(max-width:900px){.holo-modal:has(.settings-layout)>.settings-layout{grid-template-columns:1fr 1fr}.holo-modal:has(.settings-layout) .structure-settings{grid-column:1/-1}.holo-modal:has(.settings-layout) .cloud-card{grid-column:1/-1!important;min-height:130px;grid-template-columns:1fr auto}.skin-popup-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.skin-popup-grid .theme-card{min-height:58px}.skin-popup-grid .theme-card span{display:none}}@media(max-width:620px){.holo-modal:has(.settings-layout){height:98vh;width:98vw}.holo-modal:has(.settings-layout)>.settings-layout{grid-template-columns:1fr;display:grid;overflow:auto}.holo-modal:has(.settings-layout) .structure-settings,.holo-modal:has(.settings-layout) .appearance-settings,.holo-modal:has(.settings-layout) .privacy-settings-card,.holo-modal:has(.settings-layout) .cloud-card{grid-column:1!important;min-height:0}.holo-modal:has(.settings-layout) .school-settings-grid{grid-template-columns:1fr;height:auto}.holo-modal:has(.settings-layout) .school-classes{grid-template-columns:1fr}.holo-modal:has(.settings-layout) .cloud-card{grid-template-columns:1fr}.skin-chooser-popup{padding:5px}.skin-chooser-popup>section{width:99%;padding:8px}.skin-popup-grid{gap:4px}.skin-popup-grid .theme-card{min-height:52px;padding:7px 5px 6px 27px;font-size:8px}.skin-popup-grid .theme-card i{left:8px;top:10px;width:12px;height:12px}.skin-popup-grid .theme-card b{font-size:8px}}
 .power-conserve .holo-emitter{opacity:.46}.power-conserve .holo-emitter:before{box-shadow:0 0 20px var(--glow),0 0 38px color-mix(in srgb,var(--accent) 16%,transparent)}
+.holo-emitter{left:50%;top:8px;bottom:auto;width:14px;height:14px;margin-left:-7px;transform:translateZ(0);z-index:2147483647!important;opacity:1!important;border-radius:50%;background:radial-gradient(circle,#dffbff 0 18%,color-mix(in srgb,var(--accent) 94%,white) 28%,var(--accent) 56%,transparent 74%);box-shadow:0 0 12px color-mix(in srgb,var(--accent) 85%,white),0 0 30px var(--glow);animation:topEmitterPulse 1.8s ease-in-out infinite}.holo-emitter:before{left:50%;top:-5px;bottom:auto;width:28px;height:7px;transform:translateX(-50%);border-radius:0 0 999px 999px;border:1px solid color-mix(in srgb,var(--accent) 22%,transparent);border-top:0;background:color-mix(in srgb,var(--bg0) 82%,transparent);box-shadow:0 0 12px var(--glow)}.holo-emitter:after{display:none}.power-conserve .holo-emitter{opacity:1!important;animation:none}.holo-emitter.firing{background:radial-gradient(circle,#fff 0 18%,color-mix(in srgb,var(--accent) 82%,white) 30%,var(--accent) 58%,transparent 76%);box-shadow:0 0 18px color-mix(in srgb,var(--accent) 88%,white),0 0 44px color-mix(in srgb,var(--accent) 62%,transparent);animation:topEmitterFire .52s cubic-bezier(.18,.9,.18,1) both}.console-laser-layer{z-index:2147483646!important}.console-laser-layer line{stroke-width:1.5;stroke-dasharray:1;filter:drop-shadow(0 0 6px var(--laser-color));animation:topLaserDraw .38s ease-out both}@keyframes topEmitterPulse{50%{transform:scale(1.18);filter:brightness(1.25)}}@keyframes topEmitterFire{0%{transform:scale(1);filter:brightness(1)}18%{transform:scale(1.52);filter:brightness(1.9) saturate(1.32)}44%{transform:scale(1.26);filter:brightness(1.52)}100%{transform:scale(1);filter:brightness(1)}}@keyframes topLaserDraw{0%{opacity:0;stroke-dashoffset:1}18%{opacity:1}62%{opacity:.95;stroke-dashoffset:0}100%{opacity:0;stroke-dashoffset:-1}}.import-destination{display:grid;gap:4px;padding:12px;border:1px solid color-mix(in srgb,var(--accent) 24%,#fff1);border-radius:14px;background:color-mix(in srgb,var(--accent) 7%,transparent)}.import-destination span{font:900 8px var(--mono);letter-spacing:.13em;color:var(--accent)}.import-destination b{font-size:13px}.import-destination small{font:8px var(--mono);color:var(--muted)}
+.console-laser-layer .laser-contact{fill:none;stroke:var(--laser-color,#7be7ff);stroke-width:2.2;filter:drop-shadow(0 0 7px var(--laser-color));transform-box:fill-box;transform-origin:center;animation:laserContactPop .55s ease-out both}@keyframes laserContactPop{0%{opacity:0;transform:scale(.25)}24%{opacity:1;transform:scale(2.2)}62%{opacity:.88;transform:scale(1.35)}100%{opacity:0;transform:scale(.55)}}
 </style>
 </head>
 <body>
@@ -144,7 +146,10 @@ function fireEmitterLasers(targets, color = "#7be7ff") {
         const line = document.createElementNS(ns, "line");
         line.setAttribute("x1", sx); line.setAttribute("y1", sy); line.setAttribute("x2", tx); line.setAttribute("y2", ty);
         line.style.setProperty("--laser-color", color); line.style.animationDelay = `${index * 45}ms`;
-        svg.appendChild(line);
+        const contact = document.createElementNS(ns, "circle");
+        contact.setAttribute("class", "laser-contact"); contact.setAttribute("cx", tx); contact.setAttribute("cy", ty); contact.setAttribute("r", "8");
+        contact.style.setProperty("--laser-color", color); contact.style.animationDelay = `${index * 45 + 90}ms`;
+        svg.append(line, contact);
     });
     document.body.appendChild(svg);
     emitter.classList.remove("firing"); void emitter.offsetWidth; emitter.classList.add("firing");
@@ -1366,42 +1371,56 @@ function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
                 React.createElement("button", { className: "btn primary" }, "Save profile"))));
 }
 function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
-    const [text, setText] = useState(""), [sectionId, setSectionId] = useState(initialSectionId);
-    const parsed = useMemo(() => text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).map((line, index) => {
-        const cells = line.split(/\t|,/).map(cell => cell.trim());
-        if (index === 0 && cells.join(" ").toLowerCase().includes("email"))
-            return null;
-        const emailIndex = cells.findIndex(cell => cell.includes("@"));
-        const email = emailIndex >= 0 ? cells[emailIndex] : "";
-        const names = cells.filter((_, cellIndex) => cellIndex !== emailIndex);
-        const firstName = names[0] || "", lastName = names.slice(1).join(" ") || "";
-        if (!firstName || !lastName)
-            return { firstName, lastName, email, error: "Needs first and last name", existing: undefined };
-        const existing = data.students.find(student => email && student.email.toLowerCase() === email.toLowerCase()) || data.students.find(student => fullName(student, "first").toLowerCase() === `${firstName} ${lastName}`.toLowerCase());
-        return { firstName, lastName, email, existing, error: "" };
-    }).filter(Boolean), [text, data.students]);
-    const importRows = () => { const students = [], enrollments = []; parsed.filter(row => !row.error).forEach(row => { const student = row.existing || { id: uid("stu"), firstName: row.firstName, lastName: row.lastName, email: row.email, createdAt: stamp() }; if (!row.existing)
+    const [text, setText] = useState("");
+    const sectionId = initialSectionId;
+    const destination = data.sections.find(section => section.id === sectionId), destinationCourse = data.courses.find(course => course.id === destination?.courseId), destinationYear = data.years.find(year => year.id === destinationCourse?.yearId);
+    const parsed = useMemo(() => {
+        const seenEmails = new Set();
+        return text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).map((line, index) => {
+            if (index === 0 && /\bemail\b/i.test(line) && !/@/.test(line)) return null;
+            let firstName = "", lastName = "", email = "", error = "";
+            if (line.includes("|")) {
+                const cells = line.split("|").map(cell => cell.trim());
+                if (cells.length !== 3) error = "Pipe format must be First | Last | Email";
+                [firstName, lastName, email] = cells;
+            }
+            else if (line.includes("\t")) {
+                const cells = line.split("\t").map(cell => cell.trim()).filter(Boolean);
+                if (cells.length < 3) error = "Spreadsheet row needs first name, last name, and email";
+                firstName = cells[0] || ""; email = cells[cells.length - 1] || ""; lastName = cells.slice(1, -1).join(" ");
+            }
+            else {
+                const tokens = line.split(/\s+/).filter(Boolean), emailIndex = tokens.findIndex(token => token.includes("@"));
+                if (emailIndex < 0) error = "Email address required";
+                else if (emailIndex !== tokens.length - 1) error = "Email must be the final item";
+                email = emailIndex >= 0 ? tokens[emailIndex] : "";
+                const names = emailIndex >= 0 ? tokens.slice(0, emailIndex) : tokens;
+                firstName = names.shift() || ""; lastName = names.join(" ");
+            }
+            email = email.trim().toLowerCase();
+            if (!error && (!firstName || !lastName)) error = "Needs first and last name";
+            if (!error && !/^\S+@\S+\.\S+$/.test(email)) error = "Email address is not valid";
+            if (!error && seenEmails.has(email)) error = "Duplicate email in this import";
+            if (email) seenEmails.add(email);
+            const existing = !error ? data.students.find(student => student.email.trim().toLowerCase() === email) : undefined;
+            return { firstName, lastName, email, existing, error };
+        }).filter(Boolean);
+    }, [text, data.students]);
+    const importRows = () => { const validRows = parsed.filter(row => !row.error); if (!sectionId || !validRows.length) return; const students = [], enrollments = []; validRows.forEach(row => { const student = row.existing || { id: uid("stu"), firstName: row.firstName, lastName: row.lastName, email: row.email, createdAt: stamp() }; if (!row.existing)
         students.push(student); if (!data.enrollments.some(enrollment => enrollment.studentId === student.id && enrollment.sectionId === sectionId && enrollment.active))
         enrollments.push({ id: uid("enr"), studentId: student.id, sectionId, startDate: isoDate(), active: true }); }); onImport(students, enrollments); };
-    return React.createElement(ModalShell, { title: "Import roster", subtitle: "PASTE FROM A SPREADSHEET OR SIS", onClose: onClose, wide: true },
+    return React.createElement(ModalShell, { title: "Import students", subtitle: "ONE STUDENT PER LINE", onClose: onClose, wide: true },
         React.createElement("div", { className: "import-layout" },
             React.createElement("section", null,
+                React.createElement("div", { className: "import-destination" }, React.createElement("span", null, "IMPORTING INTO"), React.createElement("b", null, `${destinationCourse?.name || "Class"} / ${destination?.name || "No section selected"}`), React.createElement("small", null, destinationYear?.label || "")),
                 React.createElement("label", null,
-                    "Destination section",
-                    React.createElement("select", { value: sectionId, onChange: event => setSectionId(event.target.value) }, data.sections.filter(section => !section.archived).map(section => { const course = data.courses.find(item => item.id === section.courseId), year = data.years.find(item => item.id === course?.yearId); return React.createElement("option", { key: section.id, value: section.id },
-                        year?.label,
-                        " \u00B7 ",
-                        course?.name,
-                        " \u00B7 ",
-                        section.name); }))),
-                React.createElement("label", null,
-                    "Paste roster",
-                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), placeholder: 'First name\tLast name\tEmail\nFirst\tLast\temail@school.org' })),
-                React.createElement("p", { className: "form-hint" }, "Accepts tab-separated spreadsheet rows or comma-separated text. A header row is optional.")),
+                    "Names and emails",
+                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), onKeyDown: event => { if (event.key === "Enter" && event.shiftKey) { event.preventDefault(); importRows(); } }, placeholder: "Ari Hagler ahagler@geffenacademy.ucla.edu\nMary Ann | Smith | masmith@geffenacademy.ucla.edu" })),
+                React.createElement("p", { className: "form-hint" }, "Enter starts the next student. Use First Last email for ordinary names, or First | Last | email for compound names. Shift+Enter or Ctrl+Enter imports and closes.")),
             React.createElement("section", null,
                 React.createElement("span", { className: "eyebrow" }, "IMPORT PREVIEW"),
                 React.createElement("div", { className: "import-preview" },
-                    !parsed.length && React.createElement("div", { className: "school-empty" }, "Paste roster rows to preview them."),
+                    !parsed.length && React.createElement("div", { className: "school-empty" }, "Type one student per line to preview the import."),
                     parsed.map((row, index) => React.createElement("div", { className: row.error ? "error" : row.existing ? "duplicate" : "", key: `${row.email}-${index}` },
                         React.createElement("b", null, data.settings.rosterSortBy === "first" ? `${row.firstName} ${row.lastName}` : `${row.lastName}, ${row.firstName}`),
                         React.createElement("span", null, row.email || "No email"),
@@ -1413,7 +1432,7 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
                 parsed.filter(row => row.existing).length,
                 " existing profiles"),
             React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"),
-            React.createElement("button", { "data-ctrl-save": true, className: "btn primary", disabled: !sectionId || !parsed.some(row => !row.error), onClick: importRows }, "Import roster")));
+            React.createElement("button", { "data-ctrl-save": true, className: "btn primary", disabled: !sectionId || !parsed.some(row => !row.error), onClick: importRows }, "Import students")));
 }
 function RecordModal({ student, enrollment, onClose, onSave, onSaveAndNext }) {
     const draftKey = `teacher-record-draft-${student.id}`;
