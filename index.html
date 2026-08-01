@@ -40,8 +40,13 @@
 .local-status.save-saving i{animation:pulse 1s ease-in-out infinite}.local-status.save-failed{color:#ff8795}.local-status.save-failed i{background:#ff5368;box-shadow:0 0 12px #ff5368}
 .cloud-card{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px}.cloud-card .mini-actions{justify-content:flex-end;flex-wrap:wrap}.cloud-state{display:flex;align-items:center;gap:7px;font:900 9px var(--mono);color:var(--muted)}.cloud-state i{width:8px;height:8px;border-radius:50%;background:#7f8aa8}.cloud-state.signed-in i{background:var(--accent);box-shadow:0 0 12px var(--accent)}.cloud-dialog{display:grid;gap:13px;padding:18px}.cloud-dialog .cloud-summary{padding:12px;border:1px solid #ffffff17;border-radius:14px;background:#ffffff06;font:10px/1.55 var(--mono);color:var(--muted)}.cloud-dialog .cloud-summary b{color:var(--ink)}.cloud-dialog .form-grid{margin:0}.cloud-dialog .backup-warning{margin:0}.cloud-dialog .modal-actions{padding:0}.cloud-busy{pointer-events:none;opacity:.62}.cloud-password-note{font:9px/1.5 var(--mono);color:var(--muted)}
 .top-actions .cloud-top{border-color:color-mix(in srgb,var(--accent) 40%,#ffffff20)}.top-actions .cloud-top.signed-in{color:var(--accent);box-shadow:0 0 13px var(--glow)}
+.landing-page{position:fixed;inset:0;z-index:80;display:grid;grid-template-columns:minmax(260px,1fr) minmax(0,2fr);gap:16px;padding:clamp(14px,2.5vw,34px);overflow:auto;color:var(--ink);background:radial-gradient(900px 620px at 78% 4%,color-mix(in srgb,var(--metal) 19%,transparent),transparent 62%),linear-gradient(150deg,var(--bg0),var(--bg1));font-family:var(--sans)}.landing-page:before{content:"";position:fixed;inset:0;pointer-events:none;background:linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff07 1px,transparent 1px);background-size:34px 34px;mask-image:linear-gradient(#000,transparent 88%)}.landing-left,.landing-main{position:relative;z-index:1;min-width:0}.landing-left{display:grid;align-content:start;gap:11px}.landing-brand{padding:18px;border-radius:22px}.landing-brand h1{margin:4px 0 7px;font:700 clamp(21px,2.2vw,32px) var(--serif)}.landing-brand p{margin:0;color:var(--muted);font:10px/1.55 var(--mono)}.landing-year{margin-top:15px}.landing-tools{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:12px;border-radius:19px}.landing-tools .btn{min-width:0;padding:10px 7px;font-size:9px}.landing-tools .landing-resume{grid-column:1/-1;padding:12px}.landing-info{padding:13px;border-radius:19px}.landing-info header{display:flex;justify-content:space-between;align-items:center;margin-bottom:9px}.landing-info h2{margin:0;font:700 15px var(--serif)}.landing-info header span{font:8px var(--mono);color:var(--accent)}.recent-initials{display:flex;gap:7px;flex-wrap:wrap}.recent-initial{display:grid;place-items:center;width:38px;height:38px;border-radius:13px;border:1px solid color-mix(in srgb,var(--accent) 25%,#fff1);background:color-mix(in srgb,var(--accent) 8%,transparent);color:var(--accent);font:900 10px var(--mono)}.landing-empty-mini{color:var(--muted);font:9px/1.5 var(--mono)}.attention-list{display:grid;gap:5px;max-height:185px;overflow:auto}.attention-row{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:9px;padding:8px 9px;border-radius:11px;background:#ffffff07;border:1px solid #ffffff10}.attention-row div{display:grid;gap:2px}.attention-row b{font-size:9px}.attention-row span{font:8px var(--mono);color:var(--muted)}.attention-row strong{align-self:center;color:var(--warm);font:900 10px var(--mono)}.landing-main{display:grid;grid-template-rows:auto minmax(0,1fr);gap:12px}.landing-main-head{display:flex;justify-content:space-between;align-items:end;gap:15px;padding:8px 5px}.landing-main-head h2{margin:3px 0 0;font:700 clamp(25px,3vw,40px) var(--serif)}.landing-main-head p{margin:0;color:var(--muted);font:9px var(--mono)}.landing-cloud{display:flex;align-items:center;gap:7px;padding:8px 11px;border:1px solid #ffffff19;border-radius:999px;background:#ffffff07;color:var(--muted);font:8px var(--mono)}.landing-cloud i{width:7px;height:7px;border-radius:50%;background:var(--accent);box-shadow:0 0 10px var(--accent)}.class-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-content:start;gap:13px}.landing-class-card{position:relative;min-height:190px;padding:18px;border:1px solid color-mix(in srgb,var(--accent) 24%,#fff1);border-radius:23px;color:var(--ink);background:radial-gradient(360px 180px at 5% 0%,color-mix(in srgb,var(--accent) 17%,transparent),transparent 72%),linear-gradient(160deg,color-mix(in srgb,var(--panel) 92%,transparent),color-mix(in srgb,var(--bg0) 82%,transparent));box-shadow:0 18px 48px #0005,0 0 24px color-mix(in srgb,var(--glow) 55%,transparent);overflow:hidden}.landing-class-card:after{content:"";position:absolute;right:-30px;top:-45px;width:150px;height:150px;border:1px solid color-mix(in srgb,var(--accent) 16%,transparent);border-radius:50%;box-shadow:0 0 40px var(--glow)}.class-open{position:relative;z-index:1;width:100%;padding:0;border:0;background:transparent;color:inherit;text-align:left}.class-open span{font:900 8px var(--mono);letter-spacing:.14em;color:var(--accent)}.class-open h3{margin:7px 0 5px;font:700 clamp(20px,2vw,28px) var(--serif)}.class-open p{margin:0;color:var(--muted);font:9px var(--mono)}.landing-sections{position:relative;z-index:2;display:flex;gap:7px;flex-wrap:wrap;margin-top:22px}.landing-section{display:grid;gap:3px;min-width:110px;padding:10px 12px;border:1px solid #ffffff1b;border-radius:13px;background:#ffffff09;color:var(--ink);text-align:left}.landing-section:hover,.class-open:hover h3{color:var(--accent)}.landing-section b{font-size:10px}.landing-section small{font:8px var(--mono);color:var(--muted)}.landing-no-classes{display:grid;place-items:center;min-height:320px;padding:35px;border:1px dashed color-mix(in srgb,var(--accent) 35%,transparent);border-radius:24px;text-align:center;color:var(--muted)}.landing-no-classes h3{margin:10px 0 4px;color:var(--ink);font:700 23px var(--serif)}
 @media(max-width:760px){.topbar{position:relative;display:grid;gap:10px;padding:11px 10px}.brand{min-width:0}.top-actions{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.top-actions .btn{min-width:0;padding:8px 4px;font-size:9px;overflow:hidden;text-overflow:ellipsis}.top-actions .icon-btn{font-size:13px}.cloud-card{grid-template-columns:1fr}.cloud-card .mini-actions{justify-content:flex-start}.cloud-dialog{padding:12px}.cloud-dialog .modal-actions{display:grid;grid-template-columns:1fr 1fr}.cloud-dialog .modal-actions .btn{white-space:normal}.holo-modal:has(.settings-layout){height:96vh;overflow:auto;display:block}.holo-modal:has(.settings-layout)>.settings-layout{overflow:visible;display:grid}.holo-modal:has(.settings-layout) .structure-settings{min-height:420px}.holo-modal:has(.settings-layout) .school-settings-grid{height:340px}.holo-modal:has(.settings-layout) .appearance-settings{min-height:auto}}
-@media(max-width:430px){.top-actions{grid-template-columns:repeat(3,minmax(0,1fr))}.top-actions .btn{font-size:8px}.brand h1{font-size:16px}.context-bar{margin-top:8px}.modal-overlay{padding:5px}.cloud-dialog .modal-actions{grid-template-columns:1fr}}
+@media(min-width:901px){.holo-modal:has(.settings-layout) .school-settings-grid{height:auto;max-height:none}.holo-modal:has(.settings-layout) .structure-settings,.holo-modal:has(.settings-layout) .school-years,.holo-modal:has(.settings-layout) .school-classes{overflow:visible}.holo-modal:has(.settings-layout) .school-classes{grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}.holo-modal:has(.settings-layout) .add-class-card{grid-column:1/-1}}
+@media(max-width:900px){.landing-page{grid-template-columns:1fr;padding:12px}.landing-main{grid-row:1}.landing-left{grid-row:2}.landing-main-head{padding:4px}.class-card-grid{grid-template-columns:1fr 1fr}.landing-tools{grid-template-columns:repeat(3,1fr)}.landing-tools .landing-resume{grid-column:1/-1}.landing-left{grid-template-columns:1fr 1fr}.landing-brand,.landing-tools{grid-column:1/-1}}
+@media(max-width:900px) and (min-width:621px){.holo-modal:has(.settings-layout) .school-settings-grid{grid-template-columns:minmax(155px,.32fr) minmax(0,1fr);height:auto}.holo-modal:has(.settings-layout) .school-classes{grid-template-columns:repeat(2,minmax(0,1fr));overflow:visible}.holo-modal:has(.settings-layout) .school-years{overflow:visible}.holo-modal:has(.settings-layout) .add-class-card{grid-column:1/-1}}
+@media(max-width:620px){.class-card-grid{grid-template-columns:1fr}.landing-main-head{align-items:start}.landing-cloud{max-width:130px;text-align:right}.landing-left{grid-template-columns:1fr}.landing-brand,.landing-tools{grid-column:auto}.landing-tools{grid-template-columns:1fr 1fr}.landing-class-card{min-height:175px}.landing-info{min-height:0}.attention-list{max-height:none}}
+@media(max-width:430px){.top-actions{grid-template-columns:repeat(3,minmax(0,1fr))}.top-actions .btn{font-size:8px}.brand h1{font-size:16px}.context-bar{margin-top:8px}.modal-overlay{padding:5px}.cloud-dialog .modal-actions{grid-template-columns:1fr}.landing-page{padding:8px;gap:9px}.landing-main-head h2{font-size:24px}.landing-cloud{display:none}.landing-class-card{padding:15px;border-radius:18px}.landing-tools .btn{font-size:8px}}
 </style>
 </head>
 <body>
@@ -235,6 +240,7 @@ function Home() {
     const [toast, setToast] = useState("");
     const [loaded, setLoaded] = useState(false);
     const [unlocked, setUnlocked] = useState(false);
+    const [screen, setScreen] = useState("landing");
     const [saveStatus, setSaveStatus] = useState("loading");
     const [persistentStorage, setPersistentStorage] = useState(false);
     const [cloudUser, setCloudUser] = useState(null);
@@ -364,7 +370,7 @@ function Home() {
         return React.createElement("main", { className: "loading" },
             React.createElement("div", { className: "loaderCore" }, "INITIALIZING ARCHIVE"));
     if (!unlocked)
-        return React.createElement(AccessChallenge, { theme: data.settings.theme, accessCode: data.settings.accessCode || "111111", onUnlock: () => setUnlocked(true) });
+        return React.createElement(AccessChallenge, { theme: data.settings.theme, accessCode: data.settings.accessCode || "111111", onUnlock: () => { setUnlocked(true); setScreen("landing"); } });
     const activeTheme = data.settings.theme;
     const archiveSize = new Blob([JSON.stringify(data)]).size;
     const toggleSelected = (id) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
@@ -379,8 +385,10 @@ function Home() {
             return notify("No valid email addresses selected");
         copy(emails.join("; "), `${emails.length} email address${emails.length === 1 ? "" : "es"} copied`);
     };
+    const openSectionWorkspace = (nextYearId, nextCourseId, nextSectionId) => { setYearId(nextYearId); setCourseId(nextCourseId); setSectionId(nextSectionId); setSelectedIds([]); setScreen("records"); };
     return (React.createElement("main", { className: `app theme-${activeTheme} ${privacy ? "privacy-on" : ""}` },
         React.createElement("div", { className: "atmosphere", "aria-hidden": "true" }),
+        screen === "landing" && React.createElement(LandingPage, { data: data, selectedYearId: yearId, cloudStatus: cloudStatus, onSelectYear: id => { setYearId(id); update(d => ({ ...d, settings: { ...d.settings, currentYearId: id, lastYearId: id } })); }, onOpenSection: openSectionWorkspace, onResume: () => { const y = data.years.find(item => item.id === data.settings.lastYearId) || currentYear, c = data.courses.find(item => item.id === data.settings.lastCourseId && item.yearId === y?.id) || data.courses.find(item => item.yearId === y?.id && !item.archived), s = data.sections.find(item => item.id === data.settings.lastSectionId && item.courseId === c?.id) || data.sections.find(item => item.courseId === c?.id && !item.archived); if (y && c && s) openSectionWorkspace(y.id, c.id, s.id); else notify("Choose a class or section to begin"); }, onSearch: () => setModal("search"), onQuick: () => setModal("quick"), onAdd: () => { if (!sectionId) return notify("Create or choose a class section first"); setScreen("records"); setModal("student"); }, onData: () => setModal("data"), onCloud: intent => { setCloudIntent(intent); setModal("cloud"); }, onSettings: () => setModal("settings"), onPrivacy: () => setPrivacy(true) }),
         React.createElement("header", { className: "topbar" },
             React.createElement("div", { className: "brand" },
                 React.createElement("span", { className: "eyebrow" }, "LONGITUDINAL STUDENT ARCHIVE"),
@@ -390,6 +398,7 @@ function Home() {
                     " ",
                     saveStatus === "saving" ? "Saving locally…" : saveStatus === "failed" ? "Save failed · backup required" : `Saved and verified · ${formatBytes(archiveSize)}`)),
             React.createElement("nav", { className: "top-actions", "aria-label": "Application controls" },
+                React.createElement("button", { className: "btn ghost", onClick: () => setScreen("landing") }, "\u2302 Home"),
                 React.createElement("button", { className: `btn ghost cloud-top ${cloudUser?.id === CLOUD_OWNER_ID ? "signed-in" : ""}`, onClick: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); } }, cloudUser?.id === CLOUD_OWNER_ID ? "\u2601 Cloud" : "\u2601 Sign in"),
                 React.createElement("button", { className: "btn ghost cloud-top", onClick: () => { setCloudIntent("save"); setModal("cloud"); } }, "\u2191 Save"),
                 React.createElement("button", { className: "btn ghost cloud-top", onClick: () => { setCloudIntent("load"); setModal("cloud"); } }, "\u2193 Load"),
@@ -560,6 +569,65 @@ function Home() {
         toast && React.createElement("div", { className: "toast", role: "status" },
             React.createElement("i", null),
             toast)));
+}
+function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSection, onResume, onSearch, onQuick, onAdd, onData, onCloud, onSettings, onPrivacy }) {
+    const year = data.years.find(item => item.id === selectedYearId) || data.years.find(item => item.id === data.settings.currentYearId) || data.years.find(item => !item.archived) || data.years[0];
+    const courses = data.courses.filter(course => course.yearId === year?.id && !course.archived);
+    const studentMap = new Map(data.students.map(student => [student.id, student]));
+    const recordTime = record => Date.parse(record.updatedAt || record.createdAt || `${record.date || "1970-01-01"}T12:00:00`) || 0;
+    const recentStudents = [];
+    const seenStudents = new Set();
+    [...data.records].sort((a, b) => recordTime(b) - recordTime(a)).forEach(record => { const student = studentMap.get(record.studentId); if (student && !seenStudents.has(student.id) && recentStudents.length < 5) { seenStudents.add(student.id); recentStudents.push(student); } });
+    const initials = student => `${(student.firstName || "?").trim().charAt(0)}${(student.lastName || "?").trim().charAt(0)}`.toUpperCase();
+    const threshold = Date.now() - 30 * 24 * 60 * 60 * 1000;
+    const attention = data.sections.filter(section => !section.archived && courses.some(course => course.id === section.courseId)).map(section => {
+        const course = courses.find(item => item.id === section.courseId);
+        const activeEnrollments = data.enrollments.filter(enrollment => enrollment.sectionId === section.id && enrollment.active && !studentMap.get(enrollment.studentId)?.archived);
+        const activeIds = Array.from(new Set(activeEnrollments.map(enrollment => enrollment.studentId)));
+        const enrollmentIds = new Set(activeEnrollments.map(enrollment => enrollment.id));
+        const recentlyUpdatedHere = new Set(data.records.filter(record => enrollmentIds.has(record.enrollmentId) && recordTime(record) >= threshold).map(record => record.studentId));
+        return { section, course, total: activeIds.length, count: activeIds.filter(id => !recentlyUpdatedHere.has(id)).length };
+    }).sort((a, b) => b.count - a.count || (a.course?.name || "").localeCompare(b.course?.name || "") || a.section.name.localeCompare(b.section.name));
+    const lastCourse = data.courses.find(item => item.id === data.settings.lastCourseId), lastSection = data.sections.find(item => item.id === data.settings.lastSectionId);
+    return React.createElement("section", { className: "landing-page", "aria-label": "Teacher Record Console home" },
+        React.createElement("aside", { className: "landing-left" },
+            React.createElement("section", { className: "landing-brand glass" },
+                React.createElement("span", { className: "eyebrow" }, "LONGITUDINAL STUDENT ARCHIVE"),
+                React.createElement("h1", null, "Teacher Record Console"),
+                React.createElement("p", null, "Choose a class or section, search the archive, or begin a record-entry session."),
+                React.createElement("label", { className: "landing-year" }, "School year", React.createElement("select", { value: year?.id || "", onChange: event => onSelectYear(event.target.value) }, data.years.filter(item => !item.archived).map(item => React.createElement("option", { key: item.id, value: item.id }, item.label))))),
+            React.createElement("nav", { className: "landing-tools glass", "aria-label": "Landing page tools" },
+                React.createElement("button", { className: "btn primary landing-resume", onClick: onResume }, lastCourse && lastSection ? `Resume ${lastCourse.name} / ${lastSection.name}` : "Choose a class to begin"),
+                React.createElement("button", { className: "btn ghost", onClick: onSearch }, "Search"),
+                React.createElement("button", { className: "btn ghost", onClick: onQuick }, "Quick entry"),
+                React.createElement("button", { className: "btn ghost", onClick: onAdd }, "Add student"),
+                React.createElement("button", { className: "btn ghost", onClick: onData }, "Data & backups"),
+                React.createElement("button", { className: "btn ghost", onClick: () => onCloud("signin") }, "Cloud login"),
+                React.createElement("button", { className: "btn ghost", onClick: () => onCloud("save") }, "Save cloud"),
+                React.createElement("button", { className: "btn ghost", onClick: () => onCloud("load") }, "Load cloud"),
+                React.createElement("button", { className: "btn ghost", onClick: onSettings }, "Settings"),
+                React.createElement("button", { className: "btn ghost", onClick: onPrivacy }, "Privacy screen")),
+            React.createElement("section", { className: "landing-info glass" },
+                React.createElement("header", null, React.createElement("h2", null, "Recent activity"), React.createElement("span", null, "LAST FIVE STUDENTS")),
+                recentStudents.length ? React.createElement("div", { className: "recent-initials" }, recentStudents.map(student => React.createElement("span", { key: student.id, className: "recent-initial", title: "Recently updated student" }, initials(student)))) : React.createElement("div", { className: "landing-empty-mini" }, "No student records have been updated yet.")),
+            React.createElement("section", { className: "landing-info glass" },
+                React.createElement("header", null, React.createElement("h2", null, "Needs attention"), React.createElement("span", null, "NO UPDATE IN 30 DAYS")),
+                attention.length ? React.createElement("div", { className: "attention-list" }, attention.map(item => React.createElement("div", { key: item.section.id, className: "attention-row" }, React.createElement("div", null, React.createElement("b", null, item.course?.name || "Class"), React.createElement("span", null, `${item.section.name} / ${item.total} active`)), React.createElement("strong", null, item.count)))) : React.createElement("div", { className: "landing-empty-mini" }, "No active sections in this school year."))),
+        React.createElement("section", { className: "landing-main" },
+            React.createElement("header", { className: "landing-main-head" }, React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, year?.label || "SCHOOL YEAR"), React.createElement("h2", null, "Classes"), React.createElement("p", null, "Open a complete class or go directly to a section.")), React.createElement("div", { className: "landing-cloud" }, React.createElement("i", null), cloudStatus)),
+            courses.length ? React.createElement("div", { className: "class-card-grid" }, courses.map(course => {
+                const sections = data.sections.filter(section => section.courseId === course.id && !section.archived);
+                const sectionIds = sections.map(section => section.id), courseEnrollments = data.enrollments.filter(enrollment => enrollment.active && sectionIds.includes(enrollment.sectionId)), activeIds = new Set(courseEnrollments.map(enrollment => enrollment.studentId)), courseEnrollmentIds = new Set(courseEnrollments.map(enrollment => enrollment.id));
+                const recentCount = data.records.filter(record => courseEnrollmentIds.has(record.enrollmentId) && recordTime(record) >= threshold).length;
+                const firstSection = sections[0];
+                const sectionButtons = sections.length ? sections.map(section => {
+                    const count = new Set(data.enrollments.filter(enrollment => enrollment.active && enrollment.sectionId === section.id).map(enrollment => enrollment.studentId)).size;
+                    return React.createElement("button", { key: section.id, className: "landing-section", onClick: () => onOpenSection(year.id, course.id, section.id) }, React.createElement("b", null, section.name), React.createElement("small", null, `${count} student${count === 1 ? "" : "s"}`));
+                }) : React.createElement("span", { className: "landing-empty-mini" }, "Add a section in Settings.");
+                return React.createElement("article", { key: course.id, className: "landing-class-card" },
+                    React.createElement("button", { className: "class-open", disabled: !firstSection, onClick: () => firstSection && onOpenSection(year.id, course.id, firstSection.id) }, React.createElement("span", null, "OPEN CLASS"), React.createElement("h3", null, course.name), React.createElement("p", null, `${activeIds.size} active students / ${recentCount} records in the last 30 days`)),
+                    React.createElement("div", { className: "landing-sections" }, sectionButtons));
+            })) : React.createElement("div", { className: "landing-no-classes" }, React.createElement("div", null, React.createElement("div", { className: "holo-symbol" }, "+"), React.createElement("h3", null, "No classes for this year"), React.createElement("p", null, "Use Settings in the left toolbar to create your classes and sections.")))));
 }
 function EmptyRoster({ onAdd }) { return React.createElement("div", { className: "empty-roster" },
     React.createElement("span", null, "ROSTER EMPTY"),
