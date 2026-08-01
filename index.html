@@ -435,6 +435,7 @@ function Home() {
     const [editingRecordId, setEditingRecordId] = useState("");
     const [targetRecordId, setTargetRecordId] = useState("");
     const [quickColumnId, setQuickColumnId] = useState("");
+    const [quickAllClassSections, setQuickAllClassSections] = useState(false);
     const [toast, setToast] = useState("");
     const [loaded, setLoaded] = useState(false);
     const [unlocked, setUnlocked] = useState(false);
@@ -606,7 +607,7 @@ function Home() {
                 React.createElement("button", { className: "btn ghost cloud-top", onClick: () => { setCloudIntent("save"); setModal("cloud"); } }, "\u2191 Save"),
                 React.createElement("button", { className: "btn ghost cloud-top", onClick: () => { setCloudIntent("load"); setModal("cloud"); } }, "\u2193 Load"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("search") }, "\u2315 Search"),
-                React.createElement("button", { className: "btn primary", onClick: () => setModal("quick") }, "\u25A6 Quick entry"),
+                React.createElement("button", { className: "btn primary", onClick: () => { setQuickAllClassSections(false); setModal("quick"); } }, "\u25A6 Quick entry"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("export") }, "\u21E7 Export"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("narrativeReport") }, "Narrative Report"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("data") }, "\u25A3 Data"),
@@ -620,6 +621,7 @@ function Home() {
             React.createElement("div", { className: "section-tabs", role: "tablist", "aria-label": "Sections" }, data.sections.filter(s => s.courseId === courseId && !s.archived).map(s => React.createElement("button", { key: s.id, className: s.id === sectionId ? "active" : "", onClick: () => { setSectionId(s.id); setSelectedIds([]); } },
                 s.name,
                 React.createElement("small", null, data.enrollments.filter(e => e.sectionId === s.id && e.active).length)))),
+            React.createElement("button", { className: "btn primary", onClick: () => { setQuickColumnId(""); setQuickAllClassSections(true); setModal("quick"); } }, "Quick Entry"),
             React.createElement("button", { className: "btn ghost manage-btn", onClick: () => setModal("settings") }, "Manage classes")),
         React.createElement("section", { className: "workspace" },
             React.createElement("aside", { className: "roster-panel glass" },
@@ -770,7 +772,7 @@ function Home() {
         modal === "settings" && React.createElement(SettingsModal, { data: data, cloudUser: cloudUser, cloudStatus: cloudStatus, onOpenCloud: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); }, onClose: () => setModal(null), onUpdate: update, notify: notify }),
         modal === "cloud" && React.createElement(CloudVaultModal, { data: data, client: cloudClientRef.current, user: cloudUser, status: cloudStatus, initialAction: cloudIntent, onClose: () => setModal(null), onDataLoaded: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); }, notify: notify }),
         modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
-        modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, initialColumnId: quickColumnId, selectedStudentIds: selectedIds, onClose: () => { setQuickColumnId(""); setModal(null); }, onUpdate: update, notify: notify }),
+        modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, initialCourseId: courseId, defaultAllCourseSections: quickAllClassSections, initialColumnId: quickColumnId, selectedStudentIds: selectedIds, onClose: () => { setQuickColumnId(""); setQuickAllClassSections(false); setModal(null); }, onUpdate: update, notify: notify }),
         modal === "narrative" && roster.length > 0 && React.createElement(NarrativeCommentModal, { data: data, roster: roster, sectionId: sectionId, courseId: courseId, yearId: yearId, initialStudentId: studentId, onStudentChange: setStudentId, onSettingsUpdate: update, onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: d.records.some(item => item.id === record.id) ? d.records.map(item => item.id === record.id ? record : item) : [record, ...d.records] })); }, notify: notify }),
         modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify }),
         privacy && React.createElement(PrivacyScreen, { data: data, onUnlock: () => setPrivacy(false), onFailure: () => { saveDb(data); const json = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2); const anchor = document.createElement("a"); anchor.href = URL.createObjectURL(new Blob([json], { type: "application/json" })); anchor.download = `teacher-records-safety-${isoDate()}.json`; anchor.click(); URL.revokeObjectURL(anchor.href); window.close(); setTimeout(() => { setPrivacy(false); setUnlocked(false); }, 250); } }),
@@ -1243,7 +1245,7 @@ function GlobalSearchModal({ data, onClose, onOpenStudent }) {
                     result.matches.length === 1 ? "" : "es",
                     " \u203A")))));
 }
-function QuickEntryModal({ data, initialSectionId, initialColumnId, selectedStudentIds, onClose, onUpdate, notify }) {
+function QuickEntryModal({ data, initialSectionId, initialCourseId, defaultAllCourseSections, initialColumnId, selectedStudentIds, onClose, onUpdate, notify }) {
     const allColumns = data.columns || [];
     const relevantColumns = allColumns.filter(column => column.sectionIds.includes(initialSectionId) && !column.archived).sort((a, b) => b.date.localeCompare(a.date));
     const [activeId, setActiveId] = useState(initialColumnId || relevantColumns[0]?.id || "");
@@ -1252,7 +1254,8 @@ function QuickEntryModal({ data, initialSectionId, initialColumnId, selectedStud
     const [date, setDate] = useState(isoDate());
     const [kind, setKind] = useState("discussion");
     const selectedSections = Array.from(new Set(data.enrollments.filter(enrollment => enrollment.active && selectedStudentIds.includes(enrollment.studentId)).map(enrollment => enrollment.sectionId)));
-    const [sectionIds, setSectionIds] = useState(selectedSections.length ? selectedSections : [initialSectionId]);
+    const defaultCourseSectionIds = data.sections.filter(section => section.courseId === initialCourseId && !section.archived).map(section => section.id);
+    const [sectionIds, setSectionIds] = useState(selectedSections.length ? selectedSections : defaultAllCourseSections && defaultCourseSectionIds.length ? defaultCourseSectionIds : [initialSectionId].filter(Boolean));
     const [drafts, setDrafts] = useState({});
     const [bulk, setBulk] = useState("");
     const [onlyMissing, setOnlyMissing] = useState(false);
@@ -1922,7 +1925,7 @@ function NarrativeReportModal({ data, yearId, initialSectionId, onClose, onSaveM
     return React.createElement(ModalShell, { title: "Narrative Report", subtitle: "EDITABLE · GOOGLE DOCS READY", onClose: () => { saveAll(); onClose(); }, wide: true }, React.createElement("div", { className: "narrative-report-layout" },
         React.createElement("aside", { className: "narrative-report-sidebar" },
             React.createElement("span", { className: "eyebrow" }, "REPORTING PERIOD"),
-            React.createElement("div", { className: "command-buttons" }, ["Semester 1", "Semester 2", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Final"].map(value => React.createElement("button", { key: value, className: period === value ? "active" : "", onClick: () => setPeriod(value) }, value))),
+            React.createElement("div", { className: "command-buttons" }, ["Semester 1", "Semester 2", "Final"].map(value => React.createElement("button", { key: value, className: period === value ? "active" : "", onClick: () => setPeriod(value) }, value))),
             React.createElement("div", { className: "section-visibility" }, React.createElement("button", { className: sectionIds.length === yearSections.length ? "active" : "", onClick: () => setSectionIds(yearSections.map(section => section.id)) }, "All"), React.createElement("button", { onClick: () => setSectionIds([]) }, "None")),
             React.createElement("div", { className: "command-buttons report-section-choice" }, yearSections.map(section => { const course = data.courses.find(item => item.id === section.courseId); return React.createElement("button", { key: section.id, className: sectionIds.includes(section.id) ? "active" : "", onClick: () => setSectionIds(ids => ids.includes(section.id) ? ids.filter(id => id !== section.id) : [...ids, section.id]) }, `${course?.name || "Class"} / ${section.name}`); })),
             React.createElement("span", { className: "eyebrow" }, "SHOW COMMENTS"),
@@ -2038,7 +2041,7 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
             React.createElement("section", { className: "narrative-draft" },
                 React.createElement("span", { className: "eyebrow" }, "SAVED STUDENT RECORD"),
                 React.createElement("div", { className: "narrative-meta" },
-                    React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "REPORTING PERIOD"), React.createElement("div", { className: "command-buttons" }, ["Semester 1", "Semester 2", "Quarter 1", "Quarter 2", "Quarter 3", "Quarter 4", "Final"].map(value => React.createElement("button", { key: value, className: period === value ? "active" : "", onClick: () => setPeriod(value) }, value)))),
+                    React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "REPORTING PERIOD"), React.createElement("div", { className: "command-buttons" }, ["Semester 1", "Semester 2", "Final"].map(value => React.createElement("button", { key: value, className: period === value ? "active" : "", onClick: () => setPeriod(value) }, value)))),
                     React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "WORKFLOW STATUS"), React.createElement("div", { className: "command-buttons" }, [["not-started", "Not Started"], ["drafting", "Drafting"], ["in-process", "In Process"], ["ready", "Ready"]].map(([value, label]) => React.createElement("button", { key: value, className: `${status === value ? "active" : ""} ${value === "in-process" ? "in-process" : ""}`, onClick: () => { setStatus(value); setDirty(true); } }, label))))),
                 priorNarrative && React.createElement("div", { className: "narrative-stat" }, `Earlier narrative: ${priorNarrative.narrativePeriod || prettyDate(priorNarrative.date)} · ${priorNarrative.text.length.toLocaleString()} characters`),
                 React.createElement("label", null, "Narrative comment", React.createElement("textarea", { autoFocus: true, value: draft, placeholder: "Paste the completed narrative comment from the school system here…", onChange: event => { const text = event.target.value; setDraft(text); setDirty(true); if (status !== "in-process") setStatus(text.trim() ? "drafting" : "not-started"); } })),
