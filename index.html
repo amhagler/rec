@@ -141,6 +141,16 @@
 .settings-cloud-v2 .mini-actions{display:flex;align-self:end;justify-content:flex-start;gap:7px}
 .settings-done-v2{position:absolute;right:16px;bottom:13px;z-index:4}
 @media(max-width:820px){.holo-modal:has(.settings-dashboard-v2){height:98vh;max-height:98vh;overflow:hidden}.settings-dashboard-v2{height:calc(98vh - 118px);overflow-y:auto;overflow-x:hidden;grid-template-columns:1fr;grid-template-rows:auto}.settings-v2-card{min-height:220px}.settings-appearance-v2 .power-setting{grid-template-columns:1fr}}
+/* Landing page class groups share one section-card column system. */
+.section-class-groups{--section-columns:1;display:grid;align-content:start;gap:24px}
+.landing-class-group{--class-color:var(--accent);display:grid;gap:10px}
+.landing-class-group>header{display:flex;align-items:end;justify-content:space-between;gap:14px;padding:0 3px 8px;border-bottom:1px solid color-mix(in srgb,var(--class-color) 34%,transparent)}
+.landing-class-group>header h3{margin:0;color:var(--class-color);font:700 clamp(19px,2vw,27px) var(--serif);text-shadow:0 0 18px color-mix(in srgb,var(--class-color) 28%,transparent)}
+.landing-class-group>header span{font:800 8px var(--mono);letter-spacing:.12em;color:color-mix(in srgb,var(--class-color) 76%,white);text-transform:uppercase}
+.section-card-row{display:grid;grid-template-columns:repeat(var(--section-columns),minmax(0,1fr));gap:13px}
+.section-card-label{position:relative;z-index:1;display:flex;align-items:center;gap:7px;font:900 8px var(--mono);letter-spacing:.14em;color:color-mix(in srgb,var(--class-color) 82%,white);text-transform:uppercase}
+.section-card-label i{width:8px;height:8px;border-radius:50%;background:var(--class-color);box-shadow:0 0 12px var(--class-color)}
+@media(max-width:760px){.section-card-row{grid-template-columns:1fr}.section-class-groups{gap:19px}}
 </style>
 </head>
 <body>
@@ -763,6 +773,21 @@ function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSe
         const attentionCount = attention.find(item => item.section.id === section.id)?.count || 0;
         return { course, section, studentCount, recentCount, attentionCount, color: starColors[course.colorKey] || starColors[automaticCourseColor(course)] };
     }));
+    const classGroups = courses.map(course => ({ course, color: starColors[course.colorKey] || starColors[automaticCourseColor(course)], cards: sectionCards.filter(item => item.course.id === course.id) })).filter(group => group.cards.length);
+    const sharedSectionColumns = Math.max(1, ...classGroups.map(group => group.cards.length));
+    const renderSectionCard = item => React.createElement("button", { key: item.section.id, className: "landing-section-card", style: { "--class-color": item.color }, onClick: () => onOpenSection(year.id, item.course.id, item.section.id) },
+        React.createElement("span", { className: "section-card-label" }, React.createElement("i", null), "Section"),
+        React.createElement("h3", null, item.section.name),
+        React.createElement("p", null, item.section.id === data.settings.lastSectionId ? "Last opened section" : "Open section roster"),
+        React.createElement("span", { className: "section-card-stats" },
+            React.createElement("span", null, React.createElement("b", null, item.studentCount), "Students"),
+            React.createElement("span", null, React.createElement("b", null, item.recentCount), "30-day records"),
+            React.createElement("span", null, React.createElement("b", null, item.attentionCount), "Need attention")));
+    const renderClassGroup = group => React.createElement("section", { key: group.course.id, className: "landing-class-group", style: { "--class-color": group.color } },
+        React.createElement("header", null,
+            React.createElement("h3", null, group.course.name),
+            React.createElement("span", null, `${group.cards.length} section${group.cards.length === 1 ? "" : "s"}`)),
+        React.createElement("div", { className: "section-card-row" }, group.cards.map(renderSectionCard)));
     const lastCourse = data.courses.find(item => item.id === data.settings.lastCourseId), lastSection = data.sections.find(item => item.id === data.settings.lastSectionId);
     return React.createElement("section", { className: "landing-page", "aria-label": "Teacher Record Console home" },
         React.createElement("aside", { className: "landing-left" },
@@ -789,15 +814,8 @@ function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSe
                 React.createElement("header", null, React.createElement("h2", null, "Needs attention"), React.createElement("span", null, "NO UPDATE IN 30 DAYS")),
                 attention.length ? React.createElement("div", { className: "attention-list" }, attention.map(item => React.createElement("div", { key: item.section.id, className: "attention-row" }, React.createElement("div", null, React.createElement("b", null, item.course?.name || "Class"), React.createElement("span", null, `${item.section.name} / ${item.total} active`)), React.createElement("strong", null, item.count)))) : React.createElement("div", { className: "landing-empty-mini" }, "No active sections in this school year."))),
         React.createElement("section", { className: "landing-main" },
-            React.createElement("header", { className: "landing-main-head" }, React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, year?.label || "SCHOOL YEAR"), React.createElement("h2", null, "Sections"), React.createElement("p", null, "Each section opens directly. Sections in the same class share an accent color.")), React.createElement("div", { className: "landing-cloud" }, React.createElement("i", null), cloudStatus)),
-            sectionCards.length ? React.createElement("div", { className: "section-card-grid" }, sectionCards.map(item => React.createElement("button", { key: item.section.id, className: "landing-section-card", style: { "--class-color": item.color }, onClick: event => onOpenSection(year.id, item.course.id, item.section.id, event.currentTarget) },
-                React.createElement("span", { className: "section-card-class" }, React.createElement("i", null), item.course.name),
-                React.createElement("h3", null, item.section.name),
-                React.createElement("p", null, item.section.id === data.settings.lastSectionId ? "Last opened section" : "Open section roster"),
-                React.createElement("span", { className: "section-card-stats" },
-                    React.createElement("span", null, React.createElement("b", null, item.studentCount), "Students"),
-                    React.createElement("span", null, React.createElement("b", null, item.recentCount), "30-day records"),
-                    React.createElement("span", null, React.createElement("b", null, item.attentionCount), "Need attention"))))) : React.createElement("div", { className: "landing-no-classes" }, React.createElement("div", null, React.createElement("div", { className: "holo-symbol" }, "+"), React.createElement("h3", null, "No sections for this year"), React.createElement("p", null, "Use Settings in the left toolbar to create classes and sections.")))));
+            React.createElement("header", { className: "landing-main-head" }, React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, year?.label || "SCHOOL YEAR"), React.createElement("h2", null, "Classes and sections"), React.createElement("p", null, "Classes are grouped by accent. Every section card uses the same shared width.")), React.createElement("div", { className: "landing-cloud" }, React.createElement("i", null), cloudStatus)),
+            classGroups.length ? React.createElement("div", { className: "section-class-groups", style: { "--section-columns": String(sharedSectionColumns) } }, classGroups.map(renderClassGroup)) : React.createElement("div", { className: "landing-no-classes" }, React.createElement("div", null, React.createElement("div", { className: "holo-symbol" }, "+"), React.createElement("h3", null, "No sections for this year"), React.createElement("p", null, "Use Settings in the left toolbar to create classes and sections.")))));
 }
 function EmptyRoster({ onAdd }) { return React.createElement("div", { className: "empty-roster" },
     React.createElement("span", null, "ROSTER EMPTY"),
