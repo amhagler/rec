@@ -496,7 +496,7 @@ function Home() {
             return notify("No valid email addresses selected");
         copy(emails.join("; "), `${emails.length} email address${emails.length === 1 ? "" : "es"} copied`);
     };
-    const openSectionWorkspace = (nextYearId, nextCourseId, nextSectionId, target) => { const course = data.courses.find(item => item.id === nextCourseId), color = starColors[course?.colorKey] || "#7be7ff", open = () => { setYearId(nextYearId); setCourseId(nextCourseId); setSectionId(nextSectionId); setSelectedIds([]); setScreen("records"); }; firePopupLasers(target, color); if (data.settings.powerMode === "full") { playHoloFx(color, "open"); setTimeout(open, 310); } else setTimeout(open, 120); };
+    const openSectionWorkspace = (nextYearId, nextCourseId, nextSectionId) => { const course = data.courses.find(item => item.id === nextCourseId), color = starColors[course?.colorKey] || "#7be7ff", open = () => { setYearId(nextYearId); setCourseId(nextCourseId); setSectionId(nextSectionId); setSelectedIds([]); setScreen("records"); }; if (data.settings.powerMode === "full") { playHoloFx(color, "open"); setTimeout(open, 310); } else setTimeout(open, 120); };
     return (React.createElement("main", { className: `app theme-${activeTheme} power-${data.settings.powerMode === "full" ? "full" : "conserve"} ${privacy ? "privacy-on" : ""}` },
         React.createElement("div", { className: "atmosphere", "aria-hidden": "true" }),
         React.createElement("div", { className: "holo-emitter", "aria-hidden": "true" }),
