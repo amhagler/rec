@@ -1553,10 +1553,12 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
         return text.split(/\r?\n/).map(line => line.trim()).filter(Boolean).map((line, index) => {
             if (index === 0 && /\bemail\b/i.test(line) && !/@/.test(line)) return null;
             let firstName = "", lastName = "", email = "", error = "";
-            if (line.includes(";")) {
-                const cells = line.split(";").map(cell => cell.trim());
-                if (cells.length !== 3) error = "Semicolon format must be First ; Last ; Email";
-                [firstName, lastName, email] = cells;
+            if (line.includes("|")) {
+                const cells = line.split("|").map(cell => cell.trim());
+                if (cells.length !== 3) error = "Pipe format must be First | Last | Email";
+                firstName = cells[0] || "";
+                lastName = cells[1] || "";
+                email = cells[2] || "";
             }
             else if (line.includes("\t")) {
                 const cells = line.split("\t").map(cell => cell.trim()).filter(Boolean);
@@ -1571,12 +1573,14 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
                 const names = emailIndex >= 0 ? tokens.slice(0, emailIndex) : tokens;
                 firstName = names.shift() || ""; lastName = names.join(" ");
             }
-            email = email.trim().toLowerCase();
+            firstName = String(firstName || "").trim();
+            lastName = String(lastName || "").trim();
+            email = String(email || "").trim().toLowerCase();
             if (!error && (!firstName || !lastName)) error = "Needs first and last name";
             if (!error && !/^\S+@\S+\.\S+$/.test(email)) error = "Email address is not valid";
             if (!error && seenEmails.has(email)) error = "Duplicate email in this import";
             if (email) seenEmails.add(email);
-            const existing = !error ? data.students.find(student => student.email.trim().toLowerCase() === email) : undefined;
+            const existing = !error ? data.students.find(student => String(student.email || "").trim().toLowerCase() === email) : undefined;
             return { firstName, lastName, email, existing, error };
         }).filter(Boolean);
     }, [text, data.students]);
@@ -1589,8 +1593,8 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
                 React.createElement("div", { className: "import-destination" }, React.createElement("span", null, "IMPORTING INTO"), React.createElement("b", null, `${destinationCourse?.name || "Class"} / ${destination?.name || "No section selected"}`), React.createElement("small", null, destinationYear?.label || "")),
                 React.createElement("label", null,
                     "Names and emails",
-                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), onKeyDown: event => { if (event.key === "Enter" && event.shiftKey) { event.preventDefault(); importRows(); } }, placeholder: "Ari Hagler ahagler@geffenacademy.ucla.edu\nMary Ann ; Smith ; masmith@geffenacademy.ucla.edu" })),
-                React.createElement("p", { className: "form-hint" }, "Enter starts the next student. Use First Last email for ordinary names, or First ; Last ; email for compound names. Shift+Enter or Ctrl+Enter imports and closes.")),
+                    React.createElement("textarea", { autoFocus: true, rows: 16, value: text, onChange: event => setText(event.target.value), onKeyDown: event => { if (event.key === "Enter" && event.shiftKey) { event.preventDefault(); importRows(); } }, placeholder: "Ari Hagler ahagler@geffenacademy.ucla.edu\nMary Ann | Smith | masmith@geffenacademy.ucla.edu" })),
+                React.createElement("p", { className: "form-hint" }, "Enter starts the next student. Use First Last email for ordinary names, or First | Last | email for compound names. Incomplete rows remain editable without interrupting the screen. Shift+Enter or Ctrl+Enter imports and closes.")),
             React.createElement("section", null,
                 React.createElement("span", { className: "eyebrow" }, "IMPORT PREVIEW"),
                 React.createElement("div", { className: "import-preview" },
