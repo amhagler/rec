@@ -84,6 +84,40 @@
 .settings-console .cloud-card .mini-actions{justify-content:flex-start;align-self:end}
 @media(max-width:1000px) and (min-width:641px){.holo-modal:has(.settings-console){height:min(880px,97vh)}.holo-modal:has(.settings-console)>.settings-console{grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:minmax(0,1fr) auto auto}.settings-console .structure-settings,.settings-console .cloud-card{grid-column:1/-1!important}.settings-console .appearance-settings,.settings-console .privacy-settings-card{grid-column:span 1!important}.settings-console .school-settings-grid{grid-template-columns:155px minmax(0,1fr)}.settings-console .school-classes{grid-template-columns:repeat(2,minmax(0,1fr))}.settings-console .cloud-card{grid-template-columns:minmax(0,1fr) auto}.settings-console .cloud-card .mini-actions{align-self:center}}
 @media(max-width:640px){.holo-modal:has(.settings-console){width:98vw;height:98vh;max-height:98vh}.holo-modal:has(.settings-console)>.settings-console{overflow-y:auto;overflow-x:hidden;grid-template-columns:1fr;grid-template-rows:auto;padding:7px}.settings-console .structure-settings,.settings-console .appearance-settings,.settings-console .privacy-settings-card,.settings-console .cloud-card{grid-column:1!important;min-height:0}.settings-console .structure-settings{overflow:visible}.settings-console .structure-settings-head{display:grid}.settings-console .school-settings-grid,.settings-console .school-classes{grid-template-columns:1fr;overflow:visible}.settings-console .school-years,.settings-console .school-classes{overflow:visible}.settings-console .add-class-card{grid-template-columns:1fr}.settings-console .cloud-card{grid-template-columns:1fr}}
+/* Rebuilt Settings dashboard */
+.holo-modal:has(.settings-console){height:min(720px,94vh)}
+.holo-modal:has(.settings-console)>.settings-console{overflow:hidden;grid-template-columns:repeat(2,minmax(0,1fr));grid-template-rows:repeat(2,minmax(0,1fr));grid-template-areas:"school appearance" "privacy cloud";gap:12px;padding:12px}
+.settings-console>.settings-card{height:100%;min-height:0;padding:16px;border-radius:19px;overflow:hidden}
+.settings-console>.school-summary-card{grid-area:school;display:grid;grid-template-rows:auto 1fr auto;gap:13px}
+.settings-console>.appearance-settings{grid-area:appearance!important}
+.settings-console>.privacy-settings-card{grid-area:privacy!important}
+.settings-console>.cloud-card{grid-area:cloud!important}
+.school-summary-head,.school-summary-current{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.school-summary-head h3,.school-summary-current h4{margin:4px 0 3px;font-family:var(--serif)}
+.school-summary-head p,.school-summary-current p{margin:0;color:var(--muted);font:9px/1.45 var(--mono)}
+.school-summary-current{align-items:center;padding:13px;border:1px solid #ffffff14;border-radius:15px;background:#0002}
+.school-summary-current h4{font-size:18px}
+.school-summary-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.school-summary-stats div{display:grid;gap:3px;padding:11px;border:1px solid #ffffff12;border-radius:13px;background:#ffffff05}
+.school-summary-stats b{font:800 19px var(--mono);color:var(--accent)}
+.school-summary-stats span{font:8px var(--mono);letter-spacing:.08em;color:var(--muted);text-transform:uppercase}
+.settings-console>.appearance-settings,.settings-console>.privacy-settings-card{display:grid;grid-template-rows:auto 1fr;gap:12px}
+.settings-console>.cloud-card{display:grid;grid-template-columns:1fr;grid-template-rows:1fr auto;gap:12px}
+.settings-console .appearance-head,.settings-console .settings-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.settings-console .appearance-head>div,.settings-console .settings-card-head>div{min-width:0}
+.settings-console .appearance-head .btn,.settings-console .settings-card-head .btn{flex:0 0 auto}
+.settings-console .power-setting{align-self:end}
+.settings-structure-popup{position:absolute;z-index:70;inset:0;display:grid;place-items:center;padding:12px;background:#000c;backdrop-filter:blur(14px)}
+.settings-structure-popup>section{width:min(1160px,98%);height:min(720px,94%);display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden;border:1px solid color-mix(in srgb,var(--accent) 38%,#fff2);border-radius:23px;background:linear-gradient(160deg,var(--panel),var(--bg1));box-shadow:0 0 48px var(--glow),0 28px 90px #000b}
+.settings-structure-popup>section>header{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid #ffffff18}
+.settings-structure-popup>section>header h3{margin:3px 0;font:700 20px var(--serif)}
+.settings-structure-popup .structure-settings{min-height:0;margin:10px;overflow:hidden;display:grid;grid-template-rows:auto minmax(0,1fr)}
+.settings-structure-popup .school-settings-grid{min-height:0;height:auto;grid-template-columns:190px minmax(0,1fr);overflow:hidden}
+.settings-structure-popup .school-years,.settings-structure-popup .school-classes{min-height:0;overflow:auto}
+.settings-structure-popup .school-classes{grid-template-columns:repeat(2,minmax(0,1fr));align-content:start}
+.settings-structure-popup .school-classes>.eyebrow,.settings-structure-popup .add-class-card{grid-column:1/-1}
+.settings-structure-popup .modal-actions{padding:10px 14px;border-top:1px solid #ffffff18}
+@media(max-width:760px){.holo-modal:has(.settings-console){height:98vh}.holo-modal:has(.settings-console)>.settings-console{overflow-y:auto;grid-template-columns:1fr;grid-template-rows:auto;grid-template-areas:"school" "appearance" "privacy" "cloud"}.settings-console>.settings-card{height:auto;min-height:220px}.settings-structure-popup{padding:5px}.settings-structure-popup>section{width:99%;height:98%}.settings-structure-popup .school-settings-grid,.settings-structure-popup .school-classes{grid-template-columns:1fr}.settings-structure-popup .add-class-card{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -885,8 +919,10 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
     const [confirmCode, setConfirmCode] = useState("");
     const [showAccess, setShowAccess] = useState(false);
     const [showSkins, setShowSkins] = useState(false);
+    const [showStructure, setShowStructure] = useState(false);
     useEffect(() => { if (showSkins) return revealPopupWithLasers(document.querySelector(".skin-chooser-popup>section")); }, [showSkins]);
     useEffect(() => { if (showAccess) return revealPopupWithLasers(document.querySelector(".access-code-popup>section")); }, [showAccess]);
+    useEffect(() => { if (showStructure) return revealPopupWithLasers(document.querySelector(".settings-structure-popup>section")); }, [showStructure]);
     const saveCode = () => {
         const stored = data.settings.accessCode || "111111";
         if (current !== stored)
@@ -904,7 +940,23 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
     };
     return React.createElement(ModalShell, { title: "Settings", subtitle: "CLASSES \u00B7 YEARS \u00B7 APPEARANCE \u00B7 ACCESS", onClose: onClose, wide: true },
         React.createElement("div", { className: "settings-console" },
-            React.createElement(SchoolStructureSettings, { data: data, onUpdate: onUpdate, notify: notify }),
+            React.createElement("section", { className: "settings-card school-summary-card" },
+                React.createElement("div", { className: "school-summary-head" },
+                    React.createElement("div", null,
+                        React.createElement("span", { className: "eyebrow" }, "SCHOOL SETUP"),
+                        React.createElement("h3", null, "Years, classes, and sections"),
+                        React.createElement("p", null, "Keep the dashboard simple; open management only when the academic structure changes.")),
+                    React.createElement("button", { className: "btn primary", onClick: () => setShowStructure(true) }, "Manage")),
+                React.createElement("div", { className: "school-summary-current" },
+                    React.createElement("div", null,
+                        React.createElement("span", { className: "eyebrow" }, "CURRENT VIEW"),
+                        React.createElement("h4", null, data.years.find(year => year.id === data.settings.currentYearId)?.label || "No year selected"),
+                        React.createElement("p", null, "This year opens automatically when you return.")),
+                    React.createElement("button", { className: "btn ghost", onClick: () => setShowStructure(true) }, "Change year")),
+                React.createElement("div", { className: "school-summary-stats" },
+                    React.createElement("div", null, React.createElement("b", null, data.years.length), React.createElement("span", null, "School years")),
+                    React.createElement("div", null, React.createElement("b", null, data.courses.filter(course => !course.archived).length), React.createElement("span", null, "Active classes")),
+                    React.createElement("div", null, React.createElement("b", null, data.sections.filter(section => !section.archived).length), React.createElement("span", null, "Active sections")))),
             React.createElement("section", { className: "settings-card appearance-settings" },
                 React.createElement("div", { className: "appearance-head" },
                     React.createElement("div", null,
@@ -941,6 +993,13 @@ function SettingsModal({ data, cloudUser, cloudStatus, onOpenCloud, onClose, onU
                     React.createElement("button", { className: "btn primary", onClick: onOpenCloud }, "Cloud Login & Sync")))),
         React.createElement("div", { className: "modal-actions padded" },
             React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")),
+        showStructure && React.createElement("div", { className: "settings-structure-popup", onMouseDown: event => { if (event.target === event.currentTarget) setShowStructure(false); } },
+            React.createElement("section", { className: "laser-preflight", role: "dialog", "aria-modal": "true", "aria-label": "Manage years, classes, and sections" },
+                React.createElement("header", null,
+                    React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "ACADEMIC STRUCTURE"), React.createElement("h3", null, "Manage years, classes, and sections")),
+                    React.createElement("button", { className: "btn ghost icon-btn", onClick: () => setShowStructure(false), "aria-label": "Close class management" }, "×")),
+                React.createElement(SchoolStructureSettings, { data: data, onUpdate: onUpdate, notify: notify }),
+                React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn primary", onClick: () => setShowStructure(false) }, "Done")))),
         showSkins && React.createElement("div", { className: "skin-chooser-popup", onMouseDown: event => { if (event.target === event.currentTarget) setShowSkins(false); } },
             React.createElement("section", { className: "laser-preflight" },
                 React.createElement("header", null, React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "VISUAL ATMOSPHERE"), React.createElement("h3", null, "Choose interface skin")), React.createElement("button", { className: "btn ghost icon-btn", onClick: () => setShowSkins(false) }, "\u00D7")),
