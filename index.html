@@ -39,7 +39,9 @@
 .bulk-strip{flex-wrap:wrap}.bulk-strip .select-scope{flex:1 1 115px;min-width:0;padding:6px 7px;border-radius:9px;font:8px var(--mono)}.bulk-strip>div{margin-left:auto}
 .local-status.save-saving i{animation:pulse 1s ease-in-out infinite}.local-status.save-failed{color:#ff8795}.local-status.save-failed i{background:#ff5368;box-shadow:0 0 12px #ff5368}
 .cloud-card{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:12px}.cloud-card .mini-actions{justify-content:flex-end;flex-wrap:wrap}.cloud-state{display:flex;align-items:center;gap:7px;font:900 9px var(--mono);color:var(--muted)}.cloud-state i{width:8px;height:8px;border-radius:50%;background:#7f8aa8}.cloud-state.signed-in i{background:var(--accent);box-shadow:0 0 12px var(--accent)}.cloud-dialog{display:grid;gap:13px;padding:18px}.cloud-dialog .cloud-summary{padding:12px;border:1px solid #ffffff17;border-radius:14px;background:#ffffff06;font:10px/1.55 var(--mono);color:var(--muted)}.cloud-dialog .cloud-summary b{color:var(--ink)}.cloud-dialog .form-grid{margin:0}.cloud-dialog .backup-warning{margin:0}.cloud-dialog .modal-actions{padding:0}.cloud-busy{pointer-events:none;opacity:.62}.cloud-password-note{font:9px/1.5 var(--mono);color:var(--muted)}
-@media(max-width:760px){.cloud-card{grid-template-columns:1fr}.cloud-card .mini-actions{justify-content:flex-start}}
+.top-actions .cloud-top{border-color:color-mix(in srgb,var(--accent) 40%,#ffffff20)}.top-actions .cloud-top.signed-in{color:var(--accent);box-shadow:0 0 13px var(--glow)}
+@media(max-width:760px){.topbar{position:relative;display:grid;gap:10px;padding:11px 10px}.brand{min-width:0}.top-actions{width:100%;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:5px}.top-actions .btn{min-width:0;padding:8px 4px;font-size:9px;overflow:hidden;text-overflow:ellipsis}.top-actions .icon-btn{font-size:13px}.cloud-card{grid-template-columns:1fr}.cloud-card .mini-actions{justify-content:flex-start}.cloud-dialog{padding:12px}.cloud-dialog .modal-actions{display:grid;grid-template-columns:1fr 1fr}.cloud-dialog .modal-actions .btn{white-space:normal}.holo-modal:has(.settings-layout){height:96vh;overflow:auto;display:block}.holo-modal:has(.settings-layout)>.settings-layout{overflow:visible;display:grid}.holo-modal:has(.settings-layout) .structure-settings{min-height:420px}.holo-modal:has(.settings-layout) .school-settings-grid{height:340px}.holo-modal:has(.settings-layout) .appearance-settings{min-height:auto}}
+@media(max-width:430px){.top-actions{grid-template-columns:repeat(3,minmax(0,1fr))}.top-actions .btn{font-size:8px}.brand h1{font-size:16px}.context-bar{margin-top:8px}.modal-overlay{padding:5px}.cloud-dialog .modal-actions{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -237,6 +239,7 @@ function Home() {
     const [persistentStorage, setPersistentStorage] = useState(false);
     const [cloudUser, setCloudUser] = useState(null);
     const [cloudStatus, setCloudStatus] = useState("Connecting...");
+    const [cloudIntent, setCloudIntent] = useState("signin");
     const cloudClientRef = useRef(null);
     const toastTimer = useRef(null);
     useEffect(() => { loadDb().then(x => { setData(normalizeData(x || defaultData())); setLoaded(true); setSaveStatus("saved"); }).catch(() => { setData(defaultData()); setLoaded(true); setSaveStatus("failed"); setToast("The local archive could not be opened. Download a backup before entering records."); }); navigator.storage?.persisted?.().then(value => value ? setPersistentStorage(true) : navigator.storage?.persist?.().then(granted => setPersistentStorage(granted))); }, []);
@@ -387,6 +390,9 @@ function Home() {
                     " ",
                     saveStatus === "saving" ? "Saving locally…" : saveStatus === "failed" ? "Save failed · backup required" : `Saved and verified · ${formatBytes(archiveSize)}`)),
             React.createElement("nav", { className: "top-actions", "aria-label": "Application controls" },
+                React.createElement("button", { className: `btn ghost cloud-top ${cloudUser?.id === CLOUD_OWNER_ID ? "signed-in" : ""}`, onClick: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); } }, cloudUser?.id === CLOUD_OWNER_ID ? "\u2601 Cloud" : "\u2601 Sign in"),
+                React.createElement("button", { className: "btn ghost cloud-top", onClick: () => { setCloudIntent("save"); setModal("cloud"); } }, "\u2191 Save"),
+                React.createElement("button", { className: "btn ghost cloud-top", onClick: () => { setCloudIntent("load"); setModal("cloud"); } }, "\u2193 Load"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("search") }, "\u2315 Search"),
                 React.createElement("button", { className: "btn primary", onClick: () => setModal("quick") }, "\u25A6 Quick entry"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("export") }, "\u21E7 Export"),
@@ -545,8 +551,8 @@ function Home() {
         modal === "export" && React.createElement(ExportModal, { data: data, yearId: yearId, courseId: courseId, sectionId: sectionId, studentId: studentId, selectedIds: selectedIds, onClose: () => setModal(null), notify: notify }),
         modal === "data" && React.createElement(DataModal, { data: data, onClose: () => setModal(null), onBackup: () => update(d => ({ ...d, settings: { ...d.settings, lastBackupAt: stamp() } })), onImport: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }, notify: notify }),
         modal === "themes" && React.createElement(ThemeModal, { selected: activeTheme, onClose: () => setModal(null), onSelect: theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); } }),
-        modal === "settings" && React.createElement(SettingsModal, { data: data, cloudUser: cloudUser, cloudStatus: cloudStatus, onOpenCloud: () => setModal("cloud"), onClose: () => setModal(null), onUpdate: update, notify: notify }),
-        modal === "cloud" && React.createElement(CloudVaultModal, { data: data, client: cloudClientRef.current, user: cloudUser, status: cloudStatus, onClose: () => setModal(null), onDataLoaded: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); }, notify: notify }),
+        modal === "settings" && React.createElement(SettingsModal, { data: data, cloudUser: cloudUser, cloudStatus: cloudStatus, onOpenCloud: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); }, onClose: () => setModal(null), onUpdate: update, notify: notify }),
+        modal === "cloud" && React.createElement(CloudVaultModal, { data: data, client: cloudClientRef.current, user: cloudUser, status: cloudStatus, initialAction: cloudIntent, onClose: () => setModal(null), onDataLoaded: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); }, notify: notify }),
         modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
         modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, selectedStudentIds: selectedIds, onClose: () => setModal(null), onUpdate: update, notify: notify }),
         modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify }),
@@ -1585,7 +1591,7 @@ function ConferenceSnapshotModal({ data, student, yearId, onClose, notify }) {
                     React.createElement("button", { className: "btn primary", onClick: () => { navigator.clipboard.writeText(text); notify("Conference preparation record copied"); } }, "Copy snapshot")),
                 React.createElement("pre", null, text || "No current-year records yet."))));
 }
-function CloudVaultModal({ data, client, user, status, onClose, onDataLoaded, notify }) {
+function CloudVaultModal({ data, client, user, status, initialAction = "manage", onClose, onDataLoaded, notify }) {
     const [email, setEmail] = useState("aaron.hagler@gmail.com");
     const [passphrase, setPassphrase] = useState("");
     const [confirmPassphrase, setConfirmPassphrase] = useState("");
@@ -1668,14 +1674,17 @@ function CloudVaultModal({ data, client, user, status, onClose, onDataLoaded, no
         finally { setBusy(false); }
     };
     const firstSave = authorized && !cloudMeta;
-    return React.createElement(ModalShell, { title: "Cloud login and sync", subtitle: "SUPABASE / END-TO-END ENCRYPTED", onClose: onClose },
+    const dialogTitle = initialAction === "save" ? "Save to cloud" : initialAction === "load" ? "Load from cloud" : !user ? "Cloud sign in" : "Cloud login and sync";
+    return React.createElement(ModalShell, { title: dialogTitle, subtitle: "SUPABASE / END-TO-END ENCRYPTED", onClose: onClose },
         React.createElement("div", { className: `cloud-dialog ${busy ? "cloud-busy" : ""}` },
             React.createElement("div", { className: "cloud-summary" },
                 React.createElement("b", null, status),
                 React.createElement("br", null),
-                authorized ? (cloudMeta ? `Cloud revision ${cloudMeta.revision} / saved ${new Date(cloudMeta.updated_at).toLocaleString()}` : "Signed in. No cloud archive has been saved yet.") : user ? "This Supabase account is not authorized for the Teacher Console vault." : "Sign in by magic link, then return here to save or load."),
+                authorized ? (cloudMeta ? `Cloud revision ${cloudMeta.revision} / saved ${new Date(cloudMeta.updated_at).toLocaleString()}` : "Signed in. No cloud archive has been saved yet.") : user ? "This Supabase account is not authorized for the Teacher Console vault." : "Sign in by magic link, then return here to save or load.",
+                initialAction === "save" && React.createElement(React.Fragment, null, React.createElement("br", null), "Enter the encryption password below, then choose Save to Cloud."),
+                initialAction === "load" && React.createElement(React.Fragment, null, React.createElement("br", null), "Enter the encryption password below, then choose Load from Cloud.")),
             !user && React.createElement("div", { className: "form-grid" },
-                React.createElement("label", null, "Supabase login email", React.createElement("input", { type: "email", value: email, onChange: event => setEmail(event.target.value), onKeyDown: event => { if (event.key === "Enter") { event.preventDefault(); signIn(); } } })),
+                React.createElement("label", null, "Supabase login email", React.createElement("input", { autoFocus: true, type: "email", value: email, onChange: event => setEmail(event.target.value), onKeyDown: event => { if (event.key === "Enter") { event.preventDefault(); signIn(); } } })),
                 React.createElement("div", { className: "mini-actions" },
                     React.createElement("button", { className: "btn ghost", onClick: () => window.open("https://mail.google.com/", "_blank", "noopener") }, "Open Gmail"),
                     React.createElement("button", { className: "btn primary", onClick: signIn }, "Send magic link"))),
@@ -1684,12 +1693,12 @@ function CloudVaultModal({ data, client, user, status, onClose, onDataLoaded, no
                 React.createElement("button", { className: "btn ghost", onClick: signOut }, "Sign out")),
             authorized && React.createElement(React.Fragment, null,
                 React.createElement("div", { className: "form-grid" },
-                    React.createElement("label", null, "Encryption password", React.createElement("input", { type: "password", value: passphrase, onChange: event => setPassphrase(event.target.value), autoComplete: "off", placeholder: "At least 12 characters" })),
+                    React.createElement("label", null, "Encryption password", React.createElement("input", { autoFocus: true, type: "password", value: passphrase, onChange: event => setPassphrase(event.target.value), onKeyDown: event => { if (event.key === "Enter" && initialAction === "load") { event.preventDefault(); loadCloud(); } }, autoComplete: "off", placeholder: "At least 12 characters" })),
                     firstSave && React.createElement("label", null, "Confirm encryption password", React.createElement("input", { type: "password", value: confirmPassphrase, onChange: event => setConfirmPassphrase(event.target.value), autoComplete: "off" }))),
                 React.createElement("div", { className: "cloud-password-note" }, "The password stays in memory only while this window is open. It is never uploaded or saved. If it is lost, the encrypted cloud copy cannot be recovered; your local archive and JSON backups are unaffected."),
                 React.createElement("div", { className: "modal-actions" },
-                    React.createElement("button", { className: "btn ghost", disabled: !cloudMeta, onClick: loadCloud }, cloudMeta ? "Load from Cloud" : "Nothing to Load"),
-                    React.createElement("button", { className: "btn primary", onClick: saveCloud }, firstSave ? "Create Encrypted Cloud Save" : "Save to Cloud"))),
+                    React.createElement("button", { className: `btn ${initialAction === "load" ? "primary" : "ghost"}`, disabled: !cloudMeta, onClick: loadCloud }, cloudMeta ? "Load from Cloud" : "Nothing to Load"),
+                    React.createElement("button", { className: `btn ${initialAction === "load" ? "ghost" : "primary"}`, onClick: saveCloud }, firstSave ? "Create Encrypted Cloud Save" : "Save to Cloud"))),
             React.createElement("div", { className: "backup-warning" }, "Cloud synchronization supplements local IndexedDB and JSON backups. Loading replaces this browser's local archive only after confirmation.")));
 }
 function DataModal({ data, onClose, onImport, onBackup, notify }) {
