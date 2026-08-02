@@ -164,6 +164,7 @@
 .class-accent-context{border-top:2px solid var(--class-color);box-shadow:0 -5px 16px color-mix(in srgb,var(--class-color) 12%,transparent),0 18px 60px #0006}.class-accent-context .section-tabs button.active:before{content:"";width:7px;height:7px;flex:0 0 auto;border-radius:50%;background:var(--class-color);box-shadow:0 0 9px var(--class-color)}.class-accent-workspace .roster-panel{border-left:3px solid var(--class-color)}.class-accent-workspace .student-row.active{box-shadow:4px 0 0 var(--accent) inset,0 0 22px color-mix(in srgb,var(--class-color) 12%,transparent) inset}.class-accent-workspace .student-row.active .avatar{border-color:color-mix(in srgb,var(--class-color) 55%,#ffffff1a);box-shadow:0 0 10px color-mix(in srgb,var(--class-color) 18%,transparent)}
 .settings-structure-popup .school-settings-grid{grid-template-columns:minmax(270px,1fr) minmax(330px,.78fr)}.settings-structure-popup .school-classes{grid-template-columns:1fr}.settings-structure-popup .school-classes>.eyebrow,.settings-structure-popup .school-classes>.add-class-card{grid-column:1}.settings-structure-popup .class-settings-card>header b{font-size:12px}.settings-structure-popup .class-settings-card>header span{font-size:9px}@media(max-width:760px){.settings-structure-popup .school-settings-grid{grid-template-columns:1fr}}
 .settings-structure-popup .school-settings-grid{grid-template-columns:minmax(230px,.72fr) minmax(430px,1.28fr);overflow:visible}.settings-structure-popup .school-years,.settings-structure-popup .school-classes{grid-template-columns:1fr;overflow:visible}.settings-structure-popup .school-years .school-row{width:100%}.settings-structure-popup .school-row button:first-child{font-size:19px;white-space:nowrap;overflow:visible}.settings-structure-popup .school-classes>.eyebrow,.settings-structure-popup .school-classes>.add-class-card{grid-column:1}.settings-structure-popup .class-settings-card,.settings-structure-popup .class-settings-card>header,.settings-structure-popup .section-setting-list>div{overflow:visible}.settings-structure-popup .class-settings-card>header b{font-size:14px;white-space:nowrap}.settings-structure-popup .class-settings-card>header span,.settings-structure-popup .section-setting-list span,.settings-structure-popup .section-setting-list small{font-size:10px;white-space:nowrap}.settings-structure-popup .school-row button,.settings-structure-popup .class-settings-card button{white-space:nowrap}@media(max-width:760px){.settings-structure-popup .school-settings-grid{grid-template-columns:1fr}}
+.year-locked-badge{align-self:center;padding:7px 9px;border:1px solid color-mix(in srgb,var(--warm) 42%,transparent);border-radius:999px;background:color-mix(in srgb,var(--warm) 9%,transparent);color:var(--warm);font:900 8px var(--mono);white-space:nowrap}.year-lifecycle-controls{grid-column:1;justify-content:flex-start;padding:4px 0 8px}.year-lifecycle-controls button.active{border-color:var(--warm);color:var(--warm);background:color-mix(in srgb,var(--warm) 10%,transparent)}
 </style>
 </head>
 <body>
@@ -315,40 +316,51 @@ const academicYearLabel = (when = new Date()) => { const start = when.getMonth()
 const defaultData = () => {
     const yearId = uid("yr");
     return {
-        format: "teacher-records-backup", schemaVersion: 2, updatedAt: stamp(),
-        years: [{ id: yearId, label: academicYearLabel() }], courses: [], sections: [],
+        format: "teacher-records-backup", schemaVersion: 3, updatedAt: stamp(), archiveManifest: [], archivedYears: {},
+        years: [{ id: yearId, label: academicYearLabel(), lifecycle: "open" }], courses: [], sections: [],
         students: [], enrollments: [], records: [], columns: [], settings: { theme: "holographic", accessCode: "111111", currentYearId: yearId, idlePrivacyMinutes: 10, privacyOnHidden: false, emailPageHref: "https://mail.google.com/", cloudRevision: 0, powerMode: "conserve" },
     };
 };
 function normalizeData(raw) {
-    const next = { ...raw, schemaVersion: 2, columns: raw.columns || [], settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, emailPageHref: raw.settings?.emailPageHref || "https://mail.google.com/", cloudRevision: Number(raw.settings?.cloudRevision) || 0, powerMode: raw.settings?.powerMode === "full" ? "full" : "conserve", ...raw.settings } };
+    const next = { ...raw, schemaVersion: 3, columns: raw.columns || [], archiveManifest: raw.archiveManifest || [], archivedYears: raw.archivedYears || {}, settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, emailPageHref: raw.settings?.emailPageHref || "https://mail.google.com/", cloudRevision: Number(raw.settings?.cloudRevision) || 0, powerMode: raw.settings?.powerMode === "full" ? "full" : "conserve", ...raw.settings } };
     next.settings.narrativePrompts = { ...narrativePromptDefaults, ...(raw.settings?.narrativePrompts || {}) };
     next.settings.activeNarrativePrompt = ["fall", "conferences", "spring", "none", "custom"].includes(raw.settings?.activeNarrativePrompt) ? raw.settings.activeNarrativePrompt : "fall";
     next.settings.powerMode = next.settings.powerMode === "full" ? "full" : "conserve";
+    next.years = (next.years || []).map(year => ({ ...year, lifecycle: ["open", "closed", "archived"].includes(year.lifecycle) ? year.lifecycle : year.archived ? "archived" : "open" }));
     next.courses = (next.courses || []).map((course, index) => ({ ...course, colorKey: starOrder.includes(course.colorKey) ? course.colorKey : automaticCourseColor(course, index) }));
-    next.records = (next.records || []).map(record => record.kind !== "narrative-comment" ? record : { ...record, narrativeStatus: ({ "not-started": "not-started", drafting: "drafting", drafted: "drafting", reviewed: "in-process", complete: "ready", final: "ready", ready: "ready", "in-process": "in-process" })[record.narrativeStatus] || (record.text?.trim() ? "drafting" : "not-started") });
+    const courseById = new Map(next.courses.map(course => [course.id, course]));
+    next.sections = (next.sections || []).map(section => ({ ...section, yearId: section.yearId || courseById.get(section.courseId)?.yearId }));
+    const sectionById = new Map(next.sections.map(section => [section.id, section]));
+    next.enrollments = (next.enrollments || []).map(enrollment => { const section = sectionById.get(enrollment.sectionId), course = courseById.get(section?.courseId); return { ...enrollment, yearId: enrollment.yearId || course?.yearId, courseId: enrollment.courseId || course?.id, sectionId: enrollment.sectionId || section?.id }; });
+    const enrollmentById = new Map(next.enrollments.map(enrollment => [enrollment.id, enrollment]));
+    next.columns = (next.columns || []).map(column => { const section = sectionById.get(column.sectionIds?.[0]), course = courseById.get(section?.courseId); return { ...column, yearId: column.yearId || course?.yearId, courseId: column.courseId || course?.id }; });
+    const columnById = new Map(next.columns.map(column => [column.id, column]));
+    next.records = (next.records || []).map(record => { const enrollment = enrollmentById.get(record.enrollmentId), column = columnById.get(record.columnId), section = sectionById.get(record.sectionId || enrollment?.sectionId), course = courseById.get(record.courseId || enrollment?.courseId || section?.courseId); const normalized = { ...record, yearId: record.yearId || record.narrativeYearId || enrollment?.yearId || column?.yearId || course?.yearId, courseId: record.courseId || record.narrativeCourseId || enrollment?.courseId || column?.courseId || course?.id, sectionId: record.sectionId || record.narrativeSectionId || enrollment?.sectionId || section?.id }; return normalized.kind !== "narrative-comment" ? normalized : { ...normalized, narrativeStatus: ({ "not-started": "not-started", drafting: "drafting", drafted: "drafting", reviewed: "in-process", complete: "ready", final: "ready", ready: "ready", "in-process": "in-process" })[normalized.narrativeStatus] || (normalized.text?.trim() ? "drafting" : "not-started") }; });
+    next.archiveManifest = next.years.map(year => ({ yearId: year.id, label: year.label, lifecycle: year.lifecycle, courseCount: next.courses.filter(course => course.yearId === year.id).length, sectionCount: next.sections.filter(section => section.yearId === year.id).length, enrollmentCount: next.enrollments.filter(enrollment => enrollment.yearId === year.id).length, recordCount: next.records.filter(record => record.yearId === year.id).length, columnCount: next.columns.filter(column => column.yearId === year.id).length }));
     const isUnusedStarter = !next.students.length && !next.records.length && next.courses.length === 1 && next.courses[0]?.name === "English 10" && next.sections.every(section => ["Block A", "Block B"].includes(section.name));
     if (isUnusedStarter) {
         next.courses = [];
         next.sections = [];
-        const current = next.years.find(year => year.label === academicYearLabel()) || { id: uid("yr"), label: academicYearLabel() };
+        const current = next.years.find(year => year.label === academicYearLabel()) || { id: uid("yr"), label: academicYearLabel(), lifecycle: "open" };
         next.years = [current];
         next.settings.currentYearId = current.id;
     }
     if (!next.years.length) {
-        const year = { id: uid("yr"), label: academicYearLabel() };
+        const year = { id: uid("yr"), label: academicYearLabel(), lifecycle: "open" };
         next.years = [year];
         next.settings.currentYearId = year.id;
     }
     if (!next.settings.currentYearId || !next.years.some(year => year.id === next.settings.currentYearId))
         next.settings.currentYearId = next.years.find(year => year.label === academicYearLabel())?.id || next.years[0].id;
+    next.archiveManifest = next.years.map(year => ({ yearId: year.id, label: year.label, lifecycle: year.lifecycle || "open", courseCount: next.courses.filter(course => course.yearId === year.id).length, sectionCount: next.sections.filter(section => section.yearId === year.id).length, enrollmentCount: next.enrollments.filter(enrollment => enrollment.yearId === year.id).length, recordCount: next.records.filter(record => record.yearId === year.id).length, columnCount: next.columns.filter(column => column.yearId === year.id).length }));
     return next;
 }
-const dbName = "teacher-records-console", dbVersion = 2;
+const dbName = "teacher-records-console", dbVersion = 3;
 const entityStores = ["years", "courses", "sections", "students", "enrollments", "records", "columns"];
 const allStores = [...entityStores, "settings", "metadata"];
 let lastSavedData = null;
 let saveQueue = Promise.resolve();
+let runtimeMetrics = { loadMs: 0, saveMs: 0 };
 function openDb() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(dbName, dbVersion);
@@ -360,11 +372,11 @@ function openDb() {
                 store.createIndex(index, key, { unique: false }); }); return store; };
             create("years", [["label", "label"]]);
             create("courses", [["yearId", "yearId"], ["name", "name"]]);
-            create("sections", [["courseId", "courseId"], ["name", "name"]]);
+            create("sections", [["courseId", "courseId"], ["yearId", "yearId"], ["name", "name"]]);
             create("students", [["email", "email"], ["name", ["lastName", "firstName"]]]);
-            create("enrollments", [["studentId", "studentId"], ["sectionId", "sectionId"], ["studentSection", ["studentId", "sectionId"]]]);
-            create("records", [["studentId", "studentId"], ["date", "date"], ["kind", "kind"], ["columnId", "columnId"], ["studentDate", ["studentId", "date"]]]);
-            create("columns", [["date", "date"]]);
+            create("enrollments", [["studentId", "studentId"], ["sectionId", "sectionId"], ["yearId", "yearId"], ["studentSection", ["studentId", "sectionId"]]]);
+            create("records", [["studentId", "studentId"], ["yearId", "yearId"], ["date", "date"], ["kind", "kind"], ["columnId", "columnId"], ["studentDate", ["studentId", "date"]]]);
+            create("columns", [["yearId", "yearId"], ["date", "date"]]);
             create("settings", []);
             create("metadata", []);
             if ((event.oldVersion || 0) < 2 && db.objectStoreNames.contains("state")) {
@@ -378,6 +390,7 @@ function openDb() {
 }
 function requestResult(request) { return new Promise((resolve, reject) => { request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error); }); }
 async function loadDb() {
+    const startedAt = performance.now();
     const db = await openDb();
     try {
         const transaction = db.transaction(allStores, "readonly");
@@ -388,8 +401,9 @@ async function loadDb() {
         if (!years.length && !students.length && !records.length && !settingsRow)
             return null;
         const { id: _settingsId, ...settings } = settingsRow || { id: "app" };
-        const data = { format: metadata?.format || "teacher-records-backup", schemaVersion: 2, updatedAt: metadata?.updatedAt || stamp(), years, courses, sections, students, enrollments, records, columns, settings };
+        const data = { format: metadata?.format || "teacher-records-backup", schemaVersion: 3, updatedAt: metadata?.updatedAt || stamp(), years, courses, sections, students, enrollments, records, columns, settings, archiveManifest: metadata?.archiveManifest || [], archivedYears: metadata?.archivedYears || {} };
         lastSavedData = structuredClone(data);
+        runtimeMetrics.loadMs = Math.round(performance.now() - startedAt);
         return data;
     }
     finally {
@@ -400,28 +414,33 @@ function syncEntities(store, previous, next) { const old = new Map(previous.map(
     store.delete(id); }); current.forEach((item, id) => { if (JSON.stringify(old.get(id)) !== JSON.stringify(item))
     store.put(item); }); }
 async function persistDb(data) {
+    const startedAt = performance.now();
     const db = await openDb();
     try {
         await new Promise((resolve, reject) => {
             const transaction = db.transaction(allStores, "readwrite"), previous = lastSavedData || defaultData();
             entityStores.forEach(name => syncEntities(transaction.objectStore(name), previous[name] || [], data[name] || []));
             transaction.objectStore("settings").put({ id: "app", ...data.settings });
-            transaction.objectStore("metadata").put({ id: "app", format: data.format, schemaVersion: 2, updatedAt: data.updatedAt, recordCount: data.records.length, studentCount: data.students.length });
+            transaction.objectStore("metadata").put({ id: "app", format: data.format, schemaVersion: 3, updatedAt: data.updatedAt, recordCount: data.records.length, studentCount: data.students.length, archiveManifest: data.archiveManifest || [], archivedYears: data.archivedYears || {} });
             transaction.oncomplete = () => { lastSavedData = structuredClone(data); resolve(); };
             transaction.onerror = () => reject(transaction.error || new Error("The local archive could not be saved"));
             transaction.onabort = () => reject(transaction.error || new Error("The local archive save was interrupted"));
         });
+        runtimeMetrics.saveMs = Math.round(performance.now() - startedAt);
     }
     finally {
         db.close();
     }
 }
-function saveDb(data) { const snapshot = structuredClone(data); saveQueue = saveQueue.catch(() => undefined).then(() => persistDb(snapshot)); return saveQueue; }
+function saveDb(data) { const snapshot = structuredClone(normalizeData({ ...data, schemaVersion: 3 })); saveQueue = saveQueue.catch(() => undefined).then(() => persistDb(snapshot)); return saveQueue; }
 let activeNameOrder = "last";
 function fullName(s, order = activeNameOrder) { return s ? (order === "first" ? `${s.firstName} ${s.lastName}` : `${s.lastName}, ${s.firstName}`).trim() : "Student"; }
 function prettyDate(date) { return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
 function kindLabel(kind) { return kinds.find(k => k.id === kind)?.label || "Record"; }
 function formatBytes(bytes) { return bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`; }
+function canEditYear(data, yearId) { return (data.years.find(year => year.id === yearId)?.lifecycle || "open") === "open"; }
+function yearOwnedSnapshot(data, yearId) { const courseIds = new Set(data.courses.filter(item => item.yearId === yearId).map(item => item.id)), sectionIds = new Set(data.sections.filter(item => item.yearId === yearId || courseIds.has(item.courseId)).map(item => item.id)); return JSON.stringify({ year: data.years.find(item => item.id === yearId), courses: data.courses.filter(item => courseIds.has(item.id)), sections: data.sections.filter(item => sectionIds.has(item.id)), enrollments: data.enrollments.filter(item => item.yearId === yearId || sectionIds.has(item.sectionId)), records: data.records.filter(item => item.yearId === yearId || sectionIds.has(item.sectionId)), columns: data.columns.filter(item => item.yearId === yearId || item.sectionIds?.some(id => sectionIds.has(id))) }); }
+function isYearDeletionOnly(before, after, yearId) { const owned = data => { const courseIds = new Set(data.courses.filter(item => item.yearId === yearId).map(item => item.id)), sectionIds = new Set(data.sections.filter(item => item.yearId === yearId || courseIds.has(item.courseId)).map(item => item.id)); return [data.courses.filter(item => courseIds.has(item.id)), data.sections.filter(item => sectionIds.has(item.id)), data.enrollments.filter(item => item.yearId === yearId || sectionIds.has(item.sectionId)), data.records.filter(item => item.yearId === yearId || sectionIds.has(item.sectionId)), data.columns.filter(item => item.yearId === yearId || item.sectionIds?.some(id => sectionIds.has(id)))]; }; const oldGroups = owned(before), newGroups = owned(after); return newGroups.every((group, index) => group.length <= oldGroups[index].length && group.every(item => { const old = oldGroups[index].find(candidate => candidate.id === item.id); return old && JSON.stringify(old) === JSON.stringify(item); })); }
 function Home() {
     const [data, setData] = useState(null);
     activeNameOrder = data?.settings.rosterSortBy === "first" ? "first" : "last";
@@ -517,7 +536,7 @@ function Home() {
             clearTimeout(toastTimer.current);
         toastTimer.current = setTimeout(() => setToast(""), 2600);
     };
-    const update = (fn) => setData(d => d ? fn(d) : d);
+    const update = (fn, options = {}) => setData(d => { if (!d) return d; const next = normalizeData(fn(d)); const activeYearId = yearId || d.settings.currentYearId; if (!options.allowClosed && !canEditYear(d, activeYearId) && yearOwnedSnapshot(d, activeYearId) !== yearOwnedSnapshot(next, activeYearId) && !isYearDeletionOnly(d, next, activeYearId)) { notify("This school year is closed. Reopen it in Academic Structure to make changes."); return d; } return next; });
     const currentYear = data?.years.find(y => y.id === yearId);
     const currentCourse = data?.courses.find(c => c.id === courseId);
     const currentSection = data?.sections.find(s => s.id === sectionId);
@@ -623,6 +642,7 @@ function Home() {
             React.createElement("div", { className: "context-select" },
                 React.createElement("label", null, "School year"),
                 React.createElement("select", { value: yearId, onChange: e => { setYearId(e.target.value); setSelectedIds([]); } }, data.years.filter(y => !y.archived).map(y => React.createElement("option", { key: y.id, value: y.id }, y.label)))),
+            currentYear?.lifecycle !== "open" && React.createElement("span", { className: "year-locked-badge" }, currentYear?.lifecycle === "archived" ? "ARCHIVE-READY · READ ONLY" : "CLOSED · READ ONLY"),
             React.createElement("div", { className: "course-command-bar", "aria-label": "Classes" }, data.courses.filter(c => c.yearId === yearId && !c.archived).map(c => React.createElement("button", { key: c.id, className: c.id === courseId ? "active" : "", onClick: () => { setCourseId(c.id); const first = data.sections.find(section => section.courseId === c.id && !section.archived); if (first) setSectionId(first.id); setSelectedIds([]); } }, c.name))),
             React.createElement("div", { className: "section-tabs", role: "tablist", "aria-label": "Sections" }, data.sections.filter(s => s.courseId === courseId && !s.archived).map(s => React.createElement("button", { key: s.id, className: s.id === sectionId ? "active" : "", onClick: () => { setSectionId(s.id); setSelectedIds([]); } },
                 s.name,
@@ -775,7 +795,7 @@ function Home() {
         modal === "narrativeReport" && React.createElement(NarrativeReportModal, { data: data, yearId: yearId, initialSectionId: sectionId, onClose: () => setModal(null), onSaveMany: changes => update(d => ({ ...d, records: d.records.map(record => changes[record.id] !== undefined ? { ...record, text: changes[record.id], updatedAt: stamp() } : record) })), onSetStatuses: (ids, narrativeStatus) => update(d => ({ ...d, records: d.records.map(record => ids.includes(record.id) ? { ...record, narrativeStatus, updatedAt: stamp() } : record) })), notify: notify }),
         modal === "data" && React.createElement(DataModal, { data: data, onClose: () => setModal(null), onBackup: () => update(d => ({ ...d, settings: { ...d.settings, lastBackupAt: stamp() } })), onImport: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }, notify: notify }),
         modal === "themes" && React.createElement(ThemeModal, { selected: activeTheme, onClose: () => setModal(null), onSelect: theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); } }),
-        modal === "settings" && React.createElement(SettingsModal, { data: data, cloudUser: cloudUser, cloudStatus: cloudStatus, onOpenCloud: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); }, onClose: () => setModal(null), onUpdate: update, notify: notify }),
+        modal === "settings" && React.createElement(SettingsModal, { data: data, cloudUser: cloudUser, cloudStatus: cloudStatus, onOpenCloud: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); }, onClose: () => setModal(null), onUpdate: fn => update(fn, { allowClosed: true }), notify: notify }),
         modal === "cloud" && React.createElement(CloudVaultModal, { data: data, client: cloudClientRef.current, user: cloudUser, status: cloudStatus, initialAction: cloudIntent, onClose: () => setModal(null), onDataLoaded: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); }, notify: notify }),
         modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
         modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, initialCourseId: courseId, defaultAllCourseSections: quickAllClassSections, initialColumnId: quickColumnId, selectedStudentIds: selectedIds, onClose: () => { setQuickColumnId(""); setQuickAllClassSections(false); setModal(null); }, onUpdate: update, notify: notify }),
@@ -1107,26 +1127,28 @@ function SchoolStructureSettings({ data, onUpdate, notify }) {
     const [className, setClassName] = useState("");
     const [sectionNames, setSectionNames] = useState("");
     const [colorCourseId, setColorCourseId] = useState("");
+    const requireOpenYear = (id = selectedYearId) => { if (canEditYear(data, id)) return true; notify("That school year is read-only. Reopen it before making changes."); return false; };
     useEffect(() => { if (!colorCourseId) return; const course = data.courses.find(item => item.id === colorCourseId), card = document.querySelector(`[data-course-card="${colorCourseId}"]`); fireStableCardLasers(card, starColors[course?.colorKey] || "#7be7ff"); }, [colorCourseId]);
     const addYear = () => { const label = yearLabel.trim(); if (!label)
         return; if (data.years.some(year => year.label.toLowerCase() === label.toLowerCase()))
-        return notify("That school year already exists"); const year = { id: uid("yr"), label }; onUpdate(d => ({ ...d, years: [...d.years, year] })); setSelectedYearId(year.id); notify("School year added"); };
-    const addClass = () => { if (!className.trim() || !selectedYearId)
+        return notify("That school year already exists"); const year = { id: uid("yr"), label, lifecycle: "open" }; onUpdate(d => ({ ...d, years: [...d.years, year] })); setSelectedYearId(year.id); notify("School year added"); };
+    const addClass = () => { if (!requireOpenYear()) return; if (!className.trim() || !selectedYearId)
         return notify("Enter a class name and choose a year"); const course = { id: uid("crs"), yearId: selectedYearId, name: className.trim(), colorKey: starOrder[data.courses.filter(item => item.yearId === selectedYearId).length % starOrder.length] }; const names = sectionNames.split(/[,\n]/).map(name => name.trim()).filter(Boolean); const sections = (names.length ? names : ["Section 1"]).map(name => ({ id: uid("sec"), courseId: course.id, name })); onUpdate(d => ({ ...d, courses: [...d.courses, course], sections: [...d.sections, ...sections] })); setClassName(""); setSectionNames(""); notify("Class added"); };
-    const renameYear = (year) => { const name = window.prompt("Rename school year", year.label)?.trim(); if (name)
+    const renameYear = (year) => { if (!requireOpenYear(year.id)) return; const name = window.prompt("Rename school year", year.label)?.trim(); if (name)
         onUpdate(d => ({ ...d, years: d.years.map(item => item.id === year.id ? { ...item, label: name } : item) })); };
+    const setYearLifecycle = (lifecycle) => { const year = data.years.find(item => item.id === selectedYearId); if (!year || year.lifecycle === lifecycle) return; if (lifecycle !== "open" && !window.confirm(`${lifecycle === "closed" ? "Close" : "Mark archive-ready"} ${year.label}? Its instructional data will become read-only.`)) return; onUpdate(d => ({ ...d, years: d.years.map(item => item.id === selectedYearId ? { ...item, lifecycle } : item) })); notify(lifecycle === "open" ? `${year.label} reopened` : lifecycle === "closed" ? `${year.label} closed and locked` : `${year.label} marked archive-ready and locked`); };
     const deleteYear = (year) => { const courses = data.courses.filter(course => course.yearId === year.id); if (courses.length)
         return notify("Delete or move this year’s classes first"); if (!confirm(`Delete ${year.label}?`))
         return; onUpdate(d => ({ ...d, years: d.years.filter(item => item.id !== year.id), settings: { ...d.settings, currentYearId: d.settings.currentYearId === year.id ? d.years.find(item => item.id !== year.id)?.id : d.settings.currentYearId } })); };
-    const renameClass = (course) => { const name = window.prompt("Rename class", course.name)?.trim(); if (name)
+    const renameClass = (course) => { if (!requireOpenYear(course.yearId)) return; const name = window.prompt("Rename class", course.name)?.trim(); if (name)
         onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, name } : item) })); };
-    const archiveClass = (course) => onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, archived: !item.archived } : item), sections: d.sections.map(section => section.courseId === course.id ? { ...section, archived: !course.archived } : section) }));
-    const setCourseColor = (course, colorKey) => { onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, colorKey } : item) })); notify(`${course.name} color set to ${starNames[colorKey]}`); };
+    const archiveClass = (course) => { if (!requireOpenYear(course.yearId)) return; onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, archived: !item.archived } : item), sections: d.sections.map(section => section.courseId === course.id ? { ...section, archived: !course.archived } : section) })); };
+    const setCourseColor = (course, colorKey) => { if (!requireOpenYear(course.yearId)) return; onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, colorKey } : item) })); notify(`${course.name} color set to ${starNames[colorKey]}`); };
     const deleteClass = (course) => { const sectionIds = data.sections.filter(section => section.courseId === course.id).map(section => section.id), enrollmentIds = data.enrollments.filter(enrollment => sectionIds.includes(enrollment.sectionId)).map(enrollment => enrollment.id), affected = data.records.filter(record => !!record.enrollmentId && enrollmentIds.includes(record.enrollmentId)).length; if (!confirm(`Permanently delete ${course.name}? This removes ${sectionIds.length} sections, ${enrollmentIds.length} enrollments, and ${affected} linked records. Student profiles remain.`))
         return; onUpdate(d => ({ ...d, courses: d.courses.filter(item => item.id !== course.id), sections: d.sections.filter(section => !sectionIds.includes(section.id)), enrollments: d.enrollments.filter(enrollment => !sectionIds.includes(enrollment.sectionId)), records: d.records.filter(record => !record.enrollmentId || !enrollmentIds.includes(record.enrollmentId)), columns: (d.columns || []).map(column => ({ ...column, sectionIds: column.sectionIds.filter(id => !sectionIds.includes(id)) })).filter(column => column.sectionIds.length) })); notify("Class permanently deleted"); };
-    const addSection = (course) => { const name = window.prompt(`Add a section to ${course.name}`, "")?.trim(); if (name)
+    const addSection = (course) => { if (!requireOpenYear(course.yearId)) return; const name = window.prompt(`Add a section to ${course.name}`, "")?.trim(); if (name)
         onUpdate(d => ({ ...d, sections: [...d.sections, { id: uid("sec"), courseId: course.id, name }] })); };
-    const renameSection = (section) => { const name = window.prompt("Rename section", section.name)?.trim(); if (name)
+    const renameSection = (section) => { if (!requireOpenYear(section.yearId || data.courses.find(course => course.id === section.courseId)?.yearId)) return; const name = window.prompt("Rename section", section.name)?.trim(); if (name)
         onUpdate(d => ({ ...d, sections: d.sections.map(item => item.id === section.id ? { ...item, name } : item) })); };
     const deleteSection = (section) => { const enrollments = data.enrollments.filter(enrollment => enrollment.sectionId === section.id), enrollmentIds = enrollments.map(enrollment => enrollment.id), records = data.records.filter(record => !!record.enrollmentId && enrollmentIds.includes(record.enrollmentId)); if (!confirm(`Delete ${section.name}? This removes ${enrollments.length} enrollments and ${records.length} linked records.`))
         return; onUpdate(d => ({ ...d, sections: d.sections.filter(item => item.id !== section.id), enrollments: d.enrollments.filter(enrollment => enrollment.sectionId !== section.id), records: d.records.filter(record => !record.enrollmentId || !enrollmentIds.includes(record.enrollmentId)), columns: (d.columns || []).map(column => ({ ...column, sectionIds: column.sectionIds.filter(id => id !== section.id) })).filter(column => column.sectionIds.length) })); };
@@ -1148,7 +1170,7 @@ function SchoolStructureSettings({ data, onUpdate, notify }) {
                 data.years.map(year => React.createElement("div", { className: year.id === selectedYearId ? "school-row active" : "school-row", key: year.id },
                     React.createElement("button", { onClick: () => setSelectedYearId(year.id) },
                         React.createElement("b", null, year.label),
-                        year.id === data.settings.currentYearId && React.createElement("small", null, "CURRENT")),
+                        React.createElement("small", null, year.id === data.settings.currentYearId ? "CURRENT" : (year.lifecycle || "open").toUpperCase())),
                     React.createElement("button", { onClick: () => renameYear(year) }, "Rename"),
                     React.createElement("button", { onClick: () => deleteYear(year) }, "\u00D7"))),
                 React.createElement("div", { className: "inline-add" },
@@ -1158,6 +1180,7 @@ function SchoolStructureSettings({ data, onUpdate, notify }) {
                 React.createElement("span", { className: "eyebrow" },
                     "CLASSES IN ",
                     data.years.find(year => year.id === selectedYearId)?.label || "SELECTED YEAR"),
+                React.createElement("div", { className: "command-buttons year-lifecycle-controls" }, [["open", "Open"], ["closed", "Closed"], ["archived", "Archive-ready"]].map(([value, label]) => React.createElement("button", { key: value, className: data.years.find(year => year.id === selectedYearId)?.lifecycle === value ? "active" : "", onClick: () => setYearLifecycle(value) }, label))),
                 !courses.length && React.createElement("div", { className: "school-empty" }, "No classes yet. Add the first class below."),
                 courses.map(course => React.createElement("article", { className: course.archived ? "class-settings-card archived" : "class-settings-card", "data-course-card": course.id, key: course.id },
                     React.createElement("header", null,
@@ -1952,6 +1975,8 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
     const [types, setTypes] = useState(evidenceKinds.map(kind => kind.id));
     const [dateOn, setDateOn] = useState(false);
     const [afterDate, setAfterDate] = useState("");
+    const [includePriorYears, setIncludePriorYears] = useState(false);
+    const [evidenceYearIds, setEvidenceYearIds] = useState([yearId]);
     const [period, setPeriod] = useState("Semester 1");
     const [status, setStatus] = useState("not-started");
     const [draft, setDraft] = useState("");
@@ -1969,9 +1994,14 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
     const matchingNarrative = narratives.find(record => record.narrativePeriod === period && record.narrativeYearId === yearId && record.narrativeCourseId === courseId);
     const priorNarrative = narratives.find(record => !matchingNarrative || record.id !== matchingNarrative.id);
     const defaultAfterDate = priorNarrative?.date || narratives[0]?.date || "";
-    const records = data.records.filter(record => record.studentId === student?.id && record.kind !== "narrative-comment" && types.includes(record.kind) && (!dateOn || !afterDate || record.date > afterDate)).sort((a, b) => a.date.localeCompare(b.date));
+    const studentYearIds = Array.from(new Set(data.enrollments.filter(item => item.studentId === student?.id && item.yearId).map(item => item.yearId)));
+    const returningStudent = studentYearIds.some(id => id !== yearId);
+    const recordYearId = record => record.yearId || data.enrollments.find(item => item.id === record.enrollmentId)?.yearId;
+    const isCurrentEnrollmentRecord = record => record.enrollmentId === enrollment?.id || (recordYearId(record) === yearId && record.courseId === courseId && record.sectionId === sectionId);
+    const records = data.records.filter(record => record.studentId === student?.id && record.kind !== "narrative-comment" && types.includes(record.kind) && (includePriorYears ? evidenceYearIds.includes(recordYearId(record)) : isCurrentEnrollmentRecord(record)) && (!dateOn || !afterDate || record.date > afterDate)).sort((a, b) => a.date.localeCompare(b.date));
+    const recordContext = record => { const enrollment = data.enrollments.find(item => item.id === record.enrollmentId), section = data.sections.find(item => item.id === (record.sectionId || enrollment?.sectionId)), course = data.courses.find(item => item.id === (record.courseId || enrollment?.courseId || section?.courseId)), year = data.years.find(item => item.id === recordYearId(record)); return [year?.label, course?.name, section?.name].filter(Boolean).join(" · "); };
     const grouped = evidenceKinds.map(kind => ({ ...kind, records: records.filter(record => record.kind === kind.id) })).filter(group => group.records.length);
-    const packet = [instructions.trim(), "", `STUDENT: ${student?.firstName || "Student"}`, student?.pronouns ? `PRONOUNS: ${student.pronouns}` : "", grade.trim() ? `Current Grade: ${grade.trim()}` : "", `COURSE: ${course?.name || ""} / ${section?.name || ""}`, `REPORTING PERIOD: ${period}`, `SCOPE: ${dateOn && afterDate ? `Records after ${afterDate}` : "All available records"}`, priorNarrative ? `\nPRIOR NARRATIVE COMMENT — ${priorNarrative.narrativePeriod || "Earlier period"}\n${priorNarrative.text}` : "", ...grouped.flatMap(group => ["", group.label.toUpperCase(), ...group.records.map(record => `${record.date}${record.title ? ` — ${record.title}` : ""}\n${record.text}`)])].filter(Boolean).join("\n");
+    const packet = [instructions.trim(), "", `STUDENT: ${student?.firstName || "Student"}`, student?.pronouns ? `PRONOUNS: ${student.pronouns}` : "", grade.trim() ? `Current Grade: ${grade.trim()}` : "", `COURSE: ${course?.name || ""} / ${section?.name || ""}`, `REPORTING PERIOD: ${period}`, `EVIDENCE SCOPE: ${includePriorYears ? evidenceYearIds.map(id => data.years.find(year => year.id === id)?.label).filter(Boolean).join(", ") : `${year?.label || "Current year"} · current enrollment only`}${dateOn && afterDate ? ` · after ${afterDate}` : ""}`, includePriorYears && priorNarrative ? `\nPRIOR NARRATIVE COMMENT — ${priorNarrative.narrativePeriod || "Earlier period"}\n${priorNarrative.text}` : "", ...grouped.flatMap(group => ["", group.label.toUpperCase(), ...group.records.map(record => `${record.date}${recordContext(record) ? ` · ${recordContext(record)}` : ""}${record.title ? ` — ${record.title}` : ""}\n${record.text}`)])].filter(Boolean).join("\n");
     const completed = roster.filter(item => data.records.some(record => record.studentId === item.id && record.kind === "narrative-comment" && record.narrativePeriod === period && record.narrativeYearId === yearId && record.narrativeCourseId === courseId && record.narrativeStatus === "ready")).length;
     const loadStudent = (nextIndex) => {
         if (nextIndex < 0 || nextIndex >= roster.length)
@@ -1983,6 +2013,8 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
         setIndex(nextIndex);
         onStudentChange(nextStudent.id);
         setGrade("");
+        setIncludePriorYears(false);
+        setEvidenceYearIds([yearId]);
         setTypes(evidenceKinds.map(kind => kind.id));
         setDraft(cached?.text ?? existing?.text ?? "");
         setStatus(cached?.status || existing?.narrativeStatus || (existing ? "drafting" : "not-started"));
@@ -2032,7 +2064,10 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
                         React.createElement("button", { className: "btn ghost compact", onClick: () => preset(evidenceKinds.map(kind => kind.id)) }, "Everything"),
                         React.createElement("button", { className: "btn ghost compact", onClick: () => preset(["writing", "discussion", "strength"]) }, "Narrative essentials"),
                         React.createElement("button", { className: "btn ghost compact", onClick: () => preset(["strength"]) }, "Strengths only"),
-                        React.createElement("button", { className: "btn ghost compact", disabled: !priorNarrative, onClick: () => { if (priorNarrative) { setDateOn(true); setAfterDate(priorNarrative.date); } } }, "Since prior narrative")),
+                        returningStudent && React.createElement("button", { className: `btn ghost compact ${includePriorYears ? "on" : ""}`, onClick: () => { const enabled = !includePriorYears; setIncludePriorYears(enabled); setEvidenceYearIds(enabled ? studentYearIds : [yearId]); } }, includePriorYears ? "Prior years included" : "Include prior years"),
+                        React.createElement("button", { className: "btn ghost compact", disabled: !priorNarrative, onClick: () => { if (priorNarrative) { setIncludePriorYears(true); setEvidenceYearIds(studentYearIds); setDateOn(true); setAfterDate(priorNarrative.date); } } }, "Since prior narrative")),
+                    includePriorYears && returningStudent && React.createElement("div", { className: "command-buttons" }, studentYearIds.map(id => { const evidenceYear = data.years.find(item => item.id === id); return React.createElement("button", { key: id, className: evidenceYearIds.includes(id) ? "active" : "", onClick: () => setEvidenceYearIds(ids => ids.includes(id) ? ids.length === 1 ? ids : ids.filter(value => value !== id) : [...ids, id]) }, evidenceYear?.label || id); })),
+                    React.createElement("span", { className: "eyebrow" }, "ENTRY TYPES"),
                     React.createElement("div", { className: "narrative-kind-grid" }, evidenceKinds.map(kind => React.createElement("button", { key: kind.id, className: types.includes(kind.id) ? "active" : "", onClick: () => setTypes(current => current.includes(kind.id) ? current.filter(id => id !== kind.id) : [...current, kind.id]) }, kind.short))),
                     React.createElement("div", { className: "narrative-date-row" },
                         React.createElement("label", null, React.createElement("input", { type: "checkbox", checked: dateOn, onChange: event => toggleDate(event.target.checked) }), "Only comments after"),
@@ -2220,7 +2255,7 @@ function CloudVaultModal({ data, client, user, status, initialAction = "manage",
 }
 function DataModal({ data, onClose, onImport, onBackup, notify }) {
     const fileRef = useRef(null);
-    const backup = JSON.stringify({ ...data, schemaVersion: 2, updatedAt: stamp() }, null, 2);
+    const backup = JSON.stringify({ ...data, schemaVersion: 3, updatedAt: stamp(), archiveManifest: normalizeData(data).archiveManifest, archivedYears: data.archivedYears || {} }, null, 2);
     const knownStudents = new Set(data.students.map(student => student.id)), knownSections = new Set(data.sections.map(section => section.id));
     const integrityIssues = data.records.filter(record => !knownStudents.has(record.studentId)).length + data.enrollments.filter(enrollment => !knownStudents.has(enrollment.studentId) || !knownSections.has(enrollment.sectionId)).length;
     const download = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([backup], { type: "application/json" })); a.download = `teacher-records-backup-${isoDate()}.json`; a.click(); URL.revokeObjectURL(a.href); onBackup(); notify("Complete backup downloaded"); };
@@ -2248,7 +2283,7 @@ function DataModal({ data, onClose, onImport, onBackup, notify }) {
                     data.students.length,
                     " students \u00B7 ",
                     data.records.length,
-                    " records \u00B7 updated ",
+                    " records · load ", runtimeMetrics.loadMs, " ms · last save ", runtimeMetrics.saveMs, " ms · updated ",
                     new Date(data.updatedAt).toLocaleString()))),
         React.createElement("div", { className: "data-actions" },
             React.createElement("button", { className: "data-action primary-data", onClick: download },
