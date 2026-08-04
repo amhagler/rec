@@ -165,6 +165,7 @@
 .settings-structure-popup .school-settings-grid{grid-template-columns:minmax(270px,1fr) minmax(330px,.78fr)}.settings-structure-popup .school-classes{grid-template-columns:1fr}.settings-structure-popup .school-classes>.eyebrow,.settings-structure-popup .school-classes>.add-class-card{grid-column:1}.settings-structure-popup .class-settings-card>header b{font-size:12px}.settings-structure-popup .class-settings-card>header span{font-size:9px}@media(max-width:760px){.settings-structure-popup .school-settings-grid{grid-template-columns:1fr}}
 .settings-structure-popup .school-settings-grid{grid-template-columns:minmax(230px,.72fr) minmax(430px,1.28fr);overflow:visible}.settings-structure-popup .school-years,.settings-structure-popup .school-classes{grid-template-columns:1fr;overflow:visible}.settings-structure-popup .school-years .school-row{width:100%}.settings-structure-popup .school-row button:first-child{font-size:19px;white-space:nowrap;overflow:visible}.settings-structure-popup .school-classes>.eyebrow,.settings-structure-popup .school-classes>.add-class-card{grid-column:1}.settings-structure-popup .class-settings-card,.settings-structure-popup .class-settings-card>header,.settings-structure-popup .section-setting-list>div{overflow:visible}.settings-structure-popup .class-settings-card>header b{font-size:14px;white-space:nowrap}.settings-structure-popup .class-settings-card>header span,.settings-structure-popup .section-setting-list span,.settings-structure-popup .section-setting-list small{font-size:10px;white-space:nowrap}.settings-structure-popup .school-row button,.settings-structure-popup .class-settings-card button{white-space:nowrap}@media(max-width:760px){.settings-structure-popup .school-settings-grid{grid-template-columns:1fr}}
 .year-locked-badge{align-self:center;padding:7px 9px;border:1px solid color-mix(in srgb,var(--warm) 42%,transparent);border-radius:999px;background:color-mix(in srgb,var(--warm) 9%,transparent);color:var(--warm);font:900 8px var(--mono);white-space:nowrap}.year-lifecycle-controls{grid-column:1;justify-content:flex-start;padding:4px 0 8px}.year-lifecycle-controls button.active{border-color:var(--warm);color:var(--warm);background:color-mix(in srgb,var(--warm) 10%,transparent)}
+.confidential-button{border-color:#d7b45c!important;box-shadow:inset 3px 0 #d7b45c;color:#ffe6a3!important}.confidential-status{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border:1px solid rgba(215,180,92,.45);background:rgba(215,180,92,.08)}.confidential-status b{color:#ffe6a3}.confidential-gate{z-index:120}.confidential-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.accommodation-groups{display:grid;gap:12px;max-height:52vh;overflow:auto}.accommodation-group{border:1px solid var(--line);padding:12px}.accommodation-check{display:flex;gap:9px;padding:5px 0}.accommodation-check input{width:auto}.parsed-item{display:flex;justify-content:space-between;padding:8px;border:1px solid var(--line)}.recovery-key{font:700 20px ui-monospace,monospace;letter-spacing:2px;padding:16px;border:1px solid #d7b45c;color:#ffe6a3}.confidential-warning{position:fixed;z-index:140;right:20px;bottom:20px;width:min(430px,calc(100vw - 40px));padding:18px;border:1px solid #d7b45c;background:#10131b}.encryption-seal{position:fixed;z-index:200;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.42);animation:sealFade .9s both}.encryption-seal>div{padding:26px 38px;border:1px solid #d7b45c;background:#080b10;color:#ffe6a3;text-align:center;letter-spacing:3px;animation:sealClose .8s both}.encryption-seal b{display:block;font-size:24px}@keyframes sealClose{0%{transform:scaleX(1.35);filter:blur(4px);opacity:0}100%{transform:scale(1);filter:none;opacity:1}}@keyframes sealFade{0%,70%{opacity:1}100%{opacity:0}}@media(max-width:800px){.confidential-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -200,6 +201,47 @@ async function decryptCloudArchive(row, passphrase) {
     }
     catch { throw new Error("The encryption password is incorrect, or the cloud archive is damaged."); }
 }
+async function confidentialPasswordKey(password, salt) {
+    const material = await crypto.subtle.importKey("raw", textEncoder.encode(password), "PBKDF2", false, ["deriveKey"]);
+    return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: 420000, hash: "SHA-256" }, material, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
+}
+async function wrapConfidentialKey(rawKey, secret) {
+    const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12)), key = await confidentialPasswordKey(secret, salt);
+    const wrapped = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, rawKey);
+    return { salt: bytesToBase64(salt), iv: bytesToBase64(iv), wrapped: bytesToBase64(new Uint8Array(wrapped)) };
+}
+async function unwrapConfidentialKey(wrapper, secret) {
+    try {
+        const key = await confidentialPasswordKey(secret, base64ToBytes(wrapper.salt));
+        const raw = await crypto.subtle.decrypt({ name: "AES-GCM", iv: base64ToBytes(wrapper.iv) }, key, base64ToBytes(wrapper.wrapped));
+        return crypto.subtle.importKey("raw", raw, { name: "AES-GCM" }, true, ["encrypt", "decrypt"]);
+    }
+    catch { throw new Error("The confidential password or recovery key is incorrect."); }
+}
+async function encryptConfidentialItems(items, key) {
+    const iv = crypto.getRandomValues(new Uint8Array(12));
+    const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, textEncoder.encode(JSON.stringify(items)));
+    return { iv: bytesToBase64(iv), ciphertext: bytesToBase64(new Uint8Array(encrypted)) };
+}
+async function decryptConfidentialItems(payload, key) {
+    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: base64ToBytes(payload.iv) }, key, base64ToBytes(payload.ciphertext));
+    return JSON.parse(textDecoder.decode(plain));
+}
+function makeRecoveryKey() {
+    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", bytes = crypto.getRandomValues(new Uint8Array(20));
+    return Array.from(bytes, value => alphabet[value % alphabet.length]).join("").match(/.{1,5}/g).join("-");
+}
+async function createConfidentialPackage(password) {
+    const key = await crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"]), rawKey = new Uint8Array(await crypto.subtle.exportKey("raw", key)), recoveryKey = makeRecoveryKey();
+    return { key, recoveryKey, package: { version: 1, passwordWrap: await wrapConfidentialKey(rawKey, password), recoveryWrap: await wrapConfidentialKey(rawKey, recoveryKey), payload: await encryptConfidentialItems([], key), updatedAt: stamp() } };
+}
+const commonAccommodations = [
+    ["Access and environment", ["Preferential seating", "Reduced-distraction setting", "Access to breaks", "Small-group setting"]],
+    ["Instructions and assignments", ["Written and verbal directions", "Directions repeated or clarified", "Tasks broken into smaller steps", "Extended time", "Reduced-length assignments", "Graphic organizers", "Assistive technology"]],
+    ["Assessment and response", ["Extended testing time", "Alternative testing location", "Questions read aloud", "Speech-to-text", "Alternative response format", "Calculator when permitted"]],
+    ["Executive functioning and communication", ["Frequent check-ins", "Reminders and redirection", "Organizational support", "Advance notice of transitions", "Processing time before responding"]],
+];
+const accommodationPromptInstruction = "Use the confidential accommodations as background context. Demonstrate through specific, natural references to instructional practice that I know and implement all of the student's accommodations, but do not list, announce, explain, or make the accommodations themselves the subject of the response. Do not mention diagnoses, disability classifications, IEPs, 504 plans, or other confidential plan details unless explicitly instructed.";
 const kinds = [
     { id: "teacher-note", label: "Teacher note", short: "Note" },
     { id: "official-note", label: "Official note", short: "Official" },
@@ -316,14 +358,15 @@ const academicYearLabel = (when = new Date()) => { const start = when.getMonth()
 const defaultData = () => {
     const yearId = uid("yr");
     return {
-        format: "teacher-records-backup", schemaVersion: 3, updatedAt: stamp(), archiveManifest: [], archivedYears: {},
+        format: "teacher-records-backup", schemaVersion: 4, updatedAt: stamp(), archiveManifest: [], archivedYears: {}, confidentialPackage: null,
         years: [{ id: yearId, label: academicYearLabel(), lifecycle: "open" }], courses: [], sections: [],
         students: [], enrollments: [], records: [], columns: [], settings: { theme: "holographic", accessCode: "111111", currentYearId: yearId, idlePrivacyMinutes: 10, privacyOnHidden: false, emailPageHref: "https://mail.google.com/", cloudRevision: 0, powerMode: "conserve" },
     };
 };
 function normalizeData(raw) {
-    const next = { ...raw, schemaVersion: 3, columns: raw.columns || [], archiveManifest: raw.archiveManifest || [], archivedYears: raw.archivedYears || {}, settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, emailPageHref: raw.settings?.emailPageHref || "https://mail.google.com/", cloudRevision: Number(raw.settings?.cloudRevision) || 0, powerMode: raw.settings?.powerMode === "full" ? "full" : "conserve", ...raw.settings } };
+    const next = { ...raw, schemaVersion: 4, columns: raw.columns || [], archiveManifest: raw.archiveManifest || [], archivedYears: raw.archivedYears || {}, confidentialPackage: raw.confidentialPackage || null, settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, emailPageHref: raw.settings?.emailPageHref || "https://mail.google.com/", cloudRevision: Number(raw.settings?.cloudRevision) || 0, powerMode: raw.settings?.powerMode === "full" ? "full" : "conserve", ...raw.settings } };
     next.settings.narrativePrompts = { ...narrativePromptDefaults, ...(raw.settings?.narrativePrompts || {}) };
+    next.confidentialPackage = raw.confidentialPackage || raw.settings?.confidentialPackage || null;
     next.settings.activeNarrativePrompt = ["fall", "conferences", "spring", "none", "custom"].includes(raw.settings?.activeNarrativePrompt) ? raw.settings.activeNarrativePrompt : "fall";
     next.settings.powerMode = next.settings.powerMode === "full" ? "full" : "conserve";
     next.years = (next.years || []).map(year => ({ ...year, lifecycle: ["open", "closed", "archived"].includes(year.lifecycle) ? year.lifecycle : year.archived ? "archived" : "open" }));
@@ -355,7 +398,7 @@ function normalizeData(raw) {
     next.archiveManifest = next.years.map(year => ({ yearId: year.id, label: year.label, lifecycle: year.lifecycle || "open", courseCount: next.courses.filter(course => course.yearId === year.id).length, sectionCount: next.sections.filter(section => section.yearId === year.id).length, enrollmentCount: next.enrollments.filter(enrollment => enrollment.yearId === year.id).length, recordCount: next.records.filter(record => record.yearId === year.id).length, columnCount: next.columns.filter(column => column.yearId === year.id).length }));
     return next;
 }
-const dbName = "teacher-records-console", dbVersion = 3;
+const dbName = "teacher-records-console", dbVersion = 4;
 const entityStores = ["years", "courses", "sections", "students", "enrollments", "records", "columns"];
 const allStores = [...entityStores, "settings", "metadata"];
 let lastSavedData = null;
@@ -461,6 +504,10 @@ function Home() {
     const [quickColumnId, setQuickColumnId] = useState("");
     const [quickAllClassSections, setQuickAllClassSections] = useState(false);
     const [toast, setToast] = useState("");
+    const [confidentialSession, setConfidentialSession] = useState(null);
+    const [confidentialGate, setConfidentialGate] = useState(null);
+    const [confidentialWarning, setConfidentialWarning] = useState(false);
+    const [encryptionSeal, setEncryptionSeal] = useState(false);
     const [loaded, setLoaded] = useState(false);
     const [unlocked, setUnlocked] = useState(false);
     const [screen, setScreen] = useState("landing");
@@ -471,6 +518,7 @@ function Home() {
     const [cloudIntent, setCloudIntent] = useState("signin");
     const cloudClientRef = useRef(null);
     const toastTimer = useRef(null);
+    const confidentialTimer = useRef(null);
     useEffect(() => { loadDb().then(x => { setData(normalizeData(x || defaultData())); setLoaded(true); setSaveStatus("saved"); }).catch(() => { setData(defaultData()); setLoaded(true); setSaveStatus("failed"); setToast("The local archive could not be opened. Download a backup before entering records."); }); navigator.storage?.persisted?.().then(value => value ? setPersistentStorage(true) : navigator.storage?.persist?.().then(granted => setPersistentStorage(granted))); }, []);
     useEffect(() => {
         if (!window.supabase?.createClient) { setCloudStatus("Cloud unavailable"); return; }
@@ -528,6 +576,14 @@ function Home() {
         reset();
         return () => { clearTimeout(timer); ["pointerdown", "keydown", "wheel", "touchstart"].forEach(event => window.removeEventListener(event, reset)); document.removeEventListener("visibilitychange", hidden); };
     }, [data?.settings.idlePrivacyMinutes, data?.settings.privacyOnHidden, unlocked]);
+    useEffect(() => {
+        clearInterval(confidentialTimer.current);
+        if (!confidentialSession) { setConfidentialWarning(false); return; }
+        const check = () => { const remaining = confidentialSession.expiresAt - Date.now(); if (remaining <= 0) { setConfidentialSession(null); setConfidentialWarning(false); setEncryptionSeal("ENCRYPTED"); setTimeout(() => setEncryptionSeal(false), 950); } else if (remaining <= 300000) setConfidentialWarning(true); };
+        check(); confidentialTimer.current = setInterval(check, 10000);
+        return () => clearInterval(confidentialTimer.current);
+    }, [confidentialSession?.expiresAt]);
+    useEffect(() => { if ((privacy || !unlocked) && confidentialSession) { setConfidentialSession(null); setConfidentialWarning(false); setEncryptionSeal("ENCRYPTED"); setTimeout(() => setEncryptionSeal(false), 950); } }, [privacy, unlocked]);
     useEffect(() => { if (unlocked && data && !data.courses.length)
         setModal("settings"); }, [unlocked, data?.courses.length]);
     const notify = (message) => {
@@ -536,6 +592,9 @@ function Home() {
             clearTimeout(toastTimer.current);
         toastTimer.current = setTimeout(() => setToast(""), 2600);
     };
+    const establishConfidentialSession = (key, items) => { setConfidentialSession({ key, items, expiresAt: Date.now() + 3600000 }); setConfidentialWarning(false); };
+    const lockConfidential = () => { setConfidentialSession(null); setConfidentialWarning(false); setEncryptionSeal("ENCRYPTED"); setTimeout(() => setEncryptionSeal(false), 950); };
+    const saveConfidentialItems = async items => { if (!confidentialSession || !data.confidentialPackage) throw new Error("Confidential access is locked"); const payload = await encryptConfidentialItems(items, confidentialSession.key), confidentialPackage = { ...data.confidentialPackage, payload, updatedAt: stamp() }; setConfidentialSession(session => session ? { ...session, items } : session); update(d => ({ ...d, confidentialPackage, settings: { ...d.settings, confidentialPackage } }), { allowClosed: true }); };
     const update = (fn, options = {}) => setData(d => { if (!d) return d; const next = normalizeData(fn(d)); const activeYearId = yearId || d.settings.currentYearId; if (!options.allowClosed && !canEditYear(d, activeYearId) && yearOwnedSnapshot(d, activeYearId) !== yearOwnedSnapshot(next, activeYearId) && !isYearDeletionOnly(d, next, activeYearId)) { notify("This school year is closed. Reopen it in Academic Structure to make changes."); return d; } return next; });
     const currentYear = data?.years.find(y => y.id === yearId);
     const currentCourse = data?.courses.find(c => c.id === courseId);
@@ -717,6 +776,7 @@ function Home() {
                                 React.createElement("span", null, "\u25A1")))),
                     React.createElement("div", { className: "hero-actions" },
                         React.createElement("button", { className: "btn ghost", onClick: () => setModal("editStudent") }, "Edit"),
+                        React.createElement("button", { className: "btn ghost confidential-button", onClick: () => confidentialSession ? setModal("accommodations") : setConfidentialGate({ purpose: "accommodations" }) }, "Confidential Accommodations"),
                         React.createElement("button", { className: "btn ghost", onClick: () => setModal("conference") }, "Snapshot"),
                         React.createElement("button", { className: "btn ghost", onClick: () => setModal("narrative") }, "Narrative Comments"),
                         React.createElement("button", { className: "btn ghost", onClick: () => { update(d => ({ ...d, students: d.students.map(s => s.id === studentId ? { ...s, archived: !s.archived } : s) })); notify(selectedStudent.archived ? "Student restored to active roster" : "Student archived"); } }, selectedStudent.archived ? "Restore" : "Archive"),
@@ -799,8 +859,12 @@ function Home() {
         modal === "cloud" && React.createElement(CloudVaultModal, { data: data, client: cloudClientRef.current, user: cloudUser, status: cloudStatus, initialAction: cloudIntent, onClose: () => setModal(null), onDataLoaded: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); }, notify: notify }),
         modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
         modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, initialCourseId: courseId, defaultAllCourseSections: quickAllClassSections, initialColumnId: quickColumnId, selectedStudentIds: selectedIds, onClose: () => { setQuickColumnId(""); setQuickAllClassSections(false); setModal(null); }, onUpdate: update, notify: notify }),
-        modal === "narrative" && roster.length > 0 && React.createElement(NarrativeCommentModal, { data: data, roster: roster, sectionId: sectionId, courseId: courseId, yearId: yearId, initialStudentId: studentId, onStudentChange: setStudentId, onSettingsUpdate: update, onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: d.records.some(item => item.id === record.id) ? d.records.map(item => item.id === record.id ? record : item) : [record, ...d.records] })); }, notify: notify }),
-        modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify }),
+        modal === "narrative" && roster.length > 0 && React.createElement(NarrativeCommentModal, { data: data, roster: roster, sectionId: sectionId, courseId: courseId, yearId: yearId, initialStudentId: studentId, onStudentChange: setStudentId, onSettingsUpdate: update, onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: d.records.some(item => item.id === record.id) ? d.records.map(item => item.id === record.id ? record : item) : [record, ...d.records] })); }, notify: notify, confidentialSession: confidentialSession, onRequestConfidential: () => setConfidentialGate({ purpose: "narrative" }) }),
+        modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify, confidentialSession: confidentialSession, onRequestConfidential: () => setConfidentialGate({ purpose: "conference" }) }),
+        modal === "accommodations" && selectedStudent && confidentialSession && React.createElement(AccommodationsModal, { student: selectedStudent, yearId: yearId, items: confidentialSession.items, sessionExpiresAt: confidentialSession.expiresAt, onSave: saveConfidentialItems, onClose: () => { setModal(null); setEncryptionSeal("SECURED FROM VIEW"); setTimeout(() => setEncryptionSeal(false), 950); }, onLock: () => { lockConfidential(); setModal(null); }, notify }),
+        confidentialGate && React.createElement(ConfidentialGateModal, { confidentialPackage: data.confidentialPackage, purpose: confidentialGate.purpose, onPackage: confidentialPackage => update(d => ({ ...d, confidentialPackage, settings: { ...d.settings, confidentialPackage } }), { allowClosed: true }), onUnlock: (key, items) => { establishConfidentialSession(key, items); if (confidentialGate.purpose === "accommodations") setModal("accommodations"); }, onClose: () => setConfidentialGate(null) }),
+        confidentialWarning && confidentialSession && React.createElement("aside", { className: "confidential-warning" }, React.createElement("h3", null, "Confidential access expires in five minutes"), React.createElement("p", null, "Your current work will remain open. Reenter the confidential password to extend access for another hour."), React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: () => setConfidentialWarning(false) }, "Not now"), React.createElement("button", { className: "btn primary", onClick: () => setConfidentialGate({ purpose: "extend" }) }, "Extend one hour"))),
+        encryptionSeal && React.createElement("div", { className: "encryption-seal" }, React.createElement("div", null, React.createElement("b", null, encryptionSeal), React.createElement("span", null, encryptionSeal === "ENCRYPTED" ? "CONFIDENTIAL DATA SECURED" : "ENCRYPTED AT REST"))),
         privacy && React.createElement(PrivacyScreen, { data: data, onUnlock: () => setPrivacy(false), onFailure: () => { saveDb(data); const json = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2); const anchor = document.createElement("a"); anchor.href = URL.createObjectURL(new Blob([json], { type: "application/json" })); anchor.download = `teacher-records-safety-${isoDate()}.json`; anchor.click(); URL.revokeObjectURL(anchor.href); window.close(); setTimeout(() => { setPrivacy(false); setUnlocked(false); }, 250); } }),
         toast && React.createElement("div", { className: "toast", role: "status" },
             React.createElement("i", null),
@@ -1507,6 +1571,41 @@ function ModalShell({ title, subtitle, onClose, children, wide = false }) {
                 React.createElement("button", { className: "btn ghost icon-btn", onClick: onClose, "aria-label": "Close" }, "\u00D7")),
             children));
 }
+function ConfidentialGateModal({ confidentialPackage, purpose, onPackage, onUnlock, onClose }) {
+    const [mode, setMode] = useState(confidentialPackage ? "unlock" : "setup"), [password, setPassword] = useState(""), [confirmPassword, setConfirmPassword] = useState(""), [recovery, setRecovery] = useState(""), [savedRecovery, setSavedRecovery] = useState(false), [createdRecovery, setCreatedRecovery] = useState(""), [busy, setBusy] = useState(false), [error, setError] = useState("");
+    const submit = async event => { event.preventDefault(); setError(""); setBusy(true); try {
+        if (mode === "setup") { if (password.length < 10) throw new Error("Use at least 10 characters."); if (password !== confirmPassword) throw new Error("The passwords do not match."); const created = await createConfidentialPackage(password); onPackage(created.package); onUnlock(created.key, []); setCreatedRecovery(created.recoveryKey); return; }
+        if (mode === "recover") { if (password.length < 10) throw new Error("Choose a new password of at least 10 characters."); if (password !== confirmPassword) throw new Error("The new passwords do not match."); const key = await unwrapConfidentialKey(confidentialPackage.recoveryWrap, recovery.trim().toUpperCase()), items = await decryptConfidentialItems(confidentialPackage.payload, key), raw = new Uint8Array(await crypto.subtle.exportKey("raw", key)), nextPackage = { ...confidentialPackage, passwordWrap: await wrapConfidentialKey(raw, password), updatedAt: stamp() }; onPackage(nextPackage); onUnlock(key, items); return onClose(); }
+        const key = await unwrapConfidentialKey(confidentialPackage.passwordWrap, password), items = await decryptConfidentialItems(confidentialPackage.payload, key); onUnlock(key, items); onClose();
+    } catch (problem) { setError(problem.message || "Confidential access failed."); } finally { setBusy(false); } };
+    const copyRecovery = async () => { await navigator.clipboard.writeText(createdRecovery); setSavedRecovery(true); };
+    return React.createElement("div", { className: "confidential-gate" }, React.createElement(ModalShell, { title: createdRecovery ? "Save your recovery key" : mode === "setup" ? "Create Confidential Access" : mode === "recover" ? "Recover Confidential Access" : purpose === "extend" ? "Extend confidential session" : "Unlock Confidential Access", subtitle: "ENCRYPTED ACCOMMODATIONS", onClose: createdRecovery && !savedRecovery ? () => {} : onClose },
+        createdRecovery ? React.createElement(React.Fragment, null,
+            React.createElement("p", null, "Save this key separately from the record-console backup. It cannot be shown again and is the only way to recover accommodations if the password is forgotten."),
+            React.createElement("div", { className: "recovery-key" }, createdRecovery),
+            React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: copyRecovery }, "Copy recovery key"), React.createElement("button", { className: "btn primary", disabled: !savedRecovery, onClick: onClose }, "I saved it"))) :
+        React.createElement("form", { onSubmit: submit },
+            mode === "recover" && React.createElement("label", null, "Recovery key", React.createElement("input", { autoFocus: true, value: recovery, onChange: event => setRecovery(event.target.value), autoComplete: "off" })),
+            React.createElement("label", null, mode === "recover" ? "New confidential password" : "Confidential password", React.createElement("input", { autoFocus: mode !== "recover", type: "password", value: password, onChange: event => setPassword(event.target.value), autoComplete: "off" })),
+            (mode === "setup" || mode === "recover") && React.createElement("label", null, "Confirm password", React.createElement("input", { type: "password", value: confirmPassword, onChange: event => setConfirmPassword(event.target.value), autoComplete: "off" })),
+            React.createElement("p", { className: "form-hint" }, mode === "setup" ? "The password is never saved or uploaded. The encrypted package will transfer through Supabase and complete backups." : "Successful entry unlocks accommodations on this device for one hour."),
+            error && React.createElement("div", { className: "backup-warning" }, error),
+            React.createElement("div", { className: "modal-actions" }, confidentialPackage && React.createElement("button", { type: "button", className: "btn ghost", onClick: () => { setMode(mode === "recover" ? "unlock" : "recover"); setError(""); } }, mode === "recover" ? "Use password" : "Use recovery key"), React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"), React.createElement("button", { className: "btn primary", disabled: busy }, busy ? "Decrypting..." : mode === "setup" ? "Create encrypted storage" : mode === "recover" ? "Recover and set password" : "Unlock")))));
+}
+function AccommodationsModal({ student, yearId, items, sessionExpiresAt, onSave, onClose, onLock, notify }) {
+    const current = items.filter(item => item.studentId === student.id && item.yearId === yearId && item.active !== false), commonSet = new Set(commonAccommodations.flatMap(group => group[1])), initialCommon = current.filter(item => item.source === "common" || commonSet.has(item.description)).map(item => item.description), initialCustom = current.filter(item => item.source === "custom" || !commonSet.has(item.description)).map(item => item.description).join("\n");
+    const [selected, setSelected] = useState(initialCommon), [custom, setCustom] = useState(initialCustom), [saving, setSaving] = useState(false);
+    const [remaining, setRemaining] = useState(Math.max(0, sessionExpiresAt - Date.now()));
+    useEffect(() => { const timer = setInterval(() => setRemaining(Math.max(0, sessionExpiresAt - Date.now())), 1000); return () => clearInterval(timer); }, [sessionExpiresAt]);
+    const parsed = Array.from(new Set(custom.split(/\r?\n/).map(line => line.replace(/^\s*(?:[-*\u2022]|\d+[.)])\s*/, "").trim()).filter(Boolean))).filter(description => !selected.includes(description));
+    const build = () => { const retained = items.filter(item => !(item.studentId === student.id && item.yearId === yearId)); const additions = [...selected.map(description => ({ id: uid("acc"), studentId: student.id, yearId, description, source: "common", active: true, reviewedAt: isoDate() })), ...parsed.map(description => ({ id: uid("acc"), studentId: student.id, yearId, description, source: "custom", active: true, reviewedAt: isoDate() }))]; return [...retained, ...additions]; };
+    const save = async lock => { setSaving(true); try { await onSave(build()); notify("Encrypted accommodations saved"); if (lock) onLock(); else onClose(); } catch (problem) { notify(problem.message || "Accommodations could not be saved"); } finally { setSaving(false); } };
+    const groupsView = React.createElement("div", { className: "accommodation-groups" }, commonAccommodations.map(([group, choices]) => React.createElement("section", { className: "accommodation-group", key: group }, React.createElement("h3", null, group), choices.map(choice => React.createElement("label", { className: "accommodation-check", key: choice }, React.createElement("input", { type: "checkbox", checked: selected.includes(choice), onChange: () => setSelected(values => values.includes(choice) ? values.filter(value => value !== choice) : [...values, choice]) }), React.createElement("span", null, choice))))));
+    const customView = React.createElement("div", null, React.createElement("label", null, "Additional accommodations", React.createElement("span", { className: "optional" }, "one per line"), React.createElement("textarea", { value: custom, onChange: event => setCustom(event.target.value), placeholder: "Provide vocabulary before new readings\nAllow preview of discussion questions" })), React.createElement("span", { className: "eyebrow" }, "PARSED PREVIEW"), React.createElement("div", { className: "parsed-list" }, parsed.length ? parsed.map(item => React.createElement("div", { className: "parsed-item", key: item }, item)) : React.createElement("p", { className: "form-hint" }, "Each nonblank line becomes one accommodation.")));
+    const statusView = React.createElement("div", { className: "confidential-status" }, React.createElement("b", null, "CONFIDENTIAL DATA UNLOCKED"), React.createElement("span", null, `${String(Math.floor(remaining / 60000)).padStart(2, "0")}:${String(Math.floor((remaining % 60000) / 1000)).padStart(2, "0")} remaining`), React.createElement("span", null, "Only classroom accommodations should be stored here. Do not enter diagnoses or plan documents."), React.createElement("button", { className: "btn ghost compact", onClick: onLock }, "Lock now"));
+    const actionsView = React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"), React.createElement("button", { className: "btn ghost", disabled: saving, onClick: () => save(false) }, "Save"), React.createElement("button", { className: "btn primary", disabled: saving, onClick: () => save(true) }, "Save and Lock"));
+    return React.createElement(ModalShell, { title: `Confidential Accommodations - ${fullName(student, "first")}`, subtitle: "ENCRYPTED LOCALLY - CURRENT SCHOOL YEAR", onClose, wide: true }, statusView, React.createElement("div", { className: "confidential-grid" }, groupsView, customView), actionsView);
+}
 function StudentModal({ data, sectionId, onClose, onSave }) {
     const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [pronouns, setPronouns] = useState(""), [target, setTarget] = useState(sectionId);
     const [pendingMatch, setPendingMatch] = useState(null);
@@ -1968,7 +2067,7 @@ function NarrativeReportModal({ data, yearId, initialSectionId, onClose, onSaveM
             React.createElement("button", { className: "btn ghost", onClick: markShownReady, disabled: !items.length }, "Mark all shown Ready"), React.createElement("button", { className: "btn ghost", onClick: saveAll, disabled: !dirtyIds.length }, "Save All"), React.createElement("button", { className: "btn primary", onClick: copy, disabled: !items.length }, "Copy All")),
         React.createElement("main", { className: "narrative-report-document" }, grouped.map(group => { const course = data.courses.find(item => item.id === group.section.courseId), color = starColors[course?.colorKey] || starColors[automaticCourseColor(course)]; return React.createElement("section", { key: group.section.id }, React.createElement("h2", { className: "report-class-heading", style: { color } }, `${course?.name || "Class"} — ${group.section.name}`), group.items.map(item => React.createElement("div", { key: item.record.id, className: "report-student-block" }, React.createElement("strong", null, fullName(item.student)), React.createElement("textarea", { value: edits[item.record.id] ?? item.record.text, onChange: event => { setEdits(current => ({ ...current, [item.record.id]: event.target.value })); setDirtyIds(ids => ids.includes(item.record.id) ? ids : [...ids, item.record.id]); } }), React.createElement("span", { className: "report-save-state" }, dirtyIds.includes(item.record.id) ? "Saving…" : "Saved")))); }))));
 }
-function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, initialStudentId, onStudentChange, onSettingsUpdate, onClose, onSave, notify }) {
+function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, initialStudentId, onStudentChange, onSettingsUpdate, onClose, onSave, notify, confidentialSession, onRequestConfidential }) {
     const evidenceKinds = kinds.filter(kind => kind.id !== "narrative-comment");
     const firstIndex = Math.max(0, roster.findIndex(student => student.id === initialStudentId));
     const [index, setIndex] = useState(firstIndex);
@@ -1983,6 +2082,7 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
     const [promptOpen, setPromptOpen] = useState(false);
     const [grade, setGrade] = useState("");
     const activePrompt = data.settings.activeNarrativePrompt || "fall";
+    const [includeAccommodations, setIncludeAccommodations] = useState(activePrompt === "conferences");
     const instructions = data.settings.narrativePrompts?.[activePrompt] ?? narrativePromptDefaults[activePrompt] ?? "";
     const promptLabel = ({ fall: "Fall", conferences: "Conferences", spring: "Spring", none: "No Prompt", custom: "Custom" })[activePrompt] || "Custom";
     const [dirty, setDirty] = useState(false);
@@ -2002,6 +2102,9 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
     const recordContext = record => { const enrollment = data.enrollments.find(item => item.id === record.enrollmentId), section = data.sections.find(item => item.id === (record.sectionId || enrollment?.sectionId)), course = data.courses.find(item => item.id === (record.courseId || enrollment?.courseId || section?.courseId)), year = data.years.find(item => item.id === recordYearId(record)); return [year?.label, course?.name, section?.name].filter(Boolean).join(" · "); };
     const grouped = evidenceKinds.map(kind => ({ ...kind, records: records.filter(record => record.kind === kind.id) })).filter(group => group.records.length);
     const packet = [instructions.trim(), "", `STUDENT: ${student?.firstName || "Student"}`, student?.pronouns ? `PRONOUNS: ${student.pronouns}` : "", grade.trim() ? `Current Grade: ${grade.trim()}` : "", `COURSE: ${course?.name || ""} / ${section?.name || ""}`, `REPORTING PERIOD: ${period}`, `EVIDENCE SCOPE: ${includePriorYears ? evidenceYearIds.map(id => data.years.find(year => year.id === id)?.label).filter(Boolean).join(", ") : `${year?.label || "Current year"} · current enrollment only`}${dateOn && afterDate ? ` · after ${afterDate}` : ""}`, includePriorYears && priorNarrative ? `\nPRIOR NARRATIVE COMMENT — ${priorNarrative.narrativePeriod || "Earlier period"}\n${priorNarrative.text}` : "", ...grouped.flatMap(group => ["", group.label.toUpperCase(), ...group.records.map(record => `${record.date}${recordContext(record) ? ` · ${recordContext(record)}` : ""}${record.title ? ` — ${record.title}` : ""}\n${record.text}`)])].filter(Boolean).join("\n");
+    const studentAccommodations = confidentialSession?.items?.filter(item => item.studentId === student?.id && item.yearId === yearId && item.active !== false) || [];
+    const accommodationContext = `CONFIDENTIAL BACKGROUND CONTEXT - ACCOMMODATIONS\n${studentAccommodations.length ? studentAccommodations.map(item => `- ${item.description}`).join("\n") : "No active accommodations recorded for this school year."}`;
+    const packetWithConfidential = includeAccommodations && confidentialSession ? [instructions.trim(), accommodationPromptInstruction, "", accommodationContext, "", packet.slice(instructions.trim().length).replace(/^\s+/, "")].filter(Boolean).join("\n") : packet;
     const completed = roster.filter(item => data.records.some(record => record.studentId === item.id && record.kind === "narrative-comment" && record.narrativePeriod === period && record.narrativeYearId === yearId && record.narrativeCourseId === courseId && record.narrativeStatus === "ready")).length;
     const loadStudent = (nextIndex) => {
         if (nextIndex < 0 || nextIndex >= roster.length)
@@ -2016,6 +2119,7 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
         setIncludePriorYears(false);
         setEvidenceYearIds([yearId]);
         setTypes(evidenceKinds.map(kind => kind.id));
+        setIncludeAccommodations(activePrompt === "conferences");
         setDraft(cached?.text ?? existing?.text ?? "");
         setStatus(cached?.status || existing?.narrativeStatus || (existing ? "drafting" : "not-started"));
         setDirty(!!cached?.dirty);
@@ -2026,6 +2130,7 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
         setStatus(cached?.status || matchingNarrative?.narrativeStatus || (matchingNarrative ? "drafting" : "not-started"));
         setDirty(!!cached?.dirty);
     }, [student?.id, period]);
+    useEffect(() => { setIncludeAccommodations(activePrompt === "conferences"); }, [activePrompt]);
     useEffect(() => {
         const handler = event => {
             const editing = ["INPUT", "TEXTAREA", "SELECT"].includes(event.target?.tagName);
@@ -2048,7 +2153,7 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
         const record = makeRecord(); onSave(record); draftCache.current[`${student.id}|${period}`] = { text: record.text, status: record.narrativeStatus, dirty: false }; setStatus(record.narrativeStatus); setDirty(false); playHoloFx(undefined, "save"); notify(`Narrative saved for ${student.firstName}`);
         if (advance && index < roster.length - 1) setTimeout(() => loadStudent(index + 1), 0);
     };
-    const copyPacket = async () => { await navigator.clipboard.writeText(packet); notify(`${student.firstName}'s ChatGPT packet copied`); };
+    const copyPacket = async () => { if (includeAccommodations && !confidentialSession) { onRequestConfidential(); return notify("Unlock Confidential Access before copying accommodations"); } await navigator.clipboard.writeText(packetWithConfidential); notify(`${student.firstName}'s ChatGPT packet copied${includeAccommodations ? " - contains confidential accommodations" : ""}`); };
     const close = () => { if (!dirty || !draft.trim() || window.confirm("Close Narrative Comments with an unsaved draft?")) onClose(); };
     const toggleDate = checked => { setDateOn(checked); if (checked && !afterDate) setAfterDate(defaultAfterDate || isoDate()); };
     const preset = ids => setTypes(ids);
@@ -2075,6 +2180,7 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
                 React.createElement("div", { className: "narrative-toolbar" },
                     React.createElement("button", { className: "btn ghost", onClick: () => setPromptOpen(true) }, "Prompt"),
                     React.createElement("span", { className: "narrative-stat" }, `Using ${promptLabel}`),
+                    React.createElement("button", { className: `btn ghost compact confidential-button ${includeAccommodations ? "on" : ""}`, onClick: () => { const enabled = !includeAccommodations; setIncludeAccommodations(enabled); if (enabled && !confidentialSession) onRequestConfidential(); } }, includeAccommodations ? confidentialSession ? "Accommodations included" : "Accommodations locked" : "Include accommodations"),
                     React.createElement("label", null, "Current grade", React.createElement("input", { value: grade, onChange: event => setGrade(event.target.value), placeholder: "85.67" })),
                     React.createElement("span", { className: "temporary-note" }, "Temporary · not saved")),
                 promptOpen && React.createElement("div", { className: "prompt-popup" }, React.createElement("section", null,
@@ -2082,9 +2188,9 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
                     React.createElement("div", { className: "prompt-tabs" }, ["fall", "conferences", "spring", "none", "custom"].map(key => React.createElement("button", { key, className: `btn ghost ${activePrompt === key ? "active" : ""}`, onClick: () => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, activeNarrativePrompt: key } })) }, ({ fall: "Fall", conferences: "Conferences", spring: "Spring", none: "No Prompt", custom: "Custom" })[key]))),
                     React.createElement("textarea", { value: instructions, disabled: activePrompt === "none", placeholder: activePrompt === "custom" ? "Enter a custom prompt…" : activePrompt === "none" ? "No instruction prompt will be included." : "", onChange: event => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, narrativePrompts: { ...d.settings.narrativePrompts, [activePrompt]: event.target.value } } })) }),
                     React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: () => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, narrativePrompts: { ...d.settings.narrativePrompts, [activePrompt]: narrativePromptDefaults[activePrompt] } } })) }, "Restore default"), React.createElement("button", { className: "btn primary", onClick: () => setPromptOpen(false) }, "Done")))),
-                React.createElement("div", { className: "narrative-stat" }, React.createElement("b", null, records.length), ` records included · ${packet.length.toLocaleString()} characters${priorNarrative ? " · prior narrative included" : ""}`),
-                React.createElement("pre", { className: "narrative-packet" }, packet || "No records match this selection."),
-                React.createElement("button", { className: "btn primary", disabled: !packet, onClick: copyPacket }, "Copy Packet")),
+                React.createElement("div", { className: "narrative-stat" }, React.createElement("b", null, records.length), ` records included · ${packetWithConfidential.length.toLocaleString()} characters${priorNarrative ? " · prior narrative included" : ""}${includeAccommodations ? confidentialSession ? " · confidential accommodations included" : " · accommodations locked" : ""}`),
+                React.createElement("pre", { className: "narrative-packet" }, includeAccommodations && !confidentialSession ? "Confidential accommodations are selected. Unlock Confidential Access to assemble and copy this packet." : packetWithConfidential || "No records match this selection."),
+                React.createElement("button", { className: "btn primary", disabled: !packetWithConfidential, onClick: copyPacket }, "Copy Packet")),
             React.createElement("section", { className: "narrative-draft" },
                 React.createElement("span", { className: "eyebrow" }, "SAVED STUDENT RECORD"),
                 React.createElement("div", { className: "narrative-meta" },
@@ -2098,12 +2204,16 @@ function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, init
                     React.createElement("button", { className: "btn ghost", onClick: () => save(false) }, "Save"),
                     React.createElement("button", { className: "btn primary", onClick: () => save(true) }, "Save and next")))));
 }
-function ConferenceSnapshotModal({ data, student, yearId, onClose, notify }) {
+function ConferenceSnapshotModal({ data, student, yearId, onClose, notify, confidentialSession, onRequestConfidential }) {
+    const [includeAccommodations, setIncludeAccommodations] = useState(true);
     const records = data.records.filter(record => record.studentId === student.id).sort((a, b) => b.date.localeCompare(a.date));
     const currentEnrollmentIds = new Set(data.enrollments.filter(enrollment => enrollment.studentId === student.id && data.sections.some(section => section.id === enrollment.sectionId && data.courses.some(course => course.id === section.courseId && course.yearId === yearId))).map(enrollment => enrollment.id));
     const currentRecords = records.filter(record => !!record.enrollmentId && currentEnrollmentIds.has(record.enrollmentId));
     const strengths = currentRecords.filter(record => record.kind === "strength"), pinned = records.filter(record => record.pinned);
     const text = exportText(data, [student.id], yearId, kinds.map(kind => kind.id), false, false, false);
+    const accommodations = confidentialSession?.items?.filter(item => item.studentId === student.id && item.yearId === yearId && item.active !== false) || [];
+    const confidentialText = includeAccommodations && confidentialSession ? `${accommodationPromptInstruction}\n\nCONFIDENTIAL BACKGROUND CONTEXT - ACCOMMODATIONS\n${accommodations.length ? accommodations.map(item => `- ${item.description}`).join("\n") : "No active accommodations recorded for this school year."}\n\n${text}` : text;
+    const copySnapshot = async () => { if (includeAccommodations && !confidentialSession) { onRequestConfidential(); return notify("Unlock Confidential Access before copying conference preparation"); } await navigator.clipboard.writeText(confidentialText); notify(`Conference preparation record copied${includeAccommodations ? " - contains confidential accommodations" : ""}`); };
     return React.createElement(ModalShell, { title: `Conference snapshot · ${fullName(student)}`, subtitle: "CURRENT-YEAR EVIDENCE", onClose: onClose, wide: true },
         React.createElement("div", { className: "conference-stats" },
             React.createElement("div", null,
@@ -2138,8 +2248,9 @@ function ConferenceSnapshotModal({ data, student, yearId, onClose, notify }) {
             React.createElement("section", { className: "export-preview" },
                 React.createElement("div", { className: "preview-head" },
                     React.createElement("span", { className: "eyebrow" }, "COPYABLE PREPARATION RECORD"),
-                    React.createElement("button", { className: "btn primary", onClick: () => { navigator.clipboard.writeText(text); notify("Conference preparation record copied"); } }, "Copy snapshot")),
-                React.createElement("pre", null, text || "No current-year records yet."))));
+                    React.createElement("button", { className: `btn ghost compact confidential-button ${includeAccommodations ? "on" : ""}`, onClick: () => { const enabled = !includeAccommodations; setIncludeAccommodations(enabled); if (enabled && !confidentialSession) onRequestConfidential(); } }, includeAccommodations ? confidentialSession ? "Accommodations included" : "Accommodations locked" : "Include accommodations"),
+                    React.createElement("button", { className: "btn primary", onClick: copySnapshot }, "Copy snapshot")),
+                React.createElement("pre", null, includeAccommodations && !confidentialSession ? "Conference preparation includes accommodations by default. Unlock Confidential Access to reveal and copy this record." : confidentialText || "No current-year records yet."))));
 }
 function CloudVaultModal({ data, client, user, status, initialAction = "manage", onClose, onDataLoaded, notify }) {
     const [email, setEmail] = useState("aaron.hagler@gmail.com");
