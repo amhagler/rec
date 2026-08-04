@@ -167,6 +167,7 @@
 .year-locked-badge{align-self:center;padding:7px 9px;border:1px solid color-mix(in srgb,var(--warm) 42%,transparent);border-radius:999px;background:color-mix(in srgb,var(--warm) 9%,transparent);color:var(--warm);font:900 8px var(--mono);white-space:nowrap}.year-lifecycle-controls{grid-column:1;justify-content:flex-start;padding:4px 0 8px}.year-lifecycle-controls button.active{border-color:var(--warm);color:var(--warm);background:color-mix(in srgb,var(--warm) 10%,transparent)}
 .confidential-button{border-color:#d7b45c!important;box-shadow:inset 3px 0 #d7b45c;color:#ffe6a3!important}.confidential-status{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border:1px solid rgba(215,180,92,.45);background:rgba(215,180,92,.08)}.confidential-status b{color:#ffe6a3}.confidential-gate{z-index:120}.confidential-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.accommodation-groups{display:grid;gap:12px;max-height:52vh;overflow:auto}.accommodation-group{border:1px solid var(--line);padding:12px}.accommodation-check{display:flex;gap:9px;padding:5px 0}.accommodation-check input{width:auto}.parsed-item{display:flex;justify-content:space-between;padding:8px;border:1px solid var(--line)}.recovery-key{font:700 20px ui-monospace,monospace;letter-spacing:2px;padding:16px;border:1px solid #d7b45c;color:#ffe6a3}.confidential-warning{position:fixed;z-index:140;right:20px;bottom:20px;width:min(430px,calc(100vw - 40px));padding:18px;border:1px solid #d7b45c;background:#10131b}.encryption-seal{position:fixed;z-index:200;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.42);animation:sealFade .9s both}.encryption-seal>div{padding:26px 38px;border:1px solid #d7b45c;background:#080b10;color:#ffe6a3;text-align:center;letter-spacing:3px;animation:sealClose .8s both}.encryption-seal b{display:block;font-size:24px}@keyframes sealClose{0%{transform:scaleX(1.35);filter:blur(4px);opacity:0}100%{transform:scale(1);filter:none;opacity:1}}@keyframes sealFade{0%,70%{opacity:1}100%{opacity:0}}@media(max-width:800px){.confidential-grid{grid-template-columns:1fr}}
 .holo-modal:has(>.confidential-status){width:min(1120px,96vw);overflow:auto}.holo-modal:has(>.confidential-status)>header{padding:20px 28px}.holo-modal:has(>.confidential-status)>.confidential-status{margin:24px 28px 0;padding:16px 18px;gap:14px;border-radius:12px}.holo-modal:has(>.confidential-status)>.confidential-grid{margin:22px 28px 0;gap:30px;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr)}.holo-modal:has(>.confidential-status)>.modal-actions{margin:22px 28px 28px;padding:18px 0 0;border-top:1px solid #ffffff18}.holo-modal:has(>.confidential-status) .accommodation-groups{gap:16px;padding:3px 8px 3px 3px}.holo-modal:has(>.confidential-status) .accommodation-group{padding:17px 19px;border-radius:12px}.holo-modal:has(>.confidential-status) .accommodation-group h3{margin:0 0 10px}.holo-modal:has(>.confidential-status) .accommodation-check{gap:11px;padding:7px 2px}.holo-modal:has(>.confidential-status) .confidential-grid>div:last-child{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.1)}.holo-modal:has(>.confidential-status) textarea{min-height:210px;margin-top:7px}.holo-modal:has(>.confidential-status) .parsed-list{display:grid;gap:8px;margin-top:10px}.holo-modal:has(>.confidential-status) .parsed-item{padding:10px 12px;border-radius:8px}@media(max-width:800px){.holo-modal:has(>.confidential-status)>.confidential-grid{grid-template-columns:1fr;margin-inline:18px}.holo-modal:has(>.confidential-status)>.confidential-status,.holo-modal:has(>.confidential-status)>.modal-actions{margin-inline:18px}}
+.selected-accommodations-summary{display:grid;gap:10px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid #ffffff18}.selected-summary-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.selected-summary-head b{display:grid;place-items:center;min-width:28px;height:28px;border-radius:50%;border:1px solid rgba(215,180,92,.5);color:#ffe6a3}.selected-accommodations-summary .parsed-list{max-height:290px;overflow:auto;padding-right:5px}.selected-accommodations-summary .parsed-item{align-items:center;gap:12px}.selected-accommodations-summary .parsed-item>span:last-child{color:#ffe6a3}.additional-accommodations-entry{display:grid;margin-top:4px}.holo-modal:has(>.confidential-status) .additional-accommodations-entry textarea{min-height:150px}
 </style>
 </head>
 <body>
@@ -408,8 +409,11 @@ let runtimeMetrics = { loadMs: 0, saveMs: 0 };
 function openDb() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(dbName, dbVersion);
-        request.onerror = () => reject(request.error || new Error("Unable to open the local archive"));
-        request.onblocked = () => reject(new Error("The local archive is open in another tab. Close the other tab and try again."));
+        let settled = false;
+        const fail = error => { if (settled) return; settled = true; clearTimeout(timeout); reject(error); };
+        const timeout = setTimeout(() => fail(new Error("The local archive did not open. Close other copies of the console and reload.")), 6000);
+        request.onerror = () => fail(request.error || new Error("Unable to open the local archive"));
+        request.onblocked = () => fail(new Error("The local archive is open in another tab. Close the other tab and try again."));
         request.onupgradeneeded = event => {
             const db = request.result, transaction = request.transaction;
             const create = (name, indexes) => { const store = db.objectStoreNames.contains(name) ? transaction.objectStore(name) : db.createObjectStore(name, { keyPath: "id" }); indexes.forEach(([index, key]) => { if (!store.indexNames.contains(index))
@@ -429,7 +433,7 @@ function openDb() {
                     return; entityStores.forEach(name => (data[name] || []).forEach(item => transaction.objectStore(name).put(item))); transaction.objectStore("settings").put({ id: "app", ...data.settings }); transaction.objectStore("metadata").put({ id: "app", format: data.format, schemaVersion: 2, updatedAt: data.updatedAt, migratedAt: stamp() }); };
             }
         };
-        request.onsuccess = () => resolve(request.result);
+        request.onsuccess = () => { const db = request.result; db.onversionchange = () => db.close(); if (settled) return db.close(); settled = true; clearTimeout(timeout); resolve(db); };
     });
 }
 function requestResult(request) { return new Promise((resolve, reject) => { request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error); }); }
@@ -1599,10 +1603,14 @@ function AccommodationsModal({ student, yearId, items, sessionExpiresAt, onSave,
     const [remaining, setRemaining] = useState(Math.max(0, sessionExpiresAt - Date.now()));
     useEffect(() => { const timer = setInterval(() => setRemaining(Math.max(0, sessionExpiresAt - Date.now())), 1000); return () => clearInterval(timer); }, [sessionExpiresAt]);
     const parsed = Array.from(new Set(custom.split(/\r?\n/).map(line => line.replace(/^\s*(?:[-*\u2022]|\d+[.)])\s*/, "").trim()).filter(Boolean))).filter(description => !selected.includes(description));
+    const allSelected = [...selected, ...parsed];
     const build = () => { const retained = items.filter(item => !(item.studentId === student.id && item.yearId === yearId)); const additions = [...selected.map(description => ({ id: uid("acc"), studentId: student.id, yearId, description, source: "common", active: true, reviewedAt: isoDate() })), ...parsed.map(description => ({ id: uid("acc"), studentId: student.id, yearId, description, source: "custom", active: true, reviewedAt: isoDate() }))]; return [...retained, ...additions]; };
     const save = async lock => { setSaving(true); try { await onSave(build()); notify("Encrypted accommodations saved"); if (lock) onLock(); else onClose(); } catch (problem) { notify(problem.message || "Accommodations could not be saved"); } finally { setSaving(false); } };
     const groupsView = React.createElement("div", { className: "accommodation-groups" }, commonAccommodations.map(([group, choices]) => React.createElement("section", { className: "accommodation-group", key: group }, React.createElement("h3", null, group), choices.map(choice => React.createElement("label", { className: "accommodation-check", key: choice }, React.createElement("input", { type: "checkbox", checked: selected.includes(choice), onChange: () => setSelected(values => values.includes(choice) ? values.filter(value => value !== choice) : [...values, choice]) }), React.createElement("span", null, choice))))));
-    const customView = React.createElement("div", null, React.createElement("label", null, "Additional accommodations", React.createElement("span", { className: "optional" }, "one per line"), React.createElement("textarea", { value: custom, onChange: event => setCustom(event.target.value), placeholder: "Provide vocabulary before new readings\nAllow preview of discussion questions" })), React.createElement("span", { className: "eyebrow" }, "PARSED PREVIEW"), React.createElement("div", { className: "parsed-list" }, parsed.length ? parsed.map(item => React.createElement("div", { className: "parsed-item", key: item }, item)) : React.createElement("p", { className: "form-hint" }, "Each nonblank line becomes one accommodation.")));
+    const customView = React.createElement("div", null,
+        React.createElement("section", { className: "selected-accommodations-summary" }, React.createElement("div", { className: "selected-summary-head" }, React.createElement("span", { className: "eyebrow" }, "SELECTED ACCOMMODATIONS"), React.createElement("b", null, allSelected.length)), React.createElement("div", { className: "parsed-list" }, allSelected.length ? allSelected.map(item => React.createElement("div", { className: "parsed-item", key: item }, React.createElement("span", null, item), React.createElement("span", { "aria-hidden": "true" }, "✓"))) : React.createElement("p", { className: "form-hint" }, "No accommodations are currently selected."))),
+        React.createElement("label", { className: "additional-accommodations-entry" }, "Additional accommodations", React.createElement("span", { className: "optional" }, "one per line"), React.createElement("textarea", { value: custom, onChange: event => setCustom(event.target.value), placeholder: "Provide vocabulary before new readings\nAllow preview of discussion questions" })),
+        React.createElement("p", { className: "form-hint" }, parsed.length ? `${parsed.length} custom accommodation${parsed.length === 1 ? "" : "s"} parsed from the text field.` : "Each nonblank line becomes one accommodation."));
     const statusView = React.createElement("div", { className: "confidential-status" }, React.createElement("b", null, "CONFIDENTIAL DATA UNLOCKED"), React.createElement("span", null, `${String(Math.floor(remaining / 60000)).padStart(2, "0")}:${String(Math.floor((remaining % 60000) / 1000)).padStart(2, "0")} remaining`), React.createElement("span", null, "Only classroom accommodations should be stored here. Do not enter diagnoses or plan documents."), React.createElement("button", { className: "btn ghost compact", onClick: onLock }, "Lock now"));
     const actionsView = React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"), React.createElement("button", { className: "btn ghost", disabled: saving, onClick: () => save(false) }, "Save"), React.createElement("button", { className: "btn primary", disabled: saving, onClick: () => save(true) }, "Save and Lock"));
     return React.createElement(ModalShell, { title: `Confidential Accommodations - ${fullName(student, "first")}`, subtitle: "ENCRYPTED LOCALLY - CURRENT SCHOOL YEAR", onClose, wide: true }, statusView, React.createElement("div", { className: "confidential-grid" }, groupsView, customView), actionsView);
@@ -2404,4 +2412,24 @@ function DataModal({ data, onClose, onImport, onBackup, notify }) {
             React.createElement("button", { className: "data-action", onClick: () => { navigator.clipboard.writeText(backup); notify("Complete JSON backup copied"); } },
                 React.createElement("b", null, "Copy backup as JSON text"),
                 React.createElement("span", null, "Useful when file downloads are restricted")),
-            React.createElement("button", { className: "
+            React.createElement("button", { className: "data-action", onClick: () => fileRef.current?.click() },
+                React.createElement("b", null, "Restore from JSON file"),
+                React.createElement("span", null, "Preview and confirm before replacing data")),
+            React.createElement("input", { ref: fileRef, type: "file", accept: "application/json,.json", hidden: true, onChange: e => importFile(e.target.files?.[0]) })),
+        React.createElement("div", { className: "backup-warning" },
+            React.createElement("b", null, "Keep a backup."),
+            " Browser data may be cleared by workplace IT policies or browser resets. JSON backups contain confidential student information and are not encrypted."),
+        React.createElement("div", { className: "modal-actions" },
+            React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")));
+}
+function ThemeModal({ selected, onClose, onSelect }) {
+    return React.createElement(ModalShell, { title: "Choose interface skin", subtitle: "STATIC \u00B7 LOW POWER", onClose: onClose, wide: true },
+        React.createElement("div", { className: "theme-grid" }, themes.map(t => React.createElement("button", { key: t.id, className: `theme-card theme-${t.id} ${selected === t.id ? "selected" : ""}`, onClick: () => onSelect(t.id) },
+            React.createElement("i", null),
+            React.createElement("b", null, t.label),
+            React.createElement("span", null, t.sub)))));
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(Home));</script>
+</body>
+</html>
