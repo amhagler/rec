@@ -756,7 +756,7 @@ function Home() {
         modal === "data" && React.createElement(DataModal, { data: data, onClose: () => setModal(null), onBackup: () => update(d => ({ ...d, settings: { ...d.settings, lastBackupAt: stamp() } })), onImport: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }, notify: notify }),
         modal === "themes" && React.createElement(ThemeModal, { selected: activeTheme, onClose: () => setModal(null), onSelect: theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); } }),
         modal === "settings" && React.createElement(SettingsModal, { data: data, cloudUser: cloudUser, cloudStatus: cloudStatus, onOpenCloud: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); }, onClose: () => setModal(null), onUpdate: update, notify: notify }),
-        modal === "cloud" && React.createElement(CloudVaultModal, { data: data, client: cloudClientRef.current, user: cloudUser, status: cloudStatus, initialAction: cloudIntent, onClose: () => setModal(null), onDataLoaded: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); }, notify: notify }),
+        modal === "cloud" && React.createElement(CloudVaultModal, { data: data, client: cloudClientRef.current, user: cloudUser, status: cloudStatus, initialAction: cloudIntent, onClose: () => setModal(null), onDataLoaded: (incoming, action) => { const restored = normalizeData(incoming); setData(restored); setYearId(restored.settings.currentYearId || ""); setCourseId(""); setSectionId(""); setStudentId(""); setSelectedIds([]); if (action === "load") setScreen("landing"); }, notify: notify }),
         modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
         modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, selectedStudentIds: selectedIds, onClose: () => setModal(null), onUpdate: update, notify: notify }),
         modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify }),
@@ -1973,7 +1973,7 @@ function CloudVaultModal({ data, client, user, status, initialAction = "manage",
             const { error } = await client.from(CLOUD_TABLE).upsert({ owner_id: user.id, vault_name: "main", ...encrypted, revision: nextRevision, device_id: navigator.userAgent.slice(0, 180), updated_at: stamp() }, { onConflict: "owner_id,vault_name" });
             if (error) throw error;
             await saveDb(synced);
-            onDataLoaded(synced);
+            onDataLoaded(synced, "save");
             setCloudMeta({ revision: nextRevision, updated_at: stamp() });
             setConfirmPassphrase("");
             playHoloFx(undefined, "save");
@@ -1995,10 +1995,11 @@ function CloudVaultModal({ data, client, user, status, initialAction = "manage",
             if (!window.confirm(`Load the encrypted cloud copy from ${new Date(row.updated_at).toLocaleString()}? This replaces the archive currently stored in this browser.`)) return;
             const synced = { ...incoming, updatedAt: stamp(), settings: { ...incoming.settings, cloudRevision: Number(row.revision) || 0 } };
             await saveDb(synced);
-            onDataLoaded(synced);
+            onDataLoaded(synced, "load");
             setCloudMeta({ revision: row.revision, updated_at: row.updated_at });
             playHoloFx(undefined, "load");
             notify("Encrypted cloud archive loaded");
+            onClose();
         }
         catch (error) { notify(`Cloud load failed: ${error.message || error}`); }
         finally { setBusy(false); }
@@ -2027,7 +2028,7 @@ function CloudVaultModal({ data, client, user, status, initialAction = "manage",
                     firstSave && React.createElement("label", null, "Confirm encryption password", React.createElement("input", { type: "password", value: confirmPassphrase, onChange: event => setConfirmPassphrase(event.target.value), autoComplete: "off" }))),
                 React.createElement("div", { className: "cloud-password-note" }, "The password stays in memory only while this window is open. It is never uploaded or saved. If it is lost, the encrypted cloud copy cannot be recovered; your local archive and JSON backups are unaffected."),
                 React.createElement("div", { className: "modal-actions" },
-                    React.createElement("button", { className: `btn ${initialAction === "load" ? "primary" : "ghost"}`, disabled: !cloudMeta, onClick: loadCloud }, cloudMeta ? "Load from Cloud" : "Nothing to Load"),
+                    React.createElement("button", { className: `btn ${initialAction === "load" ? "primary" : "ghost"}`, disabled: busy, onClick: loadCloud }, cloudMeta ? "Load from Cloud" : "Check Cloud & Load"),
                     React.createElement("button", { className: `btn ${initialAction === "load" ? "ghost" : "primary"}`, onClick: saveCloud }, firstSave ? "Create Encrypted Cloud Save" : "Save to Cloud"))),
             React.createElement("div", { className: "backup-warning" }, "Cloud synchronization supplements local IndexedDB and JSON backups. Loading replaces this browser's local archive only after confirmation.")));
 }
