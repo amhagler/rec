@@ -421,6 +421,7 @@ function Home() {
     const [sectionId, setSectionId] = useState("");
     const [studentId, setStudentId] = useState("");
     const [selectedIds, setSelectedIds] = useState([]);
+    const [selectionScope, setSelectionScope] = useState("");
     const [modal, setModal] = useState(null);
     const [search, setSearch] = useState("");
     const [recordSearch, setRecordSearch] = useState("");
@@ -566,14 +567,13 @@ function Home() {
         return React.createElement(AccessChallenge, { theme: data.settings.theme, accessCode: data.settings.accessCode || "111111", onUnlock: () => { setUnlocked(true); setScreen("landing"); } });
     const activeTheme = data.settings.theme;
     const archiveSize = new Blob([JSON.stringify(data)]).size;
-    const toggleSelected = (id) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
-    const selectRosterScope = (scope) => { if (!scope)
-        return; if (scope === "clear")
-        return setSelectedIds([]); const sectionScope = scope === "section" ? [sectionId] : scope === "class" ? data.sections.filter(section => section.courseId === courseId).map(section => section.id) : scope === "year" ? data.sections.filter(section => data.courses.some(course => course.id === section.courseId && course.yearId === yearId)).map(section => section.id) : data.sections.map(section => section.id); const ids = Array.from(new Set(data.enrollments.filter(enrollment => enrollment.active && sectionScope.includes(enrollment.sectionId)).map(enrollment => enrollment.studentId))).filter(id => !data.students.find(student => student.id === id)?.archived); setSelectedIds(ids); };
+    const studentIdsForScope = (scope) => { if (scope === "all") return data.students.filter(student => !student.archived).map(student => student.id); const sectionScope = scope === "section" ? [sectionId] : scope === "class" ? data.sections.filter(section => section.courseId === courseId && !section.archived).map(section => section.id) : scope === "year" ? data.sections.filter(section => !section.archived && data.courses.some(course => course.id === section.courseId && course.yearId === yearId && !course.archived)).map(section => section.id) : []; return Array.from(new Set(data.enrollments.filter(enrollment => enrollment.active && sectionScope.includes(enrollment.sectionId)).map(enrollment => enrollment.studentId))).filter(id => !data.students.find(student => student.id === id)?.archived); };
+    const toggleSelected = (id) => { setSelectionScope(""); setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]); };
+    const selectRosterScope = (scope) => { if (!scope) return; if (scope === "clear") { setSelectionScope(""); setSelectedIds([]); notify("Selection cleared"); return; } const ids = studentIdsForScope(scope); setSelectionScope(scope); setSelectedIds(ids); const label = scope === "section" ? "current section" : scope === "class" ? "all sections in this class" : scope === "year" ? "all classes this year" : "all students"; notify(`${ids.length} student${ids.length === 1 ? "" : "s"} selected from ${label}`); };
     const copy = async (text, message) => { await navigator.clipboard.writeText(text); notify(message); };
-    const emailIds = selectedIds.length ? selectedIds : roster.map(s => s.id);
     const copyEmails = () => {
-        const emails = Array.from(new Set(data.students.filter(s => emailIds.includes(s.id)).map(s => s.email.trim()).filter(e => /^\S+@\S+\.\S+$/.test(e))));
+        const emailIds = selectedIds.length ? [...selectedIds] : studentIdsForScope("section");
+        const emails = Array.from(new Set(data.students.filter(s => emailIds.includes(s.id)).map(s => String(s.email || "").trim()).filter(e => /^\S+@\S+\.\S+$/.test(e))));
         if (!emails.length)
             return notify("No valid email addresses selected");
         copy(emails.join("; "), `${emails.length} email address${emails.length === 1 ? "" : "es"} copied`);
@@ -632,10 +632,10 @@ function Home() {
                         React.createElement("button", { className: data.settings.rosterSortBy === "first" ? "active" : "", onClick: () => update(d => ({ ...d, settings: { ...d.settings, rosterSortBy: "first" } })) }, "First"))),
                 React.createElement("div", { className: "bulk-strip" },
                     React.createElement("label", { className: "check-label" },
-                        React.createElement("input", { type: "checkbox", checked: !!roster.length && roster.every(s => selectedIds.includes(s.id)), onChange: e => setSelectedIds(e.target.checked ? Array.from(new Set([...selectedIds, ...roster.map(s => s.id)])) : selectedIds.filter(id => !roster.some(student => student.id === id))) }),
+                        React.createElement("input", { type: "checkbox", checked: !!roster.length && roster.every(s => selectedIds.includes(s.id)), onChange: e => { setSelectionScope(e.target.checked ? "section" : ""); setSelectedIds(e.target.checked ? studentIdsForScope("section") : selectedIds.filter(id => !roster.some(student => student.id === id))); } }),
                         " ",
                         selectedIds.length ? `${selectedIds.length} selected` : "Select students"),
-                    React.createElement("select", { className: "select-scope", defaultValue: "", onChange: event => { selectRosterScope(event.target.value); event.target.value = ""; } },
+                    React.createElement("select", { className: "select-scope", value: selectionScope, onChange: event => selectRosterScope(event.target.value), "aria-label": "Select students by scope" },
                         React.createElement("option", { value: "", disabled: true }, "Select group\u2026"),
                         React.createElement("option", { value: "section" }, "Current section"),
                         React.createElement("option", { value: "class" }, "All sections in class"),
