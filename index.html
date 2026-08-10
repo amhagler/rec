@@ -157,17 +157,15 @@
 .app:has(.landing-page)>.landing-page{position:relative;inset:auto;order:2;z-index:2;width:100%;min-height:calc(100vh - 72px)}
 .app:has(.landing-page)>.context-bar,.app:has(.landing-page)>.workspace,.app:has(.landing-page)>footer{display:none}
 .landing-last-student{grid-column:1/-1;padding:11px}
-.narrative-layout{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(330px,.75fr);min-height:680px}.narrative-evidence,.narrative-draft{min-width:0;padding:15px;display:grid;align-content:start;gap:11px}.narrative-evidence{border-right:1px solid #ffffff17}.narrative-toolbar,.narrative-nav,.narrative-status-row,.narrative-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}.narrative-nav{justify-content:space-between}.narrative-nav h3{margin:0;font:700 22px var(--serif)}.narrative-progress{font:9px var(--mono);color:var(--muted)}.narrative-filters{display:grid;gap:8px;padding:10px;border:1px solid #ffffff14;border-radius:14px;background:#ffffff05}.narrative-kind-grid{display:flex;gap:5px;flex-wrap:wrap}.narrative-kind-grid button{padding:6px 8px;border:1px solid #ffffff16;border-radius:999px;background:#ffffff06;color:var(--muted);font:900 8px var(--mono)}.narrative-kind-grid button.active{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 10%,transparent)}.narrative-date-row{display:grid;grid-template-columns:auto minmax(150px,220px);align-items:center;gap:9px}.narrative-date-row label{display:flex;align-items:center;gap:7px;text-transform:none;letter-spacing:0}.narrative-date-row input[type=checkbox]{width:15px;height:15px}.narrative-packet{margin:0;min-height:330px;max-height:420px;overflow:auto;padding:14px;border:1px solid #ffffff17;border-radius:15px;background:#0004;white-space:pre-wrap;font:10px/1.58 var(--mono);color:#eaf0ffdd}.narrative-draft textarea{min-height:300px}.narrative-meta{display:grid;grid-template-columns:1fr 1fr;gap:9px}.narrative-stat{padding:8px 10px;border-radius:11px;border:1px solid #ffffff12;background:#ffffff05;font:9px var(--mono);color:var(--muted)}.narrative-stat b{color:var(--accent)}.narrative-actions{justify-content:flex-end}.narrative-actions .shortcut-hint{margin-right:auto}.narrative-roster-button{display:flex;gap:7px!important}.narrative-roster-button small{color:var(--muted)}@media(max-width:850px){.narrative-layout{grid-template-columns:1fr}.narrative-evidence{border-right:0;border-bottom:1px solid #ffffff17}.narrative-packet{max-height:300px}.narrative-draft textarea{min-height:230px}}
-.record-card.starred{border-color:color-mix(in srgb,var(--warm) 42%,transparent);box-shadow:0 0 18px color-mix(in srgb,var(--warm) 12%,transparent)}.record-card-target{animation:targetPulse 1.8s ease}.record-star.on{color:var(--warm)!important;text-shadow:0 0 10px var(--warm)}@keyframes targetPulse{30%{border-color:var(--accent);box-shadow:0 0 35px var(--glow)}}.recent-initial{border:0;color:var(--ink);cursor:pointer}.followup-list{display:grid;gap:6px;max-height:165px;overflow:auto}.followup-row{display:grid;grid-template-columns:38px minmax(0,1fr);gap:8px;align-items:center;padding:7px;border:1px solid #ffffff12;border-radius:11px;background:#ffffff05;color:var(--ink);text-align:left}.followup-row b{font-size:9px}.followup-row span{font:8px var(--mono);color:var(--muted)}.section-visibility{display:flex;gap:6px;flex-wrap:wrap;padding:9px 0}.section-visibility button{padding:6px 9px;border-radius:999px;border:1px solid #ffffff17;background:#ffffff06;color:var(--muted);font:900 8px var(--mono)}.section-visibility button.active{color:var(--accent);border-color:var(--accent);background:color-mix(in srgb,var(--accent) 9%,transparent)}.student-section-tag{font:8px var(--mono);color:var(--muted)}.prompt-popup{position:absolute;z-index:8;inset:58px 12px 12px;display:grid;place-items:center;background:#000b;border-radius:18px}.prompt-popup>section{width:min(760px,95%);padding:15px;border:1px solid var(--accent);border-radius:18px;background:var(--panel);box-shadow:0 0 35px var(--glow)}.prompt-tabs{display:flex;gap:6px;margin:10px 0}.prompt-tabs button.active{border-color:var(--accent);color:var(--accent)}.prompt-popup textarea{min-height:210px}.narrative-report-layout{display:grid;grid-template-columns:270px minmax(0,1fr);min-height:680px}.narrative-report-sidebar{padding:14px;border-right:1px solid #ffffff17;display:grid;align-content:start;gap:10px}.narrative-report-document{padding:20px;max-height:720px;overflow:auto;background:#f7f5ef;color:#171717}.report-class-heading{margin:14px 0 12px;font:700 16px Georgia,serif;text-decoration:underline}.report-student-block{margin-bottom:20px}.report-student-block>strong{display:block;margin-bottom:7px}.report-student-block textarea{min-height:105px;background:#fff;color:#171717;border:1px solid #bbb;border-radius:5px;font:13px/1.6 Georgia,serif;text-indent:2em;white-space:pre-wrap}.report-save-state{font:8px var(--mono);color:#596}.report-section-choice{display:grid;gap:5px;max-height:330px;overflow:auto}.report-section-choice label{display:flex;align-items:center;gap:7px;text-transform:none;letter-spacing:0}.report-section-choice input{width:15px;height:15px}.temporary-note{font:8px var(--mono);color:var(--muted)}@media(max-width:800px){.narrative-report-layout{grid-template-columns:1fr}.narrative-report-sidebar{border-right:0;border-bottom:1px solid #ffffff17}.prompt-popup{inset:50px 5px 5px}}
-.student-row.narrative-in-process{background:linear-gradient(90deg,color-mix(in srgb,var(--warm) 15%,transparent),transparent);box-shadow:3px 0 0 var(--warm) inset}.student-row.narrative-in-process .student-summary:after{content:"NARRATIVE IN PROCESS";font:900 7px var(--mono);letter-spacing:.07em;color:var(--warm)}.command-buttons{display:flex;gap:6px;flex-wrap:wrap}.command-buttons button{padding:7px 10px;border:1px solid #ffffff17;border-radius:999px;background:#ffffff06;color:var(--muted);font:900 8px var(--mono)}.command-buttons button.active{border-color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);color:var(--accent);box-shadow:0 0 12px var(--glow)}.command-buttons button.in-process.active{border-color:var(--warm);color:var(--warm);background:color-mix(in srgb,var(--warm) 10%,transparent)}.course-command-bar{display:flex;gap:6px;flex:1;overflow:auto}.course-command-bar button{padding:9px 12px;border:1px solid #ffffff17;border-radius:999px;background:#ffffff06;color:var(--muted);font:900 9px var(--mono);white-space:nowrap}.course-command-bar button.active{border-color:var(--accent);color:var(--accent);background:color-mix(in srgb,var(--accent) 11%,transparent)}
-.school-years .school-row button:first-child{min-height:50px;font:700 17px var(--serif);align-items:center}.school-years .school-row small{font:8px var(--mono)}
-.class-accent-context{border-top:2px solid var(--class-color);box-shadow:0 -5px 16px color-mix(in srgb,var(--class-color) 12%,transparent),0 18px 60px #0006}.class-accent-context .section-tabs button.active:before{content:"";width:7px;height:7px;flex:0 0 auto;border-radius:50%;background:var(--class-color);box-shadow:0 0 9px var(--class-color)}.class-accent-workspace .roster-panel{border-left:3px solid var(--class-color)}.class-accent-workspace .student-row.active{box-shadow:4px 0 0 var(--accent) inset,0 0 22px color-mix(in srgb,var(--class-color) 12%,transparent) inset}.class-accent-workspace .student-row.active .avatar{border-color:color-mix(in srgb,var(--class-color) 55%,#ffffff1a);box-shadow:0 0 10px color-mix(in srgb,var(--class-color) 18%,transparent)}
-.settings-structure-popup .school-settings-grid{grid-template-columns:minmax(270px,1fr) minmax(330px,.78fr)}.settings-structure-popup .school-classes{grid-template-columns:1fr}.settings-structure-popup .school-classes>.eyebrow,.settings-structure-popup .school-classes>.add-class-card{grid-column:1}.settings-structure-popup .class-settings-card>header b{font-size:12px}.settings-structure-popup .class-settings-card>header span{font-size:9px}@media(max-width:760px){.settings-structure-popup .school-settings-grid{grid-template-columns:1fr}}
-.settings-structure-popup .school-settings-grid{grid-template-columns:minmax(230px,.72fr) minmax(430px,1.28fr);overflow:visible}.settings-structure-popup .school-years,.settings-structure-popup .school-classes{grid-template-columns:1fr;overflow:visible}.settings-structure-popup .school-years .school-row{width:100%}.settings-structure-popup .school-row button:first-child{font-size:19px;white-space:nowrap;overflow:visible}.settings-structure-popup .school-classes>.eyebrow,.settings-structure-popup .school-classes>.add-class-card{grid-column:1}.settings-structure-popup .class-settings-card,.settings-structure-popup .class-settings-card>header,.settings-structure-popup .section-setting-list>div{overflow:visible}.settings-structure-popup .class-settings-card>header b{font-size:14px;white-space:nowrap}.settings-structure-popup .class-settings-card>header span,.settings-structure-popup .section-setting-list span,.settings-structure-popup .section-setting-list small{font-size:10px;white-space:nowrap}.settings-structure-popup .school-row button,.settings-structure-popup .class-settings-card button{white-space:nowrap}@media(max-width:760px){.settings-structure-popup .school-settings-grid{grid-template-columns:1fr}}
-.year-locked-badge{align-self:center;padding:7px 9px;border:1px solid color-mix(in srgb,var(--warm) 42%,transparent);border-radius:999px;background:color-mix(in srgb,var(--warm) 9%,transparent);color:var(--warm);font:900 8px var(--mono);white-space:nowrap}.year-lifecycle-controls{grid-column:1;justify-content:flex-start;padding:4px 0 8px}.year-lifecycle-controls button.active{border-color:var(--warm);color:var(--warm);background:color-mix(in srgb,var(--warm) 10%,transparent)}
-.confidential-button{border-color:#d7b45c!important;box-shadow:inset 3px 0 #d7b45c;color:#ffe6a3!important}.confidential-status{display:flex;gap:10px;align-items:center;flex-wrap:wrap;padding:10px 12px;border:1px solid rgba(215,180,92,.45);background:rgba(215,180,92,.08)}.confidential-status b{color:#ffe6a3}.confidential-gate{z-index:120}.confidential-grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px}.accommodation-groups{display:grid;gap:12px;max-height:52vh;overflow:auto}.accommodation-group{border:1px solid var(--line);padding:12px}.accommodation-check{display:flex;gap:9px;padding:5px 0}.accommodation-check input{width:auto}.parsed-item{display:flex;justify-content:space-between;padding:8px;border:1px solid var(--line)}.recovery-key{font:700 20px ui-monospace,monospace;letter-spacing:2px;padding:16px;border:1px solid #d7b45c;color:#ffe6a3}.confidential-warning{position:fixed;z-index:140;right:20px;bottom:20px;width:min(430px,calc(100vw - 40px));padding:18px;border:1px solid #d7b45c;background:#10131b}.encryption-seal{position:fixed;z-index:200;inset:0;display:grid;place-items:center;background:rgba(0,0,0,.42);animation:sealFade .9s both}.encryption-seal>div{padding:26px 38px;border:1px solid #d7b45c;background:#080b10;color:#ffe6a3;text-align:center;letter-spacing:3px;animation:sealClose .8s both}.encryption-seal b{display:block;font-size:24px}@keyframes sealClose{0%{transform:scaleX(1.35);filter:blur(4px);opacity:0}100%{transform:scale(1);filter:none;opacity:1}}@keyframes sealFade{0%,70%{opacity:1}100%{opacity:0}}@media(max-width:800px){.confidential-grid{grid-template-columns:1fr}}
-.holo-modal:has(>.confidential-status){width:min(1120px,96vw);overflow:auto}.holo-modal:has(>.confidential-status)>header{padding:20px 28px}.holo-modal:has(>.confidential-status)>.confidential-status{margin:24px 28px 0;padding:16px 18px;gap:14px;border-radius:12px}.holo-modal:has(>.confidential-status)>.confidential-grid{margin:22px 28px 0;gap:30px;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr)}.holo-modal:has(>.confidential-status)>.modal-actions{margin:22px 28px 28px;padding:18px 0 0;border-top:1px solid #ffffff18}.holo-modal:has(>.confidential-status) .accommodation-groups{gap:16px;padding:3px 8px 3px 3px}.holo-modal:has(>.confidential-status) .accommodation-group{padding:17px 19px;border-radius:12px}.holo-modal:has(>.confidential-status) .accommodation-group h3{margin:0 0 10px}.holo-modal:has(>.confidential-status) .accommodation-check{gap:11px;padding:7px 2px}.holo-modal:has(>.confidential-status) .confidential-grid>div:last-child{padding:18px 20px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.1)}.holo-modal:has(>.confidential-status) textarea{min-height:210px;margin-top:7px}.holo-modal:has(>.confidential-status) .parsed-list{display:grid;gap:8px;margin-top:10px}.holo-modal:has(>.confidential-status) .parsed-item{padding:10px 12px;border-radius:8px}@media(max-width:800px){.holo-modal:has(>.confidential-status)>.confidential-grid{grid-template-columns:1fr;margin-inline:18px}.holo-modal:has(>.confidential-status)>.confidential-status,.holo-modal:has(>.confidential-status)>.modal-actions{margin-inline:18px}}
-.selected-accommodations-summary{display:grid;gap:10px;margin-bottom:22px;padding-bottom:20px;border-bottom:1px solid #ffffff18}.selected-summary-head{display:flex;align-items:center;justify-content:space-between;gap:12px}.selected-summary-head b{display:grid;place-items:center;min-width:28px;height:28px;border-radius:50%;border:1px solid rgba(215,180,92,.5);color:#ffe6a3}.selected-accommodations-summary .parsed-list{max-height:290px;overflow:auto;padding-right:5px}.selected-accommodations-summary .parsed-item{align-items:center;gap:12px}.selected-accommodations-summary .parsed-item>span:last-child{color:#ffe6a3}.additional-accommodations-entry{display:grid;margin-top:4px}.holo-modal:has(>.confidential-status) .additional-accommodations-entry textarea{min-height:150px}
+/* Cross-platform containment: Safari's system fonts run wider than Windows'. */
+.topbar,.brand,.top-actions,.context-bar,.section-tabs,.workspace,.panel-head,.panel-head>div,.student-hero,.hero-identity,.hero-actions,.record-tools,.mini-actions{min-width:0}
+.top-actions,.panel-head,.hero-actions,.mini-actions{flex-wrap:wrap}
+.top-actions{justify-content:flex-end}
+.panel-head>div:first-child,.hero-identity>div{min-width:0}
+.panel-head h2,.student-hero h2,.email-link{max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.hero-actions{justify-content:flex-end}
+@media(max-width:1350px) and (min-width:761px){.topbar{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.8fr);align-items:start}.top-actions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.top-actions .btn{min-width:0;padding:8px 6px;overflow:hidden;text-overflow:ellipsis}.context-bar{flex-wrap:wrap}.section-tabs{order:3;flex-basis:100%;min-width:0}.manage-btn{margin-left:auto}.student-hero{flex-wrap:wrap}.hero-actions{margin-left:auto}}
+@media(max-width:980px) and (min-width:761px){.top-actions{grid-template-columns:repeat(4,minmax(0,1fr))}.panel-head{align-items:flex-start}.panel-head>.mini-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.panel-head>.mini-actions .btn{min-width:0}}
 </style>
 </head>
 <body>
@@ -203,47 +201,6 @@ async function decryptCloudArchive(row, passphrase) {
     }
     catch { throw new Error("The encryption password is incorrect, or the cloud archive is damaged."); }
 }
-async function confidentialPasswordKey(password, salt) {
-    const material = await crypto.subtle.importKey("raw", textEncoder.encode(password), "PBKDF2", false, ["deriveKey"]);
-    return crypto.subtle.deriveKey({ name: "PBKDF2", salt, iterations: 420000, hash: "SHA-256" }, material, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]);
-}
-async function wrapConfidentialKey(rawKey, secret) {
-    const salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12)), key = await confidentialPasswordKey(secret, salt);
-    const wrapped = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, rawKey);
-    return { salt: bytesToBase64(salt), iv: bytesToBase64(iv), wrapped: bytesToBase64(new Uint8Array(wrapped)) };
-}
-async function unwrapConfidentialKey(wrapper, secret) {
-    try {
-        const key = await confidentialPasswordKey(secret, base64ToBytes(wrapper.salt));
-        const raw = await crypto.subtle.decrypt({ name: "AES-GCM", iv: base64ToBytes(wrapper.iv) }, key, base64ToBytes(wrapper.wrapped));
-        return crypto.subtle.importKey("raw", raw, { name: "AES-GCM" }, true, ["encrypt", "decrypt"]);
-    }
-    catch { throw new Error("The confidential password or recovery key is incorrect."); }
-}
-async function encryptConfidentialItems(items, key) {
-    const iv = crypto.getRandomValues(new Uint8Array(12));
-    const encrypted = await crypto.subtle.encrypt({ name: "AES-GCM", iv }, key, textEncoder.encode(JSON.stringify(items)));
-    return { iv: bytesToBase64(iv), ciphertext: bytesToBase64(new Uint8Array(encrypted)) };
-}
-async function decryptConfidentialItems(payload, key) {
-    const plain = await crypto.subtle.decrypt({ name: "AES-GCM", iv: base64ToBytes(payload.iv) }, key, base64ToBytes(payload.ciphertext));
-    return JSON.parse(textDecoder.decode(plain));
-}
-function makeRecoveryKey() {
-    const alphabet = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789", bytes = crypto.getRandomValues(new Uint8Array(20));
-    return Array.from(bytes, value => alphabet[value % alphabet.length]).join("").match(/.{1,5}/g).join("-");
-}
-async function createConfidentialPackage(password) {
-    const key = await crypto.subtle.generateKey({ name: "AES-GCM", length: 256 }, true, ["encrypt", "decrypt"]), rawKey = new Uint8Array(await crypto.subtle.exportKey("raw", key)), recoveryKey = makeRecoveryKey();
-    return { key, recoveryKey, package: { version: 1, passwordWrap: await wrapConfidentialKey(rawKey, password), recoveryWrap: await wrapConfidentialKey(rawKey, recoveryKey), payload: await encryptConfidentialItems([], key), updatedAt: stamp() } };
-}
-const commonAccommodations = [
-    ["Access and environment", ["Preferential seating", "Reduced-distraction setting", "Access to breaks", "Small-group setting"]],
-    ["Instructions and assignments", ["Written and verbal directions", "Directions repeated or clarified", "Tasks broken into smaller steps", "Extended time", "Reduced-length assignments", "Graphic organizers", "Assistive technology"]],
-    ["Assessment and response", ["Extended testing time", "Alternative testing location", "Questions read aloud", "Speech-to-text", "Alternative response format", "Calculator when permitted"]],
-    ["Executive functioning and communication", ["Frequent check-ins", "Reminders and redirection", "Organizational support", "Advance notice of transitions", "Processing time before responding"]],
-];
-const accommodationPromptInstruction = "Use the confidential accommodations as background context. Demonstrate through specific, natural references to instructional practice that I know and implement all of the student's accommodations, but do not list, announce, explain, or make the accommodations themselves the subject of the response. Do not mention diagnoses, disability classifications, IEPs, 504 plans, or other confidential plan details unless explicitly instructed.";
 const kinds = [
     { id: "teacher-note", label: "Teacher note", short: "Note" },
     { id: "official-note", label: "Official note", short: "Official" },
@@ -252,16 +209,8 @@ const kinds = [
     { id: "family", label: "Family communication", short: "Family" },
     { id: "conference", label: "Conference note", short: "Conference" },
     { id: "strength", label: "Celebration / strength", short: "Strength" },
-    { id: "narrative-comment", label: "Narrative comment", short: "Narrative" },
     { id: "other", label: "Other", short: "Other" },
 ];
-const narrativePromptDefaults = {
-    none: "",
-    custom: "",
-    fall: "Write a concise Fall narrative comment in a warm, professional teacher voice. Identify demonstrated strengths, cite specific evidence, name one area for continued growth, and establish a specific, meaningful goal for the student. Use the student's first name and pronouns. Do not mention these instructions or the source notes.",
-    conferences: "Prepare a concise, family-facing parent conference summary in a warm, professional teacher voice. Identify demonstrated strengths with specific evidence, explain current areas of concern without overstatement, suggest useful talking points or questions, and conclude with one practical next step for the student. Use the student's first name and pronouns. Do not mention these instructions or the source notes.",
-    spring: "Write a concise Spring narrative comment in a warm, professional teacher voice. Compare the student's current performance with the prior Fall narrative, explicitly evaluate progress toward the Fall goal, cite specific evidence of growth or continued need, and recommend a meaningful next step. Use the student's first name and pronouns. Do not mention these instructions or the source notes."
-};
 const themes = [
     { id: "holographic", label: "Holographic", sub: "Blue glass and cockpit light" },
     { id: "frontierSteel", label: "Frontier Steel", sub: "Silver metal with amber edge" },
@@ -360,71 +309,53 @@ const academicYearLabel = (when = new Date()) => { const start = when.getMonth()
 const defaultData = () => {
     const yearId = uid("yr");
     return {
-        format: "teacher-records-backup", schemaVersion: 4, updatedAt: stamp(), archiveManifest: [], archivedYears: {}, confidentialPackage: null,
-        years: [{ id: yearId, label: academicYearLabel(), lifecycle: "open" }], courses: [], sections: [],
+        format: "teacher-records-backup", schemaVersion: 2, updatedAt: stamp(),
+        years: [{ id: yearId, label: academicYearLabel() }], courses: [], sections: [],
         students: [], enrollments: [], records: [], columns: [], settings: { theme: "holographic", accessCode: "111111", currentYearId: yearId, idlePrivacyMinutes: 10, privacyOnHidden: false, emailPageHref: "https://mail.google.com/", cloudRevision: 0, powerMode: "conserve" },
     };
 };
 function normalizeData(raw) {
-    const next = { ...raw, schemaVersion: 4, columns: raw.columns || [], archiveManifest: raw.archiveManifest || [], archivedYears: raw.archivedYears || {}, confidentialPackage: raw.confidentialPackage || null, settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, emailPageHref: raw.settings?.emailPageHref || "https://mail.google.com/", cloudRevision: Number(raw.settings?.cloudRevision) || 0, powerMode: raw.settings?.powerMode === "full" ? "full" : "conserve", ...raw.settings } };
-    next.settings.narrativePrompts = { ...narrativePromptDefaults, ...(raw.settings?.narrativePrompts || {}) };
-    next.confidentialPackage = raw.confidentialPackage || raw.settings?.confidentialPackage || null;
-    next.settings.activeNarrativePrompt = ["fall", "conferences", "spring", "none", "custom"].includes(raw.settings?.activeNarrativePrompt) ? raw.settings.activeNarrativePrompt : "fall";
+    const next = { ...raw, schemaVersion: 2, columns: raw.columns || [], settings: { theme: raw.settings?.theme || "holographic", accessCode: raw.settings?.accessCode || "111111", idlePrivacyMinutes: raw.settings?.idlePrivacyMinutes ?? 10, privacyOnHidden: raw.settings?.privacyOnHidden ?? false, emailPageHref: raw.settings?.emailPageHref || "https://mail.google.com/", cloudRevision: Number(raw.settings?.cloudRevision) || 0, powerMode: raw.settings?.powerMode === "full" ? "full" : "conserve", ...raw.settings } };
     next.settings.powerMode = next.settings.powerMode === "full" ? "full" : "conserve";
-    next.years = (next.years || []).map(year => ({ ...year, lifecycle: ["open", "closed", "archived"].includes(year.lifecycle) ? year.lifecycle : year.archived ? "archived" : "open" }));
     next.courses = (next.courses || []).map((course, index) => ({ ...course, colorKey: starOrder.includes(course.colorKey) ? course.colorKey : automaticCourseColor(course, index) }));
-    const courseById = new Map(next.courses.map(course => [course.id, course]));
-    next.sections = (next.sections || []).map(section => ({ ...section, yearId: section.yearId || courseById.get(section.courseId)?.yearId }));
-    const sectionById = new Map(next.sections.map(section => [section.id, section]));
-    next.enrollments = (next.enrollments || []).map(enrollment => { const section = sectionById.get(enrollment.sectionId), course = courseById.get(section?.courseId); return { ...enrollment, yearId: enrollment.yearId || course?.yearId, courseId: enrollment.courseId || course?.id, sectionId: enrollment.sectionId || section?.id }; });
-    const enrollmentById = new Map(next.enrollments.map(enrollment => [enrollment.id, enrollment]));
-    next.columns = (next.columns || []).map(column => { const section = sectionById.get(column.sectionIds?.[0]), course = courseById.get(section?.courseId); return { ...column, yearId: column.yearId || course?.yearId, courseId: column.courseId || course?.id }; });
-    const columnById = new Map(next.columns.map(column => [column.id, column]));
-    next.records = (next.records || []).map(record => { const enrollment = enrollmentById.get(record.enrollmentId), column = columnById.get(record.columnId), section = sectionById.get(record.sectionId || enrollment?.sectionId), course = courseById.get(record.courseId || enrollment?.courseId || section?.courseId); const normalized = { ...record, yearId: record.yearId || record.narrativeYearId || enrollment?.yearId || column?.yearId || course?.yearId, courseId: record.courseId || record.narrativeCourseId || enrollment?.courseId || column?.courseId || course?.id, sectionId: record.sectionId || record.narrativeSectionId || enrollment?.sectionId || section?.id }; return normalized.kind !== "narrative-comment" ? normalized : { ...normalized, narrativeStatus: ({ "not-started": "not-started", drafting: "drafting", drafted: "drafting", reviewed: "in-process", complete: "ready", final: "ready", ready: "ready", "in-process": "in-process" })[normalized.narrativeStatus] || (normalized.text?.trim() ? "drafting" : "not-started") }; });
-    next.archiveManifest = next.years.map(year => ({ yearId: year.id, label: year.label, lifecycle: year.lifecycle, courseCount: next.courses.filter(course => course.yearId === year.id).length, sectionCount: next.sections.filter(section => section.yearId === year.id).length, enrollmentCount: next.enrollments.filter(enrollment => enrollment.yearId === year.id).length, recordCount: next.records.filter(record => record.yearId === year.id).length, columnCount: next.columns.filter(column => column.yearId === year.id).length }));
     const isUnusedStarter = !next.students.length && !next.records.length && next.courses.length === 1 && next.courses[0]?.name === "English 10" && next.sections.every(section => ["Block A", "Block B"].includes(section.name));
     if (isUnusedStarter) {
         next.courses = [];
         next.sections = [];
-        const current = next.years.find(year => year.label === academicYearLabel()) || { id: uid("yr"), label: academicYearLabel(), lifecycle: "open" };
+        const current = next.years.find(year => year.label === academicYearLabel()) || { id: uid("yr"), label: academicYearLabel() };
         next.years = [current];
         next.settings.currentYearId = current.id;
     }
     if (!next.years.length) {
-        const year = { id: uid("yr"), label: academicYearLabel(), lifecycle: "open" };
+        const year = { id: uid("yr"), label: academicYearLabel() };
         next.years = [year];
         next.settings.currentYearId = year.id;
     }
     if (!next.settings.currentYearId || !next.years.some(year => year.id === next.settings.currentYearId))
         next.settings.currentYearId = next.years.find(year => year.label === academicYearLabel())?.id || next.years[0].id;
-    next.archiveManifest = next.years.map(year => ({ yearId: year.id, label: year.label, lifecycle: year.lifecycle || "open", courseCount: next.courses.filter(course => course.yearId === year.id).length, sectionCount: next.sections.filter(section => section.yearId === year.id).length, enrollmentCount: next.enrollments.filter(enrollment => enrollment.yearId === year.id).length, recordCount: next.records.filter(record => record.yearId === year.id).length, columnCount: next.columns.filter(column => column.yearId === year.id).length }));
     return next;
 }
-const dbName = "teacher-records-console", dbVersion = 4;
+const dbName = "teacher-records-console", dbVersion = 2;
 const entityStores = ["years", "courses", "sections", "students", "enrollments", "records", "columns"];
 const allStores = [...entityStores, "settings", "metadata"];
 let lastSavedData = null;
 let saveQueue = Promise.resolve();
-let runtimeMetrics = { loadMs: 0, saveMs: 0 };
 function openDb() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open(dbName, dbVersion);
-        let settled = false;
-        const fail = error => { if (settled) return; settled = true; clearTimeout(timeout); reject(error); };
-        const timeout = setTimeout(() => fail(new Error("The local archive did not open. Close other copies of the console and reload.")), 6000);
-        request.onerror = () => fail(request.error || new Error("Unable to open the local archive"));
-        request.onblocked = () => fail(new Error("The local archive is open in another tab. Close the other tab and try again."));
+        request.onerror = () => reject(request.error || new Error("Unable to open the local archive"));
+        request.onblocked = () => reject(new Error("The local archive is open in another tab. Close the other tab and try again."));
         request.onupgradeneeded = event => {
             const db = request.result, transaction = request.transaction;
             const create = (name, indexes) => { const store = db.objectStoreNames.contains(name) ? transaction.objectStore(name) : db.createObjectStore(name, { keyPath: "id" }); indexes.forEach(([index, key]) => { if (!store.indexNames.contains(index))
                 store.createIndex(index, key, { unique: false }); }); return store; };
             create("years", [["label", "label"]]);
             create("courses", [["yearId", "yearId"], ["name", "name"]]);
-            create("sections", [["courseId", "courseId"], ["yearId", "yearId"], ["name", "name"]]);
+            create("sections", [["courseId", "courseId"], ["name", "name"]]);
             create("students", [["email", "email"], ["name", ["lastName", "firstName"]]]);
-            create("enrollments", [["studentId", "studentId"], ["sectionId", "sectionId"], ["yearId", "yearId"], ["studentSection", ["studentId", "sectionId"]]]);
-            create("records", [["studentId", "studentId"], ["yearId", "yearId"], ["date", "date"], ["kind", "kind"], ["columnId", "columnId"], ["studentDate", ["studentId", "date"]]]);
-            create("columns", [["yearId", "yearId"], ["date", "date"]]);
+            create("enrollments", [["studentId", "studentId"], ["sectionId", "sectionId"], ["studentSection", ["studentId", "sectionId"]]]);
+            create("records", [["studentId", "studentId"], ["date", "date"], ["kind", "kind"], ["columnId", "columnId"], ["studentDate", ["studentId", "date"]]]);
+            create("columns", [["date", "date"]]);
             create("settings", []);
             create("metadata", []);
             if ((event.oldVersion || 0) < 2 && db.objectStoreNames.contains("state")) {
@@ -433,12 +364,11 @@ function openDb() {
                     return; entityStores.forEach(name => (data[name] || []).forEach(item => transaction.objectStore(name).put(item))); transaction.objectStore("settings").put({ id: "app", ...data.settings }); transaction.objectStore("metadata").put({ id: "app", format: data.format, schemaVersion: 2, updatedAt: data.updatedAt, migratedAt: stamp() }); };
             }
         };
-        request.onsuccess = () => { const db = request.result; db.onversionchange = () => db.close(); if (settled) return db.close(); settled = true; clearTimeout(timeout); resolve(db); };
+        request.onsuccess = () => resolve(request.result);
     });
 }
 function requestResult(request) { return new Promise((resolve, reject) => { request.onsuccess = () => resolve(request.result); request.onerror = () => reject(request.error); }); }
 async function loadDb() {
-    const startedAt = performance.now();
     const db = await openDb();
     try {
         const transaction = db.transaction(allStores, "readonly");
@@ -449,9 +379,8 @@ async function loadDb() {
         if (!years.length && !students.length && !records.length && !settingsRow)
             return null;
         const { id: _settingsId, ...settings } = settingsRow || { id: "app" };
-        const data = { format: metadata?.format || "teacher-records-backup", schemaVersion: 3, updatedAt: metadata?.updatedAt || stamp(), years, courses, sections, students, enrollments, records, columns, settings, archiveManifest: metadata?.archiveManifest || [], archivedYears: metadata?.archivedYears || {} };
+        const data = { format: metadata?.format || "teacher-records-backup", schemaVersion: 2, updatedAt: metadata?.updatedAt || stamp(), years, courses, sections, students, enrollments, records, columns, settings };
         lastSavedData = structuredClone(data);
-        runtimeMetrics.loadMs = Math.round(performance.now() - startedAt);
         return data;
     }
     finally {
@@ -462,33 +391,28 @@ function syncEntities(store, previous, next) { const old = new Map(previous.map(
     store.delete(id); }); current.forEach((item, id) => { if (JSON.stringify(old.get(id)) !== JSON.stringify(item))
     store.put(item); }); }
 async function persistDb(data) {
-    const startedAt = performance.now();
     const db = await openDb();
     try {
         await new Promise((resolve, reject) => {
             const transaction = db.transaction(allStores, "readwrite"), previous = lastSavedData || defaultData();
             entityStores.forEach(name => syncEntities(transaction.objectStore(name), previous[name] || [], data[name] || []));
             transaction.objectStore("settings").put({ id: "app", ...data.settings });
-            transaction.objectStore("metadata").put({ id: "app", format: data.format, schemaVersion: 3, updatedAt: data.updatedAt, recordCount: data.records.length, studentCount: data.students.length, archiveManifest: data.archiveManifest || [], archivedYears: data.archivedYears || {} });
+            transaction.objectStore("metadata").put({ id: "app", format: data.format, schemaVersion: 2, updatedAt: data.updatedAt, recordCount: data.records.length, studentCount: data.students.length });
             transaction.oncomplete = () => { lastSavedData = structuredClone(data); resolve(); };
             transaction.onerror = () => reject(transaction.error || new Error("The local archive could not be saved"));
             transaction.onabort = () => reject(transaction.error || new Error("The local archive save was interrupted"));
         });
-        runtimeMetrics.saveMs = Math.round(performance.now() - startedAt);
     }
     finally {
         db.close();
     }
 }
-function saveDb(data) { const snapshot = structuredClone(normalizeData({ ...data, schemaVersion: 3 })); saveQueue = saveQueue.catch(() => undefined).then(() => persistDb(snapshot)); return saveQueue; }
+function saveDb(data) { const snapshot = structuredClone(data); saveQueue = saveQueue.catch(() => undefined).then(() => persistDb(snapshot)); return saveQueue; }
 let activeNameOrder = "last";
 function fullName(s, order = activeNameOrder) { return s ? (order === "first" ? `${s.firstName} ${s.lastName}` : `${s.lastName}, ${s.firstName}`).trim() : "Student"; }
 function prettyDate(date) { return new Date(`${date}T12:00:00`).toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" }); }
 function kindLabel(kind) { return kinds.find(k => k.id === kind)?.label || "Record"; }
 function formatBytes(bytes) { return bytes < 1024 * 1024 ? `${Math.max(1, Math.round(bytes / 1024))} KB` : `${(bytes / 1024 / 1024).toFixed(1)} MB`; }
-function canEditYear(data, yearId) { return (data.years.find(year => year.id === yearId)?.lifecycle || "open") === "open"; }
-function yearOwnedSnapshot(data, yearId) { const courseIds = new Set(data.courses.filter(item => item.yearId === yearId).map(item => item.id)), sectionIds = new Set(data.sections.filter(item => item.yearId === yearId || courseIds.has(item.courseId)).map(item => item.id)); return JSON.stringify({ year: data.years.find(item => item.id === yearId), courses: data.courses.filter(item => courseIds.has(item.id)), sections: data.sections.filter(item => sectionIds.has(item.id)), enrollments: data.enrollments.filter(item => item.yearId === yearId || sectionIds.has(item.sectionId)), records: data.records.filter(item => item.yearId === yearId || sectionIds.has(item.sectionId)), columns: data.columns.filter(item => item.yearId === yearId || item.sectionIds?.some(id => sectionIds.has(id))) }); }
-function isYearDeletionOnly(before, after, yearId) { const owned = data => { const courseIds = new Set(data.courses.filter(item => item.yearId === yearId).map(item => item.id)), sectionIds = new Set(data.sections.filter(item => item.yearId === yearId || courseIds.has(item.courseId)).map(item => item.id)); return [data.courses.filter(item => courseIds.has(item.id)), data.sections.filter(item => sectionIds.has(item.id)), data.enrollments.filter(item => item.yearId === yearId || sectionIds.has(item.sectionId)), data.records.filter(item => item.yearId === yearId || sectionIds.has(item.sectionId)), data.columns.filter(item => item.yearId === yearId || item.sectionIds?.some(id => sectionIds.has(id)))]; }; const oldGroups = owned(before), newGroups = owned(after); return newGroups.every((group, index) => group.length <= oldGroups[index].length && group.every(item => { const old = oldGroups[index].find(candidate => candidate.id === item.id); return old && JSON.stringify(old) === JSON.stringify(item); })); }
 function Home() {
     const [data, setData] = useState(null);
     activeNameOrder = data?.settings.rosterSortBy === "first" ? "first" : "last";
@@ -505,14 +429,7 @@ function Home() {
     const [privacy, setPrivacy] = useState(false);
     const [showArchived, setShowArchived] = useState(false);
     const [editingRecordId, setEditingRecordId] = useState("");
-    const [targetRecordId, setTargetRecordId] = useState("");
-    const [quickColumnId, setQuickColumnId] = useState("");
-    const [quickAllClassSections, setQuickAllClassSections] = useState(false);
     const [toast, setToast] = useState("");
-    const [confidentialSession, setConfidentialSession] = useState(null);
-    const [confidentialGate, setConfidentialGate] = useState(null);
-    const [confidentialWarning, setConfidentialWarning] = useState(false);
-    const [encryptionSeal, setEncryptionSeal] = useState(false);
     const [loaded, setLoaded] = useState(false);
     const [unlocked, setUnlocked] = useState(false);
     const [screen, setScreen] = useState("landing");
@@ -523,7 +440,6 @@ function Home() {
     const [cloudIntent, setCloudIntent] = useState("signin");
     const cloudClientRef = useRef(null);
     const toastTimer = useRef(null);
-    const confidentialTimer = useRef(null);
     useEffect(() => { loadDb().then(x => { setData(normalizeData(x || defaultData())); setLoaded(true); setSaveStatus("saved"); }).catch(() => { setData(defaultData()); setLoaded(true); setSaveStatus("failed"); setToast("The local archive could not be opened. Download a backup before entering records."); }); navigator.storage?.persisted?.().then(value => value ? setPersistentStorage(true) : navigator.storage?.persist?.().then(granted => setPersistentStorage(granted))); }, []);
     useEffect(() => {
         if (!window.supabase?.createClient) { setCloudStatus("Cloud unavailable"); return; }
@@ -581,14 +497,6 @@ function Home() {
         reset();
         return () => { clearTimeout(timer); ["pointerdown", "keydown", "wheel", "touchstart"].forEach(event => window.removeEventListener(event, reset)); document.removeEventListener("visibilitychange", hidden); };
     }, [data?.settings.idlePrivacyMinutes, data?.settings.privacyOnHidden, unlocked]);
-    useEffect(() => {
-        clearInterval(confidentialTimer.current);
-        if (!confidentialSession) { setConfidentialWarning(false); return; }
-        const check = () => { const remaining = confidentialSession.expiresAt - Date.now(); if (remaining <= 0) { setConfidentialSession(null); setConfidentialWarning(false); setEncryptionSeal("ENCRYPTED"); setTimeout(() => setEncryptionSeal(false), 950); } else if (remaining <= 300000) setConfidentialWarning(true); };
-        check(); confidentialTimer.current = setInterval(check, 10000);
-        return () => clearInterval(confidentialTimer.current);
-    }, [confidentialSession?.expiresAt]);
-    useEffect(() => { if ((privacy || !unlocked) && confidentialSession) { setConfidentialSession(null); setConfidentialWarning(false); setEncryptionSeal("ENCRYPTED"); setTimeout(() => setEncryptionSeal(false), 950); } }, [privacy, unlocked]);
     useEffect(() => { if (unlocked && data && !data.courses.length)
         setModal("settings"); }, [unlocked, data?.courses.length]);
     const notify = (message) => {
@@ -597,10 +505,7 @@ function Home() {
             clearTimeout(toastTimer.current);
         toastTimer.current = setTimeout(() => setToast(""), 2600);
     };
-    const establishConfidentialSession = (key, items) => { setConfidentialSession({ key, items, expiresAt: Date.now() + 3600000 }); setConfidentialWarning(false); };
-    const lockConfidential = () => { setConfidentialSession(null); setConfidentialWarning(false); setEncryptionSeal("ENCRYPTED"); setTimeout(() => setEncryptionSeal(false), 950); };
-    const saveConfidentialItems = async items => { if (!confidentialSession || !data.confidentialPackage) throw new Error("Confidential access is locked"); const payload = await encryptConfidentialItems(items, confidentialSession.key), confidentialPackage = { ...data.confidentialPackage, payload, updatedAt: stamp() }; setConfidentialSession(session => session ? { ...session, items } : session); update(d => ({ ...d, confidentialPackage, settings: { ...d.settings, confidentialPackage } }), { allowClosed: true }); };
-    const update = (fn, options = {}) => setData(d => { if (!d) return d; const next = normalizeData(fn(d)); const activeYearId = yearId || d.settings.currentYearId; if (!options.allowClosed && !canEditYear(d, activeYearId) && yearOwnedSnapshot(d, activeYearId) !== yearOwnedSnapshot(next, activeYearId) && !isYearDeletionOnly(d, next, activeYearId)) { notify("This school year is closed. Reopen it in Academic Structure to make changes."); return d; } return next; });
+    const update = (fn) => setData(d => d ? fn(d) : d);
     const currentYear = data?.years.find(y => y.id === yearId);
     const currentCourse = data?.courses.find(c => c.id === courseId);
     const currentSection = data?.sections.find(s => s.id === sectionId);
@@ -654,14 +559,12 @@ function Home() {
             .filter(r => !q || r.text.toLowerCase().includes(q) || r.title?.toLowerCase().includes(q))
             .sort((a, b) => b.date.localeCompare(a.date) || b.createdAt.localeCompare(a.createdAt));
     }, [data, studentId, yearId, historyScope, kindFilter, recordSearch]);
-    const emptyStudentColumns = !studentId || historyScope !== "year" || kindFilter !== "all" || recordSearch.trim() ? [] : (data.columns || []).filter(column => !column.archived && column.sectionIds.includes(sectionId) && (!column.studentIds?.length || column.studentIds.includes(studentId)) && !data.records.some(record => record.studentId === studentId && record.columnId === column.id)).sort((a, b) => b.date.localeCompare(a.date));
     if (!data)
         return React.createElement("main", { className: "loading" },
             React.createElement("div", { className: "loaderCore" }, "INITIALIZING ARCHIVE"));
     if (!unlocked)
         return React.createElement(AccessChallenge, { theme: data.settings.theme, accessCode: data.settings.accessCode || "111111", onUnlock: () => { setUnlocked(true); setScreen("landing"); } });
     const activeTheme = data.settings.theme;
-    const classAccent = starColors[currentCourse?.colorKey] || starColors[automaticCourseColor(currentCourse || { id: courseId || "class" })] || "#7be7ff";
     const archiveSize = new Blob([JSON.stringify(data)]).size;
     const toggleSelected = (id) => setSelectedIds(x => x.includes(id) ? x.filter(v => v !== id) : [...x, id]);
     const selectRosterScope = (scope) => { if (!scope)
@@ -677,11 +580,10 @@ function Home() {
     };
     const openSectionWorkspace = (nextYearId, nextCourseId, nextSectionId) => { const course = data.courses.find(item => item.id === nextCourseId), color = starColors[course?.colorKey] || "#7be7ff", open = () => { setYearId(nextYearId); setCourseId(nextCourseId); setSectionId(nextSectionId); setSelectedIds([]); setScreen("records"); }; if (data.settings.powerMode === "full") { playHoloFx(color, "open"); setTimeout(open, 310); } else setTimeout(open, 120); };
     const openLastStudent = () => { const student = data.students.find(item => item.id === data.settings.lastStudentId); if (!student) return notify("No recently viewed student yet"); const enrollments = data.enrollments.filter(item => item.studentId === student.id), enrollment = enrollments.find(item => item.sectionId === data.settings.lastSectionId) || [...enrollments].sort((a, b) => (b.startDate || "").localeCompare(a.startDate || ""))[0], section = data.sections.find(item => item.id === enrollment?.sectionId), course = data.courses.find(item => item.id === section?.courseId), year = data.years.find(item => item.id === course?.yearId); if (!section || !course || !year) return notify("The last student no longer has a valid class placement"); setYearId(year.id); setCourseId(course.id); setSectionId(section.id); setStudentId(student.id); setSelectedIds([]); setScreen("records"); };
-    const openRecordFromLanding = recordId => { const record = data.records.find(item => item.id === recordId), enrollment = data.enrollments.find(item => item.id === record?.enrollmentId) || data.enrollments.find(item => item.studentId === record?.studentId), section = data.sections.find(item => item.id === enrollment?.sectionId), course = data.courses.find(item => item.id === section?.courseId); if (!record || !section || !course) return notify("That record no longer has a valid class placement"); setYearId(course.yearId); setCourseId(course.id); setSectionId(section.id); setStudentId(record.studentId); setTargetRecordId(record.id); setScreen("records"); setTimeout(() => document.getElementById(`record-${record.id}`)?.scrollIntoView({ behavior: "smooth", block: "center" }), 350); };
     return (React.createElement("main", { className: `app theme-${activeTheme} power-${data.settings.powerMode === "full" ? "full" : "conserve"} ${privacy ? "privacy-on" : ""}` },
         React.createElement("div", { className: "atmosphere", "aria-hidden": "true" }),
         React.createElement("div", { className: "holo-emitter", "aria-hidden": "true" }),
-        screen === "landing" && React.createElement(LandingPage, { data: data, selectedYearId: yearId, cloudStatus: cloudStatus, onSelectYear: id => { setYearId(id); update(d => ({ ...d, settings: { ...d.settings, currentYearId: id, lastYearId: id } })); }, onOpenSection: openSectionWorkspace, onOpenRecord: openRecordFromLanding, onResume: () => { const y = data.years.find(item => item.id === data.settings.lastYearId) || currentYear, c = data.courses.find(item => item.id === data.settings.lastCourseId && item.yearId === y?.id) || data.courses.find(item => item.yearId === y?.id && !item.archived), s = data.sections.find(item => item.id === data.settings.lastSectionId && item.courseId === c?.id) || data.sections.find(item => item.courseId === c?.id && !item.archived); if (y && c && s) openSectionWorkspace(y.id, c.id, s.id); else notify("Choose a class or section to begin"); }, onLastStudent: openLastStudent, onSearch: () => setModal("search"), onQuick: () => setModal("quick"), onAdd: () => { if (!sectionId) return notify("Create or choose a class section first"); setScreen("records"); setModal("student"); }, onPrivacy: () => setPrivacy(true) }),
+        screen === "landing" && React.createElement(LandingPage, { data: data, selectedYearId: yearId, cloudStatus: cloudStatus, onSelectYear: id => { setYearId(id); update(d => ({ ...d, settings: { ...d.settings, currentYearId: id, lastYearId: id } })); }, onOpenSection: openSectionWorkspace, onResume: () => { const y = data.years.find(item => item.id === data.settings.lastYearId) || currentYear, c = data.courses.find(item => item.id === data.settings.lastCourseId && item.yearId === y?.id) || data.courses.find(item => item.yearId === y?.id && !item.archived), s = data.sections.find(item => item.id === data.settings.lastSectionId && item.courseId === c?.id) || data.sections.find(item => item.courseId === c?.id && !item.archived); if (y && c && s) openSectionWorkspace(y.id, c.id, s.id); else notify("Choose a class or section to begin"); }, onLastStudent: openLastStudent, onSearch: () => setModal("search"), onQuick: () => setModal("quick"), onAdd: () => { if (!sectionId) return notify("Create or choose a class section first"); setScreen("records"); setModal("student"); }, onPrivacy: () => setPrivacy(true) }),
         React.createElement("header", { className: "topbar" },
             React.createElement("div", { className: "brand" },
                 React.createElement("span", { className: "eyebrow" }, "LONGITUDINAL STUDENT ARCHIVE"),
@@ -696,31 +598,29 @@ function Home() {
                 React.createElement("button", { className: "btn ghost cloud-top", onClick: () => { setCloudIntent("save"); setModal("cloud"); } }, "\u2191 Save"),
                 React.createElement("button", { className: "btn ghost cloud-top", onClick: () => { setCloudIntent("load"); setModal("cloud"); } }, "\u2193 Load"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("search") }, "\u2315 Search"),
-                React.createElement("button", { className: "btn primary", onClick: () => { setQuickAllClassSections(false); setModal("quick"); } }, "\u25A6 Quick entry"),
+                React.createElement("button", { className: "btn primary", onClick: () => setModal("quick") }, "\u25A6 Quick entry"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("export") }, "\u21E7 Export"),
-                React.createElement("button", { className: "btn ghost", onClick: () => setModal("narrativeReport") }, "Narrative Report"),
                 React.createElement("button", { className: "btn ghost", onClick: () => setModal("data") }, "\u25A3 Data"),
                 React.createElement("button", { className: "btn ghost icon-btn", onClick: () => setModal("settings"), title: "Settings", "aria-label": "Open settings" }, "\u2699"),
                 React.createElement("button", { className: `btn ghost icon-btn ${privacy ? "on" : ""}`, onClick: () => setPrivacy(true), title: "Privacy screen", "aria-label": "Open privacy screen" }, "\u25CE"))),
-        React.createElement("section", { className: "context-bar glass class-accent-context", style: { "--class-color": classAccent } },
+        React.createElement("section", { className: "context-bar glass" },
             React.createElement("div", { className: "context-select" },
                 React.createElement("label", null, "School year"),
                 React.createElement("select", { value: yearId, onChange: e => { setYearId(e.target.value); setSelectedIds([]); } }, data.years.filter(y => !y.archived).map(y => React.createElement("option", { key: y.id, value: y.id }, y.label)))),
-            currentYear?.lifecycle !== "open" && React.createElement("span", { className: "year-locked-badge" }, currentYear?.lifecycle === "archived" ? "ARCHIVE-READY · READ ONLY" : "CLOSED · READ ONLY"),
-            React.createElement("div", { className: "course-command-bar", "aria-label": "Classes" }, data.courses.filter(c => c.yearId === yearId && !c.archived).map(c => React.createElement("button", { key: c.id, className: c.id === courseId ? "active" : "", onClick: () => { setCourseId(c.id); const first = data.sections.find(section => section.courseId === c.id && !section.archived); if (first) setSectionId(first.id); setSelectedIds([]); } }, c.name))),
+            React.createElement("div", { className: "context-select" },
+                React.createElement("label", null, "Class"),
+                React.createElement("select", { value: courseId, onChange: e => { setCourseId(e.target.value); setSelectedIds([]); } }, data.courses.filter(c => c.yearId === yearId && !c.archived).map(c => React.createElement("option", { key: c.id, value: c.id }, c.name)))),
             React.createElement("div", { className: "section-tabs", role: "tablist", "aria-label": "Sections" }, data.sections.filter(s => s.courseId === courseId && !s.archived).map(s => React.createElement("button", { key: s.id, className: s.id === sectionId ? "active" : "", onClick: () => { setSectionId(s.id); setSelectedIds([]); } },
                 s.name,
                 React.createElement("small", null, data.enrollments.filter(e => e.sectionId === s.id && e.active).length)))),
-            React.createElement("button", { className: "btn primary", onClick: () => { setQuickColumnId(""); setQuickAllClassSections(true); setModal("quick"); } }, "Quick Entry"),
             React.createElement("button", { className: "btn ghost manage-btn", onClick: () => setModal("settings") }, "Manage classes")),
-        React.createElement("section", { className: "workspace class-accent-workspace", style: { "--class-color": classAccent } },
+        React.createElement("section", { className: "workspace" },
             React.createElement("aside", { className: "roster-panel glass" },
                 React.createElement("div", { className: "panel-head" },
                     React.createElement("div", null,
                         React.createElement("span", { className: "eyebrow" }, "ACTIVE ROSTER"),
                         React.createElement("h2", null, currentSection?.name || "Section")),
                     React.createElement("div", { className: "mini-actions" },
-                        React.createElement("button", { className: "btn ghost compact narrative-roster-button", disabled: !roster.length, onClick: () => { const firstIncomplete = roster.find(student => !data.records.some(record => record.studentId === student.id && record.kind === "narrative-comment" && record.narrativePeriod === "Semester 1" && record.narrativeYearId === yearId && record.narrativeCourseId === courseId && record.narrativeStatus === "ready")); if (firstIncomplete) setStudentId(firstIncomplete.id); setModal("narrative"); } }, "Narrative", React.createElement("small", null, "Studio")),
                         React.createElement("button", { className: "btn ghost compact", onClick: () => setModal("importRoster") }, "Import"),
                         React.createElement("button", { className: "btn primary compact", onClick: () => setModal("student") }, "+ Student"))),
                 React.createElement("div", { className: "roster-search-row" },
@@ -750,8 +650,7 @@ function Home() {
                     !roster.length && React.createElement(EmptyRoster, { onAdd: () => setModal("student") }),
                     roster.map(s => {
                         const count = data.records.filter(r => r.studentId === s.id).length;
-                        const narrativeInProcess = data.records.some(record => record.studentId === s.id && record.kind === "narrative-comment" && record.narrativeStatus === "in-process" && record.narrativeYearId === yearId && record.narrativeCourseId === courseId);
-                        return React.createElement("article", { key: s.id, className: `student-row ${s.id === studentId ? "active" : ""} ${s.archived ? "archived" : ""} ${narrativeInProcess ? "narrative-in-process" : ""}`, onClick: () => setStudentId(s.id) },
+                        return React.createElement("article", { key: s.id, className: `student-row ${s.id === studentId ? "active" : ""} ${s.archived ? "archived" : ""}`, onClick: () => setStudentId(s.id) },
                             React.createElement("input", { type: "checkbox", checked: selectedIds.includes(s.id), onClick: e => e.stopPropagation(), onChange: () => toggleSelected(s.id), "aria-label": `Select ${fullName(s)}` }),
                             React.createElement("div", { className: "avatar" },
                                 s.firstName[0],
@@ -781,9 +680,7 @@ function Home() {
                                 React.createElement("span", null, "\u25A1")))),
                     React.createElement("div", { className: "hero-actions" },
                         React.createElement("button", { className: "btn ghost", onClick: () => setModal("editStudent") }, "Edit"),
-                        React.createElement("button", { className: "btn ghost confidential-button", onClick: () => confidentialSession ? setModal("accommodations") : setConfidentialGate({ purpose: "accommodations" }) }, "Confidential Accommodations"),
                         React.createElement("button", { className: "btn ghost", onClick: () => setModal("conference") }, "Snapshot"),
-                        React.createElement("button", { className: "btn ghost", onClick: () => setModal("narrative") }, "Narrative Comments"),
                         React.createElement("button", { className: "btn ghost", onClick: () => { update(d => ({ ...d, students: d.students.map(s => s.id === studentId ? { ...s, archived: !s.archived } : s) })); notify(selectedStudent.archived ? "Student restored to active roster" : "Student archived"); } }, selectedStudent.archived ? "Restore" : "Archive"),
                         React.createElement("button", { className: "btn ghost", onClick: () => setModal("move") }, "Switch section"),
                         React.createElement("button", { className: "btn primary", onClick: () => setModal("record") }, "+ Add record"))),
@@ -820,13 +717,12 @@ function Home() {
                     React.createElement("button", { className: kindFilter === "all" ? "active" : "", onClick: () => setKindFilter("all") }, "All"),
                     kinds.map(k => React.createElement("button", { key: k.id, className: kindFilter === k.id ? "active" : "", onClick: () => setKindFilter(k.id) }, k.short))),
                 React.createElement("div", { className: "timeline" },
-                    !studentRecords.length && !emptyStudentColumns.length && React.createElement("div", { className: "empty-records" },
+                    !studentRecords.length && React.createElement("div", { className: "empty-records" },
                         React.createElement("div", { className: "holo-symbol" }, "\uFF0B"),
                         React.createElement("h3", null, "No records in this view"),
                         React.createElement("p", null, "Capture a quick observation, feedback, or a note for later."),
                         React.createElement("button", { className: "btn primary", onClick: () => setModal("record") }, "Add the first record")),
-                    emptyStudentColumns.map(column => React.createElement(EmptyColumnCard, { key: column.id, column: column, onOpen: () => { setQuickColumnId(column.id); setModal("quick"); } })),
-                    studentRecords.map(r => React.createElement(RecordCard, { key: r.id, record: r, target: targetRecordId === r.id, onOpenColumn: r.columnId ? () => { setQuickColumnId(r.columnId); setModal("quick"); } : null, onEdit: () => { setEditingRecordId(r.id); setModal("editRecord"); }, onToggleStar: () => update(d => ({ ...d, records: d.records.map(x => x.id === r.id ? { ...x, starred: !x.starred, updatedAt: stamp() } : x) })), onTogglePin: () => update(d => ({ ...d, records: d.records.map(x => x.id === r.id ? { ...x, pinned: !x.pinned, updatedAt: stamp() } : x) })), onDelete: () => { if (confirm("Delete this record permanently?"))
+                    studentRecords.map(r => React.createElement(RecordCard, { key: r.id, record: r, onEdit: () => { setEditingRecordId(r.id); setModal("editRecord"); }, onTogglePin: () => update(d => ({ ...d, records: d.records.map(x => x.id === r.id ? { ...x, pinned: !x.pinned, updatedAt: stamp() } : x) })), onDelete: () => { if (confirm("Delete this record permanently?"))
                             update(d => ({ ...d, records: d.records.filter(x => x.id !== r.id) })); } })))) : React.createElement("div", { className: "empty-student" },
                 React.createElement("div", { className: "holo-symbol" }, "\u25C7"),
                 React.createElement("span", { className: "eyebrow" }, "READY FOR A ROSTER"),
@@ -857,33 +753,26 @@ function Home() {
         modal === "move" && React.createElement(MoveModal, { data: data, studentIds: selectedIds.length ? selectedIds : studentId ? [studentId] : [], currentSectionId: sectionId, onClose: () => setModal(null), onMove: (target, correction) => { update(d => moveStudents(d, selectedIds.length ? selectedIds : [studentId], sectionId, target, correction)); setSectionId(target); setSelectedIds([]); setModal(null); notify("Section placement updated"); } }),
         modal === "structure" && React.createElement(StructureModal, { data: data, activeYearId: yearId, onClose: () => setModal(null), onUpdate: update, onSelect: (y, c, s) => { setYearId(y); setCourseId(c); setSectionId(s); setModal(null); } }),
         modal === "export" && React.createElement(ExportModal, { data: data, yearId: yearId, courseId: courseId, sectionId: sectionId, studentId: studentId, selectedIds: selectedIds, onClose: () => setModal(null), notify: notify }),
-        modal === "narrativeReport" && React.createElement(NarrativeReportModal, { data: data, yearId: yearId, initialSectionId: sectionId, onClose: () => setModal(null), onSaveMany: changes => update(d => ({ ...d, records: d.records.map(record => changes[record.id] !== undefined ? { ...record, text: changes[record.id], updatedAt: stamp() } : record) })), onSetStatuses: (ids, narrativeStatus) => update(d => ({ ...d, records: d.records.map(record => ids.includes(record.id) ? { ...record, narrativeStatus, updatedAt: stamp() } : record) })), notify: notify }),
         modal === "data" && React.createElement(DataModal, { data: data, onClose: () => setModal(null), onBackup: () => update(d => ({ ...d, settings: { ...d.settings, lastBackupAt: stamp() } })), onImport: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); setModal(null); notify("Backup restored"); }, notify: notify }),
         modal === "themes" && React.createElement(ThemeModal, { selected: activeTheme, onClose: () => setModal(null), onSelect: theme => { update(d => ({ ...d, settings: { ...d.settings, theme } })); setModal(null); notify(`${themes.find(t => t.id === theme)?.label} skin applied`); } }),
-        modal === "settings" && React.createElement(SettingsModal, { data: data, cloudUser: cloudUser, cloudStatus: cloudStatus, onOpenCloud: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); }, onClose: () => setModal(null), onUpdate: fn => update(fn, { allowClosed: true }), notify: notify }),
+        modal === "settings" && React.createElement(SettingsModal, { data: data, cloudUser: cloudUser, cloudStatus: cloudStatus, onOpenCloud: () => { setCloudIntent(cloudUser ? "manage" : "signin"); setModal("cloud"); }, onClose: () => setModal(null), onUpdate: update, notify: notify }),
         modal === "cloud" && React.createElement(CloudVaultModal, { data: data, client: cloudClientRef.current, user: cloudUser, status: cloudStatus, initialAction: cloudIntent, onClose: () => setModal(null), onDataLoaded: incoming => { setData(normalizeData(incoming)); setYearId(""); setCourseId(""); setSectionId(""); setStudentId(""); }, notify: notify }),
         modal === "search" && React.createElement(GlobalSearchModal, { data: data, onClose: () => setModal(null), onOpenStudent: (sid, yid, cid, secid) => { setYearId(yid); setCourseId(cid); setSectionId(secid); setStudentId(sid); setShowArchived(true); setModal(null); } }),
-        modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, initialCourseId: courseId, defaultAllCourseSections: quickAllClassSections, initialColumnId: quickColumnId, selectedStudentIds: selectedIds, onClose: () => { setQuickColumnId(""); setQuickAllClassSections(false); setModal(null); }, onUpdate: update, notify: notify }),
-        modal === "narrative" && roster.length > 0 && React.createElement(NarrativeCommentModal, { data: data, roster: roster, sectionId: sectionId, courseId: courseId, yearId: yearId, initialStudentId: studentId, onStudentChange: setStudentId, onSettingsUpdate: update, onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: d.records.some(item => item.id === record.id) ? d.records.map(item => item.id === record.id ? record : item) : [record, ...d.records] })); }, notify: notify, confidentialSession: confidentialSession, onRequestConfidential: () => setConfidentialGate({ purpose: "narrative" }) }),
-        modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify, confidentialSession: confidentialSession, onRequestConfidential: () => setConfidentialGate({ purpose: "conference" }) }),
-        modal === "accommodations" && selectedStudent && confidentialSession && React.createElement(AccommodationsModal, { student: selectedStudent, yearId: yearId, items: confidentialSession.items, sessionExpiresAt: confidentialSession.expiresAt, onSave: saveConfidentialItems, onClose: () => { setModal(null); setEncryptionSeal("SECURED FROM VIEW"); setTimeout(() => setEncryptionSeal(false), 950); }, onLock: () => { lockConfidential(); setModal(null); }, notify }),
-        confidentialGate && React.createElement(ConfidentialGateModal, { confidentialPackage: data.confidentialPackage, purpose: confidentialGate.purpose, onPackage: confidentialPackage => update(d => ({ ...d, confidentialPackage, settings: { ...d.settings, confidentialPackage } }), { allowClosed: true }), onUnlock: (key, items) => { establishConfidentialSession(key, items); if (confidentialGate.purpose === "accommodations") setModal("accommodations"); }, onClose: () => setConfidentialGate(null) }),
-        confidentialWarning && confidentialSession && React.createElement("aside", { className: "confidential-warning" }, React.createElement("h3", null, "Confidential access expires in five minutes"), React.createElement("p", null, "Your current work will remain open. Reenter the confidential password to extend access for another hour."), React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: () => setConfidentialWarning(false) }, "Not now"), React.createElement("button", { className: "btn primary", onClick: () => setConfidentialGate({ purpose: "extend" }) }, "Extend one hour"))),
-        encryptionSeal && React.createElement("div", { className: "encryption-seal" }, React.createElement("div", null, React.createElement("b", null, encryptionSeal), React.createElement("span", null, encryptionSeal === "ENCRYPTED" ? "CONFIDENTIAL DATA SECURED" : "ENCRYPTED AT REST"))),
+        modal === "quick" && React.createElement(QuickEntryModal, { data: data, initialSectionId: sectionId, selectedStudentIds: selectedIds, onClose: () => setModal(null), onUpdate: update, notify: notify }),
+        modal === "conference" && selectedStudent && React.createElement(ConferenceSnapshotModal, { data: data, student: selectedStudent, yearId: yearId, onClose: () => setModal(null), notify: notify }),
         privacy && React.createElement(PrivacyScreen, { data: data, onUnlock: () => setPrivacy(false), onFailure: () => { saveDb(data); const json = JSON.stringify({ ...data, updatedAt: stamp() }, null, 2); const anchor = document.createElement("a"); anchor.href = URL.createObjectURL(new Blob([json], { type: "application/json" })); anchor.download = `teacher-records-safety-${isoDate()}.json`; anchor.click(); URL.revokeObjectURL(anchor.href); window.close(); setTimeout(() => { setPrivacy(false); setUnlocked(false); }, 250); } }),
         toast && React.createElement("div", { className: "toast", role: "status" },
             React.createElement("i", null),
             toast)));
 }
-function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSection, onOpenRecord, onResume, onLastStudent, onSearch, onQuick, onAdd, onPrivacy }) {
+function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSection, onResume, onLastStudent, onSearch, onQuick, onAdd, onPrivacy }) {
     const year = data.years.find(item => item.id === selectedYearId) || data.years.find(item => item.id === data.settings.currentYearId) || data.years.find(item => !item.archived) || data.years[0];
     const courses = data.courses.filter(course => course.yearId === year?.id && !course.archived);
     const studentMap = new Map(data.students.map(student => [student.id, student]));
     const recordTime = record => Date.parse(record.updatedAt || record.createdAt || `${record.date || "1970-01-01"}T12:00:00`) || 0;
     const recentStudents = [];
     const seenStudents = new Set();
-    [...data.records].sort((a, b) => recordTime(b) - recordTime(a)).forEach(record => { const student = studentMap.get(record.studentId); if (student && !seenStudents.has(student.id) && recentStudents.length < 5) { seenStudents.add(student.id); recentStudents.push({ student, record }); } });
-    const followups = data.records.filter(record => record.pinned && studentMap.has(record.studentId)).sort((a, b) => recordTime(b) - recordTime(a));
+    [...data.records].sort((a, b) => recordTime(b) - recordTime(a)).forEach(record => { const student = studentMap.get(record.studentId); if (student && !seenStudents.has(student.id) && recentStudents.length < 5) { seenStudents.add(student.id); recentStudents.push(student); } });
     const initials = student => `${(student.firstName || "?").trim().charAt(0)}${(student.lastName || "?").trim().charAt(0)}`.toUpperCase();
     const threshold = Date.now() - 30 * 24 * 60 * 60 * 1000;
     const attention = data.sections.filter(section => !section.archived && courses.some(course => course.id === section.courseId)).map(section => {
@@ -897,8 +786,8 @@ function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSe
     const sectionCards = courses.flatMap(course => data.sections.filter(section => section.courseId === course.id && !section.archived).map(section => {
         const activeEnrollments = data.enrollments.filter(enrollment => enrollment.active && enrollment.sectionId === section.id && !studentMap.get(enrollment.studentId)?.archived), enrollmentIds = new Set(activeEnrollments.map(enrollment => enrollment.id)), studentCount = new Set(activeEnrollments.map(enrollment => enrollment.studentId)).size;
         const recentCount = data.records.filter(record => enrollmentIds.has(record.enrollmentId) && recordTime(record) >= threshold).length;
-        const followupCount = data.records.filter(record => enrollmentIds.has(record.enrollmentId) && record.pinned).length;
-        return { course, section, studentCount, recentCount, followupCount, color: starColors[course.colorKey] || starColors[automaticCourseColor(course)] };
+        const attentionCount = attention.find(item => item.section.id === section.id)?.count || 0;
+        return { course, section, studentCount, recentCount, attentionCount, color: starColors[course.colorKey] || starColors[automaticCourseColor(course)] };
     }));
     const classGroups = courses.map(course => ({ course, color: starColors[course.colorKey] || starColors[automaticCourseColor(course)], cards: sectionCards.filter(item => item.course.id === course.id) })).filter(group => group.cards.length);
     const sharedSectionColumns = Math.max(1, ...classGroups.map(group => group.cards.length));
@@ -909,7 +798,7 @@ function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSe
         React.createElement("span", { className: "section-card-stats" },
             React.createElement("span", null, React.createElement("b", null, item.studentCount), "Students"),
             React.createElement("span", null, React.createElement("b", null, item.recentCount), "30-day records"),
-            React.createElement("span", null, React.createElement("b", null, item.followupCount), "Follow-ups")));
+            React.createElement("span", null, React.createElement("b", null, item.attentionCount), "Need attention")));
     const renderClassGroup = group => React.createElement("section", { key: group.course.id, className: "landing-class-group", style: { "--class-color": group.color } },
         React.createElement("header", null,
             React.createElement("h3", null, group.course.name),
@@ -925,17 +814,17 @@ function LandingPage({ data, selectedYearId, cloudStatus, onSelectYear, onOpenSe
                 React.createElement("label", { className: "landing-year" }, "School year", React.createElement("select", { value: year?.id || "", onChange: event => onSelectYear(event.target.value) }, data.years.filter(item => !item.archived).map(item => React.createElement("option", { key: item.id, value: item.id }, item.label))))),
             React.createElement("nav", { className: "landing-tools glass", "aria-label": "Landing page tools" },
                 React.createElement("button", { className: "btn primary landing-resume", onClick: onResume }, lastCourse && lastSection ? `Resume ${lastCourse.name} / ${lastSection.name}` : "Choose a class to begin"),
-                React.createElement("button", { className: "btn ghost landing-last-student", onClick: onLastStudent, disabled: !lastStudent }, lastStudent ? `Last student / ${initials(lastStudent)}` : "No recently viewed student"),
+                React.createElement("button", { className: "btn ghost landing-last-student", onClick: onLastStudent, disabled: !lastStudent }, lastStudent ? `Last student / ${fullName(lastStudent, "first")}` : "No recently viewed student"),
                 React.createElement("button", { className: "btn ghost", onClick: onSearch }, "Search"),
                 React.createElement("button", { className: "btn ghost", onClick: onQuick }, "Quick entry"),
                 React.createElement("button", { className: "btn ghost", onClick: onAdd }, "Add student"),
                 React.createElement("button", { className: "btn ghost", onClick: onPrivacy }, "Privacy screen")),
             React.createElement("section", { className: "landing-info glass" },
                 React.createElement("header", null, React.createElement("h2", null, "Recent activity"), React.createElement("span", null, "LAST FIVE STUDENTS")),
-                recentStudents.length ? React.createElement("div", { className: "recent-initials" }, recentStudents.map(item => React.createElement("button", { key: item.student.id, className: "recent-initial", title: `Open ${fullName(item.student)}`, onClick: () => onOpenRecord(item.record.id) }, initials(item.student)))) : React.createElement("div", { className: "landing-empty-mini" }, "No student records have been updated yet.")),
+                recentStudents.length ? React.createElement("div", { className: "recent-initials" }, recentStudents.map(student => React.createElement("span", { key: student.id, className: "recent-initial", title: "Recently updated student" }, initials(student)))) : React.createElement("div", { className: "landing-empty-mini" }, "No student records have been updated yet.")),
             React.createElement("section", { className: "landing-info glass" },
-                React.createElement("header", null, React.createElement("h2", null, "Flagged for follow-up"), React.createElement("span", null, `${followups.length} OPEN`)),
-                followups.length ? React.createElement("div", { className: "followup-list" }, followups.map(record => { const student = studentMap.get(record.studentId), enrollment = data.enrollments.find(item => item.id === record.enrollmentId), section = data.sections.find(item => item.id === enrollment?.sectionId); return React.createElement("button", { key: record.id, className: "followup-row", onClick: () => onOpenRecord(record.id) }, React.createElement("span", { className: "avatar" }, initials(student)), React.createElement("span", null, React.createElement("b", null, record.title || kindLabel(record.kind)), React.createElement("br", null), `${section?.name || "Student record"} · ${prettyDate(record.date)}`)); })) : React.createElement("div", { className: "landing-empty-mini" }, "No records are flagged for follow-up."))),
+                React.createElement("header", null, React.createElement("h2", null, "Needs attention"), React.createElement("span", null, "NO UPDATE IN 30 DAYS")),
+                attention.length ? React.createElement("div", { className: "attention-list" }, attention.map(item => React.createElement("div", { key: item.section.id, className: "attention-row" }, React.createElement("div", null, React.createElement("b", null, item.course?.name || "Class"), React.createElement("span", null, `${item.section.name} / ${item.total} active`)), React.createElement("strong", null, item.count)))) : React.createElement("div", { className: "landing-empty-mini" }, "No active sections in this school year."))),
         React.createElement("section", { className: "landing-main" },
             React.createElement("header", { className: "landing-main-head" }, React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, year?.label || "SCHOOL YEAR"), React.createElement("h2", null, "Classes and sections"), React.createElement("p", null, "Classes are grouped by accent. Every section card uses the same shared width.")), React.createElement("div", { className: "landing-cloud" }, React.createElement("i", null), cloudStatus)),
             classGroups.length ? React.createElement("div", { className: "section-class-groups", style: { "--section-columns": String(sharedSectionColumns) } }, classGroups.map(renderClassGroup)) : React.createElement("div", { className: "landing-no-classes" }, React.createElement("div", null, React.createElement("div", { className: "holo-symbol" }, "+"), React.createElement("h3", null, "No sections for this year"), React.createElement("p", null, "Use Settings in the left toolbar to create classes and sections.")))));
@@ -1196,28 +1085,26 @@ function SchoolStructureSettings({ data, onUpdate, notify }) {
     const [className, setClassName] = useState("");
     const [sectionNames, setSectionNames] = useState("");
     const [colorCourseId, setColorCourseId] = useState("");
-    const requireOpenYear = (id = selectedYearId) => { if (canEditYear(data, id)) return true; notify("That school year is read-only. Reopen it before making changes."); return false; };
     useEffect(() => { if (!colorCourseId) return; const course = data.courses.find(item => item.id === colorCourseId), card = document.querySelector(`[data-course-card="${colorCourseId}"]`); fireStableCardLasers(card, starColors[course?.colorKey] || "#7be7ff"); }, [colorCourseId]);
     const addYear = () => { const label = yearLabel.trim(); if (!label)
         return; if (data.years.some(year => year.label.toLowerCase() === label.toLowerCase()))
-        return notify("That school year already exists"); const year = { id: uid("yr"), label, lifecycle: "open" }; onUpdate(d => ({ ...d, years: [...d.years, year] })); setSelectedYearId(year.id); notify("School year added"); };
-    const addClass = () => { if (!requireOpenYear()) return; if (!className.trim() || !selectedYearId)
+        return notify("That school year already exists"); const year = { id: uid("yr"), label }; onUpdate(d => ({ ...d, years: [...d.years, year] })); setSelectedYearId(year.id); notify("School year added"); };
+    const addClass = () => { if (!className.trim() || !selectedYearId)
         return notify("Enter a class name and choose a year"); const course = { id: uid("crs"), yearId: selectedYearId, name: className.trim(), colorKey: starOrder[data.courses.filter(item => item.yearId === selectedYearId).length % starOrder.length] }; const names = sectionNames.split(/[,\n]/).map(name => name.trim()).filter(Boolean); const sections = (names.length ? names : ["Section 1"]).map(name => ({ id: uid("sec"), courseId: course.id, name })); onUpdate(d => ({ ...d, courses: [...d.courses, course], sections: [...d.sections, ...sections] })); setClassName(""); setSectionNames(""); notify("Class added"); };
-    const renameYear = (year) => { if (!requireOpenYear(year.id)) return; const name = window.prompt("Rename school year", year.label)?.trim(); if (name)
+    const renameYear = (year) => { const name = window.prompt("Rename school year", year.label)?.trim(); if (name)
         onUpdate(d => ({ ...d, years: d.years.map(item => item.id === year.id ? { ...item, label: name } : item) })); };
-    const setYearLifecycle = (lifecycle) => { const year = data.years.find(item => item.id === selectedYearId); if (!year || year.lifecycle === lifecycle) return; if (lifecycle !== "open" && !window.confirm(`${lifecycle === "closed" ? "Close" : "Mark archive-ready"} ${year.label}? Its instructional data will become read-only.`)) return; onUpdate(d => ({ ...d, years: d.years.map(item => item.id === selectedYearId ? { ...item, lifecycle } : item) })); notify(lifecycle === "open" ? `${year.label} reopened` : lifecycle === "closed" ? `${year.label} closed and locked` : `${year.label} marked archive-ready and locked`); };
     const deleteYear = (year) => { const courses = data.courses.filter(course => course.yearId === year.id); if (courses.length)
         return notify("Delete or move this year’s classes first"); if (!confirm(`Delete ${year.label}?`))
         return; onUpdate(d => ({ ...d, years: d.years.filter(item => item.id !== year.id), settings: { ...d.settings, currentYearId: d.settings.currentYearId === year.id ? d.years.find(item => item.id !== year.id)?.id : d.settings.currentYearId } })); };
-    const renameClass = (course) => { if (!requireOpenYear(course.yearId)) return; const name = window.prompt("Rename class", course.name)?.trim(); if (name)
+    const renameClass = (course) => { const name = window.prompt("Rename class", course.name)?.trim(); if (name)
         onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, name } : item) })); };
-    const archiveClass = (course) => { if (!requireOpenYear(course.yearId)) return; onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, archived: !item.archived } : item), sections: d.sections.map(section => section.courseId === course.id ? { ...section, archived: !course.archived } : section) })); };
-    const setCourseColor = (course, colorKey) => { if (!requireOpenYear(course.yearId)) return; onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, colorKey } : item) })); notify(`${course.name} color set to ${starNames[colorKey]}`); };
+    const archiveClass = (course) => onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, archived: !item.archived } : item), sections: d.sections.map(section => section.courseId === course.id ? { ...section, archived: !course.archived } : section) }));
+    const setCourseColor = (course, colorKey) => { onUpdate(d => ({ ...d, courses: d.courses.map(item => item.id === course.id ? { ...item, colorKey } : item) })); notify(`${course.name} color set to ${starNames[colorKey]}`); };
     const deleteClass = (course) => { const sectionIds = data.sections.filter(section => section.courseId === course.id).map(section => section.id), enrollmentIds = data.enrollments.filter(enrollment => sectionIds.includes(enrollment.sectionId)).map(enrollment => enrollment.id), affected = data.records.filter(record => !!record.enrollmentId && enrollmentIds.includes(record.enrollmentId)).length; if (!confirm(`Permanently delete ${course.name}? This removes ${sectionIds.length} sections, ${enrollmentIds.length} enrollments, and ${affected} linked records. Student profiles remain.`))
         return; onUpdate(d => ({ ...d, courses: d.courses.filter(item => item.id !== course.id), sections: d.sections.filter(section => !sectionIds.includes(section.id)), enrollments: d.enrollments.filter(enrollment => !sectionIds.includes(enrollment.sectionId)), records: d.records.filter(record => !record.enrollmentId || !enrollmentIds.includes(record.enrollmentId)), columns: (d.columns || []).map(column => ({ ...column, sectionIds: column.sectionIds.filter(id => !sectionIds.includes(id)) })).filter(column => column.sectionIds.length) })); notify("Class permanently deleted"); };
-    const addSection = (course) => { if (!requireOpenYear(course.yearId)) return; const name = window.prompt(`Add a section to ${course.name}`, "")?.trim(); if (name)
+    const addSection = (course) => { const name = window.prompt(`Add a section to ${course.name}`, "")?.trim(); if (name)
         onUpdate(d => ({ ...d, sections: [...d.sections, { id: uid("sec"), courseId: course.id, name }] })); };
-    const renameSection = (section) => { if (!requireOpenYear(section.yearId || data.courses.find(course => course.id === section.courseId)?.yearId)) return; const name = window.prompt("Rename section", section.name)?.trim(); if (name)
+    const renameSection = (section) => { const name = window.prompt("Rename section", section.name)?.trim(); if (name)
         onUpdate(d => ({ ...d, sections: d.sections.map(item => item.id === section.id ? { ...item, name } : item) })); };
     const deleteSection = (section) => { const enrollments = data.enrollments.filter(enrollment => enrollment.sectionId === section.id), enrollmentIds = enrollments.map(enrollment => enrollment.id), records = data.records.filter(record => !!record.enrollmentId && enrollmentIds.includes(record.enrollmentId)); if (!confirm(`Delete ${section.name}? This removes ${enrollments.length} enrollments and ${records.length} linked records.`))
         return; onUpdate(d => ({ ...d, sections: d.sections.filter(item => item.id !== section.id), enrollments: d.enrollments.filter(enrollment => enrollment.sectionId !== section.id), records: d.records.filter(record => !record.enrollmentId || !enrollmentIds.includes(record.enrollmentId)), columns: (d.columns || []).map(column => ({ ...column, sectionIds: column.sectionIds.filter(id => id !== section.id) })).filter(column => column.sectionIds.length) })); };
@@ -1239,7 +1126,7 @@ function SchoolStructureSettings({ data, onUpdate, notify }) {
                 data.years.map(year => React.createElement("div", { className: year.id === selectedYearId ? "school-row active" : "school-row", key: year.id },
                     React.createElement("button", { onClick: () => setSelectedYearId(year.id) },
                         React.createElement("b", null, year.label),
-                        React.createElement("small", null, year.id === data.settings.currentYearId ? "CURRENT" : (year.lifecycle || "open").toUpperCase())),
+                        year.id === data.settings.currentYearId && React.createElement("small", null, "CURRENT")),
                     React.createElement("button", { onClick: () => renameYear(year) }, "Rename"),
                     React.createElement("button", { onClick: () => deleteYear(year) }, "\u00D7"))),
                 React.createElement("div", { className: "inline-add" },
@@ -1249,7 +1136,6 @@ function SchoolStructureSettings({ data, onUpdate, notify }) {
                 React.createElement("span", { className: "eyebrow" },
                     "CLASSES IN ",
                     data.years.find(year => year.id === selectedYearId)?.label || "SELECTED YEAR"),
-                React.createElement("div", { className: "command-buttons year-lifecycle-controls" }, [["open", "Open"], ["closed", "Closed"], ["archived", "Archive-ready"]].map(([value, label]) => React.createElement("button", { key: value, className: data.years.find(year => year.id === selectedYearId)?.lifecycle === value ? "active" : "", onClick: () => setYearLifecycle(value) }, label))),
                 !courses.length && React.createElement("div", { className: "school-empty" }, "No classes yet. Add the first class below."),
                 courses.map(course => React.createElement("article", { className: course.archived ? "class-settings-card archived" : "class-settings-card", "data-course-card": course.id, key: course.id },
                     React.createElement("header", null,
@@ -1343,23 +1229,21 @@ function GlobalSearchModal({ data, onClose, onOpenStudent }) {
                     result.matches.length === 1 ? "" : "es",
                     " \u203A")))));
 }
-function QuickEntryModal({ data, initialSectionId, initialCourseId, defaultAllCourseSections, initialColumnId, selectedStudentIds, onClose, onUpdate, notify }) {
+function QuickEntryModal({ data, initialSectionId, selectedStudentIds, onClose, onUpdate, notify }) {
     const allColumns = data.columns || [];
     const relevantColumns = allColumns.filter(column => column.sectionIds.includes(initialSectionId) && !column.archived).sort((a, b) => b.date.localeCompare(a.date));
-    const [activeId, setActiveId] = useState(initialColumnId || relevantColumns[0]?.id || "");
-    const [creating, setCreating] = useState(!initialColumnId && !relevantColumns.length);
+    const [activeId, setActiveId] = useState(relevantColumns[0]?.id || "");
+    const [creating, setCreating] = useState(!relevantColumns.length);
     const [title, setTitle] = useState("");
     const [date, setDate] = useState(isoDate());
     const [kind, setKind] = useState("discussion");
     const selectedSections = Array.from(new Set(data.enrollments.filter(enrollment => enrollment.active && selectedStudentIds.includes(enrollment.studentId)).map(enrollment => enrollment.sectionId)));
-    const defaultCourseSectionIds = data.sections.filter(section => section.courseId === initialCourseId && !section.archived).map(section => section.id);
-    const [sectionIds, setSectionIds] = useState(selectedSections.length ? selectedSections : defaultAllCourseSections && defaultCourseSectionIds.length ? defaultCourseSectionIds : [initialSectionId].filter(Boolean));
+    const [sectionIds, setSectionIds] = useState(selectedSections.length ? selectedSections : [initialSectionId]);
     const [drafts, setDrafts] = useState({});
     const [bulk, setBulk] = useState("");
     const [onlyMissing, setOnlyMissing] = useState(false);
     const activeColumn = allColumns.find(column => column.id === activeId);
-    const [visibleSectionIds, setVisibleSectionIds] = useState(activeColumn?.sectionIds || sectionIds);
-    const scopedSections = activeColumn ? activeColumn.sectionIds.filter(id => visibleSectionIds.includes(id)) : sectionIds;
+    const scopedSections = activeColumn?.sectionIds || sectionIds;
     const scopedSelectedIds = activeColumn ? activeColumn.studentIds : selectedStudentIds;
     const studentIds = Array.from(new Set(data.enrollments.filter(e => e.active && scopedSections.includes(e.sectionId) && (!scopedSelectedIds?.length || scopedSelectedIds.includes(e.studentId))).map(e => e.studentId)));
     const students = data.students.filter(s => studentIds.includes(s.id) && !s.archived).sort((a, b) => data.settings.rosterSortBy === "first" ? a.firstName.localeCompare(b.firstName) || a.lastName.localeCompare(b.lastName) : a.lastName.localeCompare(b.lastName) || a.firstName.localeCompare(b.firstName));
@@ -1372,7 +1256,6 @@ function QuickEntryModal({ data, initialSectionId, initialCourseId, defaultAllCo
         const next = {};
         data.records.filter(r => r.columnId === activeColumn.id).forEach(r => { next[r.studentId] = r.text; });
         setDrafts(next);
-        setVisibleSectionIds(activeColumn.sectionIds);
     }, [activeId]);
     const createColumn = () => {
         if (!title.trim())
@@ -1448,7 +1331,9 @@ function QuickEntryModal({ data, initialSectionId, initialCourseId, defaultAllCo
                     React.createElement("label", null,
                         "Activity or assignment title",
                         React.createElement("input", { autoFocus: true, value: title, onChange: e => setTitle(e.target.value), placeholder: "Socratic discussion: Chapter 4" })),
-                    React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "FEEDBACK TYPE"), React.createElement("div", { className: "command-buttons" }, kinds.filter(item => item.id !== "narrative-comment").map(item => React.createElement("button", { key: item.id, className: kind === item.id ? "active" : "", onClick: () => setKind(item.id) }, item.short))))),
+                    React.createElement("label", null,
+                        "Feedback type",
+                        React.createElement("select", { value: kind, onChange: e => setKind(e.target.value) }, kinds.map(k => React.createElement("option", { key: k.id, value: k.id }, k.label))))),
                 React.createElement("label", null,
                     "Date",
                     React.createElement("input", { type: "date", value: date, onChange: e => setDate(e.target.value) }))),
@@ -1480,9 +1365,6 @@ function QuickEntryModal({ data, initialSectionId, initialCourseId, defaultAllCo
                     React.createElement("button", { className: "btn ghost", onClick: archiveColumn }, "Archive"),
                     React.createElement("button", { className: "btn danger", onClick: deleteColumn }, "Delete"),
                     React.createElement("button", { "data-ctrl-save": true, className: "btn primary", onClick: () => saveRows() }, "Save all feedback"))),
-            React.createElement("div", { className: "section-visibility" },
-                React.createElement("button", { className: visibleSectionIds.length === activeColumn.sectionIds.length ? "active" : "", onClick: () => setVisibleSectionIds(activeColumn.sectionIds) }, "All sections"),
-                activeColumn.sectionIds.map(id => { const section = data.sections.find(item => item.id === id), course = data.courses.find(item => item.id === section?.courseId); return React.createElement("button", { key: id, className: visibleSectionIds.includes(id) ? "active" : "", onClick: () => setVisibleSectionIds(current => current.includes(id) ? current.length === 1 ? current : current.filter(item => item !== id) : [...current, id]) }, `${course?.name || "Class"} / ${section?.name || "Section"}`); })),
             React.createElement("div", { className: "bulk-comment" },
                 React.createElement("label", null,
                     "Bulk comment for everyone in this activity",
@@ -1522,11 +1404,8 @@ function QuickEntryModal({ data, initialSectionId, initialCourseId, defaultAllCo
                         } }, placeholder: "Enter feedback\u2026" }),
                     React.createElement("span", { className: drafts[student.id]?.trim() ? "has-feedback" : "" }, drafts[student.id]?.trim() ? "READY" : "EMPTY"))))) : null);
 }
-function EmptyColumnCard({ column, onOpen }) {
-    return React.createElement("article", { className: "record-card empty-column-card" }, React.createElement("div", { className: "timeline-node" }), React.createElement("div", { className: "record-card-head" }, React.createElement("div", null, React.createElement("span", { className: "kind-badge" }, kindLabel(column.kind)), React.createElement("time", null, prettyDate(column.date))), React.createElement("button", { className: "btn ghost compact", onClick: onOpen }, "Open assignment")), React.createElement("h3", null, column.title), React.createElement("p", { className: "form-hint" }, "No feedback entered for this student yet."));
-}
-function RecordCard({ record, target, onEdit, onOpenColumn, onToggleStar, onTogglePin, onDelete }) {
-    return React.createElement("article", { id: `record-${record.id}`, className: `record-card kind-${record.kind} ${record.pinned ? "pinned" : ""} ${record.starred ? "starred" : ""} ${target ? "record-card-target" : ""}` },
+function RecordCard({ record, onEdit, onTogglePin, onDelete }) {
+    return React.createElement("article", { className: `record-card kind-${record.kind} ${record.pinned ? "pinned" : ""}` },
         React.createElement("div", { className: "timeline-node" }),
         React.createElement("div", { className: "record-card-head" },
             React.createElement("div", null,
@@ -1534,9 +1413,7 @@ function RecordCard({ record, target, onEdit, onOpenColumn, onToggleStar, onTogg
                 React.createElement("time", null, prettyDate(record.date)),
                 !record.studentFacing && React.createElement("span", { className: "private-badge" }, "PRIVATE")),
             React.createElement("div", null,
-                onOpenColumn && React.createElement("button", { onClick: onOpenColumn, title: "Open bulk assignment" }, "ASSIGNMENT"),
                 React.createElement("button", { onClick: onEdit, title: "Edit record" }, "EDIT"),
-                React.createElement("button", { className: `record-star ${record.starred ? "on" : ""}`, onClick: onToggleStar, title: record.starred ? "Remove important star" : "Mark important" }, record.starred ? "★" : "☆"),
                 React.createElement("button", { onClick: onTogglePin, title: record.pinned ? "Remove follow-up" : "Pin for follow-up" }, record.pinned ? "◆" : "◇"),
                 React.createElement("button", { onClick: onDelete, title: "Delete record" }, "\u00D7"))),
         record.title && React.createElement("h3", null, record.title),
@@ -1575,45 +1452,6 @@ function ModalShell({ title, subtitle, onClose, children, wide = false }) {
                     React.createElement("h2", null, title)),
                 React.createElement("button", { className: "btn ghost icon-btn", onClick: onClose, "aria-label": "Close" }, "\u00D7")),
             children));
-}
-function ConfidentialGateModal({ confidentialPackage, purpose, onPackage, onUnlock, onClose }) {
-    const [mode, setMode] = useState(confidentialPackage ? "unlock" : "setup"), [password, setPassword] = useState(""), [confirmPassword, setConfirmPassword] = useState(""), [recovery, setRecovery] = useState(""), [savedRecovery, setSavedRecovery] = useState(false), [createdRecovery, setCreatedRecovery] = useState(""), [busy, setBusy] = useState(false), [error, setError] = useState("");
-    const submit = async event => { event.preventDefault(); setError(""); setBusy(true); try {
-        if (mode === "setup") { if (password.length < 10) throw new Error("Use at least 10 characters."); if (password !== confirmPassword) throw new Error("The passwords do not match."); const created = await createConfidentialPackage(password); onPackage(created.package); onUnlock(created.key, []); setCreatedRecovery(created.recoveryKey); return; }
-        if (mode === "recover") { if (password.length < 10) throw new Error("Choose a new password of at least 10 characters."); if (password !== confirmPassword) throw new Error("The new passwords do not match."); const key = await unwrapConfidentialKey(confidentialPackage.recoveryWrap, recovery.trim().toUpperCase()), items = await decryptConfidentialItems(confidentialPackage.payload, key), raw = new Uint8Array(await crypto.subtle.exportKey("raw", key)), nextPackage = { ...confidentialPackage, passwordWrap: await wrapConfidentialKey(raw, password), updatedAt: stamp() }; onPackage(nextPackage); onUnlock(key, items); return onClose(); }
-        const key = await unwrapConfidentialKey(confidentialPackage.passwordWrap, password), items = await decryptConfidentialItems(confidentialPackage.payload, key); onUnlock(key, items); onClose();
-    } catch (problem) { setError(problem.message || "Confidential access failed."); } finally { setBusy(false); } };
-    const copyRecovery = async () => { await navigator.clipboard.writeText(createdRecovery); setSavedRecovery(true); };
-    return React.createElement("div", { className: "confidential-gate" }, React.createElement(ModalShell, { title: createdRecovery ? "Save your recovery key" : mode === "setup" ? "Create Confidential Access" : mode === "recover" ? "Recover Confidential Access" : purpose === "extend" ? "Extend confidential session" : "Unlock Confidential Access", subtitle: "ENCRYPTED ACCOMMODATIONS", onClose: createdRecovery && !savedRecovery ? () => {} : onClose },
-        createdRecovery ? React.createElement(React.Fragment, null,
-            React.createElement("p", null, "Save this key separately from the record-console backup. It cannot be shown again and is the only way to recover accommodations if the password is forgotten."),
-            React.createElement("div", { className: "recovery-key" }, createdRecovery),
-            React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: copyRecovery }, "Copy recovery key"), React.createElement("button", { className: "btn primary", disabled: !savedRecovery, onClick: onClose }, "I saved it"))) :
-        React.createElement("form", { onSubmit: submit },
-            mode === "recover" && React.createElement("label", null, "Recovery key", React.createElement("input", { autoFocus: true, value: recovery, onChange: event => setRecovery(event.target.value), autoComplete: "off" })),
-            React.createElement("label", null, mode === "recover" ? "New confidential password" : "Confidential password", React.createElement("input", { autoFocus: mode !== "recover", type: "password", value: password, onChange: event => setPassword(event.target.value), autoComplete: "off" })),
-            (mode === "setup" || mode === "recover") && React.createElement("label", null, "Confirm password", React.createElement("input", { type: "password", value: confirmPassword, onChange: event => setConfirmPassword(event.target.value), autoComplete: "off" })),
-            React.createElement("p", { className: "form-hint" }, mode === "setup" ? "The password is never saved or uploaded. The encrypted package will transfer through Supabase and complete backups." : "Successful entry unlocks accommodations on this device for one hour."),
-            error && React.createElement("div", { className: "backup-warning" }, error),
-            React.createElement("div", { className: "modal-actions" }, confidentialPackage && React.createElement("button", { type: "button", className: "btn ghost", onClick: () => { setMode(mode === "recover" ? "unlock" : "recover"); setError(""); } }, mode === "recover" ? "Use password" : "Use recovery key"), React.createElement("button", { type: "button", className: "btn ghost", onClick: onClose }, "Cancel"), React.createElement("button", { className: "btn primary", disabled: busy }, busy ? "Decrypting..." : mode === "setup" ? "Create encrypted storage" : mode === "recover" ? "Recover and set password" : "Unlock")))));
-}
-function AccommodationsModal({ student, yearId, items, sessionExpiresAt, onSave, onClose, onLock, notify }) {
-    const current = items.filter(item => item.studentId === student.id && item.yearId === yearId && item.active !== false), commonSet = new Set(commonAccommodations.flatMap(group => group[1])), initialCommon = current.filter(item => item.source === "common" || commonSet.has(item.description)).map(item => item.description), initialCustom = current.filter(item => item.source === "custom" || !commonSet.has(item.description)).map(item => item.description).join("\n");
-    const [selected, setSelected] = useState(initialCommon), [custom, setCustom] = useState(initialCustom), [saving, setSaving] = useState(false);
-    const [remaining, setRemaining] = useState(Math.max(0, sessionExpiresAt - Date.now()));
-    useEffect(() => { const timer = setInterval(() => setRemaining(Math.max(0, sessionExpiresAt - Date.now())), 1000); return () => clearInterval(timer); }, [sessionExpiresAt]);
-    const parsed = Array.from(new Set(custom.split(/\r?\n/).map(line => line.replace(/^\s*(?:[-*\u2022]|\d+[.)])\s*/, "").trim()).filter(Boolean))).filter(description => !selected.includes(description));
-    const allSelected = [...selected, ...parsed];
-    const build = () => { const retained = items.filter(item => !(item.studentId === student.id && item.yearId === yearId)); const additions = [...selected.map(description => ({ id: uid("acc"), studentId: student.id, yearId, description, source: "common", active: true, reviewedAt: isoDate() })), ...parsed.map(description => ({ id: uid("acc"), studentId: student.id, yearId, description, source: "custom", active: true, reviewedAt: isoDate() }))]; return [...retained, ...additions]; };
-    const save = async lock => { setSaving(true); try { await onSave(build()); notify("Encrypted accommodations saved"); if (lock) onLock(); else onClose(); } catch (problem) { notify(problem.message || "Accommodations could not be saved"); } finally { setSaving(false); } };
-    const groupsView = React.createElement("div", { className: "accommodation-groups" }, commonAccommodations.map(([group, choices]) => React.createElement("section", { className: "accommodation-group", key: group }, React.createElement("h3", null, group), choices.map(choice => React.createElement("label", { className: "accommodation-check", key: choice }, React.createElement("input", { type: "checkbox", checked: selected.includes(choice), onChange: () => setSelected(values => values.includes(choice) ? values.filter(value => value !== choice) : [...values, choice]) }), React.createElement("span", null, choice))))));
-    const customView = React.createElement("div", null,
-        React.createElement("section", { className: "selected-accommodations-summary" }, React.createElement("div", { className: "selected-summary-head" }, React.createElement("span", { className: "eyebrow" }, "SELECTED ACCOMMODATIONS"), React.createElement("b", null, allSelected.length)), React.createElement("div", { className: "parsed-list" }, allSelected.length ? allSelected.map(item => React.createElement("div", { className: "parsed-item", key: item }, React.createElement("span", null, item), React.createElement("span", { "aria-hidden": "true" }, "✓"))) : React.createElement("p", { className: "form-hint" }, "No accommodations are currently selected."))),
-        React.createElement("label", { className: "additional-accommodations-entry" }, "Additional accommodations", React.createElement("span", { className: "optional" }, "one per line"), React.createElement("textarea", { value: custom, onChange: event => setCustom(event.target.value), placeholder: "Provide vocabulary before new readings\nAllow preview of discussion questions" })),
-        React.createElement("p", { className: "form-hint" }, parsed.length ? `${parsed.length} custom accommodation${parsed.length === 1 ? "" : "s"} parsed from the text field.` : "Each nonblank line becomes one accommodation."));
-    const statusView = React.createElement("div", { className: "confidential-status" }, React.createElement("b", null, "CONFIDENTIAL DATA UNLOCKED"), React.createElement("span", null, `${String(Math.floor(remaining / 60000)).padStart(2, "0")}:${String(Math.floor((remaining % 60000) / 1000)).padStart(2, "0")} remaining`), React.createElement("span", null, "Only classroom accommodations should be stored here. Do not enter diagnoses or plan documents."), React.createElement("button", { className: "btn ghost compact", onClick: onLock }, "Lock now"));
-    const actionsView = React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"), React.createElement("button", { className: "btn ghost", disabled: saving, onClick: () => save(false) }, "Save"), React.createElement("button", { className: "btn primary", disabled: saving, onClick: () => save(true) }, "Save and Lock"));
-    return React.createElement(ModalShell, { title: `Confidential Accommodations - ${fullName(student, "first")}`, subtitle: "ENCRYPTED LOCALLY - CURRENT SCHOOL YEAR", onClose, wide: true }, statusView, React.createElement("div", { className: "confidential-grid" }, groupsView, customView), actionsView);
 }
 function StudentModal({ data, sectionId, onClose, onSave }) {
     const [firstName, setFirst] = useState(""), [lastName, setLast] = useState(""), [email, setEmail] = useState(""), [pronouns, setPronouns] = useState(""), [target, setTarget] = useState(sectionId);
@@ -1676,11 +1514,10 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
 }
 function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
     const [firstName, setFirst] = useState(student.firstName), [lastName, setLast] = useState(student.lastName), [email, setEmail] = useState(student.email), [pronouns, setPronouns] = useState(student.pronouns || ""), [archived, setArchived] = useState(!!student.archived);
-    const [teacherProfileNote, setTeacherProfileNote] = useState(student.teacherProfileNote || "");
     const enrollments = data.enrollments.filter(enrollment => enrollment.studentId === student.id);
     return React.createElement(ModalShell, { title: "Edit student profile", subtitle: "IDENTITY \u00B7 ENROLLMENT HISTORY", onClose: onClose },
         React.createElement("form", { onSubmit: event => { event.preventDefault(); if (!firstName.trim() || !lastName.trim())
-                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, teacherProfileNote: teacherProfileNote.trim() || undefined, archived }); } },
+                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, archived }); } },
             React.createElement("div", { className: "form-grid two" },
                 React.createElement("label", null,
                     "First name",
@@ -1695,10 +1532,6 @@ function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
                 "Pronouns ",
                 React.createElement("span", { className: "optional" }, "private \u00B7 optional"),
                 React.createElement("input", { value: pronouns, onChange: event => setPronouns(event.target.value), placeholder: "they/them, she/her, he/him\u2026" })),
-            React.createElement("label", null,
-                "Teacher-facing profile note ",
-                React.createElement("span", { className: "optional" }, "private · never included in the student record"),
-                React.createElement("textarea", { rows: 4, value: teacherProfileNote, onChange: event => setTeacherProfileNote(event.target.value), placeholder: "Private context or reminders for this student…" })),
             React.createElement("label", { className: "check-label" },
                 React.createElement("input", { type: "checkbox", checked: archived, onChange: event => setArchived(event.target.checked) }),
                 " Archive this student"),
@@ -1976,7 +1809,7 @@ function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds
         return Array.from(new Set(data.enrollments.filter(e => sections.includes(e.sectionId) && e.active).map(e => e.studentId)));
     }, [scope, studentId, selectedIds, data, courseId, sectionId]);
     const plain = exportText(data, ids, yearId, types, allYears, anonymize, studentFacing);
-    const json = JSON.stringify({ format: "teacher-records-selection", schemaVersion: 1, exportedAt: stamp(), students: data.students.filter(s => ids.includes(s.id)).map(({ teacherProfileNote, ...student }) => student), records: data.records.filter(r => ids.includes(r.studentId) && types.includes(r.kind)) }, null, 2);
+    const json = JSON.stringify({ format: "teacher-records-selection", schemaVersion: 1, exportedAt: stamp(), students: data.students.filter(s => ids.includes(s.id)), records: data.records.filter(r => ids.includes(r.studentId) && types.includes(r.kind)) }, null, 2);
     const output = format === "text" ? plain : json;
     const doCopy = async () => { await navigator.clipboard.writeText(output); notify(`${ids.length} student record${ids.length === 1 ? "" : "s"} copied`); };
     return React.createElement(ModalShell, { title: "Prepare export", subtitle: "CHATGPT-READY RECORDS", onClose: onClose, wide: true },
@@ -2043,186 +1876,12 @@ function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds
                     React.createElement("button", { className: "btn primary", disabled: !output, onClick: doCopy }, "Copy to clipboard")),
                 React.createElement("pre", null, output || "No records match this selection."))));
 }
-function NarrativeReportModal({ data, yearId, initialSectionId, onClose, onSaveMany, onSetStatuses, notify }) {
-    const yearSections = data.sections.filter(section => !section.archived && data.courses.some(course => course.id === section.courseId && course.yearId === yearId));
-    const [sectionIds, setSectionIds] = useState(initialSectionId && yearSections.some(section => section.id === initialSectionId) ? [initialSectionId] : yearSections.map(section => section.id));
-    const [period, setPeriod] = useState("Semester 1");
-    const [statusFilter, setStatusFilter] = useState("ready");
-    const [edits, setEdits] = useState({});
-    const [dirtyIds, setDirtyIds] = useState([]);
-    const escapeHtml = value => String(value || "").replace(/[&<>\"]/g, character => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '\"': "&quot;" }[character]));
-    const items = sectionIds.flatMap(sectionId => {
-        const section = data.sections.find(item => item.id === sectionId), course = data.courses.find(item => item.id === section?.courseId);
-        const studentIds = new Set(data.enrollments.filter(enrollment => enrollment.sectionId === sectionId).map(enrollment => enrollment.studentId));
-        return data.records.filter(record => record.kind === "narrative-comment" && record.narrativePeriod === period && studentIds.has(record.studentId) && record.text?.trim() && (statusFilter === "all" || record.narrativeStatus === statusFilter) && (!record.narrativeSectionId || record.narrativeSectionId === sectionId)).map(record => ({ record, student: data.students.find(student => student.id === record.studentId), section, course })).filter(item => item.student).sort((a, b) => a.student.lastName.localeCompare(b.student.lastName) || a.student.firstName.localeCompare(b.student.firstName));
-    });
-    const grouped = sectionIds.map(id => ({ section: data.sections.find(section => section.id === id), items: items.filter(item => item.section.id === id) })).filter(group => group.section && group.items.length);
-    useEffect(() => { const next = {}; items.forEach(item => { next[item.record.id] = item.record.text; }); setEdits(next); setDirtyIds([]); }, [period, sectionIds.join("|"), statusFilter]);
-    const saveAll = () => { if (!dirtyIds.length) return; const changes = {}; dirtyIds.forEach(id => { changes[id] = edits[id]; }); onSaveMany(changes); setDirtyIds([]); notify(`${dirtyIds.length} narrative correction${dirtyIds.length === 1 ? "" : "s"} saved`); };
-    useEffect(() => { if (!dirtyIds.length) return; const timer = setTimeout(saveAll, 900); return () => clearTimeout(timer); }, [edits]);
-    const html = `<div style="font-family:Georgia,serif">${grouped.map(group => { const course = data.courses.find(item => item.id === group.section.courseId), color = starColors[course?.colorKey] || starColors[automaticCourseColor(course)]; return `<h2 style="color:${color};font-weight:bold;text-decoration:underline">${escapeHtml(course?.name)} — ${escapeHtml(group.section.name)}</h2>${group.items.map(item => `<p style="margin:0 0 1em 0"><strong>${escapeHtml(fullName(item.student))}</strong></p><p style="margin:0 0 1em 0;text-indent:2em">${escapeHtml(edits[item.record.id] ?? item.record.text).replace(/\n\n+/g, '</p><p style="margin:0 0 1em 0;text-indent:2em">').replace(/\n/g, '<br>')}</p>`).join("")}`; }).join("")}</div>`;
-    const plain = grouped.map(group => { const course = data.courses.find(item => item.id === group.section.courseId); return `${course?.name || "Class"} — ${group.section.name}\n\n${group.items.map(item => `${fullName(item.student)}\n${edits[item.record.id] ?? item.record.text}`).join("\n\n")}`; }).join("\n\n");
-    const copy = async () => { saveAll(); try { if (window.ClipboardItem) await navigator.clipboard.write([new ClipboardItem({ "text/html": new Blob([html], { type: "text/html" }), "text/plain": new Blob([plain], { type: "text/plain" }) })]); else await navigator.clipboard.writeText(plain); notify(`${items.length} formatted narrative comments copied`); } catch { await navigator.clipboard.writeText(plain); notify("Narratives copied as plain text"); } };
-    const markShownReady = () => { const ids = items.filter(item => (edits[item.record.id] ?? item.record.text).trim()).map(item => item.record.id); if (!ids.length) return; if (window.confirm(`Mark all ${ids.length} shown narrative comments Ready?`)) { onSetStatuses(ids, "ready"); setStatusFilter("ready"); notify(`${ids.length} narratives marked Ready`); } };
-    return React.createElement(ModalShell, { title: "Narrative Report", subtitle: "EDITABLE · GOOGLE DOCS READY", onClose: () => { saveAll(); onClose(); }, wide: true }, React.createElement("div", { className: "narrative-report-layout" },
-        React.createElement("aside", { className: "narrative-report-sidebar" },
-            React.createElement("span", { className: "eyebrow" }, "REPORTING PERIOD"),
-            React.createElement("div", { className: "command-buttons" }, ["Semester 1", "Semester 2", "Final"].map(value => React.createElement("button", { key: value, className: period === value ? "active" : "", onClick: () => setPeriod(value) }, value))),
-            React.createElement("div", { className: "section-visibility" }, React.createElement("button", { className: sectionIds.length === yearSections.length ? "active" : "", onClick: () => setSectionIds(yearSections.map(section => section.id)) }, "All"), React.createElement("button", { onClick: () => setSectionIds([]) }, "None")),
-            React.createElement("div", { className: "command-buttons report-section-choice" }, yearSections.map(section => { const course = data.courses.find(item => item.id === section.courseId); return React.createElement("button", { key: section.id, className: sectionIds.includes(section.id) ? "active" : "", onClick: () => setSectionIds(ids => ids.includes(section.id) ? ids.filter(id => id !== section.id) : [...ids, section.id]) }, `${course?.name || "Class"} / ${section.name}`); })),
-            React.createElement("span", { className: "eyebrow" }, "SHOW COMMENTS"),
-            React.createElement("div", { className: "command-buttons" }, [["ready", "Ready"], ["in-process", "In Process"], ["drafting", "Drafting"], ["all", "All with text"]].map(([value, label]) => React.createElement("button", { key: value, className: `${statusFilter === value ? "active" : ""} ${value === "in-process" ? "in-process" : ""}`, onClick: () => setStatusFilter(value) }, label))),
-            React.createElement("div", { className: "narrative-stat" }, `${items.length} comments · ${dirtyIds.length ? `${dirtyIds.length} saving…` : "all saved"}`),
-            React.createElement("button", { className: "btn ghost", onClick: markShownReady, disabled: !items.length }, "Mark all shown Ready"), React.createElement("button", { className: "btn ghost", onClick: saveAll, disabled: !dirtyIds.length }, "Save All"), React.createElement("button", { className: "btn primary", onClick: copy, disabled: !items.length }, "Copy All")),
-        React.createElement("main", { className: "narrative-report-document" }, grouped.map(group => { const course = data.courses.find(item => item.id === group.section.courseId), color = starColors[course?.colorKey] || starColors[automaticCourseColor(course)]; return React.createElement("section", { key: group.section.id }, React.createElement("h2", { className: "report-class-heading", style: { color } }, `${course?.name || "Class"} — ${group.section.name}`), group.items.map(item => React.createElement("div", { key: item.record.id, className: "report-student-block" }, React.createElement("strong", null, fullName(item.student)), React.createElement("textarea", { value: edits[item.record.id] ?? item.record.text, onChange: event => { setEdits(current => ({ ...current, [item.record.id]: event.target.value })); setDirtyIds(ids => ids.includes(item.record.id) ? ids : [...ids, item.record.id]); } }), React.createElement("span", { className: "report-save-state" }, dirtyIds.includes(item.record.id) ? "Saving…" : "Saved")))); }))));
-}
-function NarrativeCommentModal({ data, roster, sectionId, courseId, yearId, initialStudentId, onStudentChange, onSettingsUpdate, onClose, onSave, notify, confidentialSession, onRequestConfidential }) {
-    const evidenceKinds = kinds.filter(kind => kind.id !== "narrative-comment");
-    const firstIndex = Math.max(0, roster.findIndex(student => student.id === initialStudentId));
-    const [index, setIndex] = useState(firstIndex);
-    const [types, setTypes] = useState(evidenceKinds.map(kind => kind.id));
-    const [dateOn, setDateOn] = useState(false);
-    const [afterDate, setAfterDate] = useState("");
-    const [includePriorYears, setIncludePriorYears] = useState(false);
-    const [evidenceYearIds, setEvidenceYearIds] = useState([yearId]);
-    const [period, setPeriod] = useState("Semester 1");
-    const [status, setStatus] = useState("not-started");
-    const [draft, setDraft] = useState("");
-    const [promptOpen, setPromptOpen] = useState(false);
-    const [grade, setGrade] = useState("");
-    const activePrompt = data.settings.activeNarrativePrompt || "fall";
-    const [includeAccommodations, setIncludeAccommodations] = useState(activePrompt === "conferences");
-    const instructions = data.settings.narrativePrompts?.[activePrompt] ?? narrativePromptDefaults[activePrompt] ?? "";
-    const promptLabel = ({ fall: "Fall", conferences: "Conferences", spring: "Spring", none: "No Prompt", custom: "Custom" })[activePrompt] || "Custom";
-    const [dirty, setDirty] = useState(false);
-    const draftCache = useRef({});
-    const student = roster[index];
-    const enrollment = data.enrollments.find(item => item.studentId === student?.id && item.sectionId === sectionId && item.active) || data.enrollments.find(item => item.studentId === student?.id && item.sectionId === sectionId);
-    const course = data.courses.find(item => item.id === courseId), section = data.sections.find(item => item.id === sectionId), year = data.years.find(item => item.id === yearId);
-    const narratives = data.records.filter(record => record.studentId === student?.id && record.kind === "narrative-comment").sort((a, b) => b.date.localeCompare(a.date));
-    const matchingNarrative = narratives.find(record => record.narrativePeriod === period && record.narrativeYearId === yearId && record.narrativeCourseId === courseId);
-    const priorNarrative = narratives.find(record => !matchingNarrative || record.id !== matchingNarrative.id);
-    const defaultAfterDate = priorNarrative?.date || narratives[0]?.date || "";
-    const studentYearIds = Array.from(new Set(data.enrollments.filter(item => item.studentId === student?.id && item.yearId).map(item => item.yearId)));
-    const returningStudent = studentYearIds.some(id => id !== yearId);
-    const recordYearId = record => record.yearId || data.enrollments.find(item => item.id === record.enrollmentId)?.yearId;
-    const isCurrentEnrollmentRecord = record => record.enrollmentId === enrollment?.id || (recordYearId(record) === yearId && record.courseId === courseId && record.sectionId === sectionId);
-    const records = data.records.filter(record => record.studentId === student?.id && record.kind !== "narrative-comment" && types.includes(record.kind) && (includePriorYears ? evidenceYearIds.includes(recordYearId(record)) : isCurrentEnrollmentRecord(record)) && (!dateOn || !afterDate || record.date > afterDate)).sort((a, b) => a.date.localeCompare(b.date));
-    const recordContext = record => { const enrollment = data.enrollments.find(item => item.id === record.enrollmentId), section = data.sections.find(item => item.id === (record.sectionId || enrollment?.sectionId)), course = data.courses.find(item => item.id === (record.courseId || enrollment?.courseId || section?.courseId)), year = data.years.find(item => item.id === recordYearId(record)); return [year?.label, course?.name, section?.name].filter(Boolean).join(" · "); };
-    const grouped = evidenceKinds.map(kind => ({ ...kind, records: records.filter(record => record.kind === kind.id) })).filter(group => group.records.length);
-    const packet = [instructions.trim(), "", `STUDENT: ${student?.firstName || "Student"}`, student?.pronouns ? `PRONOUNS: ${student.pronouns}` : "", grade.trim() ? `Current Grade: ${grade.trim()}` : "", `COURSE: ${course?.name || ""} / ${section?.name || ""}`, `REPORTING PERIOD: ${period}`, `EVIDENCE SCOPE: ${includePriorYears ? evidenceYearIds.map(id => data.years.find(year => year.id === id)?.label).filter(Boolean).join(", ") : `${year?.label || "Current year"} · current enrollment only`}${dateOn && afterDate ? ` · after ${afterDate}` : ""}`, includePriorYears && priorNarrative ? `\nPRIOR NARRATIVE COMMENT — ${priorNarrative.narrativePeriod || "Earlier period"}\n${priorNarrative.text}` : "", ...grouped.flatMap(group => ["", group.label.toUpperCase(), ...group.records.map(record => `${record.date}${recordContext(record) ? ` · ${recordContext(record)}` : ""}${record.title ? ` — ${record.title}` : ""}\n${record.text}`)])].filter(Boolean).join("\n");
-    const studentAccommodations = confidentialSession?.items?.filter(item => item.studentId === student?.id && item.yearId === yearId && item.active !== false) || [];
-    const accommodationContext = `CONFIDENTIAL BACKGROUND CONTEXT - ACCOMMODATIONS\n${studentAccommodations.length ? studentAccommodations.map(item => `- ${item.description}`).join("\n") : "No active accommodations recorded for this school year."}`;
-    const packetWithConfidential = includeAccommodations && confidentialSession ? [instructions.trim(), accommodationPromptInstruction, "", accommodationContext, "", packet.slice(instructions.trim().length).replace(/^\s+/, "")].filter(Boolean).join("\n") : packet;
-    const completed = roster.filter(item => data.records.some(record => record.studentId === item.id && record.kind === "narrative-comment" && record.narrativePeriod === period && record.narrativeYearId === yearId && record.narrativeCourseId === courseId && record.narrativeStatus === "ready")).length;
-    const loadStudent = (nextIndex) => {
-        if (nextIndex < 0 || nextIndex >= roster.length)
-            return;
-        draftCache.current[`${student.id}|${period}`] = { text: draft, status, dirty };
-        const nextStudent = roster[nextIndex];
-        const existing = data.records.find(record => record.studentId === nextStudent.id && record.kind === "narrative-comment" && record.narrativePeriod === period && record.narrativeYearId === yearId && record.narrativeCourseId === courseId);
-        const cached = draftCache.current[`${nextStudent.id}|${period}`];
-        setIndex(nextIndex);
-        onStudentChange(nextStudent.id);
-        setGrade("");
-        setIncludePriorYears(false);
-        setEvidenceYearIds([yearId]);
-        setTypes(evidenceKinds.map(kind => kind.id));
-        setIncludeAccommodations(activePrompt === "conferences");
-        setDraft(cached?.text ?? existing?.text ?? "");
-        setStatus(cached?.status || existing?.narrativeStatus || (existing ? "drafting" : "not-started"));
-        setDirty(!!cached?.dirty);
-    };
-    useEffect(() => {
-        const cached = draftCache.current[`${student?.id}|${period}`];
-        setDraft(cached?.text ?? matchingNarrative?.text ?? "");
-        setStatus(cached?.status || matchingNarrative?.narrativeStatus || (matchingNarrative ? "drafting" : "not-started"));
-        setDirty(!!cached?.dirty);
-    }, [student?.id, period]);
-    useEffect(() => { setIncludeAccommodations(activePrompt === "conferences"); }, [activePrompt]);
-    useEffect(() => {
-        const handler = event => {
-            const editing = ["INPUT", "TEXTAREA", "SELECT"].includes(event.target?.tagName);
-            if ((event.altKey && event.key === "ArrowLeft") || (!editing && event.key === "ArrowLeft")) { event.preventDefault(); loadStudent(index - 1); }
-            if ((event.altKey && event.key === "ArrowRight") || (!editing && event.key === "ArrowRight")) { event.preventDefault(); loadStudent(index + 1); }
-            if ((event.ctrlKey || event.metaKey) && event.key === "Enter") { event.preventDefault(); save(event.shiftKey); }
-            if ((event.ctrlKey || event.metaKey) && event.shiftKey && event.key.toLowerCase() === "c") { event.preventDefault(); copyPacket(); }
-        };
-        window.addEventListener("keydown", handler);
-        return () => window.removeEventListener("keydown", handler);
-    });
-    const makeRecord = () => ({
-        id: matchingNarrative?.id || uid("rec"), studentId: student.id, enrollmentId: enrollment?.id, kind: "narrative-comment",
-        date: matchingNarrative?.date || isoDate(), title: `${period} narrative comment`, text: draft.trim(), pinned: false, private: false, studentFacing: true,
-        narrativePeriod: period, narrativeStatus: status === "in-process" ? "in-process" : "ready", narrativeYearId: yearId, narrativeCourseId: courseId, narrativeSectionId: sectionId,
-        createdAt: matchingNarrative?.createdAt || stamp(), updatedAt: stamp()
-    });
-    const save = (advance = false) => {
-        if (!draft.trim()) return notify("Paste or write the narrative comment before saving");
-        const record = makeRecord(); onSave(record); draftCache.current[`${student.id}|${period}`] = { text: record.text, status: record.narrativeStatus, dirty: false }; setStatus(record.narrativeStatus); setDirty(false); playHoloFx(undefined, "save"); notify(`Narrative saved for ${student.firstName}`);
-        if (advance && index < roster.length - 1) setTimeout(() => loadStudent(index + 1), 0);
-    };
-    const copyPacket = async () => { if (includeAccommodations && !confidentialSession) { onRequestConfidential(); return notify("Unlock Confidential Access before copying accommodations"); } await navigator.clipboard.writeText(packetWithConfidential); notify(`${student.firstName}'s ChatGPT packet copied${includeAccommodations ? " - contains confidential accommodations" : ""}`); };
-    const close = () => { if (!dirty || !draft.trim() || window.confirm("Close Narrative Comments with an unsaved draft?")) onClose(); };
-    const toggleDate = checked => { setDateOn(checked); if (checked && !afterDate) setAfterDate(defaultAfterDate || isoDate()); };
-    const preset = ids => setTypes(ids);
-    return React.createElement(ModalShell, { title: "Narrative Comments", subtitle: `${course?.name || "CLASS"} · ${section?.name || "SECTION"}`, onClose: close, wide: true },
-        React.createElement("div", { className: "narrative-layout" },
-            React.createElement("section", { className: "narrative-evidence" },
-                React.createElement("div", { className: "narrative-nav" },
-                    React.createElement("button", { className: "btn ghost compact", disabled: index === 0, onClick: () => loadStudent(index - 1) }, "← Previous"),
-                    React.createElement("div", null, React.createElement("h3", null, fullName(student)), React.createElement("div", { className: "narrative-progress" }, `${index + 1} of ${roster.length} · ${completed} complete · ${year?.label || ""}`)),
-                    React.createElement("button", { className: "btn ghost compact", disabled: index === roster.length - 1, onClick: () => loadStudent(index + 1) }, "Next →")),
-                React.createElement("div", { className: "narrative-filters" },
-                    React.createElement("div", { className: "narrative-toolbar" },
-                        React.createElement("button", { className: "btn ghost compact", onClick: () => preset(evidenceKinds.map(kind => kind.id)) }, "Everything"),
-                        React.createElement("button", { className: "btn ghost compact", onClick: () => preset(["writing", "discussion", "strength"]) }, "Narrative essentials"),
-                        React.createElement("button", { className: "btn ghost compact", onClick: () => preset(["strength"]) }, "Strengths only"),
-                        returningStudent && React.createElement("button", { className: `btn ghost compact ${includePriorYears ? "on" : ""}`, onClick: () => { const enabled = !includePriorYears; setIncludePriorYears(enabled); setEvidenceYearIds(enabled ? studentYearIds : [yearId]); } }, includePriorYears ? "Prior years included" : "Include prior years"),
-                        React.createElement("button", { className: "btn ghost compact", disabled: !priorNarrative, onClick: () => { if (priorNarrative) { setIncludePriorYears(true); setEvidenceYearIds(studentYearIds); setDateOn(true); setAfterDate(priorNarrative.date); } } }, "Since prior narrative")),
-                    includePriorYears && returningStudent && React.createElement("div", { className: "command-buttons" }, studentYearIds.map(id => { const evidenceYear = data.years.find(item => item.id === id); return React.createElement("button", { key: id, className: evidenceYearIds.includes(id) ? "active" : "", onClick: () => setEvidenceYearIds(ids => ids.includes(id) ? ids.length === 1 ? ids : ids.filter(value => value !== id) : [...ids, id]) }, evidenceYear?.label || id); })),
-                    React.createElement("span", { className: "eyebrow" }, "ENTRY TYPES"),
-                    React.createElement("div", { className: "narrative-kind-grid" }, evidenceKinds.map(kind => React.createElement("button", { key: kind.id, className: types.includes(kind.id) ? "active" : "", onClick: () => setTypes(current => current.includes(kind.id) ? current.filter(id => id !== kind.id) : [...current, kind.id]) }, kind.short))),
-                    React.createElement("div", { className: "narrative-date-row" },
-                        React.createElement("label", null, React.createElement("input", { type: "checkbox", checked: dateOn, onChange: event => toggleDate(event.target.checked) }), "Only comments after"),
-                        React.createElement("input", { type: "date", disabled: !dateOn, value: afterDate, onChange: event => setAfterDate(event.target.value) }))),
-                React.createElement("div", { className: "narrative-toolbar" },
-                    React.createElement("button", { className: "btn ghost", onClick: () => setPromptOpen(true) }, "Prompt"),
-                    React.createElement("span", { className: "narrative-stat" }, `Using ${promptLabel}`),
-                    React.createElement("button", { className: `btn ghost compact confidential-button ${includeAccommodations ? "on" : ""}`, onClick: () => { const enabled = !includeAccommodations; setIncludeAccommodations(enabled); if (enabled && !confidentialSession) onRequestConfidential(); } }, includeAccommodations ? confidentialSession ? "Accommodations included" : "Accommodations locked" : "Include accommodations"),
-                    React.createElement("label", null, "Current grade", React.createElement("input", { value: grade, onChange: event => setGrade(event.target.value), placeholder: "85.67" })),
-                    React.createElement("span", { className: "temporary-note" }, "Temporary · not saved")),
-                promptOpen && React.createElement("div", { className: "prompt-popup" }, React.createElement("section", null,
-                    React.createElement("span", { className: "eyebrow" }, "SAVED NARRATIVE PROMPTS"),
-                    React.createElement("div", { className: "prompt-tabs" }, ["fall", "conferences", "spring", "none", "custom"].map(key => React.createElement("button", { key, className: `btn ghost ${activePrompt === key ? "active" : ""}`, onClick: () => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, activeNarrativePrompt: key } })) }, ({ fall: "Fall", conferences: "Conferences", spring: "Spring", none: "No Prompt", custom: "Custom" })[key]))),
-                    React.createElement("textarea", { value: instructions, disabled: activePrompt === "none", placeholder: activePrompt === "custom" ? "Enter a custom prompt…" : activePrompt === "none" ? "No instruction prompt will be included." : "", onChange: event => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, narrativePrompts: { ...d.settings.narrativePrompts, [activePrompt]: event.target.value } } })) }),
-                    React.createElement("div", { className: "modal-actions" }, React.createElement("button", { className: "btn ghost", onClick: () => onSettingsUpdate(d => ({ ...d, settings: { ...d.settings, narrativePrompts: { ...d.settings.narrativePrompts, [activePrompt]: narrativePromptDefaults[activePrompt] } } })) }, "Restore default"), React.createElement("button", { className: "btn primary", onClick: () => setPromptOpen(false) }, "Done")))),
-                React.createElement("div", { className: "narrative-stat" }, React.createElement("b", null, records.length), ` records included · ${packetWithConfidential.length.toLocaleString()} characters${priorNarrative ? " · prior narrative included" : ""}${includeAccommodations ? confidentialSession ? " · confidential accommodations included" : " · accommodations locked" : ""}`),
-                React.createElement("pre", { className: "narrative-packet" }, includeAccommodations && !confidentialSession ? "Confidential accommodations are selected. Unlock Confidential Access to assemble and copy this packet." : packetWithConfidential || "No records match this selection."),
-                React.createElement("button", { className: "btn primary", disabled: !packetWithConfidential, onClick: copyPacket }, "Copy Packet")),
-            React.createElement("section", { className: "narrative-draft" },
-                React.createElement("span", { className: "eyebrow" }, "SAVED STUDENT RECORD"),
-                React.createElement("div", { className: "narrative-meta" },
-                    React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "REPORTING PERIOD"), React.createElement("div", { className: "command-buttons" }, ["Semester 1", "Semester 2", "Final"].map(value => React.createElement("button", { key: value, className: period === value ? "active" : "", onClick: () => setPeriod(value) }, value)))),
-                    React.createElement("div", null, React.createElement("span", { className: "eyebrow" }, "WORKFLOW STATUS"), React.createElement("div", { className: "command-buttons" }, [["not-started", "Not Started"], ["drafting", "Drafting"], ["in-process", "In Process"], ["ready", "Ready"]].map(([value, label]) => React.createElement("button", { key: value, className: `${status === value ? "active" : ""} ${value === "in-process" ? "in-process" : ""}`, onClick: () => { setStatus(value); setDirty(true); } }, label))))),
-                priorNarrative && React.createElement("div", { className: "narrative-stat" }, `Earlier narrative: ${priorNarrative.narrativePeriod || prettyDate(priorNarrative.date)} · ${priorNarrative.text.length.toLocaleString()} characters`),
-                React.createElement("label", null, "Narrative comment", React.createElement("textarea", { autoFocus: true, value: draft, placeholder: "Paste the completed narrative comment from the school system here…", onChange: event => { const text = event.target.value; setDraft(text); setDirty(true); if (status !== "in-process") setStatus(text.trim() ? "drafting" : "not-started"); } })),
-                React.createElement("div", { className: "narrative-stat" }, `${draft.trim() ? draft.trim().split(/\s+/).length : 0} words · ${draft.length.toLocaleString()} characters`),
-                React.createElement("div", { className: "narrative-actions" },
-                    React.createElement("span", { className: "shortcut-hint" }, "Ctrl/⌘+Enter save · Shift adds next · Alt+←/→ navigate"),
-                    React.createElement("button", { className: "btn ghost", onClick: () => save(false) }, "Save"),
-                    React.createElement("button", { className: "btn primary", onClick: () => save(true) }, "Save and next")))));
-}
-function ConferenceSnapshotModal({ data, student, yearId, onClose, notify, confidentialSession, onRequestConfidential }) {
-    const [includeAccommodations, setIncludeAccommodations] = useState(true);
+function ConferenceSnapshotModal({ data, student, yearId, onClose, notify }) {
     const records = data.records.filter(record => record.studentId === student.id).sort((a, b) => b.date.localeCompare(a.date));
     const currentEnrollmentIds = new Set(data.enrollments.filter(enrollment => enrollment.studentId === student.id && data.sections.some(section => section.id === enrollment.sectionId && data.courses.some(course => course.id === section.courseId && course.yearId === yearId))).map(enrollment => enrollment.id));
     const currentRecords = records.filter(record => !!record.enrollmentId && currentEnrollmentIds.has(record.enrollmentId));
     const strengths = currentRecords.filter(record => record.kind === "strength"), pinned = records.filter(record => record.pinned);
     const text = exportText(data, [student.id], yearId, kinds.map(kind => kind.id), false, false, false);
-    const accommodations = confidentialSession?.items?.filter(item => item.studentId === student.id && item.yearId === yearId && item.active !== false) || [];
-    const confidentialText = includeAccommodations && confidentialSession ? `${accommodationPromptInstruction}\n\nCONFIDENTIAL BACKGROUND CONTEXT - ACCOMMODATIONS\n${accommodations.length ? accommodations.map(item => `- ${item.description}`).join("\n") : "No active accommodations recorded for this school year."}\n\n${text}` : text;
-    const copySnapshot = async () => { if (includeAccommodations && !confidentialSession) { onRequestConfidential(); return notify("Unlock Confidential Access before copying conference preparation"); } await navigator.clipboard.writeText(confidentialText); notify(`Conference preparation record copied${includeAccommodations ? " - contains confidential accommodations" : ""}`); };
     return React.createElement(ModalShell, { title: `Conference snapshot · ${fullName(student)}`, subtitle: "CURRENT-YEAR EVIDENCE", onClose: onClose, wide: true },
         React.createElement("div", { className: "conference-stats" },
             React.createElement("div", null,
@@ -2257,9 +1916,8 @@ function ConferenceSnapshotModal({ data, student, yearId, onClose, notify, confi
             React.createElement("section", { className: "export-preview" },
                 React.createElement("div", { className: "preview-head" },
                     React.createElement("span", { className: "eyebrow" }, "COPYABLE PREPARATION RECORD"),
-                    React.createElement("button", { className: `btn ghost compact confidential-button ${includeAccommodations ? "on" : ""}`, onClick: () => { const enabled = !includeAccommodations; setIncludeAccommodations(enabled); if (enabled && !confidentialSession) onRequestConfidential(); } }, includeAccommodations ? confidentialSession ? "Accommodations included" : "Accommodations locked" : "Include accommodations"),
-                    React.createElement("button", { className: "btn primary", onClick: copySnapshot }, "Copy snapshot")),
-                React.createElement("pre", null, includeAccommodations && !confidentialSession ? "Conference preparation includes accommodations by default. Unlock Confidential Access to reveal and copy this record." : confidentialText || "No current-year records yet."))));
+                    React.createElement("button", { className: "btn primary", onClick: () => { navigator.clipboard.writeText(text); notify("Conference preparation record copied"); } }, "Copy snapshot")),
+                React.createElement("pre", null, text || "No current-year records yet."))));
 }
 function CloudVaultModal({ data, client, user, status, initialAction = "manage", onClose, onDataLoaded, notify }) {
     const [email, setEmail] = useState("aaron.hagler@gmail.com");
@@ -2375,7 +2033,7 @@ function CloudVaultModal({ data, client, user, status, initialAction = "manage",
 }
 function DataModal({ data, onClose, onImport, onBackup, notify }) {
     const fileRef = useRef(null);
-    const backup = JSON.stringify({ ...data, schemaVersion: 3, updatedAt: stamp(), archiveManifest: normalizeData(data).archiveManifest, archivedYears: data.archivedYears || {} }, null, 2);
+    const backup = JSON.stringify({ ...data, schemaVersion: 2, updatedAt: stamp() }, null, 2);
     const knownStudents = new Set(data.students.map(student => student.id)), knownSections = new Set(data.sections.map(section => section.id));
     const integrityIssues = data.records.filter(record => !knownStudents.has(record.studentId)).length + data.enrollments.filter(enrollment => !knownStudents.has(enrollment.studentId) || !knownSections.has(enrollment.sectionId)).length;
     const download = () => { const a = document.createElement("a"); a.href = URL.createObjectURL(new Blob([backup], { type: "application/json" })); a.download = `teacher-records-backup-${isoDate()}.json`; a.click(); URL.revokeObjectURL(a.href); onBackup(); notify("Complete backup downloaded"); };
@@ -2403,7 +2061,7 @@ function DataModal({ data, onClose, onImport, onBackup, notify }) {
                     data.students.length,
                     " students \u00B7 ",
                     data.records.length,
-                    " records · load ", runtimeMetrics.loadMs, " ms · last save ", runtimeMetrics.saveMs, " ms · updated ",
+                    " records \u00B7 updated ",
                     new Date(data.updatedAt).toLocaleString()))),
         React.createElement("div", { className: "data-actions" },
             React.createElement("button", { className: "data-action primary-data", onClick: download },
