@@ -166,6 +166,7 @@
 .hero-actions{justify-content:flex-end}
 @media(max-width:1350px) and (min-width:761px){.topbar{display:grid;grid-template-columns:minmax(220px,.8fr) minmax(0,1.8fr);align-items:start}.top-actions{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px}.top-actions .btn{min-width:0;padding:8px 6px;overflow:hidden;text-overflow:ellipsis}.context-bar{flex-wrap:wrap}.section-tabs{order:3;flex-basis:100%;min-width:0}.manage-btn{margin-left:auto}.student-hero{flex-wrap:wrap}.hero-actions{margin-left:auto}}
 @media(max-width:980px) and (min-width:761px){.top-actions{grid-template-columns:repeat(4,minmax(0,1fr))}.panel-head{align-items:flex-start}.panel-head>.mini-actions{width:100%;display:grid;grid-template-columns:1fr 1fr}.panel-head>.mini-actions .btn{min-width:0}}
+.student-goals-card{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:0 0 14px;padding:13px 16px;border:1px solid var(--line);border-radius:16px;background:rgba(123,231,255,.045)}.student-goals-card p{margin:4px 0 0;white-space:pre-wrap;line-height:1.45}.questionnaire-import{display:grid;grid-template-columns:minmax(300px,.8fr) minmax(480px,1.2fr);gap:16px;padding:14px 18px 18px}.questionnaire-import>section{min-width:0}.questionnaire-columns{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.questionnaire-columns label{font-size:10px}.questionnaire-columns select{margin-top:4px}.questionnaire-matches{max-height:34vh;overflow:auto;margin-top:12px;border:1px solid var(--line);border-radius:13px}.questionnaire-matches>div{display:grid;grid-template-columns:minmax(120px,.7fr) minmax(230px,1.3fr);align-items:center;gap:10px;padding:7px 9px;border-bottom:1px solid var(--line)}.questionnaire-matches>div:last-child{border-bottom:0}.questionnaire-matches .matched{box-shadow:inset 3px 0 #56d99a}.questionnaire-matches .unmatched{box-shadow:inset 3px 0 #e9b75c}.questionnaire-matches span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.questionnaire-review{min-width:0}@media(max-width:800px){.questionnaire-import{grid-template-columns:1fr}.questionnaire-columns{grid-template-columns:repeat(2,minmax(0,1fr))}.questionnaire-matches{max-height:28vh}.student-goals-card{align-items:flex-start;flex-direction:column}}
 </style>
 </head>
 <body>
@@ -208,6 +209,7 @@ const kinds = [
     { id: "discussion", label: "Discussion feedback", short: "Discussion" },
     { id: "family", label: "Family communication", short: "Family" },
     { id: "conference", label: "Conference note", short: "Conference" },
+    { id: "questionnaire", label: "Questionnaire response", short: "Questionnaire" },
     { id: "strength", label: "Celebration / strength", short: "Strength" },
     { id: "other", label: "Other", short: "Other" },
 ];
@@ -633,7 +635,8 @@ function Home() {
                         React.createElement("span", { className: "eyebrow" }, "ACTIVE ROSTER"),
                         React.createElement("h2", null, currentSection?.name || "Section")),
                     React.createElement("div", { className: "mini-actions" },
-                        React.createElement("button", { className: "btn ghost compact", onClick: () => setModal("importRoster") }, "Import"),
+                        React.createElement("button", { className: "btn ghost compact", onClick: () => setModal("importRoster") }, "Roster"),
+                        React.createElement("button", { className: "btn ghost compact", onClick: () => setModal("questionnaire") }, "Questionnaire"),
                         React.createElement("button", { className: "btn primary compact", onClick: () => setModal("student") }, "+ Student"))),
                 React.createElement("div", { className: "roster-search-row" },
                     React.createElement("div", { className: "searchbox" },
@@ -704,6 +707,11 @@ function Home() {
                         course?.name || "Unknown class",
                         " \u00B7 ",
                         section?.name || "Unknown section")))),
+                React.createElement("section", { className: "student-goals-card sensitive" },
+                    React.createElement("div", null,
+                        React.createElement("span", { className: "eyebrow" }, "STUDENT GOALS"),
+                        React.createElement("p", null, selectedStudent.currentGoals || "No goals recorded yet.")),
+                    React.createElement("button", { className: "btn ghost compact", onClick: () => setModal("editStudent") }, selectedStudent.currentGoals ? "Edit goals" : "Add goals")),
                 React.createElement("div", { className: "insight-strip" },
                     React.createElement("div", null,
                         React.createElement("b", null, data.records.filter(r => r.studentId === studentId).length),
@@ -759,6 +767,7 @@ function Home() {
         modal === "editStudent" && selectedStudent && React.createElement(EditStudentModal, { data: data, student: selectedStudent, onClose: () => setModal(null), onSave: student => { update(d => ({ ...d, students: d.students.map(item => item.id === student.id ? student : item) })); setModal(null); notify("Student profile updated"); }, onDelete: () => { const typed = window.prompt(`Type ${fullName(selectedStudent)} to permanently delete this student and every record.`); if (typed !== fullName(selectedStudent))
                 return notify("Permanent deletion cancelled"); update(d => ({ ...d, students: d.students.filter(student => student.id !== studentId), enrollments: d.enrollments.filter(enrollment => enrollment.studentId !== studentId), records: d.records.filter(record => record.studentId !== studentId) })); setStudentId(""); setModal(null); notify("Student permanently deleted"); } }),
         modal === "importRoster" && React.createElement(ImportRosterModal, { data: data, initialSectionId: sectionId, onClose: () => setModal(null), onImport: (students, enrollments) => { update(d => ({ ...d, students: [...d.students, ...students], enrollments: [...d.enrollments, ...enrollments] })); setModal(null); notify(`${enrollments.length} roster placements imported`); } }),
+        modal === "questionnaire" && React.createElement(QuestionnaireImportModal, { data: data, onClose: () => setModal(null), onImport: (records, studentUpdates) => { update(d => ({ ...d, records: [...records, ...d.records], students: d.students.map(student => studentUpdates[student.id] ? { ...student, ...studentUpdates[student.id] } : student) })); setModal(null); notify(`${records.length} questionnaire response${records.length === 1 ? "" : "s"} imported`); } }),
         modal === "record" && selectedStudent && React.createElement(RecordModal, { student: selectedStudent, enrollment: sectionEnrollments.find(e => e.studentId === studentId), onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: [record, ...d.records] })); setModal(null); notify("Record saved"); }, onSaveAndNext: record => { update(d => ({ ...d, records: [record, ...d.records] })); const index = roster.findIndex(student => student.id === studentId), next = roster[index + 1]; if (next)
                 setStudentId(next.id); setModal(null); notify(next ? `Saved · opened ${fullName(next)}` : "Record saved · end of roster"); } }),
         modal === "editRecord" && data.records.find(r => r.id === editingRecordId) && React.createElement(EditRecordModal, { record: data.records.find(r => r.id === editingRecordId), student: data.students.find(s => s.id === data.records.find(r => r.id === editingRecordId).studentId), onClose: () => setModal(null), onSave: record => { update(d => ({ ...d, records: d.records.map(r => r.id === record.id ? record : r) })); setModal(null); notify("Record updated"); } }),
@@ -1525,11 +1534,11 @@ function StudentModal({ data, sectionId, onClose, onSave }) {
                     React.createElement("button", { className: "btn primary", onClick: () => mergeWith(pendingMatch) }, "Use existing profile")))));
 }
 function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
-    const [firstName, setFirst] = useState(student.firstName), [lastName, setLast] = useState(student.lastName), [email, setEmail] = useState(student.email), [pronouns, setPronouns] = useState(student.pronouns || ""), [archived, setArchived] = useState(!!student.archived);
+    const [firstName, setFirst] = useState(student.firstName), [lastName, setLast] = useState(student.lastName), [email, setEmail] = useState(student.email), [pronouns, setPronouns] = useState(student.pronouns || ""), [currentGoals, setCurrentGoals] = useState(student.currentGoals || ""), [archived, setArchived] = useState(!!student.archived);
     const enrollments = data.enrollments.filter(enrollment => enrollment.studentId === student.id);
     return React.createElement(ModalShell, { title: "Edit student profile", subtitle: "IDENTITY \u00B7 ENROLLMENT HISTORY", onClose: onClose },
         React.createElement("form", { onSubmit: event => { event.preventDefault(); if (!firstName.trim() || !lastName.trim())
-                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, archived }); } },
+                return; onSave({ ...student, firstName: firstName.trim(), lastName: lastName.trim(), email: email.trim(), pronouns: pronouns.trim() || undefined, currentGoals: currentGoals.trim(), goalUpdatedAt: currentGoals.trim() !== (student.currentGoals || "").trim() ? stamp() : student.goalUpdatedAt, archived }); } },
             React.createElement("div", { className: "form-grid two" },
                 React.createElement("label", null,
                     "First name",
@@ -1544,6 +1553,10 @@ function EditStudentModal({ data, student, onClose, onSave, onDelete }) {
                 "Pronouns ",
                 React.createElement("span", { className: "optional" }, "private \u00B7 optional"),
                 React.createElement("input", { value: pronouns, onChange: event => setPronouns(event.target.value), placeholder: "they/them, she/her, he/him\u2026" })),
+            React.createElement("label", null,
+                "Student goals ",
+                React.createElement("span", { className: "optional" }, "private · optional"),
+                React.createElement("textarea", { value: currentGoals, onChange: event => setCurrentGoals(event.target.value), rows: 4, placeholder: "The student's current stated goals" })),
             React.createElement("label", { className: "check-label" },
                 React.createElement("input", { type: "checkbox", checked: archived, onChange: event => setArchived(event.target.checked) }),
                 " Archive this student"),
@@ -1632,6 +1645,65 @@ function ImportRosterModal({ data, initialSectionId, onClose, onImport }) {
                 " existing profiles"),
             React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"),
             React.createElement("button", { "data-ctrl-save": true, className: "btn primary", disabled: !sectionId || !parsed.some(row => !row.error), onClick: importRows }, "Import students")));
+}
+function parseQuestionnaireTable(text) {
+    const delimiter = text.includes("\t") ? "\t" : ",", rows = []; let row = [], cell = "", quoted = false;
+    for (let i = 0; i < text.length; i++) {
+        const char = text[i];
+        if (char === '"') { if (quoted && text[i + 1] === '"') { cell += '"'; i++; } else quoted = !quoted; }
+        else if (char === delimiter && !quoted) { row.push(cell); cell = ""; }
+        else if ((char === "\n" || char === "\r") && !quoted) { if (char === "\r" && text[i + 1] === "\n") i++; row.push(cell); if (row.some(value => value.trim())) rows.push(row); row = []; cell = ""; }
+        else cell += char;
+    }
+    row.push(cell); if (row.some(value => value.trim())) rows.push(row);
+    const width = Math.max(0, ...rows.map(item => item.length));
+    return rows.map(item => [...item, ...Array(Math.max(0, width - item.length)).fill("")].map(value => value.trim()));
+}
+const normalizeIdentity = value => String(value || "").normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z0-9@]+/g, " ").trim().replace(/\s+/g, " ");
+function QuestionnaireImportModal({ data, onClose, onImport }) {
+    const [text, setText] = useState(""), [title, setTitle] = useState(`Student questionnaire ${isoDate()}`), [columns, setColumns] = useState(null), [assignments, setAssignments] = useState({});
+    const table = useMemo(() => parseQuestionnaireTable(text), [text]), headers = table[0] || [], body = table.slice(1);
+    useEffect(() => {
+        if (!headers.length) { setColumns(null); return; }
+        const find = regex => { const index = headers.findIndex(header => regex.test(header)); return index >= 0 ? String(index) : ""; };
+        setColumns(current => current && current.signature === headers.join("|") ? current : { signature: headers.join("|"), first: find(/first.*name|given.*name/i), last: find(/last.*name|family.*name|surname/i), full: find(/^\s*(student\s*)?(full\s*)?name\s*$/i), email: find(/email/i), timestamp: find(/timestamp|submitted|submission/i), goal: find(/goal/i) });
+        setAssignments({});
+    }, [headers.join("|")]);
+    const mapped = useMemo(() => !columns ? [] : body.map((cells, index) => {
+        const email = columns.email !== "" ? String(cells[Number(columns.email)] || "").trim().toLowerCase() : "";
+        const first = columns.first !== "" ? cells[Number(columns.first)] : "", last = columns.last !== "" ? cells[Number(columns.last)] : "", full = columns.full !== "" ? cells[Number(columns.full)] : `${first} ${last}`;
+        let candidates = email ? data.students.filter(student => String(student.email || "").trim().toLowerCase() === email) : [];
+        if (!candidates.length && normalizeIdentity(full)) candidates = data.students.filter(student => normalizeIdentity(`${student.firstName} ${student.lastName}`) === normalizeIdentity(full) || normalizeIdentity(`${student.lastName} ${student.firstName}`) === normalizeIdentity(full));
+        const automaticId = candidates.length === 1 ? candidates[0].id : "";
+        return { index, cells, email, full, candidates, automaticId, studentId: assignments[index] === undefined ? automaticId : assignments[index] };
+    }), [body, columns, data.students, assignments]);
+    const identityColumns = new Set(columns ? [columns.first, columns.last, columns.full, columns.email, columns.timestamp].filter(value => value !== "").map(Number) : []);
+    const importResponses = () => {
+        const records = [], studentUpdates = {}, existingKeys = new Set(data.records.map(record => record.questionnaire?.responseKey).filter(Boolean));
+        mapped.filter(row => row.studentId).forEach(row => {
+            const student = data.students.find(item => item.id === row.studentId); if (!student) return;
+            const answers = headers.map((question, index) => ({ question, answer: row.cells[index] || "" })).filter((answer, index) => !identityColumns.has(index) && answer.question);
+            const submittedAt = columns.timestamp !== "" ? row.cells[Number(columns.timestamp)] : "", responseKey = normalizeIdentity(`${title}|${student.id}|${submittedAt}|${answers.map(answer => `${answer.question}:${answer.answer}`).join("|")}`);
+            if (existingKeys.has(responseKey)) return; existingKeys.add(responseKey);
+            const latestEnrollment = data.enrollments.filter(item => item.studentId === student.id && item.active).sort((a, b) => (b.startDate || "").localeCompare(a.startDate || ""))[0];
+            const goalAnswer = columns.goal !== "" ? row.cells[Number(columns.goal)]?.trim() : "", now = stamp();
+            records.push({ id: uid("rec"), studentId: student.id, enrollmentId: latestEnrollment?.id, date: /^\d{4}-\d{2}-\d{2}/.test(submittedAt) ? submittedAt.slice(0, 10) : isoDate(), kind: "questionnaire", title: title.trim(), text: answers.map(answer => `${answer.question}\n${answer.answer || "(No response)"}`).join("\n\n"), studentFacing: false, pinned: false, createdAt: now, updatedAt: now, questionnaire: { title: title.trim(), submittedAt, answers, responseKey, source: "google-forms" } });
+            if (goalAnswer) { const previous = studentUpdates[student.id]?.goalHistory || student.goalHistory || []; studentUpdates[student.id] = { currentGoals: goalAnswer, goalUpdatedAt: now, goalSource: title.trim(), goalHistory: [...previous, { id: uid("goal"), text: goalAnswer, question: headers[Number(columns.goal)], questionnaireTitle: title.trim(), responseDate: submittedAt || isoDate(), importedAt: now }] }; }
+        });
+        if (records.length) onImport(records, studentUpdates);
+    };
+    const resolved = mapped.filter(row => row.studentId).length;
+    return React.createElement(ModalShell, { title: "Import questionnaire responses", subtitle: "GOOGLE FORMS RESPONSE SHEET", onClose, wide: true },
+        React.createElement("div", { className: "questionnaire-import" },
+            React.createElement("section", null,
+                React.createElement("label", null, "Questionnaire title", React.createElement("input", { value: title, onChange: event => setTitle(event.target.value) })),
+                React.createElement("label", null, "Paste the complete response sheet", React.createElement("textarea", { autoFocus: true, rows: 12, value: text, onChange: event => setText(event.target.value), placeholder: "Copy the header row and every response row from Google Sheets, then paste here." })),
+                React.createElement("p", { className: "form-hint" }, "The first pasted row must contain the question headings. Nothing is saved until you review and import.")),
+            headers.length > 0 && columns && React.createElement("section", { className: "questionnaire-review" },
+                React.createElement("div", { className: "questionnaire-columns" },
+                    [["first", "First name"], ["last", "Last name"], ["full", "Full name"], ["email", "Email"], ["timestamp", "Timestamp"], ["goal", "Student goals"]].map(([key, label]) => React.createElement("label", { key }, label, React.createElement("select", { value: columns[key], onChange: event => setColumns({ ...columns, [key]: event.target.value }) }, React.createElement("option", { value: "" }, "Not used"), headers.map((header, index) => React.createElement("option", { key: index, value: String(index) }, header))))),
+                React.createElement("div", { className: "questionnaire-matches" }, mapped.map(row => React.createElement("div", { key: row.index, className: row.studentId ? "matched" : "unmatched" }, React.createElement("span", null, row.full || row.email || `Response ${row.index + 1}`), React.createElement("select", { value: row.studentId, onChange: event => setAssignments({ ...assignments, [row.index]: event.target.value }) }, React.createElement("option", { value: "" }, row.candidates.length > 1 ? "Ambiguous — choose student" : "Unmatched — do not import"), [...data.students].sort((a, b) => a.lastName.localeCompare(b.lastName)).map(student => React.createElement("option", { key: student.id, value: student.id }, `${student.lastName}, ${student.firstName} · ${student.email || "no email"}`))))))),
+            React.createElement("div", { className: "modal-actions padded" }, React.createElement("span", { className: "form-hint" }, `${resolved} of ${mapped.length} responses matched`), React.createElement("button", { className: "btn ghost", onClick: onClose }, "Cancel"), React.createElement("button", { className: "btn primary", disabled: !resolved || !title.trim(), onClick: importResponses }, "Import matched responses")))));
 }
 function RecordModal({ student, enrollment, onClose, onSave, onSaveAndNext }) {
     const draftKey = `teacher-record-draft-${student.id}`;
@@ -1797,7 +1869,7 @@ function StructureModal({ data, activeYearId, onClose, onUpdate, onSelect }) {
             React.createElement("span", { className: "form-hint" }, "Archiving and renaming controls can be added after the core workflow is in use."),
             React.createElement("button", { className: "btn primary", onClick: onClose }, "Done")));
 }
-function exportText(data, ids, yearId, types, allYears, anonymize, studentFacingOnly) {
+function exportText(data, ids, yearId, types, allYears, anonymize, studentFacingOnly, includeGoals = false) {
     const year = data.years.find(y => y.id === yearId);
     return ids.map((id, i) => {
         const s = data.students.find(x => x.id === id);
@@ -1807,11 +1879,12 @@ function exportText(data, ids, yearId, types, allYears, anonymize, studentFacing
         const records = data.records.filter(r => r.studentId === id && types.includes(r.kind) && (allYears || !!r.enrollmentId && enrollIds.has(r.enrollmentId)) && (!studentFacingOnly || r.studentFacing)).sort((a, b) => a.date.localeCompare(b.date));
         const name = anonymize ? `Student ${i + 1}` : fullName(s);
         const grouped = kinds.map(k => ({ ...k, records: records.filter(r => r.kind === k.id) })).filter(g => g.records.length);
-        return [`STUDENT: ${name}`, `SCOPE: ${allYears ? "All available years" : year?.label || "Current year"}`, ...grouped.flatMap(g => ["", g.label.toUpperCase(), ...g.records.map(r => `${r.date}${r.title ? ` — ${r.title}` : ""}\n${r.text}`)])].join("\n");
+        const goalsPrefix = includeGoals && s.currentGoals ? `STUDENT GOALS:\n${s.currentGoals}\n\n` : "";
+        return goalsPrefix + [`STUDENT: ${name}`, `SCOPE: ${allYears ? "All available years" : year?.label || "Current year"}`, ...grouped.flatMap(g => ["", g.label.toUpperCase(), ...g.records.map(r => `${r.date}${r.title ? ` — ${r.title}` : ""}\n${r.text}`)])].join("\n");
     }).filter(Boolean).join("\n\n────────────────────────────────────────\n\n");
 }
 function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds, onClose, notify }) {
-    const [scope, setScope] = useState(selectedIds.length > 1 ? "selected" : "student"), [types, setTypes] = useState(kinds.map(k => k.id)), [allYears, setAllYears] = useState(false), [anonymize, setAnonymize] = useState(false), [studentFacing, setStudentFacing] = useState(false), [format, setFormat] = useState("text");
+    const [scope, setScope] = useState(selectedIds.length > 1 ? "selected" : "student"), [types, setTypes] = useState(kinds.map(k => k.id)), [allYears, setAllYears] = useState(false), [anonymize, setAnonymize] = useState(false), [studentFacing, setStudentFacing] = useState(false), [includeGoals, setIncludeGoals] = useState(false), [format, setFormat] = useState("text");
     const ids = useMemo(() => {
         if (scope === "student")
             return studentId ? [studentId] : [];
@@ -1820,7 +1893,7 @@ function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds
         const sections = scope === "class" ? data.sections.filter(s => s.courseId === courseId).map(s => s.id) : [sectionId];
         return Array.from(new Set(data.enrollments.filter(e => sections.includes(e.sectionId) && e.active).map(e => e.studentId)));
     }, [scope, studentId, selectedIds, data, courseId, sectionId]);
-    const plain = exportText(data, ids, yearId, types, allYears, anonymize, studentFacing);
+    const plain = exportText(data, ids, yearId, types, allYears, anonymize, studentFacing, includeGoals);
     const json = JSON.stringify({ format: "teacher-records-selection", schemaVersion: 1, exportedAt: stamp(), students: data.students.filter(s => ids.includes(s.id)), records: data.records.filter(r => ids.includes(r.studentId) && types.includes(r.kind)) }, null, 2);
     const output = format === "text" ? plain : json;
     const doCopy = async () => { await navigator.clipboard.writeText(output); notify(`${ids.length} student record${ids.length === 1 ? "" : "s"} copied`); };
@@ -1871,6 +1944,9 @@ function ExportModal({ data, yearId, courseId, sectionId, studentId, selectedIds
                     React.createElement("label", null,
                         React.createElement("input", { type: "checkbox", checked: studentFacing, onChange: e => setStudentFacing(e.target.checked) }),
                         " Student-facing entries only"),
+                    React.createElement("label", null,
+                        React.createElement("input", { type: "checkbox", checked: includeGoals, onChange: e => setIncludeGoals(e.target.checked) }),
+                        " Include Student Goals at the top"),
                     React.createElement("select", { value: format, onChange: e => setFormat(e.target.value) },
                         React.createElement("option", { value: "text" }, "ChatGPT-ready text"),
                         React.createElement("option", { value: "json" }, "Selected records as JSON")))),
